@@ -5,7 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import contentData from '../utils/contentData';
 
 const Content = () => (
-  <div className="next-steps my-5" data-testid="content">
+  <>
+  <h3>
+    This is where the content of the page would go
+  </h3>
+  {/* <div className="next-steps my-5" data-testid="content">
     <h2 className="my-5 text-center" data-testid="content-title">
       What can I do next?
     </h2>
@@ -22,7 +26,7 @@ const Content = () => (
         </Col>
       ))}
     </Row>
-  </div>
+  </div> */}</>
 );
 
 export default Content;

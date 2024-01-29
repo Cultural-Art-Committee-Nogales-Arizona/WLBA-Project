@@ -9,12 +9,14 @@ export default withPageAuthRequired(
     return (
       <>
         <div className="mb-5" data-testid="ssr">
-          <h1 data-testid="ssr-title">Server-side Rendered Page</h1>
+          <h1 data-testid="ssr-title">This is the users data</h1>
           <div data-testid="ssr-text">
             <p>
-              You can protect a server-side rendered page by wrapping it with <code>withPageAuthRequired</code>. Only
+              This is the data that is sent to you when a user logs in with their account.
+              You can access this data and do with it as you please.
+              {/* You can protect a server-side rendered page by wrapping it with <code>withPageAuthRequired</code>. Only
               logged in users will be able to access it. If the user is logged out, they will be redirected to the login
-              page instead.{' '}
+              page instead.{' '} */}
             </p>
           </div>
         </div>
