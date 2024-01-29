@@ -4,13 +4,13 @@ const userDB = require('@/connections/blogDB')
 require('dotenv').config()
 
 let adminSchema = new Schema({
-  user: {
-    type: mongoose.Schema.Types.objectId,
-    unique: true,
+  username: {
+    type: String,
     required: true
   },
-  email: {
-    type: String,
+  user: {
+    type: mongoose.Schema.Types.objectId,
+    ref: 'Users',
     unique: true,
     required: true
   },

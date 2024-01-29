@@ -15,11 +15,6 @@ let userSchema = new Schema({
     unique: true,
     required: true
   },
-  admin: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Admins', 
-    required: false 
-  },
 },{
   collection: 'Users',
   timestamps: true

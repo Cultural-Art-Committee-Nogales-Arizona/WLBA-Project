@@ -6,6 +6,10 @@ require('dotenv').config()
 // ! NEEDS UNIQUE DATA TO BE USEFUL
 
 let meetupSchema = new Schema({
+  location: {
+    type: String,
+    required: true
+  },
   organizer: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Vendor',
