@@ -6,6 +6,14 @@ require('dotenv').config()
 // ! NEEDS UNIQUE DATA TO BE USEFUL
 
 let marketSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  location: {
+    type: String,
+    required: true
+  },
   organizer: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Vendor',
