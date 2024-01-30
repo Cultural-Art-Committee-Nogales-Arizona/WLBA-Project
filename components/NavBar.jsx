@@ -1,6 +1,7 @@
 'use  client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import {
   Collapse,
   Container,
@@ -16,6 +17,8 @@ import {
 } from 'reactstrap';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
+import styles from './NavBar.module.css'
+
 import PageLink from './PageLink';
 import AnchorLink from './AnchorLink';
 
@@ -27,38 +30,50 @@ const NavBar = () => {
   return (
     <div className="nav-container" data-testid="navbar">
       <Navbar color="light" light expand="md">
+        <Image 
+          src={"/images/Logo.png"}
+          alt={"Logo"}
+          width={100}
+          height={100}
+        />
         <Container>
-          <NavbarBrand className="logo" />
+          {/* <NavbarBrand className="logo" /> */}
           <NavbarToggler onClick={toggle} data-testid="navbar-toggle" />
           <Collapse isOpen={isOpen} navbar>
-            <Nav className="mr-auto" navbar data-testid="navbar-items">
+            <Nav className="m-auto" navbar data-testid="navbar-items">
               <NavItem>
                 <PageLink href="/" className="nav-link" testId="navbar-home">
-                  Home
+                  <span className={styles.link_animation}>Home</span>
                 </PageLink>
               </NavItem>
               {user && (
                 <>
                   <NavItem>
-                    <PageLink href="/csr" className="nav-link" testId="navbar-csr">
-                      Client-side rendered page
+                    <PageLink href="/about-us" className="nav-link" testId="navbar-ssr">
+                      <span className={styles.link_animation}>About Us</span>
                     </PageLink>
                   </NavItem>
                   <NavItem>
-                    <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
-                      User Profile Information
+                    <PageLink href="/events" className="nav-link" testId="navbar-csr">
+                      <span className={styles.link_animation}>Events</span>
                     </PageLink>
                   </NavItem>
                   <NavItem>
-                    <PageLink href="/external" className="nav-link" testId="navbar-external">
-                      External API
+                    <PageLink href="/gallery" className="nav-link" testId="navbar-external">
+                      <span className={styles.link_animation}>Gallery</span>
                     </PageLink>
                   </NavItem>
                   <NavItem>
+                    <PageLink href="/volunteer" className="nav-link" testId="navbar-external">
+                      <span className={styles.link_animation}>Volunteer</span>
+                    </PageLink>
+                  </NavItem>
+                  {/* Add this as a donate button later */}
+                  {/* <NavItem>
                     <PageLink href="/stripe" className="nav-link" testId="navbar-stripe">
                       Stripe Page
                     </PageLink>
-                  </NavItem>
+                  </NavItem> */}
                 </>
               )}
             </Nav>
