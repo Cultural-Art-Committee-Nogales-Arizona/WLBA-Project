@@ -6,6 +6,14 @@ require('dotenv').config()
 // ! NEEDS UNIQUE DATA TO BE USEFUL
 
 let volunteerSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
   location: {
     type: String,
     required: true

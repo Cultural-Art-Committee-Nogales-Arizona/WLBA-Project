@@ -15,7 +15,7 @@ let vendorSchema = new Schema({
     unique: true,
     required: true
   },
-  vendor: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', 
     required: true 
