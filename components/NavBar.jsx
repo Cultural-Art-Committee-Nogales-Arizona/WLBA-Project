@@ -54,6 +54,11 @@ const NavBar = () => {
                       External API
                     </PageLink>
                   </NavItem>
+                  <NavItem>
+                    <PageLink href="/stripe" className="nav-link" testId="navbar-stripe">
+                      Stripe Page
+                    </PageLink>
+                  </NavItem>
                 </>
               )}
             </Nav>

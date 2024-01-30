@@ -5,7 +5,7 @@ require('dotenv').config()
 
 // ! NEEDS UNIQUE DATA TO BE USEFUL
 
-let meetupSchema = new Schema({
+let volunteerSchema = new Schema({
   location: {
     type: String,
     required: true
@@ -20,14 +20,14 @@ let meetupSchema = new Schema({
     required: true
   },
 },{
-  collection: 'Meetups',
+  collection: 'Volunteers',
   timestamps: true
 })
 
-const Meetup = eventsDB.model('Meetup', meetupSchema)
+const Volunteer = eventsDB.model('Volunteer', volunteerSchema)
 
 eventsDB.once('open', () => {
     console.log('Connected to eventsDB for Meetups')
 })
 
-module.exports = Meetup
+module.exports = Volunteer
