@@ -4,7 +4,7 @@ const eventsDB = require('@/connections/eventsDB')
 require('dotenv').config()
 
 let festivalSchema = new Schema({
-  name: {
+  title: {
     type: String,
     required: true,
   },
@@ -17,7 +17,7 @@ let festivalSchema = new Schema({
     required: true
   },
   date: { 
-    type: Date, 
+    type: String, 
     required: true
   },
   banner: {

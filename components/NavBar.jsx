@@ -48,20 +48,20 @@ const NavBar = () => {
                 </PageLink>
               </NavItem>
               <NavItem>
-                    <PageLink href="/about-us" className="nav-link" testId="navbar-ssr">
-                      <span className={styles.link_animation}>About Us</span>
-                    </PageLink>
-                  </NavItem>
-                  <NavItem>
-                    <PageLink href="/events" className="nav-link" testId="navbar-csr">
-                      <span className={styles.link_animation}>Events</span>
-                    </PageLink>
-                  </NavItem>
-                  <NavItem>
-                    <PageLink href="/gallery" className="nav-link" testId="navbar-external">
-                      <span className={styles.link_animation}>Gallery</span>
-                    </PageLink>
-                  </NavItem>
+                <PageLink href="/about-us" className="nav-link" testId="navbar-ssr">
+                  <span className={styles.link_animation}>About Us</span>
+                </PageLink>
+              </NavItem>
+              <NavItem>
+                <PageLink href="/calendar" className="nav-link" testId="navbar-csr">
+                  <span className={styles.link_animation}>Calendar</span>
+                </PageLink>
+              </NavItem>
+              <NavItem>
+                <PageLink href="/gallery" className="nav-link" testId="navbar-external">
+                  <span className={styles.link_animation}>Gallery</span>
+                </PageLink>
+              </NavItem>
               {user && (
                 <>
                   <NavItem>

@@ -1,13 +1,14 @@
 'use client';
-
 import React from 'react';
+import styles from './page.module.css'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
+import Calendar from '../../components/Calendar'
 
 export default withPageAuthRequired(function CSRPage() {
   return (
     <>
-      <div className="mb-5" data-testid="csr">
-        <h1>This is the Events page</h1>
+      <div className={styles.container} data-testid="csr">
+        <Calendar />
         <h1 data-testid="csr-title">Client-side Rendered Page</h1>
         <div data-testid="csr-text">
           <p>

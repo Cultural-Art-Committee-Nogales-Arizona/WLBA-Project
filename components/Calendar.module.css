@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 700px;
+  height: 700px;
+  /* font-size: 20px; */
+}
+
+.calendar h2 {
+  font-size: 50px;
+}
+/* 
+.calendar {
+  width: 500px;
+  height: 500px;
+} */
