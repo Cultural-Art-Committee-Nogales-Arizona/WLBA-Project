@@ -1,0 +1,1 @@
+//Manage new user registration to the database?
