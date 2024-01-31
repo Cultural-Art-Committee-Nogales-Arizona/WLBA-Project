@@ -5,10 +5,18 @@ require('dotenv').config()
 
 
 let vendorSchema = new Schema({
-  username: { 
+  name: { 
     type: String,
     unique: true,
     required: true
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  tags: {
+    type: String,
+    required: true,
   },
   email: { 
     type: String,
