@@ -1,4 +1,14 @@
 .link_animation {
-  /* color: red; */
-  text-decoration: underline;
+  color: #008080;
+  /* text-decoration: underline; */
+  font-size: x-large;
+}
+
+/* .nav {
+  padding: 10px
+} */
+
+.login {
+  color: #008080;
+  padding: 20px
 }

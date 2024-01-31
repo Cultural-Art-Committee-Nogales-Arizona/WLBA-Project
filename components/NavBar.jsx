@@ -30,14 +30,15 @@ const NavBar = () => {
   return (
     <div className="nav-container" data-testid="navbar">
       <Navbar color="light" light expand="md">
-        <Image 
-          src={"/images/Logo.png"}
-          alt={"Logo"}
-          width={100}
-          height={100}
-        />
+        <a href="/">
+          <Image
+            src={"/images/Logo.png"}
+            alt={"C.A.C.N.A Logo"}
+            width={75}
+            height={75}
+          />
+        </a>
         <Container>
-          {/* <NavbarBrand className="logo" /> */}
           <NavbarToggler onClick={toggle} data-testid="navbar-toggle" />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="m-auto" navbar data-testid="navbar-items">
@@ -46,9 +47,7 @@ const NavBar = () => {
                   <span className={styles.link_animation}>Home</span>
                 </PageLink>
               </NavItem>
-              {user && (
-                <>
-                  <NavItem>
+              <NavItem>
                     <PageLink href="/about-us" className="nav-link" testId="navbar-ssr">
                       <span className={styles.link_animation}>About Us</span>
                     </PageLink>
@@ -63,6 +62,8 @@ const NavBar = () => {
                       <span className={styles.link_animation}>Gallery</span>
                     </PageLink>
                   </NavItem>
+              {user && (
+                <>
                   <NavItem>
                     <PageLink href="/volunteer" className="nav-link" testId="navbar-external">
                       <span className={styles.link_animation}>Volunteer</span>
@@ -82,10 +83,10 @@ const NavBar = () => {
                 <NavItem id="qsLoginBtn">
                   <AnchorLink
                     href="/api/auth/login"
-                    className="btn btn-primary btn-margin"
+                    className={styles.login}
                     tabIndex={0}
                     testId="navbar-login-desktop">
-                    Log in
+                    <span className={styles.login}>Log in</span>
                   </AnchorLink>
                 </NavItem>
               )}
@@ -127,7 +128,7 @@ const NavBar = () => {
                   className="btn btn-primary btn-block"
                   tabIndex={0}
                   testId="navbar-login-mobile">
-                  Log in
+                  <span className={styles.login}>Log in</span>
                 </AnchorLink>
               </Nav>
             )}
