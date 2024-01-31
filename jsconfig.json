@@ -1,0 +1,14 @@
+// jsconfig.json
+
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"],
+      "@/*": ["*"]
+      // Add more aliases as needed
+    }
+  }
+}
