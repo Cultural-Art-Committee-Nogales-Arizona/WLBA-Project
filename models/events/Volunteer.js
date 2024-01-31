@@ -1,3 +1,5 @@
+//Possibly rename collection to volunteer events or something else to differentiate from volunteers' records.
+
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 const eventsDB = require('@/connections/eventsDB')
