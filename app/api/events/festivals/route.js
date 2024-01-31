@@ -11,12 +11,13 @@ export const GET = async (request) => {
 
     function returnNextEvent(events) {
       // Find the first event whose date is larger then the current date
-      return events.find(event => new Date(event.date) > new Date());
+      const rightNow = new Date
+      return events.find(event => new Date(event.date) > rightNow);
     }
     
     const nextEvent = returnNextEvent(result)
     
-    // If query contains "nextEvent=true" it only returns the nextEvent
+    // If query contains "nextEvent=true" it only returns the next event
     // otherwise return all events
     let dataResponse = onlyNextEvent === "true" ? nextEvent : result
 
@@ -76,9 +77,10 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
   const searchParams = request.nextUrl.searchParams
   const festivalId = searchParams.get('festivalId') || ""
-  const {title, description, location, date, banner} = await request.json()
+  const { title, description, location, date, banner } = await request.json()
   
   try{
+    // If there is no festivalId query then throw an error
     if (!festivalId) throw new Error("No festival id was defined")
 
     const festival = await Festival.findByIdAndUpdate(festivalId, {
@@ -114,11 +116,15 @@ export const DELETE = async (request) => {
   const festivalId = searchParams.get('festivalId') || ""
   
   try{
-    await Festival.findByIdAndDelete(festivalId)
+    // If there is no festivalId query then throw an error
+    if (!festivalId) throw new Error("No festival id was defined")
+
+    const festival = await Festival.findByIdAndDelete(festivalId)
 
     return NextResponse.json({
       success: true,
-      message: `Successfully deleted Festival ${festivalId}`
+      message: `Successfully deleted Festival ${festivalId}`,
+      data: festival
     }, {
       status: 204
     })
