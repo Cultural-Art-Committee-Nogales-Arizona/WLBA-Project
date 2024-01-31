@@ -5,17 +5,25 @@ require('dotenv').config()
 
 
 let vendorSchema = new Schema({
-  username: { 
+  name: { 
     type: String,
     unique: true,
     required: true
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  tags: {
+    type: String,
+    required: true,
   },
   email: { 
     type: String,
     unique: true,
     required: true
   },
-  vendor: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', 
     required: true 

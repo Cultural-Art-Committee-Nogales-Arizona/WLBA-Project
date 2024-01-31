@@ -16,15 +16,14 @@ let festivalSchema = new Schema({
     type: String,
     required: true
   },
-  organizer: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Vendor',
-    required: true,
-  }, 
   date: { 
     type: Date, 
     required: true
   },
+  banner: {
+    type: String,
+    required: true,
+  }
 },{
   collection: 'Festivals',
   timestamps: true
