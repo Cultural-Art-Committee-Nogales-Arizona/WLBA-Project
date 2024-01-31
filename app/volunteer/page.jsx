@@ -36,6 +36,7 @@ function External() {
   return (
     <>
       <div className="mb-5" data-testid="external">
+        <h1>This is the Volunteer page</h1>
         <h1 data-testid="external-title">External API</h1>
         <div data-testid="external-text">
           <p className="lead">Ping an external API by clicking the button below</p>

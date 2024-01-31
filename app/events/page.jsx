@@ -7,6 +7,7 @@ export default withPageAuthRequired(function CSRPage() {
   return (
     <>
       <div className="mb-5" data-testid="csr">
+        <h1>This is the Events page</h1>
         <h1 data-testid="csr-title">Client-side Rendered Page</h1>
         <div data-testid="csr-text">
           <p>
