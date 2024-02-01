@@ -32,4 +32,4 @@ userDB.once('open', () => {
     console.log('Connected to registryDB for post')
 })
 
-module.exports = Volunteer;
+module.exports = Volunteer

@@ -26,5 +26,4 @@ userDB.once('open', () => {
     console.log('Connected to blogDB for post')
 })
 
-
 module.exports = User

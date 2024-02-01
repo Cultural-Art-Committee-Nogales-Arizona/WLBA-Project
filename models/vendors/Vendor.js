@@ -3,7 +3,6 @@ const Schema = mongoose.Schema
 const vendorDB = require('@/connections/vendorDB')
 require('dotenv').config()
 
-
 let vendorSchema = new Schema({
   name: { 
     type: String,
