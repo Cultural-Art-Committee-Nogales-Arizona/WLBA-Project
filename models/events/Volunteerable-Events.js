@@ -30,11 +30,11 @@ let volunteerSchema = new Schema({
     required: true
   },
 },{
-  collection: 'Volunteers',
+  collection: 'Volunteerable-Events',
   timestamps: true
 })
 
-const Volunteer = eventsDB.model('Volunteer', volunteerSchema)
+const Volunteer = eventsDB.model('Event', volunteerSchema)
 
 eventsDB.once('open', () => {
     console.log('Connected to eventsDB for Meetups')

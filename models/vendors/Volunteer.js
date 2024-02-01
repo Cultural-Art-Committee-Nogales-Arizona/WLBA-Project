@@ -18,7 +18,7 @@ let volunteerSchema = new Schema({
     },
     event: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Volunteer',
+        ref: 'Volunteerable-Events',
         required: true,
     }
 },{
