@@ -21,8 +21,7 @@ export const GET = async (request) => {
 		// otherwise return all events
 		const dataResponse = onlyNextEvent === "true" ? nextEvent : result;
 
-		return NextResponse.json(
-			{
+		return NextResponse.json({
 				success: true,
 				message: `Successfully fetched all festivals`,
 				data: dataResponse || "No upcoming events",
@@ -31,8 +30,7 @@ export const GET = async (request) => {
 		);
 	} catch (err) {
 		console.error(err);
-		return NextResponse.json(
-			{
+		return NextResponse.json({
 				success: false,
 				message: `An error occurred fetching Festivals`,
 				errorMessage: err.message,
@@ -56,8 +54,7 @@ export const POST = async (request) => {
 			banner,
 		});
 
-		return NextResponse.json(
-			{
+		return NextResponse.json({
 				success: true,
 				message: `Successfully created festival titled: ${title}`,
 				data: result,
@@ -66,8 +63,7 @@ export const POST = async (request) => {
 		);
 	} catch (err) {
 		console.error(err);
-		return NextResponse.json(
-			{
+		return NextResponse.json({
 				success: false,
 				message: `An error occurred creating Festival titled: ${title}`,
 				errorMessage: err.message,
@@ -88,6 +84,11 @@ export const PUT = async (request) => {
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("No Festival _id was defined");
 
+		const existingFestival = await Festival.findById(festivalId);
+
+		// Check if festival with given ID exists
+		if (!existingFestival) throw new Error(`Festival with _id ${festivalId} not found`)
+
 		const festival = await Festival.findByIdAndUpdate(festivalId, {
 			title,
 			description,
@@ -96,8 +97,7 @@ export const PUT = async (request) => {
 			banner,
 		});
 
-		return NextResponse.json(
-			{
+		return NextResponse.json({
 				success: true,
 				message: `Successfully Updated Festival titled: ${title}'`,
 				data: festival,
@@ -106,8 +106,7 @@ export const PUT = async (request) => {
 		);
 	} catch (err) {
 		console.error(err);
-		return NextResponse.json(
-			{
+		return NextResponse.json({
 				success: false,
 				message: `An error occurred updating Festival titled: ${title}`,
 				errorMessage: err.message,
@@ -127,10 +126,14 @@ export const DELETE = async (request) => {
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("No festival id was defined");
 
+		const existingFestival = await Festival.findById(festivalId);
+
+		// Check if festival with given ID exists
+		if (!existingFestival) throw new Error(`Festival with _id ${festivalId} not found`)
+
 		await Festival.findByIdAndDelete(festivalId);
 
-		return NextResponse.json(
-			{
+		return NextResponse.json({
 				success: true,
 				message: `Successfully deleted Festival with _id: ${festivalId}`,
 			},
@@ -138,8 +141,7 @@ export const DELETE = async (request) => {
 		);
 	} catch (err) {
 		console.error(err);
-		return NextResponse.json(
-			{
+		return NextResponse.json({
 				success: false,
 				message: `An error occurred deleting Festival with _id: ${festivalId}`,
 				errorMessage: err.message,
