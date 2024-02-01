@@ -1,9 +1,9 @@
 import Volunteer from "@/models/vendors/Volunteer"
 
 export const POST = async (request) => {
-    const {name, phone, email, event} = await request.json()
+    const { name, phone, email, event } = await request.json()
 
-    try{
+    try {
         const newVolunteer = await Volunteer.create({
             name,
             phone,
@@ -20,12 +20,12 @@ export const POST = async (request) => {
         })
     } catch (err) {
         return NextResponse.json({
-          success: false,
-          message: `An error occurred registering volunteer`,
-          errorMessage: err.message,
-          error: err
+            success: false,
+            message: `An error occurred registering volunteer`,
+            errorMessage: err.message,
+            error: err
         }, {
-          status: 500
+            status: 500
         })
     }
 }

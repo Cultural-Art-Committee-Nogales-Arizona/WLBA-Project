@@ -6,14 +6,14 @@ export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const vendorId = searchParams.get('vendorId')
 
-    try{
+    try {
         let result = await Vendor.find()
 
         const mapVendors = async () => {
             return result.map(async vendor => {
-                let vendorAccepted = await AcceptedVendor.findOne({id: vendor._id}) ? true : false
+                let vendorAccepted = await AcceptedVendor.findOne({ id: vendor._id }) ? true : false
                 return {
-                    ...vendor, 
+                    ...vendor,
                     accepted: vendorAccepted
                 }
             })
@@ -41,9 +41,9 @@ export const GET = async (request) => {
 }
 
 export const POST = async (request) => {
-    const {name, description, email, tags, user} = await request.json()
+    const { name, description, email, tags, user } = await request.json()
 
-    try{
+    try {
         const newVendor = await Vendor.create({
             name,
             description,
@@ -61,12 +61,12 @@ export const POST = async (request) => {
         })
     } catch (err) {
         return NextResponse.json({
-          success: false,
-          message: `An error occurred registering vendor`,
-          errorMessage: err.message,
-          error: err
+            success: false,
+            message: `An error occurred registering vendor`,
+            errorMessage: err.message,
+            error: err
         }, {
-          status: 500
+            status: 500
         })
     }
 }
@@ -74,9 +74,9 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const vendorId = searchParams.get('vendorId')
-    const {name, description, email, tags} = await request.json()
+    const { name, description, email, tags } = await request.json()
 
-    try{
+    try {
         const vendor = await Vendor.findByIdAndUpdate(vendorId, {
             name,
             description,
@@ -107,11 +107,11 @@ export const DELETE = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const vendorId = searchParams.get('vendorId')
 
-    try{
-        const vendorAccepted = await AcceptedVendor.find({id: vendorId})
+    try {
+        const vendorAccepted = await AcceptedVendor.find({ id: vendorId })
 
         await Vendor.findByIdAndDelete(vendorId)
-        if(vendorAccepted) await AcceptedVendor.findByIdAndDelete(vendorAccepted._id)
+        if (vendorAccepted) await AcceptedVendor.findByIdAndDelete(vendorAccepted._id)
 
         return NextResponse.json({
             success: true,
