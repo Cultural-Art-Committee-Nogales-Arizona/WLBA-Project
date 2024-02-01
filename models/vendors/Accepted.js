@@ -20,10 +20,10 @@ let acceptedVendorSchema = new Schema({
     timestamps: true
 })
 
-const AcceptedVendor = vendorDB.model('AcceptedVendor', acceptedVendorSchema)
+const acceptedVendor = vendorDB.model('AcceptedVendor', acceptedVendorSchema)
 
-userDB.once('open', () => {
-    console.log('Connected to registryDB for post')
+vendorDB.once('open', () => {
+    console.log('Connected to vendorDB for acceptedVendors')
 })
 
-module.exports = AcceptedVendor
+module.exports = acceptedVendor

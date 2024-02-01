@@ -28,8 +28,8 @@ let volunteerSchema = new Schema({
 
 const Volunteer = vendorDB.model('volunteer', volunteerSchema)
 
-userDB.once('open', () => {
-    console.log('Connected to registryDB for post')
+vendorDB.once('open', () => {
+    console.log('Connected to vendorDB for Volunteers')
 })
 
 module.exports = Volunteer
