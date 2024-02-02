@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 import styles from './page.module.css'
 
-import EventForm from '@components/EventForm'
+import EventForm from '@components/forms/EventForm'
 
 export default function CreateEventPage() {
   const method = 'POST'

@@ -8,6 +8,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import multiMonthPlugin from '@fullcalendar/multimonth'
 
+import Loading from '@/components/overlays/Loading';
+
 import styles from './Calendar.module.css'
 
 export default function Calendar() {
@@ -76,7 +78,7 @@ export default function Calendar() {
 						// events={holidays}
 						events={events}
 						dateClick={handleDateClick}
-					/> : <h1>Loading...</h1>
+					/> : <Loading />
 				}
 			</div>
 			{/* Display the data from the event */}

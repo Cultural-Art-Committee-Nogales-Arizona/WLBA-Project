@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-import Hero from '../components/Hero';
-import Content from '../components/Content';
+import Hero from '@/components/Hero';
+import Content from '@/components/Content';
+import Loading from '@/components/overlays/Loading';
 
 export default function Index() {
   const [nextEvent, setNextEvent] = useState(null)
@@ -39,7 +40,7 @@ export default function Index() {
 					<h4>Location:</h4><p> {nextEvent.location}</p>
         </div> 
         : 
-        'Loading...'
+        <Loading />
       }
       <hr />
       <Hero />
