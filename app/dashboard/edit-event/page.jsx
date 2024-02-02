@@ -30,6 +30,14 @@ export default function EditEventPage() {
     setFormData(foundEvent)
   }
 
+  const deleteEvent = async () => {
+    const confirmDelete = prompt(`Please confirm deletion of event titled: ${formData.title}\nType "Yes" to confirm`)
+    if (confirmDelete !== "Yes") return 
+    const response = await fetch(`../api/events/festivals?festivalId=${formData._id}`, { method: 'DELETE' })
+      .then(res => res.json())
+    
+  }
+
   useEffect(() => {
 		async function fetchData() {
 			const fetchedData = await fetch('../api/events/festivals', { method: "GET" })
@@ -66,6 +74,7 @@ export default function EditEventPage() {
         </label>
 
         <button type="submit">Select Event</button>
+        <button onClick={deleteEvent}>Delete Event</button>
       </form>
       <EventForm params={{ formData, setFormData, method, eventId }} />
     </div>
