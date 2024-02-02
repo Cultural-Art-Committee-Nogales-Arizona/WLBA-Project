@@ -16,12 +16,24 @@ Get either all festivals for display in the dashboard or calendar, or get the cl
 {
   "success": true,
   "message": "Successfully fetched all festivals",
-  "data": [/* List of festivals */] or /* Next event details */,
+  "data": [ Array of festivals ] or { Only next event details },
   "status": 200
 }
 ```
-
-# NEW PATHS NEED DOCUMENTATION
+### Event Details
+```json
+{
+  "_id": "MongoDB Document _id",
+  "title": "Title of the Event",
+  "description": "Description of Event",
+  "location": "Location in address form",
+  "date": "Date in ISO 8601 format",
+  "banner": "Link to image to display with Event",
+  "createdAt": "MongoDB Generated Time of creation",
+  "updatedAt": "MongoDB Generated Time of Update"
+}
+```
+# PATHS THAT NEED DOCUMENTATION
 - Festivals
 - `POST https://wlba-project.vercel.app/api/events/festivals`
 - `PUT https://wlba-project.vercel.app/api/events/festivals`

@@ -3,7 +3,7 @@
   justify-content: center;
   flex-direction: column;
   width: 700px;
-  height: 700px;
+  min-height: 700px;
   /* font-size: 20px; */
 }
 
@@ -15,3 +15,14 @@
   width: 500px;
   height: 500px;
 } */
+
+@media screen and (max-width: 500px) {
+  .container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: fit-content;
+    min-height: fit-content;
+    /* font-size: 20px; */
+  }
+}
