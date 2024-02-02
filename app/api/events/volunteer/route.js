@@ -1,4 +1,5 @@
-import Volunteer from "@/models/vendors/Volunteer"
+import Volunteer from "@/models/events/Volunteer"
+import { NextResponse } from "next/server"
 
 export const POST = async (request) => {
     const { name, phone, email, event } = await request.json()
