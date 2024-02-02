@@ -1,3 +1,11 @@
+:root {
+  --primary-color: #FF955F; /* Atomic Tangerine */ 
+  --blue-accent: #008080; /* Teal */
+  --orange-accent: #F4891F; /* Carrot Orange */
+  --dark-red: #730704; /* Dark Burgundy */
+  --bright-orange: #F36238; /* Flamingo */
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
