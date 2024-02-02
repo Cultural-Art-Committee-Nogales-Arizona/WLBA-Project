@@ -17,8 +17,11 @@ function Profile() {
     <>
       {isLoading && <Loading />}
       {/* Temporary link */}
-      <PageLink href="/create-event" className="nav-link" testId="navbar-home">
+      <PageLink href="/dashboard/create-event" className="nav-link" testId="navbar-home">
         <span>Create Event Form</span>
+      </PageLink>
+      <PageLink href="/dashboard/edit-event" className="nav-link" testId="navbar-home">
+        <span>Edit Event Form</span>
       </PageLink>
       {user && (
         <>
