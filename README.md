@@ -39,18 +39,18 @@ Get either all festivals for display in the dashboard or calendar, or get the cl
 - `PUT https://wlba-project.vercel.app/api/events/festivals`
 - `DELETE https://wlba-project.vercel.app/api/events/festivals`
 - `------------------------------------------------------------`
-- Volunteering
-- `GET https://wlba-project.vercel.app/api/events/volunteering`
+- Volunteer
+- `POST https://wlba-project.vercel.app/api/events/volunteer`
+- `------------------------------------------------------------`
+- Volunteerable Events
+- `POST https://wlba-project.vercel.app/api/events/volunteerable-event`
+- `DELETE https://wlba-project.vercel.app/api/events/volunteerable-event`
 - `------------------------------------------------------------`
 - Register
-- `GET https://wlba-project.vercel.app/api/register/vendors`
-- `POST https://wlba-project.vercel.app/api/register/vendors`
-- `PUT https://wlba-project.vercel.app/api/register/vendors`
-- `DELETE https://wlba-project.vercel.app/api/register/vendors`
-- `------------------------------------------------------------`
-- Volunteers
-- `POST https://wlba-project.vercel.app/api/register/volunteers`
-- `DELETE https://wlba-project.vercel.app/api/register/volunteers`
+- `GET https://wlba-project.vercel.app/api/vendor`
+- `POST https://wlba-project.vercel.app/api/vendor`
+- `PUT https://wlba-project.vercel.app/api/vendor`
+- `DELETE https://wlba-project.vercel.app/api/vendor`
 - `------------------------------------------------------------`
 - User
 - `GET https://wlba-project.vercel.app/api/user`
