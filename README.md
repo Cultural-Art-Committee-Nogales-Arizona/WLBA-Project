@@ -16,11 +16,11 @@ Get either all festivals for display in the dashboard or calendar, or get the cl
 {
   "success": true,
   "message": "Successfully fetched all festivals",
-  "data": [ Array of festivals ] or { Only next event details },
+  "data": [ { Array of festivals } ] or { Only next festival details },
   "status": 200
 }
 ```
-### Event Details
+### Festival Details
 ```json
 {
   "_id": "MongoDB Document _id",

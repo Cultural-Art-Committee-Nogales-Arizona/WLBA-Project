@@ -4,7 +4,7 @@ export const POST = async (request) => {
     const { name, phone, email, event } = await request.json()
 
     try {
-        const alreadySignedUp = await Volunteer.find({ name, event })
+        const alreadySignedUp = await Volunteer.find({ phone, event })
 
         if (alreadySignedUp) throw new Error(`User is already signed up for this event`)
 
