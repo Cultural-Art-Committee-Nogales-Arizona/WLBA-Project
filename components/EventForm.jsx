@@ -2,20 +2,12 @@
 
 import { useEffect, useState } from 'react'
 
-import styles from './CreateEventForm.module.css'
+import styles from './EventForm.module.css'
 
 
-export default function CreateEventForm() {
+export default function EventForm({ params }) {
+  const { formData, setFormData, method, eventId } = params;
   const [error, setError] = useState(null)
-  const [formData, setFormData] = useState({
-    title: "",
-    location: "",
-    date: "",
-    /* start_date: "",
-    end_date: "", */
-    banner: "",
-    description: ""
-  })
 
   const updateForm = (e) => {
     const { id, value } = e.target;
@@ -28,13 +20,19 @@ export default function CreateEventForm() {
       [id]: isDateField ? new Date(value) : value,
     }));
   };
+
+  useEffect(() => {
+    console.log(formData)
+  }, [formData])
   
   const submitForm = async (e) => {
     e.preventDefault();
   
     try {
-      const response = await fetch('/api/events/festivals', {
-        method: 'POST',
+      let API_Route = '/api/events/festivals'
+      if (eventId) API_Route += `?festivalId=${eventId}`
+      const response = await fetch(API_Route, {
+        method: method,
         headers: {
           'Content-Type': 'application/json'
         },
@@ -66,7 +64,7 @@ export default function CreateEventForm() {
         <legend className={styles.legend}>Pick date</legend>
         <div className={styles.formGroup}>
           <label htmlFor="date">Date:</label>
-          <input id="date" type="date" onChange={updateForm} />
+          <input id="date" type="date" value={new Date(formData.date).toISOString().slice(0, 10) || ''} onChange={updateForm} />
         </div>
         {/* We may add these */}
         {/* <div className={styles.formGroup}>
@@ -82,22 +80,23 @@ export default function CreateEventForm() {
         <legend className={styles.legend}>Describe Event</legend>
         <div className={styles.formGroup}>
           <label htmlFor="title">Title:</label>
-          <input id="title" type="text" onChange={updateForm} placeholder='Title' />
+          <input id="title" type="text" value={formData.title || ''} onChange={updateForm} placeholder='Title' />
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="description">Description:</label>
-          <input id="description" type="text" onChange={updateForm} placeholder='Description' />
+          <input id="description" type="text" value={formData.description || ''} onChange={updateForm} placeholder='Description' />
         </div>
       </fieldset>
       <fieldset className={styles.fieldset}>
         <legend className={styles.legend}>Additional Information</legend>
         <div className={styles.formGroup}>
           <label htmlFor="location">Location:</label>
-          <input id="location" type="text" onChange={updateForm} placeholder='Location' />
+          <input id="location" type="text" value={formData.location || ''} onChange={updateForm} placeholder='Location' />
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="banner">Banner:</label>
-          <input id="banner" type="file" onChange={updateForm} />
+          <p>will add later</p>
+          {/* <input id="banner" type="file" value={formData.file || ''} onChange={updateForm} /> */}
         </div>
       </fieldset>
       <input type="submit" className={styles.submit} />
