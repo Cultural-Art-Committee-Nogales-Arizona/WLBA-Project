@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 
 import styles from './EventForm.module.css'
+import Error from '@components/overlays/Error'
 
 
 export default function EventForm({ params }) {
@@ -59,71 +60,75 @@ export default function EventForm({ params }) {
   };
 
   return (
-    <form onSubmit={submitForm} className={styles.form}>
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Pick date</legend>
-        <div className={styles.formGroup}>
-          <label htmlFor="date">Date:</label>
-          <input 
-            id="date" 
-            type="date" 
-            value={formData.date && new Date(formData.date).toISOString().slice(0, 10) || ''} 
-            onChange={updateForm} />
-        </div>
-        {/* We may add these */}
-        {/* <div className={styles.formGroup}>
-          <label htmlFor="startDate">Start Date:</label>
-          <input id="startDate" type="date" onChange={updateForm} />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="endDate">End Date:</label>
-          <input id="endDate" type="date" onChange={updateForm} />
-        </div> */}
-      </fieldset>
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Describe Event</legend>
-        <div className={styles.formGroup}>
-          <label htmlFor="title">Title:</label>
-          <input 
-            id="title" 
-            type="text" 
-            value={formData.title || ''} 
-            onChange={updateForm} 
-            placeholder='Title' />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="description">Description:</label>
-          <input 
-            id="description" 
-            type="text" 
-            value={formData.description || ''} 
-            onChange={updateForm} 
-            placeholder='Description' />
-        </div>
-      </fieldset>
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Additional Information</legend>
-        <div className={styles.formGroup}>
-          <label htmlFor="location">Location:</label>
-          <input 
-            id="location" 
-            type="text" 
-            value={formData.location || ''} 
-            onChange={updateForm} 
-            placeholder='Location' />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="banner">Banner:</label>
-          <p>will add later</p>
-          {/* <input 
-            id="banner" 
-            type="file" 
-            value={formData.file || ''} 
-            onChange={updateForm} 
-            /> */}
-        </div>
-      </fieldset>
-      <input type="submit" className={styles.submit} />
-    </form>
+    <>
+      {error && <Error params={{ error, setError }} />}
+      <form onSubmit={submitForm} className={styles.form}>
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>Pick date</legend>
+          <div className={styles.formGroup}>
+            <label htmlFor="date">Date:</label>
+            <input 
+              id="date" 
+              type="date" 
+              value={formData.date && new Date(formData.date).toISOString().slice(0, 10) || ''} 
+              onChange={updateForm} />
+          </div>
+          {/* We may add these */}
+          {/* <div className={styles.formGroup}>
+            <label htmlFor="startDate">Start Date:</label>
+            <input id="startDate" type="date" onChange={updateForm} />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="endDate">End Date:</label>
+            <input id="endDate" type="date" onChange={updateForm} />
+          </div> */}
+        </fieldset>
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>Describe Event</legend>
+          <div className={styles.formGroup}>
+            <label htmlFor="title">Title:</label>
+            <input 
+              id="title" 
+              type="text" 
+              value={formData.title || ''} 
+              onChange={updateForm} 
+              placeholder='Title' />
+          </div>
+          <div className={`${styles.formGroup}`}>
+            <label htmlFor="description">Description:</label>
+            <textarea
+              id="description"
+              className={styles.textArea}
+              value={formData.description || ''}
+              onChange={updateForm}
+              placeholder="Description"
+            />
+          </div>
+        </fieldset>
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>Additional Information</legend>
+          <div className={styles.formGroup}>
+            <label htmlFor="location">Location:</label>
+            <input 
+              id="location" 
+              type="text" 
+              value={formData.location || ''} 
+              onChange={updateForm} 
+              placeholder='Location' />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="banner">Banner:</label>
+            <p>will add later</p>
+            {/* <input 
+              id="banner" 
+              type="file" 
+              value={formData.file || ''} 
+              onChange={updateForm} 
+              /> */}
+          </div>
+        </fieldset>
+        <input type="submit" className={styles.submit} />
+      </form>
+    </>
   )
 }

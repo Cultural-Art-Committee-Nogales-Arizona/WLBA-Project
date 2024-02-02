@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import PageLink from '@components/PageLink'
 
 import styles from './page.module.css'
 
@@ -21,21 +22,18 @@ export default function EditEventPage() {
   })
 
   const handleDropdownChange = (e) => {
-    setEventId(e.target.value);
-  };
-  
-  const submitForm = (e) => {
-    e.preventDefault()
-    const foundEvent = events.find(event => event._id === eventId)
+    setEventId(e.target.value)
+    const foundEvent = events.find(event => event._id === e.target.value)
     setFormData(foundEvent)
   }
 
-  const deleteEvent = async () => {
+  const deleteEvent = async (e) => {
+    e.preventDefault()
     const confirmDelete = prompt(`Please confirm deletion of event titled: ${formData.title}\nType "Yes" to confirm`)
     if (confirmDelete !== "Yes") return 
     const response = await fetch(`../api/events/festivals?festivalId=${formData._id}`, { method: 'DELETE' })
       .then(res => res.json())
-    
+    console.log(response)
   }
 
   useEffect(() => {
@@ -48,7 +46,7 @@ export default function EditEventPage() {
 		}
 
 		fetchData()
-	}, [])
+	}, [eventId])
 
   /* useEffect(() => {
     console.log(formData)
@@ -59,10 +57,12 @@ export default function EditEventPage() {
 
   return (
     <div className={styles.container}>
-      <h1>Edit Event</h1>
-      <form onSubmit={submitForm}>
-        <label>
-          Select Event:
+      <h1>Edit Existing Event</h1>
+      <PageLink href="/dashboard/create-event" className="nav-link" testId="navbar-home">
+        <span>Create New Event</span>
+      </PageLink>
+      <form>
+          Select Event: 
           <select value={eventId} onChange={handleDropdownChange} >
             <option value="">Select an event</option>
             {events.map((event) => (
@@ -71,9 +71,6 @@ export default function EditEventPage() {
               </option>
             ))}
           </select>
-        </label>
-
-        <button type="submit">Select Event</button>
         <button onClick={deleteEvent}>Delete Event</button>
       </form>
       <EventForm params={{ formData, setFormData, method, eventId }} />

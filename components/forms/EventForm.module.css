@@ -26,6 +26,10 @@
   width: 300px;
 }
 
+.textArea {
+  resize: vertical;
+}
+
 .fieldset {
   border: 1px solid #ccc;
   border-radius: 5px;

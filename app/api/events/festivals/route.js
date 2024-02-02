@@ -135,7 +135,7 @@ export const DELETE = async (request) => {
 
 		return NextResponse.json({
 				success: true,
-				message: `Successfully deleted Festival with _id: ${festivalId}`,
+				message: `Successfully deleted Festival with title: ${existingFestival.title}`,
 			},
 			{ status: 200 }
 		);

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import PageLink from '@components/PageLink'
 
 import styles from './page.module.css'
 
@@ -20,7 +21,10 @@ export default function CreateEventPage() {
 
   return (
     <div className={styles.container}>
-      <h1>Create Event</h1>
+      <h1>Create New Event</h1>
+      <PageLink href="/dashboard/edit-event" className="nav-link" testId="navbar-home">
+        <span>Edit Existing Event</span>
+      </PageLink>
       <EventForm params={{ formData, setFormData, method }} />
     </div>
   )

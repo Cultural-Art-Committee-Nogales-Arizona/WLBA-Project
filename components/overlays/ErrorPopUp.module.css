@@ -1,0 +1,28 @@
+.errorContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background: rgba(255, 0, 0, 0.8);
+  font-weight: bold;
+  color: #fff;
+  border-radius: 8px;
+  text-align: center;
+  z-index: 999;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 25px;
+  position: relative;
+  top: 10px;
+  right: 10px;
+}
+
+.closeButton:hover {
+  color: black;
+}
