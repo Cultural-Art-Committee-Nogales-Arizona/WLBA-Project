@@ -14,7 +14,7 @@ export const POST = async (request) => {
         return NextResponse.json({
             success: true,
             message: `Successfully regitered ${name} for event`,
-            data: result
+            data: newVolunteer
         }, {
             status: 201
         })

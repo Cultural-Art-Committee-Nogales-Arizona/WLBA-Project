@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams
-    const vendorId = searchParams.get('vendorId')
 
     try {
         let result = await Vendor.find()
