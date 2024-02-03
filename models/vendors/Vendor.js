@@ -28,11 +28,11 @@ let vendorSchema = new Schema({
     required: true 
   },
 },{
-  collection: 'Users',
+  collection: 'Vendors',
   timestamps: true
 })
 
-const Vendor = vendorDB.model('User', vendorSchema)
+const Vendor = vendorDB.model('Vendor', vendorSchema)
 
 vendorDB.once('open', () => {
     console.log('Connected to blogDB for post')

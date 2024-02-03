@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/overlays/ErrorMessage';
 
 describe('ErrorMessage', () => {
   it('should render without crashing', async () => {

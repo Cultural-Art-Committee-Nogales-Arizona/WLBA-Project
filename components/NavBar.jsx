@@ -32,7 +32,7 @@ const NavBar = () => {
       <Navbar color="light" light expand="md">
         <a href="/">
           <Image
-            src={"/images/Logo.png"}
+            src={"/Logo.png"}
             alt={"C.A.C.N.A Logo"}
             width={75}
             height={75}
@@ -69,7 +69,7 @@ const NavBar = () => {
                       <span className={styles.link_animation}>Volunteer</span>
                     </PageLink>
                   </NavItem>
-                  {/* Add this as a donate button later */}
+                  {/*  Add this as a donate button later */}
                   {/* <NavItem>
                     <PageLink href="/stripe" className="nav-link" testId="navbar-stripe">
                       Stripe Page
@@ -108,8 +108,8 @@ const NavBar = () => {
                       {user.name}
                     </DropdownItem>
                     <DropdownItem className="dropdown-profile" tag="span">
-                      <PageLink href="/profile" icon="user" testId="navbar-profile-desktop">
-                        Profile
+                      <PageLink href="/dashboard" icon="user" testId="navbar-profile-desktop">
+                        Dashboard
                       </PageLink>
                     </DropdownItem>
                     <DropdownItem id="qsLogoutBtn">

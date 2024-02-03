@@ -1,5 +1,4 @@
 import User from "@/models/users/User";
-import { useReducer } from "react";
 
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams

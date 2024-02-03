@@ -7,7 +7,7 @@ export const GET = async (request) => {
 	const onlyNextEvent = searchParams.get("nextEvent") || "";
 
 	try {
-		const result = await Festival.find();
+		const result = await Festival.find().sort({ date: 1 })
 
 		function returnNextEvent(events) {
 			// Find the first event whose date is larger then the current date
@@ -135,7 +135,7 @@ export const DELETE = async (request) => {
 
 		return NextResponse.json({
 				success: true,
-				message: `Successfully deleted Festival with _id: ${festivalId}`,
+				message: `Successfully deleted Festival with title: ${existingFestival.title}`,
 			},
 			{ status: 200 }
 		);

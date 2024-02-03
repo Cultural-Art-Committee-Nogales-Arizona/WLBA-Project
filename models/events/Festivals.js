@@ -20,6 +20,15 @@ let festivalSchema = new Schema({
     type: Date, 
     required: true
   },
+  // We may add the ability to have festivals last multiple days
+  /* start-date: { 
+    type: Date, 
+    required: true
+  },
+  end-date: { 
+    type: Date, 
+    required: true
+  }, */
   banner: {
     type: String,
     required: true,

@@ -1,16 +1,19 @@
 import Vendor from "@/models/vendors/Vendor";
 import AcceptedVendor from "@/models/vendors/Accepted";
 import { NextResponse } from "next/server";
+import acceptedVendor from "@/models/vendors/Accepted";
 
 export const GET = async (request) => {
-    const searchParams = request.nextUrl.searchParams
+    // Might implement single vendor search in the future
+    // const searchParams = request.nextUrl.searchParams
+    // const vendorId = searchParams.get('vendorId') || ""
 
     try {
-        let result = await Vendor.find()
+        const result = await Vendor.find()
 
         const mapVendors = async () => {
             return result.map(async vendor => {
-                let vendorAccepted = await AcceptedVendor.findOne({ id: vendor._id }) ? true : false
+                const vendorAccepted = await AcceptedVendor.findById(vendor._id) ? true : false
                 return {
                     ...vendor,
                     accepted: vendorAccepted
@@ -18,12 +21,12 @@ export const GET = async (request) => {
             })
         }
 
-        let vendors = mapVendors();
+        const returnedVendors = mapVendors();
 
         return NextResponse.json({
             success: true,
             message: `Successfully fetched all vendors`,
-            data: vendors || "No vendors"
+            data: returnedVendors || "No vendors"
         }, {
             status: 200
         })
@@ -53,8 +56,8 @@ export const POST = async (request) => {
 
         return NextResponse.json({
             success: true,
-            message: `Successfully regitered vendor ${name}. Wait for acceptance by an admin.`,
-            data: result
+            message: `Successfully registered vendor: ${name}. Wait for acceptance by an admin.`,
+            data: newVendor
         }, {
             status: 201
         })
@@ -72,16 +75,20 @@ export const POST = async (request) => {
 
 export const PUT = async (request) => {
     const searchParams = request.nextUrl.searchParams
-    const vendorId = searchParams.get('vendorId')
+    const vendorId = searchParams.get('vendorId') || ""
     const { name, description, email, tags } = await request.json()
 
     try {
+        if (!vendorId) throw new Error(`Vendor _id not defined`)
+
         const vendor = await Vendor.findByIdAndUpdate(vendorId, {
             name,
             description,
             email,
             tags
         })
+
+        if (!vendor) throw new Error(`Vendor with _id: ${vendorId} not found`)
 
         return NextResponse.json({
             success: true,
@@ -107,16 +114,28 @@ export const DELETE = async (request) => {
     const vendorId = searchParams.get('vendorId')
 
     try {
-        const vendorAccepted = await AcceptedVendor.find({ id: vendorId })
+        /* ---------------- Delete acceptedVendor document if exists ---------------- */
 
+        const vendorAccepted = await AcceptedVendor.findById(vendorId)
+
+        if (!vendorAccepted) throw new Error(`AcceptedVendor with _id ${vendorId} not found`)
+
+        await AcceptedVendor.findByIdAndDelete(vendorId)
+
+        /* ----------------------- Delete vendor if it exists ----------------------- */
+
+        const vendorExists = await Vendor.findById(vendorId)
+
+        if (!vendorExists) throw new Error(`Vendor with _id ${vendorId} not found`)
+        
         await Vendor.findByIdAndDelete(vendorId)
-        if (vendorAccepted) await AcceptedVendor.findByIdAndDelete(vendorAccepted._id)
 
+        
         return NextResponse.json({
             success: true,
             message: `Successfully deleted Vendor with _id: ${vendorId}`,
         }, {
-            status: 202
+            status: 204
         })
     } catch (err) {
         return NextResponse.json({

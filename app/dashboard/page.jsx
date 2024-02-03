@@ -4,9 +4,11 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
-import Loading from '../../components/Loading';
-import ErrorMessage from '../../components/ErrorMessage';
-import Highlight from '../../components/Highlight';
+import Loading from '@components/overlays/Loading';
+import ErrorMessage from '@components/overlays/ErrorMessage';
+import Highlight from '@/components/Highlight';
+
+import PageLink from '@/components/PageLink';
 
 function Profile() {
   const { user, isLoading } = useUser();
@@ -14,6 +16,13 @@ function Profile() {
   return (
     <>
       {isLoading && <Loading />}
+      {/* Temporary link */}
+      <PageLink href="/dashboard/create-event" className="nav-link" testId="navbar-home">
+        <span>Create Event Form</span>
+      </PageLink>
+      <PageLink href="/dashboard/edit-event" className="nav-link" testId="navbar-home">
+        <span>Edit Event Form</span>
+      </PageLink>
       {user && (
         <>
           <Row className="align-items-center profile-header mb-5 text-center text-md-left" data-testid="profile">

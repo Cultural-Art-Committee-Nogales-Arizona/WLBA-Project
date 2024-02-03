@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
-import Loading from '../../components/Loading';
-import ErrorMessage from '../../components/ErrorMessage';
-import Highlight from '../../components/Highlight';
+import Loading from '@/components/overlays/Loading';
+import ErrorMessage from '@/components/overlays/ErrorMessage';
+import Highlight from '@/components/Highlight';
 
 function External() {
   const [state, setState] = useState({ isLoading: false, response: undefined, error: undefined });

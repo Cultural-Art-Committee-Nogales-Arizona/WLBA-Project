@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-const vendorDB = require('@/connections/vendorDB')
+const eventsDB = require('@/connections/eventsDB')
 require('dotenv').config()
 
 let volunteerSchema = new Schema({
@@ -10,11 +10,11 @@ let volunteerSchema = new Schema({
     },
     phone: {
         type: String,
-        unique: true,
         required: true,
     },
     email: {
         type: String,
+        required: true,
     },
     event: {
         type: mongoose.Schema.Types.ObjectId, 
@@ -26,10 +26,10 @@ let volunteerSchema = new Schema({
     timestamps: true,
 })
 
-const Volunteer = vendorDB.model('volunteer', volunteerSchema)
+const Volunteer = eventsDB.model('Volunteer', volunteerSchema)
 
-vendorDB.once('open', () => {
-    console.log('Connected to vendorDB for Volunteers')
+eventsDB.once('open', () => {
+    console.log('Connected to eventsDB for Volunteers')
 })
 
 module.exports = Volunteer

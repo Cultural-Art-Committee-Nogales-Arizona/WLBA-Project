@@ -1,0 +1,48 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: fit-content;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  padding: 10px
+}
+
+
+.formGroup {
+  display: flex;
+  /* width: 350px; */
+  justify-content: space-between;
+  border: solid 2px var(--blue-accent);
+  border-radius: 5px;
+  margin: 5px;
+  /* background-color: ; */
+  font-size: x-large
+}
+
+.formGroup > input {
+  width: 300px;
+}
+
+.textArea {
+  resize: vertical;
+}
+
+.fieldset {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px; 
+  width: 100%;
+}
+
+.legend {
+  width: fit-content;
+}
+
+.submit {
+  width: 150px;
+  font-size: 20px;
+  margin-top: 10px;
+}
