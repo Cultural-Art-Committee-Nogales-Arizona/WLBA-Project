@@ -52,7 +52,7 @@ function External() {
             for more info).
           </p>
         </div>
-        <Button color="primary" className="mt-5" onClick={e => handle(e, callApi)} data-testid="external-action">
+        <Button color="primary" className="mt-5" onClick={event => handle(event, callApi)} data-testid="external-action">
           Ping API
         </Button>
       </div>

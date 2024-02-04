@@ -53,6 +53,7 @@ export default function Calendar() {
 		// This is just for demonstration, it will not be displayed like this
 		const splitDate = date.split("-")
 		const stringDate = `Year: ${splitDate[0]}, Month: ${splitDate[1]}, Day: ${splitDate[2]}`
+		
 		const updatedDate = {
 			...currentSelectedEvent,
 			date: stringDate
@@ -66,6 +67,7 @@ export default function Calendar() {
 	const handleDateClick = (arg) => {
 		setSelectedDay(arg.dateStr)
 		findData(arg.dateStr)
+		console.log(arg)
 	}
 
 	return (

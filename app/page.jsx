@@ -29,6 +29,7 @@ export default function Index() {
 
   return (
     <>
+      <Hero />
       <h1>Next Event</h1>
       <hr />
       { nextEvent ? 
@@ -43,7 +44,6 @@ export default function Index() {
         <Loading />
       }
       <hr />
-      <Hero />
       <Content />
     </>
   );

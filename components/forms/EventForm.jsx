@@ -10,8 +10,8 @@ export default function EventForm({ params }) {
   const { formData, setFormData, method, eventId } = params;
   const [error, setError] = useState(null)
 
-  const updateForm = (e) => {
-    const { id, value } = e.target;
+  const updateForm = (event) => {
+    const { id, value } = event.target;
   
     // Check if the field is a date field
     const isDateField = id.includes('date');
@@ -21,13 +21,9 @@ export default function EventForm({ params }) {
       [id]: isDateField ? new Date(value) : value,
     }));
   };
-
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
   
-  const submitForm = async (e) => {
-    e.preventDefault();
+  const submitForm = async (event) => {
+    event.preventDefault();
   
     try {
       let API_Route = '/api/events/festivals'
@@ -43,7 +39,7 @@ export default function EventForm({ params }) {
           description: formData.description,
           location: formData.location,
           banner: 'Test banner, will be image URL in future',  // Update this with the actual banner data
-          // banner: e.target.banner.files[0],  // Uncomment this line if 'banner' is a file input
+          // banner: event.target.banner.files[0],  // Uncomment this line if 'banner' is a file input
         })
       });
   
@@ -58,10 +54,10 @@ export default function EventForm({ params }) {
       console.error('Error submitting the form:', error.message);
     }
   };
-
+  
   return (
     <>
-      {error && <Error params={{ error, setError }} />}
+      { error && <Error params={{ error, setError }} /> }
       <form onSubmit={submitForm} className={styles.form}>
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Pick date</legend>

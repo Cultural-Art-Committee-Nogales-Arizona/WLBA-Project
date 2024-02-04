@@ -21,14 +21,14 @@ export default function EditEventPage() {
     description: ""
   })
 
-  const handleDropdownChange = (e) => {
-    setEventId(e.target.value)
-    const foundEvent = events.find(event => event._id === e.target.value)
+  const handleDropdownChange = (event) => {
+    setEventId(event.target.value)
+    const foundEvent = events.find(event => event._id === event.target.value)
     setFormData(foundEvent)
   }
 
-  const deleteEvent = async (e) => {
-    e.preventDefault()
+  const deleteEvent = async (event) => {
+    event.preventDefault()
     const confirmDelete = prompt(`Please confirm deletion of event titled: ${formData.title}\nType "Yes" to confirm`)
     if (confirmDelete !== "Yes") return 
     const response = await fetch(`../api/events/festivals?festivalId=${formData._id}`, { method: 'DELETE' })
