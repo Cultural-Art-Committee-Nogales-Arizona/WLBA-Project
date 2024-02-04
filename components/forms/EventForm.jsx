@@ -1,35 +1,118 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
+import flatpickr from "flatpickr";
 
 import styles from './EventForm.module.css'
+// We can change the theme
+import 'flatpickr/dist/themes/light.css';
+// import 'flatpickr/dist/l10n/default';
 import Error from '@components/overlays/Error'
+import Loading from '@components/overlays/Loading'
 
 
 export default function EventForm({ params }) {
-  const { formData, setFormData, method, eventId } = params;
+  const { formData, setFormData, requestMethod, eventId } = params;
   const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  // Date picking data
+  const [startFlatpickrInstance, setStartFlatpickrInstance] = useState(null);
+  const startDatePicker = useRef()
+  const displayStartTime = useRef()
+
+  const [endFlatpickrInstance, setEndFlatpickrInstance] = useState(null);
+  const endDatePicker = useRef()
+  const displayEndTime = useRef()
 
   const updateForm = (event) => {
     const { id, value } = event.target;
   
-    // Check if the field is a date field
-    const isDateField = id.includes('date');
-  
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [id]: isDateField ? new Date(value) : value,
+      [id]: value,
     }));
+  };
+
+  const resetForm = () => {
+    setFormData({})
+    if (startFlatpickrInstance) {
+      startFlatpickrInstance.clear();
+      console.log(startFlatpickrInstance)
+    }
+    if (endFlatpickrInstance) {
+      endFlatpickrInstance.clear();
+      console.log(endFlatpickrInstance)
+    }
+  }
+
+  // Set time in time field when you close the datePicker
+  const onStartClose = (selectedDates) => {
+    // Assuming displayTime is the ID of the element where you want to display the time
+    const selectedTime = selectedDates.length > 0 ? selectedDates[0].toLocaleTimeString() : ''
+    displayStartTime.current.value = selectedTime
+  };
+
+  // Set time in time field when you close the datePicker
+  const onEndClose = (selectedDates) => {
+    // Assuming displayTime is the ID of the element where you want to display the time
+    const selectedTime = selectedDates.length > 0 ? selectedDates[0].toLocaleTimeString() : ''
+    displayEndTime.current.value = selectedTime
+  };
+  
+  // Create datePicker using flatpickr
+  useEffect(() => {
+    if (startDatePicker.current) {
+      const fp = flatpickr(startDatePicker.current, {
+        // minDate: 'today',
+        dateFormat: 'D Y-m-d',
+        enableTime: true,
+        timeZone: 'MST',
+        onChange: onStartDateChange,
+        onClose: onStartClose,
+      });
+      setStartFlatpickrInstance(fp)
+    }
+
+    if (endDatePicker.current) {
+      const fp = flatpickr(endDatePicker.current, {
+        // minDate: 'today',
+        dateFormat: 'D Y-m-d',
+        enableTime: true,
+        timeZone: 'MST',
+        onChange: onEndDateChange,
+        onClose: onEndClose,
+      });
+      setEndFlatpickrInstance(fp)
+    }
+  }, []);
+
+  // Update only date field from flatpickr
+  const onStartDateChange = (selectedDates) => {
+    // console.log(new Date(selectedDates[0]).toISOString());
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      start: new Date(selectedDates[0]).toISOString()
+    }))
+  };
+
+  // Update only date field from flatpickr
+  const onEndDateChange = (selectedDates) => {
+    // console.log(new Date(selectedDates[0]).toISOString());
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      end: new Date(selectedDates[0]).toISOString()
+    }))
   };
   
   const submitForm = async (event) => {
     event.preventDefault();
-  
+    setLoading(true)
     try {
       let API_Route = '/api/events/festivals'
       if (eventId) API_Route += `?festivalId=${eventId}`
       const response = await fetch(API_Route, {
-        method: method,
+        method: requestMethod,
         headers: {
           'Content-Type': 'application/json'
         },
@@ -44,40 +127,72 @@ export default function EventForm({ params }) {
       });
   
       if (!response.ok) {
+        setLoading(false)
         setError('Failed to submit the form')
         throw new Error('Failed to submit the form');
       }
   
       const responseData = await response.json();
       console.log(responseData);
+      resetForm()
+      setLoading(false)
     } catch (error) {
       console.error('Error submitting the form:', error.message);
     }
   };
+
+  useEffect(() => {
+    console.log(startDatePicker)
+    console.log(endDatePicker)
+  }, [startDatePicker, endDatePicker])
   
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
+      { loading ? <Loading /> :
       <form onSubmit={submitForm} className={styles.form}>
+        {/* Start Dates */}
         <fieldset className={styles.fieldset}>
-          <legend className={styles.legend}>Pick date</legend>
+          <legend className={styles.legend}>Start date</legend>
           <div className={styles.formGroup}>
             <label htmlFor="date">Date:</label>
-            <input 
+            {/* <input 
               id="date" 
-              type="date" 
+              type="datetime-local" 
               value={formData.date && new Date(formData.date).toISOString().slice(0, 10) || ''} 
-              onChange={updateForm} />
-          </div>
-          {/* We may add these */}
-          {/* <div className={styles.formGroup}>
-            <label htmlFor="startDate">Start Date:</label>
-            <input id="startDate" type="date" onChange={updateForm} />
+              onChange={updateForm} /> */}
+            <input
+              type="text"
+              ref={startDatePicker}
+              // value={formData.date ? new Date(formData.date).toISOString().slice(0, 10) : ''}
+              onClick={() => console.log(startDatePicker.current)}
+              placeholder="Select Date"
+              onChange={(e) => onStartDateChange(e.target.value)}
+            />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="endDate">End Date:</label>
-            <input id="endDate" type="date" onChange={updateForm} />
-          </div> */}
+            <label htmlFor="time">Time:</label>
+            <input type="text" ref={displayStartTime} onClick={() => console.log(displayStartTime.current.value)} readOnly="True" />
+          </div>
+        </fieldset>
+        {/* End Dates */}
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>End date</legend>
+          <div className={styles.formGroup}>
+            <label htmlFor="date">Date:</label>
+            <input
+              type="text"
+              ref={endDatePicker}
+              // value={formData.date ? new Date(formData.date).toISOString().slice(0, 10) : ''}
+              onClick={() => console.log(endDatePicker.current)}
+              placeholder="Select Date"
+              onChange={(e) => onEndDateChange(e.target.value)}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="time">Time:</label>
+            <input type="text" ref={displayEndTime} onClick={() => console.log(displayEndTime.current.value)} readOnly="True" />
+          </div>
         </fieldset>
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Describe Event</legend>
@@ -124,7 +239,7 @@ export default function EventForm({ params }) {
           </div>
         </fieldset>
         <input type="submit" className={styles.submit} />
-      </form>
+      </form> }
     </>
   )
 }

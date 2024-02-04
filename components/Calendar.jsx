@@ -44,7 +44,8 @@ export default function Calendar() {
 			const newDate = new Date(event.date);
 			if (newDate.toISOString().slice(0, 10) === date) {
 					// Update the "date" property with the new value
-					event.date = newDate.toISOString();
+					event.date = newDate.toLocaleString('en-US', { timeZone: 'America/Denver' });
+
 					return true  // If the date matches, return true to indicate the event is found
 			}
 			return false  // If the date doesn't match, return false
@@ -77,7 +78,7 @@ export default function Calendar() {
 					<FullCalendar
 						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin]}
 						initialView="dayGridMonth"
-						// events={holidays}
+						timeZone='MST'
 						events={events}
 						dateClick={handleDateClick}
 					/> : <Loading />

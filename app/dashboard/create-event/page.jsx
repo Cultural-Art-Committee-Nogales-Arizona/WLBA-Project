@@ -8,7 +8,7 @@ import styles from './page.module.css'
 import EventForm from '@components/forms/EventForm'
 
 export default function CreateEventPage() {
-  const method = 'POST'
+  const requestMethod = 'POST'
   const [formData, setFormData] = useState({
     title: "",
     location: "",
@@ -25,7 +25,7 @@ export default function CreateEventPage() {
       <PageLink href="/dashboard/edit-event" className="nav-link" testId="navbar-home">
         <span>Edit Existing Event</span>
       </PageLink>
-      <EventForm params={{ formData, setFormData, method }} />
+      <EventForm params={{ formData, setFormData, requestMethod }} />
     </div>
   )
 }

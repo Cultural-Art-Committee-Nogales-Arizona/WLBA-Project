@@ -8,7 +8,7 @@ import styles from './page.module.css'
 import EventForm from '@components/forms/EventForm'
 
 export default function EditEventPage() {
-  const method = 'PUT'
+  const requestMethod = 'PUT'
   const [eventId, setEventId] = useState('')
   const [events, setEvents] = useState([])
   const [formData, setFormData] = useState({
@@ -73,7 +73,7 @@ export default function EditEventPage() {
           </select>
         <button onClick={deleteEvent}>Delete Event</button>
       </form>
-      <EventForm params={{ formData, setFormData, method, eventId }} />
+      <EventForm params={{ formData, setFormData, requestMethod, eventId }} />
     </div>
   )
 }

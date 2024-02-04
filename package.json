@@ -28,6 +28,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-jwt": "^8.0",
+    "flatpickr": "^4.6.13",
     "fullcalendar": "^6.1.10",
     "helmet": "^7.1.0",
     "highlight.js": "^11.9.0",
