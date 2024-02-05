@@ -20,10 +20,10 @@ let acceptedVendorSchema = new Schema({
     timestamps: true
 })
 
-const acceptedVendor = vendorDB.model('AcceptedVendor', acceptedVendorSchema)
+const AcceptedVendor = vendorDB.model('AcceptedVendor', acceptedVendorSchema)
 
 vendorDB.once('open', () => {
     console.log('Connected to vendorDB for acceptedVendors')
 })
 
-module.exports = acceptedVendor
+module.exports = AcceptedVendor

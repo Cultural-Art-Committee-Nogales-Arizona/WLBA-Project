@@ -1,7 +1,6 @@
 import Vendor from "@/models/vendors/Vendor";
 import AcceptedVendor from "@/models/vendors/Accepted";
 import { NextResponse } from "next/server";
-import acceptedVendor from "@/models/vendors/Accepted";
 
 export const GET = async (request) => {
     // Might implement single vendor search in the future

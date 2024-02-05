@@ -1,0 +1,1 @@
+import AcceptedVendor from "@/models/vendors/Accepted";
