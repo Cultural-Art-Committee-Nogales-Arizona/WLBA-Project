@@ -23,14 +23,15 @@ Get either all festivals for display in the dashboard or calendar, or get the cl
 ### Festival Details
 ```json
 {
-  "_id": "MongoDB Document _id",
-  "title": "Title of the Event",
-  "description": "Description of Event",
-  "location": "Location in address form",
-  "date": "Date in ISO 8601 format",
-  "banner": "Link to image to display with Event",
-  "createdAt": "MongoDB Generated Time of creation",
-  "updatedAt": "MongoDB Generated Time of Update"
+  "_id": "MongoDB Document _id", // Object._id
+  "title": "Title of the Event", // String
+  "description": "Description of Event", // String
+  "location": "Location in address form", // String 
+  "banner": "Link to image to display with Event", // String to URI in Cloudinary
+  "start": 2024-02-05T19:03:23.291Z, // Start date object in ISO8601 format
+  "end": 2024-03-05T19:03:23.291Z, // End date object in ISO8601 format
+  "createdAt": 2024-03-05T19:03:23.291Z, // Date object in ISO8601 format
+  "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
 }
 ```
 # PATHS THAT NEED DOCUMENTATION
