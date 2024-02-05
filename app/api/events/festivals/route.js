@@ -7,12 +7,12 @@ export const GET = async (request) => {
 	const onlyNextEvent = searchParams.get("nextEvent") || "";
 
 	try {
-		const result = await Festival.find().sort({ date: 1 })
+		const result = await Festival.find().sort({ start: 1 })
 
 		function returnNextEvent(events) {
 			// Find the first event whose date is larger then the current date
 			const rightNow = new Date();
-			return events.find((event) => new Date(event.date) > rightNow);
+			return events.find((event) => new Date(event.start) > rightNow);
 		}
 
 		const nextEvent = returnNextEvent(result);
