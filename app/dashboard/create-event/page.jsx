@@ -12,9 +12,8 @@ export default function CreateEventPage() {
   const [formData, setFormData] = useState({
     title: "",
     location: "",
-    date: "",
-    /* start_date: "",
-    end_date: "", */
+    start: "",
+    end: "",
     banner: "",
     description: ""
   })

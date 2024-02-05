@@ -43,14 +43,15 @@ export const GET = async (request) => {
 
 // add a festival to the database
 export const POST = async (request) => {
-	const { title, description, location, date, banner } = await request.json();
+	const { title, description, location, start, end, banner } = await request.json();
 
 	try {
 		const result = await Festival.create({
 			title,
 			description,
 			location,
-			date,
+			start,
+			end,
 			banner,
 		});
 
@@ -78,7 +79,7 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
-	const { title, description, location, date, banner } = await request.json();
+	const { title, description, location, start, end, banner } = await request.json();
 
 	try {
 		// If there is no festivalId query then throw an error
@@ -93,7 +94,8 @@ export const PUT = async (request) => {
 			title,
 			description,
 			location,
-			date,
+			start,
+			end,
 			banner,
 		});
 

@@ -16,11 +16,6 @@ let festivalSchema = new Schema({
     type: String,
     required: true
   },
-  /* date: { 
-    type: Date, 
-    required: true
-  }, */
-  // We may add the ability to have festivals last multiple days
   start: { 
     type: Date, 
     required: true

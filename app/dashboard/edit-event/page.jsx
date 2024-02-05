@@ -14,16 +14,16 @@ export default function EditEventPage() {
   const [formData, setFormData] = useState({
     title: "",
     location: "",
-    date: "",
-    /* start_date: "",
-    end_date: "", */
+    start: "",
+    end: "",
     banner: "",
     description: ""
   })
 
   const handleDropdownChange = (event) => {
+    if (event.target.value === "") return
     setEventId(event.target.value)
-    const foundEvent = events.find(event => event._id === event.target.value)
+    const foundEvent = events.find(festival => festival._id === event.target.value)
     setFormData(foundEvent)
   }
 
@@ -48,13 +48,6 @@ export default function EditEventPage() {
 		fetchData()
 	}, [eventId])
 
-  /* useEffect(() => {
-    console.log(formData)
-  }, [formData]) */
-
-
-
-
   return (
     <div className={styles.container}>
       <h1>Edit Existing Event</h1>
@@ -63,7 +56,7 @@ export default function EditEventPage() {
       </PageLink>
       <form>
           Select Event: 
-          <select value={eventId} onChange={handleDropdownChange} >
+          <select value={eventId} onChange={(event) => handleDropdownChange(event)}>
             <option value="">Select an event</option>
             {events.map((event) => (
               <option key={event._id} value={event._id}>

@@ -13,11 +13,13 @@ export default function Index() {
 			const fetchedData = await fetch('api/events/festivals?nextEvent=true', { method: "GET" })
 				.then(res => res.json())
 
-      const newDate = new Date(fetchedData.data.date)
+      const startDate = new Date(fetchedData.data.start)
+      const endDate = new Date(fetchedData.data.end)
 
       const returnedEvent = {
         ...fetchedData.data,
-        date: newDate.toISOString().slice(0, 10)
+        start: startDate.toISOString().slice(0, 10),
+        end: endDate.toISOString().slice(0, 10)
       }
 
 			console.log(returnedEvent)
@@ -34,7 +36,8 @@ export default function Index() {
       <hr />
       { nextEvent ? 
         <div>
-          <h4>Date:</h4><p> The next event takes place on {nextEvent.date}</p>
+          <h4>Start Date:</h4><p> The next event takes place on {nextEvent.start}</p>
+          <h4>End Date:</h4><p> The next event takes place on {nextEvent.end}</p>
 					<h4>Title:</h4><p> {nextEvent.title}</p>
 					<h4>Description:</h4><p> {nextEvent.description}</p>
 					<h4>Banner:</h4><p> {nextEvent.banner}</p>

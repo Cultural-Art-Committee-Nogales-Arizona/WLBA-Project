@@ -31,45 +31,44 @@ export default function Calendar() {
 			const fetchedData = await fetch('api/events/festivals', { method: "GET" })
 				.then(res => res.json())
 
-
 			setEvents(fetchedData.data)
-			console.log(fetchedData)
 		}
 
 		fetchData()
 	}, [])
 
 	const findData = async (date) => {
-		const currentSelectedEvent = events.find(event => {
-			const newDate = new Date(event.date);
-			if (newDate.toISOString().slice(0, 10) === date) {
-					// Update the "date" property with the new value
-					event.date = newDate.toLocaleString('en-US', { timeZone: 'America/Denver' });
-
-					return true  // If the date matches, return true to indicate the event is found
+		const clickedDate = new Date(date).toLocaleString('en-US', { timeZone: 'America/Denver', timeZoneName: 'short' });
+		const currentSelectedEvent = events.filter(festival => {
+			const startDate = new Date(festival.start).toLocaleString('en-US', { timeZone: 'America/Denver', timeZoneName: 'short' });
+			const endDate = new Date(festival.end).toLocaleString('en-US', { timeZone: 'America/Denver', timeZoneName: 'short' });
+			console.log(`Clicked Date: ${clickedDate}\nStart Date: ${startDate}\nEnd Date: ${endDate}` )
+			
+			// Check if the clickedDate is within the range of the festival's start and end dates
+			if (startDate <= clickedDate && clickedDate <= endDate) {
+				const updatedDate = {
+					...festival,
+					start: startDate,
+					end: endDate,
+				};
+				return updatedDate;
 			}
-			return false  // If the date doesn't match, return false
+
+			return false
 		})
-
-		// This is just for demonstration, it will not be displayed like this
-		const splitDate = date.split("-")
-		const stringDate = `Year: ${splitDate[0]}, Month: ${splitDate[1]}, Day: ${splitDate[2]}`
 		
-		const updatedDate = {
-			...currentSelectedEvent,
-			date: stringDate
-		}
-
-		const returnedData = currentSelectedEvent ? updatedDate : null
-
-		setDayData(returnedData)
+		// console.table(currentSelectedEvent)
+		setDayData(currentSelectedEvent)
 	}
 
-	const handleDateClick = (arg) => {
+	const handleDateClick = async (arg) => {
 		setSelectedDay(arg.dateStr)
-		findData(arg.dateStr)
-		console.log(arg)
+		await findData(arg.dateStr)
 	}
+
+	useEffect(() => {
+		console.log(dayData)
+	}, [dayData])
 
 	return (
 		<div className={styles.container}>
@@ -85,16 +84,28 @@ export default function Calendar() {
 				}
 			</div>
 			{/* Display the data from the event */}
-			{selectedDay && dayData && 
-				<div>
-					<h4>Document _id:</h4><p>{dayData._id}</p>
-					<h4>Date:</h4><p> This event takes place {dayData.date}</p>
-					<h4>Title:</h4><p> {dayData.title}</p>
-					<h4>Description:</h4><p> {dayData.description}</p>
-					<h4>Banner:</h4><p> {dayData.banner}</p>
-					<h4>Location:</h4><p> {dayData.location}</p>
-				</div>
+			{selectedDay &&
+				dayData &&
+				dayData.map((event) => (
+					<div key={event._id}>
+						<h4>Document _id:</h4>
+						<p>{event._id}</p>
+						<h4>Start Date:</h4>
+						<p> This event starts on {event.start}</p>
+						<h4>End Date:</h4>
+						<p> This event ends on {event.end}</p>
+						<h4>Title:</h4>
+						<p> {event.title}</p>
+						<h4>Description:</h4>
+						<p> {event.description}</p>
+						<h4>Banner:</h4>
+						<p> {event.banner}</p>
+						<h4>Location:</h4>
+						<p> {event.location}</p>
+					</div>
+				))
 			}
+
 		</div>
 	)
 }
