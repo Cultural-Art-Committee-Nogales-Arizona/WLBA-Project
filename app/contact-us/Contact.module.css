@@ -1,0 +1,39 @@
+.fatherBox{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainBox{
+    width: 500px;
+    height: 550px;
+
+    border: #730704 solid 3px;
+    border-radius: 5px;
+
+    background-color: #FF955F;
+    color: #008080;
+
+    margin-bottom: 50px;
+}
+.fs{
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.Legend{
+    text-align: center;
+    text-decoration: underline;
+
+}
+
+.Input{
+    margin-bottom: 15px;
+    border-radius: 2px;
+    border: 1px solid black
+}
+
+.submit{
+    width: 100px;
+    border-radius: 3px;
+}
