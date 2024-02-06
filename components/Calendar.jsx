@@ -7,6 +7,8 @@ import { formatRange } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import multiMonthPlugin from '@fullcalendar/multimonth'
+import esLocale from '@fullcalendar/core/locales/es';
+
 
 import Loading from '@/components/overlays/Loading';
 
