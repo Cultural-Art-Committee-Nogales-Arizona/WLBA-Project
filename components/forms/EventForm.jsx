@@ -87,8 +87,12 @@ export default function EventForm({ params }) {
         endFlatpickrInstance.setDate(formData.end);
         displayEndTime.current.value = new Date(formData.end).toLocaleTimeString()
       }
+
+      const minEndDate = formData.start ? new Date(formData.start) : 'today';
+
       const fp = flatpickr(endDatePicker.current, {
         ...flatpickrOptions, 
+        minDate: minEndDate,
         onChange: onEndDateChange,
         onClose: onEndClose
       });
@@ -195,7 +199,7 @@ export default function EventForm({ params }) {
               ref={startDatePicker}
               onClick={() => console.log(startDatePicker.current)}
               placeholder="Select Date"
-              onChange={(e) => onStartDateChange(e.target.value)}
+              onChange={(event) => onStartDateChange(event.target.value)}
               required
             />
           </div>
@@ -219,7 +223,7 @@ export default function EventForm({ params }) {
               type="text"
               ref={endDatePicker}
               placeholder="Select Date"
-              onChange={(e) => onEndDateChange(e.target.value)}
+              onChange={(event) => onEndDateChange(event.target.value)}
               required
             />
           </div>

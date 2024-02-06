@@ -16,6 +16,8 @@ import {
   DropdownItem
 } from 'reactstrap';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import WhiteLogo from '@/public/whiteLogo'
+
 
 import styles from './NavBar.module.css'
 
@@ -26,20 +28,15 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isLoading } = useUser();
   const toggle = () => setIsOpen(!isOpen);
-
+  
   return (
-    <div className="nav-container" data-testid="navbar">
-      <Navbar color="light" light expand="md">
+    <div className="nav-container" data-testid="navbar" >
+      <Navbar className={styles.navbar}  expand="md">
         <a href="/">
-          <Image
-            src={"/Logo.png"}
-            alt={"C.A.C.N.A Logo"}
-            width={75}
-            height={75}
-          />
+          <WhiteLogo width={75} height={75} />
         </a>
         <Container>
-          <NavbarToggler onClick={toggle} data-testid="navbar-toggle" />
+          <NavbarToggler onClick={toggle} data-testid="navbar-toggle"  /> 
           <Collapse isOpen={isOpen} navbar>
             <Nav className="m-auto" navbar data-testid="navbar-items">
               <NavItem>
