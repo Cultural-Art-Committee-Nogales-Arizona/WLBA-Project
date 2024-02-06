@@ -87,8 +87,12 @@ export default function EventForm({ params }) {
         endFlatpickrInstance.setDate(formData.end);
         displayEndTime.current.value = new Date(formData.end).toLocaleTimeString()
       }
+
+      const minEndDate = formData.start ? new Date(formData.start) : 'today';
+
       const fp = flatpickr(endDatePicker.current, {
         ...flatpickrOptions, 
+        minDate: minEndDate,
         onChange: onEndDateChange,
         onClose: onEndClose
       });
