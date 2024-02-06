@@ -32,7 +32,7 @@ const NavBar = () => {
       <Navbar color="light" light expand="md">
         <a href="/">
           <Image
-            src={"/Logo.png"}
+            src={"/whiteLogo.svg"}
             alt={"C.A.C.N.A Logo"}
             width={75}
             height={75}
