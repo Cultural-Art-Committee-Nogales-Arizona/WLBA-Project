@@ -1,5 +1,5 @@
 .link_animation {
-  color: #008080;
+  color: whitesmoke;
   /* text-decoration: underline; */
   font-size: x-large;
 }
@@ -11,4 +11,8 @@
 .login {
   color: #008080;
   padding: 20px
+}
+
+.navbar{
+  background-color: var(--dark-red) !important;
 }

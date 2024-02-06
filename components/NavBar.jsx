@@ -26,10 +26,10 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isLoading } = useUser();
   const toggle = () => setIsOpen(!isOpen);
-
+  // className={styles.navbar}
   return (
-    <div className="nav-container" data-testid="navbar">
-      <Navbar color="light" light expand="md">
+    <div className="nav-container" data-testid="navbar" >
+      <Navbar className={styles.navbar}  expand="md">
         <a href="/">
           <Image
             src={"/Logo.png"}
@@ -39,7 +39,7 @@ const NavBar = () => {
           />
         </a>
         <Container>
-          <NavbarToggler onClick={toggle} data-testid="navbar-toggle" />
+          <NavbarToggler onClick={toggle} data-testid="navbar-toggle"  /> 
           <Collapse isOpen={isOpen} navbar>
             <Nav className="m-auto" navbar data-testid="navbar-items">
               <NavItem>

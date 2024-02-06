@@ -1,0 +1,6 @@
+.footer{
+    background-color: var(--dark-red);
+    text-align: center;
+    padding: 3px;
+    color: whitesmoke;
+}

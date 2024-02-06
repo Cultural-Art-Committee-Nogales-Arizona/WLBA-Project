@@ -7,9 +7,9 @@ export default function Contact() {
             <div className={styles.mainBox}>
                 <fieldset className={styles.fs}>
                     <legend className={styles.Legend}>Contact Us</legend>
-                    <label for="name">Name: </label><br />
+                    <label htmlFor="name">Name: </label><br />
                     <input type="text" id="name" name="Name" className={styles.Input} placeholder="John Doe"></input><br />
-                    <label for="email">Email: </label><br />
+                    <label htmlFor="email">Email: </label><br />
                     <input type="email" id="email" name="Email" className={styles.Input} placeholder="example@gmail.com"></input><br />
                     <label>How did you hear about us? </label><br />
                     <input list="q"  name="Questions" className={styles.Input}></input><br />
@@ -20,7 +20,7 @@ export default function Contact() {
                         <option value="Other" />
                     </datalist>
                     <label for="ci">Comments / Inqueires </label><br />
-                    <textarea name="message" id="ci" rows="5" cols="30" className={styles.Input} placeholder="This website is amazing"/><br />
+                    <textarea name="message" id="ci" rows="5" cols="60" className={styles.Input} placeholder="This website is amazing"/><br />
 
                     <button className={styles.submit}>Submit</button>
                 </fieldset>

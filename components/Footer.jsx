@@ -1,8 +1,9 @@
 import React from 'react';
 import PageLink from './PageLink';
+import styles from './Footer.module.css'
 
 const Footer = () => (
-  <footer className="bg-light p-3 text-center" data-testid="footer">
+  <footer className={styles.footer} data-testid="footer">
     <div className="logo" data-testid="footer-logo" />
     <p data-testid="footer-text">
       user authentication provided by <a href="https://auth0.com">Auth0</a>
