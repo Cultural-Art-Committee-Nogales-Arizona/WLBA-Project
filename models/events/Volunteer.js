@@ -11,14 +11,14 @@ let volunteerSchema = new Schema({
     phone: {
         type: String,
         required: true,
+        unique: true
     },
     email: {
         type: String,
         required: true,
     },
-    event: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Volunteerable-Events',
+    interest: {
+        type: String,
         required: true,
     }
 },{

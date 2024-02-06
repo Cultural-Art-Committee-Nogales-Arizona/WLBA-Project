@@ -1,4 +1,5 @@
 import User from "@/models/users/User";
+import { NextResponse } from 'next/server'
 
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams
@@ -7,14 +8,7 @@ export const GET = async (request) => {
     try{
         const user = await User.findById(userId)
 
-        if(!user){
-            return NextResponse.json({
-                success: false,
-                message: `No such user exists with ID: ${userId}`,
-            }, {
-                status: 404
-            })
-        }
+        if(!user) throw new Error(`No such user exists with ID: ${userId}`)
 
         return NextResponse.json({
             success: true,
@@ -26,7 +20,7 @@ export const GET = async (request) => {
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: `An error occurred getting vendors`,
+            message: `An error occurred getting user`,
             errorMessage: err.message,
             error: err
         }, {
@@ -40,7 +34,7 @@ export const POST = async (request) => {
     const {username, email} = await request.json()
 
     try{
-        const user = await User.find({ email: email })
+        const user = await User.findOne({ email: email })
 
         if(!user){
             const newUser = await User.create({

@@ -45,6 +45,10 @@ export const POST = async (request) => {
     const { name, description, email, tags, user } = await request.json()
 
     try {
+        const vendorExists = await Vendor.findOne({ name })
+
+        if(vendorExists) throw new Error('Vendor already exists')
+
         const newVendor = await Vendor.create({
             name,
             description,

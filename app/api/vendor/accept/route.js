@@ -8,6 +8,8 @@ export const POST = async (request) => {
     try{
         const existingVendor = await Vendor.findById(id)
 
+        if (!existingVendor) throw new Error('Vendor does not exist')
+
         const newAcceptedVendor = await AcceptedVendor.create({
             name,
             id
@@ -15,15 +17,44 @@ export const POST = async (request) => {
 
         return NextResponse.json({
             success: true,
-            message: `Successfully accepted venor`,
+            message: `Successfully accepted vendor ${name}`,
             data: newAcceptedVendor
+        }, {
+            status: 201
+        })
+    } catch (err) {
+        return NextResponse.json({
+            success: false,
+            message: `Error accepting vendor`,
+            errorMessage: err.message,
+            error: err
+        }, {
+            status: 500
+        })
+    }
+}
+
+export const DELETE = async (request) => {
+    const searchParams = request.nextUrl.searchParams
+    const vendorId = searchParams.get('vendorId')
+
+    try{
+        const existingVendor = await AcceptedVendor.find({ id: vendorId })
+
+        if (!existingVendor) throw new Error('Vendor does not exist or has not been accepted')
+
+        await AcceptedVendor.deleteOne({ id:vendorId })
+
+        return NextResponse.json({
+            success: true,
+            message: `Successfully removed vendor ${existingVendor.name} from accepted vendors list.`,
         }, {
             status: 200
         })
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: `Error accepting vendor`,
+            message: `Error removing vendor from accepted list`,
             errorMessage: err.message,
             error: err
         }, {

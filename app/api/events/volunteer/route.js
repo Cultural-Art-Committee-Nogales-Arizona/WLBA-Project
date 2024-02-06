@@ -1,19 +1,40 @@
 import Volunteer from "@/models/events/Volunteer"
 import { NextResponse } from "next/server"
 
+export const GET = async (request) => {
+    try{
+        const volunteers = await Volunteer.find()
+
+        return NextResponse.json({
+            success: true,
+            message: `Found Volunteers`,
+            data: volunteers
+        })
+    } catch (err) {
+        return NextResponse.json({
+            success: false,
+            message: `An error occurred fetching volunteers`,
+            errorMessage: err.message,
+            error: err
+        }, {
+            status: 500
+        })
+    }
+}
+
 export const POST = async (request) => {
-    const { name, phone, email, event } = await request.json()
+    const { name, phone, email, interest } = await request.json()
 
     try {
-        const alreadySignedUp = await Volunteer.find({ phone, event })
+        const alreadySignedUp = await Volunteer.findOne({ phone })
 
         if (alreadySignedUp) throw new Error(`User is already signed up for this event`)
-
+        
         const newVolunteer = await Volunteer.create({
             name,
             phone,
             email,
-            event
+            interest
         })
 
         return NextResponse.json({
@@ -35,28 +56,22 @@ export const POST = async (request) => {
     }
 }
 
-// Not necessary yet, will implement removing volunteers in the future
-/* export const DELETE = async (request) => {
-    const { name, phone, email, event } = await request.json()
+export const DELETE = async (request) => {
+    const searchParams = request.nextUrl.searchParams
+    const volunteerId = searchParams.get('volunteerId')
 
     try {
-        const alreadySignedUp = await Volunteer.find({ name, event })
+        const existingVolunteer = await Volunteer.findById(volunteerId);
 
-        if (!alreadySignedUp) throw new Error(`User is not signed up for this event`)
+        if(!existingVolunteer) throw new Error('Volunteer does not exist')
 
-        const newVolunteer = await Volunteer.create({
-            name,
-            phone,
-            email,
-            event
-        })
-
+        await Volunteer.findByIdAndDelete(volunteerId)
+        
         return NextResponse.json({
             success: true,
-            message: `Successfully deleted registration for user: ${name} for event: ${event}`,
-            data: newVolunteer
+            message: `Successfully deleted registration for user: ${existingVolunteer.name}`,
         }, {
-            status: 204
+            status: 200
         })
     } catch (err) {
         return NextResponse.json({
@@ -68,6 +83,6 @@ export const POST = async (request) => {
             status: 500
         })
     }
-} */
+}
 
 
