@@ -199,7 +199,7 @@ export default function EventForm({ params }) {
               ref={startDatePicker}
               onClick={() => console.log(startDatePicker.current)}
               placeholder="Select Date"
-              onChange={(e) => onStartDateChange(e.target.value)}
+              onChange={(event) => onStartDateChange(event.target.value)}
               required
             />
           </div>
@@ -223,7 +223,7 @@ export default function EventForm({ params }) {
               type="text"
               ref={endDatePicker}
               placeholder="Select Date"
-              onChange={(e) => onEndDateChange(e.target.value)}
+              onChange={(event) => onEndDateChange(event.target.value)}
               required
             />
           </div>

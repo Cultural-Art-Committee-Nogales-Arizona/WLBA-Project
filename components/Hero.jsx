@@ -1,10 +1,12 @@
 import React from 'react';
 
-import Logo from './Logo';
+import Image from 'next/image'
+
+import Logo from '@/public/Logo';
 
 const Hero = () => (
   <div className="hero my-5 text-center" data-testid="hero">
-    <Logo testId="hero-logo" />
+    <Logo width="340" height="340" testId="hero-logo" />
     <h1 className="mb-4" data-testid="hero-title">
       Cultural Art Committee of Nogales Arizona
     </h1>
