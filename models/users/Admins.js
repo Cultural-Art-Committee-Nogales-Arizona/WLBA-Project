@@ -14,9 +14,9 @@ let adminSchema = new Schema({
     required: true
   },
   user: {
-    type: mongoose.Schema.Types.objectId,
+    type: Schema.Types.ObjectId,
     ref: 'Users',
-    // unique: true,
+    unique: true,
     required: true
   },
 },{

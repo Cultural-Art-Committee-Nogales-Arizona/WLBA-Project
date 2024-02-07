@@ -1,33 +1,36 @@
 import User from "@/models/users/User";
 import Admin from "@/models/users/Admins";
 import { NextResponse } from 'next/server';
-import { generateUserAuthID } from "@/utils/routeMethods";
+import { generateUserAuthID, isAdmin } from "@/utils/routeMethods";
 
-export const GET = async (/* request */) => {
-    // const {username, id} = await request.json()
+export const GET = async (request) => {
+    const searchParams = request.nextUrl.searchParams;
+	const username = searchParams.get("username") || "";
     
     try{
-        const userExists = await User.findById("65c2b1fca56e4271462c48bb")/* ({ _id: id, username: username }) */
-        console.log(userExists)
-        if(!userExists) throw new Error('This user does not exist')
+        if (!username) throw new Error("You must append ?username= query to URL")
 
-        const newAdmin = await Admin.create({
-            username: username,
-            userAuthId: generateUserAuthID(),
-            user: id
-        })
+        const isUsernameAdmin = await Admin.findOne({ username })
+        
+        if (!isUsernameAdmin) {
+            const userExists = await User.findOne({ username })
+            if(!userExists) throw new Error(`User: ${username} does not exist`)
+        }
 
         return NextResponse.json({
             success: true,
-            message: `Successfully registered ${username} as an Admin.`,
-            data: newAdmin,
-        },
-        { status: 201 }
-    );
+            message: `Successfully fetched ${username}`,
+            data: {
+                // Return a boolean value for admin, for safety
+                admin: !!isUsernameAdmin,
+            }
+        },{ 
+            status: 200
+        });
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: `An error occurred registering Admin`,
+            message: `An error occurred fetching Admin`,
             errorMessage: err.message,
             error: err
         }, {
@@ -37,12 +40,26 @@ export const GET = async (/* request */) => {
 }
 
 export const POST = async (request) => {
-    const {username, id} = await request.json()
+    const searchParams = request.nextUrl.searchParams;
+	const adminId = searchParams.get("adminId") || "";
+    const { username, id } = await request.json()
     
     try{
-        const userExists = await User.findById(id)/* ({ _id: id, username: username }) */
-        console.log(userExists)
-        if(!userExists) throw new Error('This user does not exist')
+        if (!adminId) throw new Error("You must append ?adminId= query to URL")
+
+        await isAdmin(adminId)
+
+        const  existingAdmin = await Admin.findOne({ user: id })
+        if (existingAdmin) {
+            const { _id, username, user } = existingAdmin
+            return NextResponse.json({
+                success: true,
+                message: `User already admin, returning fetched user: ${username}`,
+                data: { _id, username, user }, // Leave out userAuthId for safety
+            },{ 
+                status: 200 
+            })
+        }
 
         const newAdmin = await Admin.create({
             username: username,
@@ -54,16 +71,16 @@ export const POST = async (request) => {
             success: true,
             message: `Successfully registered ${username} as an Admin.`,
             data: newAdmin,
-        },
-        { status: 201 }
-    );
+        },{ 
+            status: 201 
+        });
     } catch (err) {
         return NextResponse.json({
             success: false,
             message: `An error occurred registering Admin`,
             errorMessage: err.message,
             error: err
-        }, {
+        },{
             status: 500
         })
     }

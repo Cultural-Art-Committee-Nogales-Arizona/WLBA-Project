@@ -1,10 +1,14 @@
 // const bcrypt = require('bcryptjs') 
 
+/* -------------------------------------------------------------------------- */
+/*     All of the commented out function are for if we decide to use them     */
+/* -------------------------------------------------------------------------- */
+
 /* ----------------------------- MongoDB Schemas ---------------------------- */
 
 // import Festival from '../models/events/Festivals'
-import User from '../models/users/User'
-// import Admin  from '../models/users/Admin'
+// import User from '@/models/users/User'
+import Admin  from '@/models/users/Admins'
 
 /* ------------------------------- Count votes ------------------------------ */
 
@@ -94,6 +98,14 @@ import User from '../models/users/User'
   return user._id
 } */
 
+/* ------------------- Will throw an error if not an admin ------------------ */
+
+async function isAdmin(userAuthId) {
+  const user = await Admin.findOne({ userAuthId: userAuthId })
+  if (!user) throw new Error(`User not an admin and not allowed to preform call`)
+  return true
+}
+
 /* ----------------- Generate userAuthID on account creation ---------------- */
 
 function generateUserAuthID() {
@@ -135,8 +147,5 @@ function generateUserAuthID() {
 // countVotes, 
 // isDuplicate, 
 // getUserWithID, 
-// getIdWithName,
-module.exports = { 
-  generateUserAuthID, 
-}
+export { generateUserAuthID, isAdmin }
 // hashPassword
