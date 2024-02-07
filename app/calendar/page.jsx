@@ -3,7 +3,6 @@ import React from 'react';
 import styles from './page.module.css'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Calendar from '@/components/Calendar'
-import Loading from '@/components/overlays/Loading';
 
 export default withPageAuthRequired(function CSRPage() {
 	return (

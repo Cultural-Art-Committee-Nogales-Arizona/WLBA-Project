@@ -45,7 +45,7 @@ export default function Index() {
 					<h4>Location:</h4><p> {nextEvent.location}</p>
         </div> 
         : 
-        <Loading />
+        <Loading scale={200} />
       }
       <hr />
     </>

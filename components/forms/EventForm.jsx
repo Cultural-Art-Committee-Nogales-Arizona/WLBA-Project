@@ -188,8 +188,8 @@ export default function EventForm({ params }) {
         Confirm information\n
         Title: ${formData.title}\n
         Description: ${formData.description}\n
-        Start Time: ${formData.start}\n
-        End Time: ${formData.end}\n
+        Start Time: ${new Date(formData.start).toLocaleString()}\n
+        End Time: ${new Date(formData.end).toLocaleString()}\n
         Location: ${formData.location}\n\n
         Type "Yes" to confirm
         `)
@@ -236,7 +236,7 @@ export default function EventForm({ params }) {
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
-      { loading ? <Loading /> :
+      { loading ? <Loading scale={150} /> :
       <form onSubmit={event => submitForm(event)} className={styles.form}>
         {/* Start Dates */}
         <fieldset className={styles.fieldset}>

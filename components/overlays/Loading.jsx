@@ -1,11 +1,13 @@
 import React from 'react';
 
-const Loading = ({ width = '100px', height = '100px' }) => (
+const Loading = ({ scale='100' }) => (
+  // If you want the Loading component a different size then 100px
+  // Just write <Loading scale={pixelValue} />
   <div className="spinner d-flex align-items-center justify-content-center w-100 h-100" data-testid="loading">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
+      width={scale}
+      height={scale}
       className="uil-ring"
       preserveAspectRatio="xMidYMid"
       viewBox="0 0 100 100">

@@ -120,7 +120,7 @@ export default function Calendar() {
 						eventColor= '#378006'
 					/> 
 					: 
-					<Loading />
+					<Loading scale={200} />
 				}
 			</div>
 			
@@ -133,9 +133,9 @@ export default function Calendar() {
 						<h4>Document _id:</h4>
 						<p>{event._id}</p>
 						<h4>Start Date:</h4>
-						<p> This event starts on {new Date(event.start).toLocaleDateString()} at {new Date(event.start).toLocaleTimeString()}</p>
+						<p> This event starts on {new Date(event.start).toLocaleString()}</p>
 						<h4>End Date:</h4>
-						<p> This event ends on {new Date(event.end).toLocaleDateString()} at {new Date(event.end).toLocaleTimeString()}</p>
+						<p> This event ends on {new Date(event.end).toLocaleString()}</p>
 						<h4>Title:</h4>
 						<p> {event.title}</p>
 						<h4>Description:</h4>
