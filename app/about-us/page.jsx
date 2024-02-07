@@ -1,33 +1,33 @@
-import React from 'react';
-import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import React from "react";
+import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import styles from "./page.module.css";
+import Highlight from "@/components/Highlight";
+import Image from 'next/image'
 
-import Highlight from '../../components/Highlight';
+export default function aboutUs() {
+  return (
+    <>
+      <div className={styles.header} >
+        <Image 
+          src={`/Images/aboutUs.jpg`}
+          alt="About us banner"
+          width={300}
+          height={300}
 
-export default withPageAuthRequired(
-  async function SSRPage() {
-    const { user } = await getSession();
-    return (
-      <>
-        <div className="mb-5" data-testid="ssr">
-          <h1 data-testid="ssr-title">This is the users data</h1>
-          <div data-testid="ssr-text">
-            <p>
-              This is the data that is sent to you when a user logs in with their account.
-              You can access this data and do with it as you please.
-              {/* You can protect a server-side rendered page by wrapping it with <code>withPageAuthRequired</code>. Only
-              logged in users will be able to access it. If the user is logged out, they will be redirected to the login
-              page instead.{' '} */}
-            </p>
-          </div>
-        </div>
-        <div className="result-block-container" data-testid="ssr-json">
-          <div className="result-block">
-            <h6 className="muted">User</h6>
-            <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
-          </div>
-        </div>
-      </>
-    );
-  },
-  { returnTo: '/ssr' }
-);
+        />
+        <h1 className={styles.auc}>About us</h1>
+        Established in 2014 as a non-profit organization, the Cultural Arts
+        Committee of Nogales, Arizona, has been busy creating events that bring
+        the community together. We've hosted all sorts of things, from concerts
+        and mariachi festivals to art workshops for kids and nativity
+        exhibitions. In collaboration with the City of Nogales and the Consulate
+        of Mexico, our programs cover a wide range, including scholarship
+        initiatives, talks for Women’s Week, and even a binational marathon.
+        What makes it all happen? Our dedicated team of volunteers. The Board of
+        Directors, made up of community members, including the former Consul
+        General of Mexico, and local business leaders, helps steer the ship.
+        We're all about supporting and celebrating our community.
+      </div>
+    </>
+  );
+}
