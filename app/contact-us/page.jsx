@@ -80,6 +80,7 @@ export default function Contact() {
                             name="HeardFrom" 
                             className={styles.Input}
                             onChange={(event) => updateForm(event)}
+                            placeholder='The President'
                             required 
                         />
                         <br />
