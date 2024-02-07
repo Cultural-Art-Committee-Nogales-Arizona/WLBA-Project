@@ -5,8 +5,8 @@
 }
 
 .mainBox{
-    width: 500px;
-    height: 550px;
+    width: 450px;
+    height: 600px;
 
     border: var(--dark-red) solid 3px;
     border-radius: 5px;
@@ -28,7 +28,13 @@
 }
 
 .Input{
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     border-radius: 2px;
     border: 1px solid black
+}
+
+.submit{
+    width: 100px;
+    border-radius: 5px;
+    margin-left: 37%;
 }
