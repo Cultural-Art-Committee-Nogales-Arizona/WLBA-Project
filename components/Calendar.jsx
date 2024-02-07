@@ -25,7 +25,6 @@ export default function Calendar() {
 	// Language change with buttons
 	const [currentLocale, setCurrentLocale] = useState(enLocale); 
 
-	const [selectedDay, setSelectedDay] = useState(null)
 	const [dayData, setDayData] = useState(null)
 	const [events, setEvents] = useState(null)
 
@@ -76,8 +75,8 @@ export default function Calendar() {
 		// it was a timezone issue, that I was trying to solve by storing the date as MST in MongoDB.
 		// it HAD to be stored as UTC, I should learn to read!
 		// It screwed everything up, its done now. !!HALLELUJAH!!
-    const clickedDate = new Date(date);
-    const currentSelectedEvents = events.filter(festival => {
+		const clickedDate = new Date(date);
+		const currentSelectedEvents = events.filter(festival => {
 			const startDate = new Date(festival.start);
 			const endDate = new Date(festival.end);
 			// Extract the day parts of the dates
@@ -88,15 +87,10 @@ export default function Calendar() {
 			if (startDay <= clickedDay && clickedDay <= endDay) return true
 
 			return false;
-    });
+		});
 
-    setDayData(currentSelectedEvents);
+		setDayData(currentSelectedEvents);
 	};
-
-	const handleDateClick = async (arg) => {
-		setSelectedDay(arg.start)
-		await findData(arg.start)
-	}
 
 	return (
 		<div className={styles.container}>
@@ -110,7 +104,7 @@ export default function Calendar() {
 						headerToolbar={calendarHeader}
 						footerToolbar={calendarFooter}
 						selectable ='true'
-						select={(start, end) => handleDateClick(start, end)}
+						select={(start) => findData(start.start)}
 						locale={currentLocale}
 						// We can change color to whatever we want
 						eventColor= '#378006'
@@ -121,7 +115,7 @@ export default function Calendar() {
 			</div>
 			
 			{/* Display the data from the event */}
-			{selectedDay &&
+			{/* selectedDay && */
 				dayData &&
 				dayData.map((event, index) => (
 					<div key={event._id}>
