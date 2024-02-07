@@ -5,7 +5,7 @@ import NavBarItem from './NavBarItem';
 
 const PageLink = ({ children, href, className, icon, tabIndex, testId }) => {
   return (
-    <Link legacyBehavior href={href}>
+    <Link legacyBehavior href={href} locale="es-ES">
       <a>
         <NavBarItem href={href} className={className} icon={icon} tabIndex={tabIndex} testId={testId}>
           {children}

@@ -1,4 +1,0 @@
-Finish date picker on EventForm
-Fix date not showing up when trying to edit events
-Possibly add the ability to change the time independent of the date, 
-Its not necessary and I don't feel like doing it now

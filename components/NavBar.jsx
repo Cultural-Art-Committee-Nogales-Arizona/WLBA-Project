@@ -16,6 +16,8 @@ import {
   DropdownItem
 } from 'reactstrap';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import WhiteLogo from '@/public/whiteLogo'
+
 
 import styles from './NavBar.module.css'
 
@@ -26,17 +28,12 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isLoading } = useUser();
   const toggle = () => setIsOpen(!isOpen);
-  // className={styles.navbar}
+  
   return (
     <div className="nav-container" data-testid="navbar" >
       <Navbar className={styles.navbar}  expand="md">
         <a href="/">
-          <Image
-            src={"/whiteLogo.svg"}
-            alt={"C.A.C.N.A Logo"}
-            width={75}
-            height={75}
-          />
+          <WhiteLogo width={75} height={75} />
         </a>
         <Container>
           <NavbarToggler onClick={toggle} data-testid="navbar-toggle"  /> 
@@ -62,21 +59,17 @@ const NavBar = () => {
                   <span className={styles.link_animation}>Gallery</span>
                 </PageLink>
               </NavItem>
-              {user && (
-                <>
-                  <NavItem>
-                    <PageLink href="/volunteer" className="nav-link" testId="navbar-external">
-                      <span className={styles.link_animation}>Volunteer</span>
-                    </PageLink>
-                  </NavItem>
-                  {/*  Add this as a donate button later */}
-                  {/* <NavItem>
-                    <PageLink href="/stripe" className="nav-link" testId="navbar-stripe">
-                      Stripe Page
-                    </PageLink>
-                  </NavItem> */}
-                </>
-              )}
+              <NavItem>
+                <PageLink href="/volunteer" className="nav-link" testId="navbar-external">
+                  <span className={styles.link_animation}>Volunteer</span>
+                </PageLink>
+              </NavItem>
+              {/*  Add this as a donate button later */}
+              {/* <NavItem>
+                <PageLink href="/stripe" className="nav-link" testId="navbar-stripe">
+                  Stripe Page
+                </PageLink>
+              </NavItem> */}
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isLoading && !user && (

@@ -1,20 +1,16 @@
 import User from "@/models/users/User";
+import { NextResponse } from 'next/server'
 
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const userId = searchParams.get('userId')
 
     try{
+        if (!userId) throw new Error("No userId query defined, you must append ?userId=DocumentIdOfUser")
+
         const user = await User.findById(userId)
 
-        if(!user){
-            return NextResponse.json({
-                success: false,
-                message: `No such user exists with ID: ${userId}`,
-            }, {
-                status: 404
-            })
-        }
+        if(!user) throw new Error(`No such user exists with _id: ${userId}`)
 
         return NextResponse.json({
             success: true,
@@ -26,7 +22,7 @@ export const GET = async (request) => {
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: `An error occurred getting vendors`,
+            message: `An error occurred fetching user`,
             errorMessage: err.message,
             error: err
         }, {
@@ -40,7 +36,7 @@ export const POST = async (request) => {
     const {username, email} = await request.json()
 
     try{
-        const user = await User.find({ email: email })
+        const user = await User.findOne({ email: email })
 
         if(!user){
             const newUser = await User.create({
@@ -59,10 +55,10 @@ export const POST = async (request) => {
 
         return NextResponse.json({
             success: true,
-            message: `User already exists`,
+            message: `User already exists, returning matching user`,
             data: user
         }, {
-            status: 201
+            status: 200
         })
     } catch (err) {
         return NextResponse.json({
@@ -74,9 +70,11 @@ export const POST = async (request) => {
             status: 500
         })
     }
-    /* Do keep in mind the purpose of this is simply to have access to the user's database
+    /* 
+    Do keep in mind the purpose of this is simply to have access to the user's database
     ID in the frontend so that information specific to them can be fetched such as vendors or admin status. 
-    We might want to look into using JWT to modify the auth0 session object to add the user's database ID*/
+    We might want to look into using JWT to modify the auth0 session object to add the user's database ID 
+    */
 }
 
 export const PUT = async (request) => {
@@ -85,6 +83,8 @@ export const PUT = async (request) => {
     const {username, email} = await request.json()
 
     try{
+        if (!userId) throw new Error("No userId query defined, you must append ?userId=DocumentIdOfUser")
+
         const existingUser = await User.findById(userId)
 
         if(!existingUser) throw new Error(`User with ID ${userId} does not exist`)
@@ -96,7 +96,7 @@ export const PUT = async (request) => {
 
         return NextResponse.json({
             success: true,
-            message: `Successfully Updated User`,
+            message: `Successfully Updated User: ${existingUser.username}`,
             data: newUser
         }, {
             status: 200
@@ -104,7 +104,7 @@ export const PUT = async (request) => {
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: `An error occurred while editing user with is ${userId}`,
+            message: `An error occurred while editing user`,
             errorMessage: err.message,
             error: err
         }, {
@@ -118,15 +118,17 @@ export const DELETE = async (request) => {
     const userId = searchParams.get('userId')
 
     try{
+        if (!userId) throw new Error("No userId query defined, you must append ?userId=DocumentIdOfUser")
+
         const existingUser = await User.findById(userId)
 
-        if(!existingUser) throw new Error(`User with ID ${userId} does not exist`)
+        if(!existingUser) throw new Error(`User with _id: ${userId} does not exist`)
 
         await User.findByIdAndDelete(userId)
 
         return NextResponse.json({
             success: true,
-            message: `Successfully deleted user with ID ${userId}`,
+            message: `Successfully deleted user with _id: ${userId}`,
         }, {
             status: 200
         })
