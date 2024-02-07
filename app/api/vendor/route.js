@@ -10,17 +10,24 @@ export const GET = async (request) => {
     try {
         const result = await Vendor.find()
 
+        //Checks if vendor's _ids are in the AcceptedVendor collection and gives them the boolean accepted status accordingly
         const mapVendors = async () => {
-            return result.map(async vendor => {
-                const vendorAccepted = await AcceptedVendor.findById(vendor._id) ? true : false
-                return {
-                    ...vendor,
+            const finalResult = []
+
+            for(let i = 0; i < result.length; i++){
+                const vendorAccepted = await AcceptedVendor.findOne({ id: result[i]._id }) ? true : false
+                const updatedVendor = {
+                    ...result[i]._doc,
                     accepted: vendorAccepted
                 }
-            })
+
+                finalResult.push(updatedVendor)
+            }
+
+            return finalResult
         }
 
-        const returnedVendors = mapVendors();
+        const returnedVendors = await mapVendors();
 
         return NextResponse.json({
             success: true,
@@ -89,6 +96,8 @@ export const PUT = async (request) => {
             description,
             email,
             tags
+        },{
+            returnDocument: 'after'
         })
 
         if (!vendor) throw new Error(`Vendor with _id: ${vendorId} not found`)
@@ -119,11 +128,9 @@ export const DELETE = async (request) => {
     try {
         /* ---------------- Delete acceptedVendor document if exists ---------------- */
 
-        const vendorAccepted = await AcceptedVendor.findById(vendorId)
+        const vendorAccepted = await AcceptedVendor.findOne({ id: vendorId })
 
-        if (!vendorAccepted) throw new Error(`AcceptedVendor with _id ${vendorId} not found`)
-
-        await AcceptedVendor.findByIdAndDelete(vendorId)
+        if (vendorAccepted) await AcceptedVendor.findByIdAndDelete(vendorAccepted._id) //throw new Error(`AcceptedVendor with _id ${vendorId} not found`)
 
         /* ----------------------- Delete vendor if it exists ----------------------- */
 
@@ -132,13 +139,12 @@ export const DELETE = async (request) => {
         if (!vendorExists) throw new Error(`Vendor with _id ${vendorId} not found`)
         
         await Vendor.findByIdAndDelete(vendorId)
-
         
         return NextResponse.json({
             success: true,
             message: `Successfully deleted Vendor with _id: ${vendorId}`,
         }, {
-            status: 204
+            status: 200
         })
     } catch (err) {
         return NextResponse.json({

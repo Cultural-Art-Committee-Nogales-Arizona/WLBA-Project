@@ -15,7 +15,7 @@ const Footer = () => (
       <p>Facebook</p>
       <p>|</p>
       <PageLink href="/contact-us" className={styles.link} testId="navbar-ssr">
-      <span >Contact Us</span>
+        <span >Contact Us</span>
       </PageLink>
       <p>|</p>
       <p>Volunteer</p>
@@ -24,7 +24,7 @@ const Footer = () => (
       <p>Nogales, Arizona 85621</p>
       <p>©Cultural Arts Committee of Nogales Arizona </p>
     </div>
-    
+
   </footer>
 );
 

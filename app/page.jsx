@@ -47,7 +47,6 @@ export default function Index() {
         : 
         <Loading scale={200} />
       }
-      <hr />
     </>
   );
 }
