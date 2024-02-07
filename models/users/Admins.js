@@ -8,6 +8,11 @@ let adminSchema = new Schema({
     type: String,
     required: true
   },
+  userAuthId: {
+    type: String,
+    unique: true,
+    required: true
+  },
   user: {
     type: mongoose.Schema.Types.objectId,
     ref: 'Users',
@@ -22,7 +27,7 @@ let adminSchema = new Schema({
 const Admin = userDB.model('Admin', adminSchema)
 
 userDB.once('open', () => {
-  console.log('Connected to blogDB for comments')
+  console.log('Connected to userDB for Admins')
 })
 
 module.exports = Admin

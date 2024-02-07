@@ -25,7 +25,6 @@ export default function Calendar() {
 	// Language change with buttons
 	const [currentLocale, setCurrentLocale] = useState(enLocale);
 
-	const [selectedDay, setSelectedDay] = useState(null)
 	const [dayData, setDayData] = useState(null)
 	const [events, setEvents] = useState(null)
 
@@ -78,6 +77,8 @@ export default function Calendar() {
 		// It screwed everything up, its done now. !!HALLELUJAH!!
 		const clickedDate = new Date(date);
 		const currentSelectedEvents = events.filter(festival => {
+		const clickedDate = new Date(date);
+		const currentSelectedEvents = events.filter(festival => {
 			const startDate = new Date(festival.start);
 			const endDate = new Date(festival.end);
 			// Extract the day parts of the dates
@@ -89,14 +90,11 @@ export default function Calendar() {
 
 			return false;
 		});
+		});
 
 		setDayData(currentSelectedEvents);
+		setDayData(currentSelectedEvents);
 	};
-
-	const handleDateClick = async (arg) => {
-		setSelectedDay(arg.start)
-		await findData(arg.start)
-	}
 
 	return (
 		<div className={styles.container}>
@@ -110,7 +108,7 @@ export default function Calendar() {
 						headerToolbar={calendarHeader}
 						footerToolbar={calendarFooter}
 						selectable='true'
-						select={(start, end) => handleDateClick(start, end)}
+						select={(start) => findData(start.start)}
 						locale={currentLocale}
 						// We can change color to whatever we want
 						eventColor='#378006'
@@ -121,7 +119,7 @@ export default function Calendar() {
 			</div>
 
 			{/* Display the data from the event */}
-			{selectedDay &&
+			{/* selectedDay && */
 				dayData &&
 				dayData.map((event, index) => (
 					<div key={event._id}>
