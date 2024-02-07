@@ -1,10 +1,10 @@
-const bcrypt = require('bcryptjs') 
+// const bcrypt = require('bcryptjs') 
 
 /* ----------------------------- MongoDB Schemas ---------------------------- */
 
-const Festival = require('@/models/events/Festivals')
-const User = require('@/models/users/User')
-const Admin = require('@/models/users/Admin')
+// import Festival from '../models/events/Festivals'
+import User from '../models/users/User'
+// import Admin  from '../models/users/Admin'
 
 /* ------------------------------- Count votes ------------------------------ */
 
@@ -80,19 +80,19 @@ const Admin = require('@/models/users/Admin')
 
 /* ---------------------- Get a users auth with authID ---------------------- */
 
-async function getUserWithID(userID) {
+/* async function getUserWithID(userID) {
   const user = await User.findOne({ userAuthID: userID })
   if (!user) throw new Error(`User with userAuthID: ${userID} has not been found`)
   return user
-}
+} */
 
 /* ------------------------ Get a users _id with name ----------------------- */
 
-async function getIdWithName(name) {
+/* async function getIdWithName(name) {
   const user = await User.findOne({ username: name })
   if (!user) throw new Error(`User with username: ${name} not found`)
   return user._id
-}
+} */
 
 /* ----------------- Generate userAuthID on account creation ---------------- */
 
@@ -132,11 +132,11 @@ function generateUserAuthID() {
 
 /* -------------------------------------------------------------------------- */
 
+// countVotes, 
+// isDuplicate, 
+// getUserWithID, 
+// getIdWithName,
 module.exports = { 
-  // countVotes, 
-  // isDuplicate, 
-  getUserWithID, 
-  getIdWithName,
   generateUserAuthID, 
-  // hashPassword
 }
+// hashPassword
