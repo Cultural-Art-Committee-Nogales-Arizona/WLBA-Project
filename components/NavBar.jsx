@@ -33,7 +33,7 @@ const NavBar = () => {
     <div className="nav-container" data-testid="navbar" >
       <Navbar className={styles.navbar}  expand="md">
         <a href="/">
-          <WhiteLogo width={75} height={75} />
+          <WhiteLogo scale="75" />
         </a>
         <Container>
           <NavbarToggler onClick={toggle} data-testid="navbar-toggle"  /> 
