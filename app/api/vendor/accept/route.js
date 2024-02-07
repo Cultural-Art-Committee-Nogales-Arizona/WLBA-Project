@@ -10,7 +10,7 @@ export const POST = async (request) => {
 
         if (!existingVendor) throw new Error('Vendor does not exist')
 
-        const existingAcceptedVendor = await AcceptedVendor.findOne({ id: id })
+        const existingAcceptedVendor = await AcceptedVendor.findOne({ name: name, id: id })
 
         if (existingAcceptedVendor) throw new Error('Vendor has already been accepted')
 
