@@ -8,7 +8,7 @@ export const GET = async (request) => {
         return NextResponse.json({
             success: true,
             message: `Found Volunteers`,
-            data: volunteers
+            data: volunteers 
         })
     } catch (err) {
         return NextResponse.json({
