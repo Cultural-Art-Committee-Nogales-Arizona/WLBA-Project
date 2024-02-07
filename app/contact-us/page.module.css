@@ -8,11 +8,11 @@
     width: 500px;
     height: 550px;
 
-    border: #730704 solid 3px;
+    border: var(--dark-red) solid 3px;
     border-radius: 5px;
 
-    background-color: #FF955F;
-    color: #008080;
+    background-color: var(--primary-color);
+    color: var(--blue-accent);
 
     margin-bottom: 50px;
 }

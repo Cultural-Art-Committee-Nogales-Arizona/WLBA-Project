@@ -1,4 +1,4 @@
-import styles from "./Contact.module.css"
+import styles from "./page.module.css"
 import react from 'react'
 
 export default function Contact() {

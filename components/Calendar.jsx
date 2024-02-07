@@ -25,8 +25,6 @@ export default function Calendar() {
 	// Language change with buttons
 	const [currentLocale, setCurrentLocale] = useState(enLocale); 
 
-	const calendar = useRef()
-
 	const [selectedDay, setSelectedDay] = useState(null)
 	const [dayData, setDayData] = useState(null)
 	const [events, setEvents] = useState(null)
@@ -54,6 +52,7 @@ export default function Calendar() {
 	const calendarFooter ={
 		start: 'englishTranslation spanishTranslation',
 		center: '',
+		// ↓ We can change these button to do whatever we want ↓ 
 		end: 'dayGridMonth,timeGridWeek,timeGridDay'
 	}
 
@@ -65,7 +64,6 @@ export default function Calendar() {
 				.then(res => res.json())
 
 			setEvents(fetchedData.data)
-			console.log(fetchedData.data)
 		}
 
 		fetchData()
@@ -79,7 +77,7 @@ export default function Calendar() {
 		// it HAD to be stored as UTC, I should learn to read!
 		// It screwed everything up, its done now. !!HALLELUJAH!!
     const clickedDate = new Date(date);
-    const currentSelectedEvent = events.filter(festival => {
+    const currentSelectedEvents = events.filter(festival => {
 			const startDate = new Date(festival.start);
 			const endDate = new Date(festival.end);
 			// Extract the day parts of the dates
@@ -92,11 +90,10 @@ export default function Calendar() {
 			return false;
     });
 
-    setDayData(currentSelectedEvent);
+    setDayData(currentSelectedEvents);
 	};
 
 	const handleDateClick = async (arg) => {
-		console.log(arg)
 		setSelectedDay(arg.start)
 		await findData(arg.start)
 	}
@@ -106,7 +103,6 @@ export default function Calendar() {
 			<div className={styles.calendar}>
 				{ events ? 
 					<FullCalendar
-						ref={calendar}
 						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
 						initialView='dayGridMonth'
 						events={events}

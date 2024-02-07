@@ -1,35 +1,38 @@
 "use client"
 
 import { useRef, useEffect, useState } from 'react'
-import flatpickr from "flatpickr";
+import flatpickr from "flatpickr"
 
 import styles from './EventForm.module.css'
 // We can change the theme
-import 'flatpickr/dist/themes/light.css';
-// import 'flatpickr/dist/l10n/default';
+import 'flatpickr/dist/themes/light.css'
+// import 'flatpickr/dist/l10n/default'
 import Error from '@components/overlays/Error'
 import Loading from '@components/overlays/Loading'
 
+/* -------------------------------------------------------------------------- */
+/*                           flatpickr Documentation                          */
+/* ------------ flatPickr docs https://flatpickr.js.org/examples/ ----------- */
+/* -------------------------------------------------------------------------- */
 
 export default function EventForm({ params }) {
-  const { formData, setFormData, requestMethod, eventId } = params;
+  const { formData, setFormData, requestMethod, eventId } = params
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
   /* --------------------------- Date picking logic --------------------------- */
-  // flatPickr docs https://flatpickr.js.org/examples/
-  // Yes, everything in the lines are JUST for setting the date with flatpickr,
+  // Yes, everything in the comment lines are JUST for setting the date with flatpickr,
   // I did this VERY poorly but its working so DON'T TOUCH IT. I've already wasted 9 hours on this
   // It works... PLEASE DON'T TOUCH!
 
   // Start Times
-  const [startFlatpickrCalendarInstance, setStartFlatpickrCalendarInstance] = useState(null);
-  const [startFlatpickrTimeInstance, setStartFlatpickrTimeInstance] = useState(null);
+  const [startFlatpickrCalendarInstance, setStartFlatpickrCalendarInstance] = useState(null)
+  const [startFlatpickrTimeInstance, setStartFlatpickrTimeInstance] = useState(null)
   const startDatePicker = useRef()
   const startTimePicker = useRef()
   // End Times
-  const [endFlatpickrCalendarInstance, setEndFlatpickrCalendarInstance] = useState(null);
-  const [endFlatpickrTimeInstance, setEndFlatpickrTimeInstance] = useState(null);
+  const [endFlatpickrCalendarInstance, setEndFlatpickrCalendarInstance] = useState(null)
+  const [endFlatpickrTimeInstance, setEndFlatpickrTimeInstance] = useState(null)
   const endDatePicker = useRef()
   const endTimePicker = useRef()
 
@@ -37,25 +40,25 @@ export default function EventForm({ params }) {
   function combineDateAndTime(dateInput, timeInput) {
     try {
       // Check if either dateInput or timeInput is undefined
-      if (!dateInput || !timeInput) return null; // Return null if either input is undefined
+      if (!dateInput || !timeInput) return null
       // Parse date input
-      const dateParts = dateInput.split('-');
-      const year = parseInt(dateParts[0]);
-      const month = parseInt(dateParts[1]) - 1; // Months are zero-indexed in JavaScript
-      const day = parseInt(dateParts[2]);
+      const dateParts = dateInput.split('-')
+      const year = parseInt(dateParts[0])
+      const month = parseInt(dateParts[1]) - 1 // Months are zero-indexed in JavaScript
+      const day = parseInt(dateParts[2])
       
       // Parse time input
-      const timeParts = timeInput.split(':');
-      const hours = parseInt(timeParts[0]);
-      const minutes = parseInt(timeParts[1]);
+      const timeParts = timeInput.split(':')
+      const hours = parseInt(timeParts[0])
+      const minutes = parseInt(timeParts[1])
       
       // Create a Date object with the combined date and time
-      const combinedDateTime = new Date(year, month, day, hours, minutes);
+      const combinedDateTime = new Date(year, month, day, hours, minutes)
       
       // Format the date and time as ISO8601 string with MST offset
       const isoString = combinedDateTime.toISOString()
 
-      return isoString;
+      return isoString
     } catch (err) {
       setError(err.message)
     }
@@ -67,7 +70,7 @@ export default function EventForm({ params }) {
       ...prevFormData,
       start: dateAndTime
     }))
-  };
+  }
 
   // Update "end" field in formDate from flatpickr
   const onEndChange = (dateAndTime) => {
@@ -75,7 +78,7 @@ export default function EventForm({ params }) {
       ...prevFormData,
       end: dateAndTime
     }))
-  };
+  }
 
   const flatpickrCalendarOptions = {
     minDate: 'today',
@@ -94,9 +97,9 @@ export default function EventForm({ params }) {
     // Starting date picker
     if (startDatePicker.current) {
       if (startFlatpickrCalendarInstance) {
-        startFlatpickrCalendarInstance.setDate(formData.start, true);
+        startFlatpickrCalendarInstance.setDate(formData.start, true)
       }
-      const fp = flatpickr(startDatePicker.current, flatpickrCalendarOptions);
+      const fp = flatpickr(startDatePicker.current, flatpickrCalendarOptions)
       setStartFlatpickrCalendarInstance(fp)
     }
 
@@ -109,23 +112,23 @@ export default function EventForm({ params }) {
       const fp = flatpickr(startTimePicker.current, {
         ...flatpickrTimeOptions, 
         onClose: onStartChange(combineDateAndTime(startDatePicker.current.value, startTimePicker.current.value)) 
-      });
+      })
       setStartFlatpickrTimeInstance(fp)
     }
 
     // Ending date picker
     if (endDatePicker.current) { 
       if (endFlatpickrCalendarInstance) {
-        endFlatpickrCalendarInstance.setDate(formData.end, true);
+        endFlatpickrCalendarInstance.setDate(formData.end, true)
       }
 
-      const minEndDate = formData.start ? new Date(formData.start) : 'today';
+      const minEndDate = formData.start ? new Date(formData.start) : 'today'
 
       const fp = flatpickr(endDatePicker.current, {
         ...flatpickrCalendarOptions, 
         minDate: minEndDate,
         onClose: onEndChange(combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value))
-      });
+      })
       setEndFlatpickrCalendarInstance(fp)
     }
 
@@ -138,45 +141,55 @@ export default function EventForm({ params }) {
       const fp = flatpickr(endTimePicker.current, { 
         ...flatpickrTimeOptions,
         onClose: onEndChange(combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value))
-      });
+      })
       setEndFlatpickrTimeInstance(fp)
     }
 
-    console.table(formData)
-  }, [formData.start, formData.end, error]);
+  }, [formData.start, formData.end])
 
   /* ------------------------------ REST OF FORM ------------------------------ */
 
   const updateForm = (event) => {
-    const { id, value } = event.target;
+    const { id, value } = event.target
   
     setFormData((prevFormData) => ({
       ...prevFormData,
       [id]: value,
-    }));
-  };
+    }))
+  }
 
   const resetForm = () => {
     setFormData({})
     if (startFlatpickrCalendarInstance) {
-      startFlatpickrCalendarInstance.input.value = "";
+      startFlatpickrCalendarInstance.input.value = ""
     }
     if (endFlatpickrCalendarInstance) {
-      endFlatpickrCalendarInstance.input.value = "";
+      endFlatpickrCalendarInstance.input.value = ""
     }
     if (startFlatpickrTimeInstance) {
-      startFlatpickrTimeInstance.input.value = "";
+      startFlatpickrTimeInstance.input.value = ""
     }
     if (endFlatpickrTimeInstance) {
-      endFlatpickrTimeInstance.input.value = "";
+      endFlatpickrTimeInstance.input.value = ""
     }
   }
   
   const submitForm = async (event) => {
-    event.preventDefault();
-    setLoading(true)
+    event.preventDefault()
     const startingDate = combineDateAndTime(startDatePicker.current.value, startTimePicker.current.value)
     const endingDate = combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value)
+    
+    if (!startingDate) {
+      setError("Start Date and Start Time must be defined")
+      return
+    }
+    
+    if (!endingDate) {
+      setError("End Date and End Time must be defined")
+      return
+    }
+    
+    setLoading(true)
 
     try {
       if (startingDate >= endingDate) {
@@ -217,21 +230,24 @@ export default function EventForm({ params }) {
         })
       })
       
-      const responseData = await response.json();
+      const responseData = await response.json()
 
       if (responseData.success) {
         resetForm()
+        // I want to make a success component, alert freezes the window 
+        // alert(`Successfully make event titled: ${responseData.data.title}`)
       } else { 
-        setError('Failed to submit the form')
-        throw new Error(`Event API failed to parse request code: ${response.status}`);
+        setError(`Failed to submit the form ${responseData.errorMessage}`)
+        throw new Error(`Event API failed to parse request. Status code: ${response.status}`)
       }
 
     } catch (error) {
-      console.error('Error submitting the form:', error.message);
+      console.error('Error submitting the form:', error.message)
+      // setError(`Failed to submit the form ${error.message}`)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
   
   return (
     <>
@@ -240,13 +256,12 @@ export default function EventForm({ params }) {
       <form onSubmit={event => submitForm(event)} className={styles.form}>
         {/* Start Dates */}
         <fieldset className={styles.fieldset}>
-          <legend className={styles.legend}>Start date</legend>
+          <legend className={styles.legend}>Event Start</legend>
           <div className={styles.formGroup}>
             <label htmlFor="date">Date:</label>
             <input
               type="text"
               ref={startDatePicker}
-              onClick={() => console.log(startDatePicker.current.value)}
               placeholder="Select Date"
               required
             />
@@ -263,7 +278,7 @@ export default function EventForm({ params }) {
         </fieldset>
         {/* End Dates */}
         <fieldset className={styles.fieldset}>
-          <legend className={styles.legend}>End date</legend>
+          <legend className={styles.legend}>Event End</legend>
           <div className={styles.formGroup}>
             <label htmlFor="date">Date:</label>
             <input
@@ -323,9 +338,10 @@ export default function EventForm({ params }) {
               required
             />
           </div>
+          {/* We might not implement adding images to events */}
           <div className={styles.formGroup}>
             <label htmlFor="banner">Banner:</label>
-            <p>will add later</p>
+            <p>will add later, maybe</p>
             {/* <input 
               id="banner" 
               type="file" 
