@@ -10,6 +10,10 @@ export const POST = async (request) => {
 
         if (!existingVendor) throw new Error('Vendor does not exist')
 
+        const existingAcceptedVendor = await AcceptedVendor.findOne({ id: id })
+
+        if (existingAcceptedVendor) throw new Error('Vendor has already been accepted')
+
         const newAcceptedVendor = await AcceptedVendor.create({
             name,
             id
@@ -39,7 +43,7 @@ export const DELETE = async (request) => {
     const vendorId = searchParams.get('vendorId')
 
     try{
-        const existingVendor = await AcceptedVendor.find({ id: vendorId })
+        const existingVendor = await AcceptedVendor.findOne({ id: vendorId })
 
         if (!existingVendor) throw new Error('Vendor does not exist or has not been accepted')
 

@@ -6,7 +6,7 @@ import Logo from '@/public/Logo';
 
 const Hero = () => (
   <div className="hero my-5 text-center" data-testid="hero">
-    <Logo width="340" height="340" testId="hero-logo" />
+    <Logo scale="340" testId="hero-logo" />
     <h1 className="mb-4" data-testid="hero-title">
       Cultural Art Committee of Nogales Arizona
     </h1>

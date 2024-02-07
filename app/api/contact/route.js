@@ -1,4 +1,3 @@
-// pages/api/contact.js
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv'

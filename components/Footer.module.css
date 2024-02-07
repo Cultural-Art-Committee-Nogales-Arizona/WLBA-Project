@@ -4,7 +4,7 @@
     padding: 3px;
     color: whitesmoke;
 
-    height: 50vh;
+    min-height: 250px !important;
 
     display: grid;
     grid-template-columns: auto;
