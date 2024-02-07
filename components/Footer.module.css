@@ -3,4 +3,32 @@
     text-align: center;
     padding: 3px;
     color: whitesmoke;
+
+    display: grid;
+    grid-template-columns: auto;
+    
+    justify-content: center;
+    align-items: center;
+}
+
+.navLinks{
+    width: 500px;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-evenly;
+
+    text-decoration: none;
+
+    color: black;
+}
+
+.copyright{
+    color: black;
+}
+
+.link{
+    text-decoration: none;
+    color: black;
 }

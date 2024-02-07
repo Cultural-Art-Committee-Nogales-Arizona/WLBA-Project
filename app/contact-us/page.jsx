@@ -20,7 +20,7 @@ export default function Contact() {
                         <option value="Other" />
                     </datalist>
                     <label for="ci">Comments / Inqueires </label><br />
-                    <textarea name="message" id="ci" rows="5" cols="60" className={styles.Input} placeholder="This website is amazing"/><br />
+                    <textarea name="message" id="ci" rows="5" cols="50" className={styles.Input} placeholder="This website is amazing"/><br />
 
                     <button className={styles.submit}>Submit</button>
                 </fieldset>

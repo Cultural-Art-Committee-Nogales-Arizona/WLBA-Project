@@ -4,13 +4,27 @@ import styles from './Footer.module.css'
 
 const Footer = () => (
   <footer className={styles.footer} data-testid="footer">
-    <div className="logo" data-testid="footer-logo" />
-    <p data-testid="footer-text">
-      user authentication provided by <a href="https://auth0.com">Auth0</a>
-    </p>
-    <PageLink href="/contact-us" className="nav-link" testId="navbar-ssr">
+    <h2>Cultural Arts</h2>
+    <div className={styles.navLinks}>
+      <p>Home</p>
+      <p>About Us</p>
+      <p>Gallery</p>
+      <p>Events</p>
+    </div>
+    <div className={styles.navLinks}>
+      <p>Facebook</p>
+      <p>|</p>
+      <PageLink href="/contact-us" className={styles.link} testId="navbar-ssr">
       <span >Contact Us</span>
-    </PageLink>
+      </PageLink>
+      <p>|</p>
+      <p>Volunteer</p>
+    </div>
+    <div className={styles.copyright}>
+      <p>Nogales, Arizona 85621</p>
+      <p>©Cultural Arts Committee of Nogales Arizona </p>
+    </div>
+    
   </footer>
 );
 
