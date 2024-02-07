@@ -4,6 +4,8 @@
     padding: 3px;
     color: whitesmoke;
 
+    height: 50vh;
+
     display: grid;
     grid-template-columns: auto;
     
