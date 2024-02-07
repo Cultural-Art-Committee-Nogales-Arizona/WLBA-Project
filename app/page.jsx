@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react';
 
 import Hero from '@/components/Hero';
-import Content from '@/components/Content';
-import Footer from '@/components/Footer';
 import Loading from '@/components/overlays/Loading';
 
 export default function Index() {
@@ -34,6 +32,7 @@ export default function Index() {
 
   return (
     <>
+      <Hero />
       <h1>Next Event</h1>
       <hr />
       { nextEvent ? 
@@ -49,9 +48,6 @@ export default function Index() {
         <Loading />
       }
       <hr />
-      <Hero />
-      {/* <Content /> */}
-      {/* <Footer /> */}
     </>
   );
 }

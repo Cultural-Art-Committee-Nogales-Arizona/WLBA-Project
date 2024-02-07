@@ -59,21 +59,17 @@ const NavBar = () => {
                   <span className={styles.link_animation}>Gallery</span>
                 </PageLink>
               </NavItem>
-              {user && (
-                <>
-                  <NavItem>
-                    <PageLink href="/volunteer" className="nav-link" testId="navbar-external">
-                      <span className={styles.link_animation}>Volunteer</span>
-                    </PageLink>
-                  </NavItem>
-                  {/*  Add this as a donate button later */}
-                  {/* <NavItem>
-                    <PageLink href="/stripe" className="nav-link" testId="navbar-stripe">
-                      Stripe Page
-                    </PageLink>
-                  </NavItem> */}
-                </>
-              )}
+              <NavItem>
+                <PageLink href="/volunteer" className="nav-link" testId="navbar-external">
+                  <span className={styles.link_animation}>Volunteer</span>
+                </PageLink>
+              </NavItem>
+              {/*  Add this as a donate button later */}
+              {/* <NavItem>
+                <PageLink href="/stripe" className="nav-link" testId="navbar-stripe">
+                  Stripe Page
+                </PageLink>
+              </NavItem> */}
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isLoading && !user && (

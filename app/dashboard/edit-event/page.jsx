@@ -35,6 +35,18 @@ export default function EditEventPage() {
       .then(res => res.json())
     console.log(response)
   }
+  
+  function returnUnfinishedEvents(events) {
+    return events.filter(event => {
+      const rightNow = new Date()
+
+      const startDate = new Date(event.start)
+      const endDate = new Date(event.end)
+
+      return endDate > rightNow
+    })
+  }
+
 
   useEffect(() => {
 		async function fetchData() {
@@ -58,7 +70,7 @@ export default function EditEventPage() {
           Select Event: 
           <select value={eventId} onChange={(event) => handleDropdownChange(event)}>
             <option value="">Select an event</option>
-            {events.map((event) => (
+            {returnUnfinishedEvents(events).map((event) => (
               <option key={event._id} value={event._id}>
                 {event.title}
               </option>
