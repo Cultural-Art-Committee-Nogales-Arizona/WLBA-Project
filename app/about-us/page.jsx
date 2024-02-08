@@ -14,8 +14,7 @@ export default function aboutUs() {
         className={`${styles.bannerImage} ${styles.transparent}`} 
         src={AboutUsImageone}
         alt={"Banner"}
-        // width={100}
-        height={200}
+        
       />
         <div className={styles.header}>
           <div className={styles.header2}>

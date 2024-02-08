@@ -2,10 +2,10 @@
     /* background-image: url(/public/Images/aboutUs.jpg); */
     background-color:  var(--dark-red);
     text-align: center;
-    color: white;
     width: 100%;
     height: 245px;
     margin-top: .2rem;
+    color: white;
 
 }
 
@@ -13,13 +13,17 @@
     width: 94%;
     height: 200px;
     margin-left: 50px;
+    color: white;
 }
 
 .header3{
-    background-color:#30303087 ;
-    width: 90%;
-    margin-left: 5rem;
+    background-color:#3030305b ;
+    width: 95%;
+    height: 200px;
+    margin-left: 1rem;
+    color: white;
 }
+
 .auc{
     font-size: 40px;
     margin-bottom: 30px;
@@ -30,15 +34,16 @@
 .container {
     position: relative;
     background: url(/public/Images/aboutUs.jpg) no-repeat center center fixed;
-    background-size: cover;  
+    background-size: cover;
+    color: white;  
 }
   
   .bannerImage {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0.5; /* Set the desired opacity value */
-    width: 97%;
+    opacity: 0.2; 
+    width: 94%;
     height: 220px;
     margin-left: 30px;
   }
