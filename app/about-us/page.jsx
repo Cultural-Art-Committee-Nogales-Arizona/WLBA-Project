@@ -10,7 +10,7 @@ export default function aboutUs() {
   return (
     <div>
       <Image
-        className={styles.bannerImage}
+        className={`${styles.bannerImage} ${styles.transparent}`} 
         src={AboutUsImageone}
         alt={"Banner"}
         width={1690}
