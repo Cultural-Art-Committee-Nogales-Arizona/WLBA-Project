@@ -1,5 +1,5 @@
 .header{
-    background-image: url(/public/Images/aboutUs.jpg);
+    /* background-image: url(/public/Images/aboutUs.jpg); */
     background-color: var(--dark-red);
     text-align: center;
     color: white;
@@ -17,7 +17,9 @@
 
 .container {
     position: relative;
-  }
+    background: url(/public/Images/aboutUs.jpg) no-repeat center center fixed;
+    background-size: cover;  
+}
   
   .bannerImage {
     position: absolute;
