@@ -58,15 +58,27 @@ export default function Calendar() {
 	/* -------------------------------------------------------------------------- */
 
 	useEffect(() => {
-		async function fetchData() {
-			const fetchedData = await fetch('api/events/festivals', { method: "GET" })
-				.then(res => res.json())
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-			setEvents(fetchedData.data)
-		}
+    async function fetchData() {
+      try {
+        const fetchedData = await fetch('api/events/festivals', { signal, method: "GET" })
+          .then(res => res.json());
+        setEvents(fetchedData.data);
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          console.log('Fetch aborted');
+        } else {
+          console.error('Error fetching data:', error);
+        }
+      }
+    }
 
-		fetchData()
-	}, [])
+    fetchData();
+
+    return () => controller.abort()
+  }, []);
 
 	const findData = async (date) => {
 		// ! DON'T TOUCH THIS !

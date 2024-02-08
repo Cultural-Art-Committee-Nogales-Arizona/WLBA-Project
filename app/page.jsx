@@ -9,25 +9,37 @@ export default function Index() {
   const [nextEvent, setNextEvent] = useState(null)
   
   useEffect(() => {
+    const controller = new AbortController()
+    const signal = controller.signal;
+
 		async function fetchData() {
-			const eventCall = await fetch('./api/events/festivals?nextEvent=true', { method: "GET" })
-			
-      const fetchedData = await eventCall.json()
-
-      const startDate = new Date(fetchedData.data.start)
-      const endDate = new Date(fetchedData.data.end)
-      
-      const returnedEvent = {
-        ...fetchedData.data,
-        start: startDate.toLocaleDateString(),
-        end: endDate.toLocaleDateString()
+			try {
+        const eventCall = await fetch('./api/events/festivals?nextEvent=true', { signal, method: "GET" });
+        const fetchedData = await eventCall.json();
+        
+        const startDate = new Date(fetchedData.data.start);
+        const endDate = new Date(fetchedData.data.end);
+        
+        const returnedEvent = {
+          ...fetchedData.data,
+          start: startDate.toLocaleDateString(),
+          end: endDate.toLocaleDateString()
+        };
+        
+        console.log(returnedEvent);
+        setNextEvent(returnedEvent);
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          console.log('Fetch aborted');
+        } else {
+          console.error('Error fetching data:', error);
+        }
       }
-      console.log(returnedEvent)
-
-			setNextEvent(returnedEvent)
 		}
 
 		fetchData()
+
+    return () => controller.abort()
 	}, [])
 
   return (

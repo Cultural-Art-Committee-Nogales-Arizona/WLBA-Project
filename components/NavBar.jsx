@@ -31,14 +31,17 @@ const NavBar = () => {
 
   // Fetch custom user data when the component mounts
   useEffect(() => {
+    const controller = new AbortController()
+    const signal = controller.signal
+
     if (user) {
-      console.log(globalUserData)
+      // console.log(globalUserData)
       let name = user.given_name ?? user.name
 
       // Example fetch function to get custom user data
       const fetchCustomUserData = async () => {
         // Perform your fetch to get custom user data
-        const response = await fetch(`/api/user?name=${name}`, { method: 'GET' })
+        const response = await fetch(`/api/user?name=${name}`, { signal, method: 'GET' })
         if (response.ok) {
           const responseData = await response.json()
           updateGlobalUserData(responseData.data)
@@ -49,6 +52,7 @@ const NavBar = () => {
       fetchCustomUserData()
     }
 
+    return () => controller.abort()
   }, [user])
   
   return (

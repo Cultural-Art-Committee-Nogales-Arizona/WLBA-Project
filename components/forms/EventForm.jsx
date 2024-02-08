@@ -27,7 +27,6 @@ export default function EventForm({ params }) {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const { user, isLoading } = useUser();
   console.log(globalUserData)
 
   /* --------------------------- Date picking logic --------------------------- */
@@ -229,7 +228,7 @@ export default function EventForm({ params }) {
       */
       
       /* async function getUserAuthId() {
-        const response = await fetch(`/api/admin?username=${globalUserData.username}`, { method: 'GET' })
+        const response = await fetch(`/api/admin?username=${globalUserData.username}&password=${an input}`, { method: 'GET' })
         const responseData = await response.json()
         console.log(responseData)
       } */
