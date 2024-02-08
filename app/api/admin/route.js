@@ -85,3 +85,32 @@ export const POST = async (request) => {
         })
     }
 }
+
+export const DELETE = async (request) => {
+    const searchParams = request.nextUrl.searchParams
+    const userId = searchParams.get('userId')
+
+    try{
+        const adminExists = await Admin.findOne({ id: userId })
+
+        if(!adminExists) throw new Error('User does not exist or is not an Admin.')
+
+        await Admin.deleteOne({ id: userId })
+
+        return NextResponse.json({
+            success: true,
+            message: `Successfully removed user from admin database`,
+        },
+        { status: 201 }
+        );
+    } catch (err) {
+        return NextResponse.json({
+            success: false,
+            message: `An error occurred deleting admin`,
+            errorMessage: err.message,
+            error: err
+        }, {
+            status: 500
+        })
+    }
+}
