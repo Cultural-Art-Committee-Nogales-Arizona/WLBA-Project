@@ -29,12 +29,12 @@ export const POST = async (request) => {
     const info = await transporter.sendMail(mailOptions);
 
     return NextResponse.json({
-        success: true,
-        message: `Successfully sent email to support team`,
-        data: info.response,
-      },
-      { status: 200 }
-    )
+      success: true,
+      message: `Successfully sent email to support team`,
+      data: info.response,
+    },{ 
+      status: 200 
+    })
   } catch (err) {
     console.error('Error:', err);
     return NextResponse.json({
@@ -42,9 +42,9 @@ export const POST = async (request) => {
       message: `Failed to send email to support team`,
       errorMessage: err.message,
       error: err
-    },
-    { status: 500 }
-  )
+    },{ 
+      status: 500 
+    })
   }
 
 }

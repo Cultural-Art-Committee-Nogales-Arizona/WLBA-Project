@@ -1,13 +1,18 @@
 import Vendor from "@/models/vendors/Vendor";
 import AcceptedVendor from "@/models/vendors/Accepted";
 import { NextResponse } from "next/server";
+import { isAdmin } from "@/utils/routeMethods";
 
 export const GET = async (request) => {
     // Might implement single vendor search in the future
-    // const searchParams = request.nextUrl.searchParams
+    const searchParams = request.nextUrl.searchParams;
+	const adminId = searchParams.get("adminId") || "";
     // const vendorId = searchParams.get('vendorId') || ""
 
     try {
+        // ! Uncomment line when ready to only allow admins
+		// await isAdmin(adminId)
+
         const result = await Vendor.find()
 
         //Checks if vendor's _ids are in the AcceptedVendor collection and gives them the boolean accepted status accordingly
