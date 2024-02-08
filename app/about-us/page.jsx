@@ -3,14 +3,15 @@ import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import styles from "./page.module.css";
 import Highlight from "@/components/Highlight";
 import Image from 'next/image'
-import AboutUsImage from '@/public/Images/president.jpg'
+import AboutUsImageone from '@/public/Images/aboutUs.jpg'
+import AboutUsImagetwo from '@/public/Images/president.jpg'
 
 export default function aboutUs() {
   return (
     <div>
       <Image
         className={styles.bannerImage} 
-        src={AboutUsImage}
+        src={AboutUsImageone}
         alt={"Banner"}
         width={1690}
         height={300}
@@ -77,7 +78,7 @@ export default function aboutUs() {
             <Image
               width={300}
               height={150}
-              src={AboutUsImage}
+              src={AboutUsImagetwo}
               alt={"text"}
             />
 
