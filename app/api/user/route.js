@@ -1,4 +1,5 @@
 import User from "@/models/users/User";
+import Admin from "@/models/users/Admins";
 import { NextResponse } from 'next/server'
 import { isAdmin } from "@/utils/routeMethods";
 
@@ -123,13 +124,15 @@ export const DELETE = async (request) => {
         // ! Uncomment line when ready to only allow admins
 		// await isAdmin(adminId)
 
-        if (!userId) throw new Error("No userId query defined, you must append ?userId=DocumentIdOfUser")
+        if (!userId) throw new Error("No userId query defined, you must append ?userId=DocumentIdOfUser to URL")
 
         const existingUser = await User.findById(userId)
 
         if(!existingUser) throw new Error(`User with _id: ${userId} does not exist`)
 
         await User.findByIdAndDelete(userId)
+
+        await Admin.findOneAndDelete({ user: userId })
 
         return NextResponse.json({
             success: true,
