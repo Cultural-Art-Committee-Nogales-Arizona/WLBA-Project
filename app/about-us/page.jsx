@@ -5,7 +5,7 @@ import Highlight from "@/components/Highlight";
 
 export default function aboutUs() {
   return (
-    <>
+    <div>
       <div className={styles.header} >
         <div className={styles.auc}>About us</div>
         Established in 2014 as a non-profit organization, the Cultural Arts
@@ -20,6 +20,6 @@ export default function aboutUs() {
         General of Mexico, and local business leaders, helps steer the ship.
         We're all about supporting and celebrating our community.
       </div>
-    </>
+    </div>
   );
 }
