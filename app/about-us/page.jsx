@@ -2,7 +2,6 @@ import React from "react";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import styles from "./page.module.css";
 import Highlight from "@/components/Highlight";
-import Image from 'next/image'
 
 export default function aboutUs() {
   return (

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import PageLink from '@components/PageLink'
 
 import styles from './page.module.css'
@@ -46,7 +46,7 @@ export default function EditEventPage() {
     try {
       const response = await fetch(`../api/events/festivals?festivalId=${formData._id}`, { signal, method: 'DELETE' })
       const data = await response.json()
-
+      console.log(data)
       // Handle response data as needed
     } catch (error) {
       if (error.name === 'AbortError') {
@@ -65,7 +65,7 @@ export default function EditEventPage() {
     return events.filter(event => {
       const rightNow = new Date()
 
-      const startDate = new Date(event.start)
+      // const startDate = new Date(event.start)
       const endDate = new Date(event.end)
 
       return endDate > rightNow
@@ -74,8 +74,11 @@ export default function EditEventPage() {
 
 
   useEffect(() => {
+    const controller = new AbortController()
+    const signal = controller.signal
+
 		async function fetchData() {
-			const fetchedData = await fetch('../api/events/festivals', { method: "GET" })
+			const fetchedData = await fetch('../api/events/festivals', { signal, method: "GET" })
 				.then(res => res.json())
 
 			setEvents(fetchedData.data)
@@ -83,6 +86,8 @@ export default function EditEventPage() {
 		}
 
 		fetchData()
+
+    return () => controller.abort()
 	}, [eventId])
 
   return (
