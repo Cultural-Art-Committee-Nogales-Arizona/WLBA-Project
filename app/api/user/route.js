@@ -4,14 +4,14 @@ import { isAdmin } from "@/utils/routeMethods";
 
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams
-    const userId = searchParams.get('userId') || ""
+    const name = searchParams.get('name') || ""
 
     try{
-        if (!userId) throw new Error("No userId query defined, you must append ?userId=DocumentIdOfUser to URL")
+        if (!name) throw new Error("No name query defined, you must append ?name= to URL")
 
-        const user = await User.findById(userId)
+        const user = await User.findOne({ username: name })
 
-        if(!user) throw new Error(`No such user exists with _id: ${userId}`)
+        if(!user) throw new Error(`No such user exists with name: ${name}`)
 
         return NextResponse.json({
             success: true,

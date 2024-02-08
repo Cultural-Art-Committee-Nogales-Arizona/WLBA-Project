@@ -1,7 +1,9 @@
 "use client"
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useContext } from 'react'
 import flatpickr from "flatpickr"
+
+import { useUser } from '@auth0/nextjs-auth0/client'
 
 import styles from './EventForm.module.css'
 // We can change the theme
@@ -10,15 +12,23 @@ import 'flatpickr/dist/themes/light.css'
 import Error from '@components/overlays/Error'
 import Loading from '@components/overlays/Loading'
 
+import CustomUserContext from '@components/GlobalUserContext'; 
+
 /* -------------------------------------------------------------------------- */
 /*                           flatpickr Documentation                          */
 /* ------------ flatPickr docs https://flatpickr.js.org/examples/ ----------- */
 /* -------------------------------------------------------------------------- */
 
 export default function EventForm({ params }) {
+  // Get user to see if they can post to form
+  const { globalUserData, updateGlobalUserData } = useContext(CustomUserContext)
+
   const { formData, setFormData, requestMethod, eventId } = params
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  const { user, isLoading } = useUser();
+  console.log(globalUserData)
 
   /* --------------------------- Date picking logic --------------------------- */
   // Yes, everything in the comment lines are JUST for setting the date with flatpickr,
@@ -179,6 +189,7 @@ export default function EventForm({ params }) {
     const startingDate = combineDateAndTime(startDatePicker.current.value, startTimePicker.current.value)
     const endingDate = combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value)
     
+    // Logic to disallow broken times
     if (!startingDate) {
       setError("Start Date and Start Time must be defined")
       return
@@ -189,14 +200,14 @@ export default function EventForm({ params }) {
       return
     }
     
+    if (startingDate >= endingDate) {
+      setError("Start date must happen before End date")
+      return
+    }
+
     setLoading(true)
 
     try {
-      if (startingDate >= endingDate) {
-        setError("Start date must happen before End date")
-        return
-      }
-
       const confirmEvent = prompt(`
         Confirm information\n
         Title: ${formData.title}\n
@@ -211,6 +222,19 @@ export default function EventForm({ params }) {
         alert("Canceled form submission") 
         return
       } 
+      /*
+        TODO: This needs to be fixed so that it calls an API route that is password protected. 
+        otherwise everyone has the userAuthId or none does.
+        the GET requests all have just query's that are either public or easy to guess 
+      */
+      
+      /* async function getUserAuthId() {
+        const response = await fetch(`/api/admin?username=${globalUserData.username}`, { method: 'GET' })
+        const responseData = await response.json()
+        console.log(responseData)
+      } */
+      /* getUserAuthId()
+      return */
       
       let API_Route = '/api/events/festivals'
       if (eventId) API_Route += `?festivalId=${eventId}`
@@ -252,7 +276,7 @@ export default function EventForm({ params }) {
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
-      { loading ? <Loading scale={150} /> :
+      { loading || isLoading ? <Loading scale={150} /> :
       <form onSubmit={event => submitForm(event)} className={styles.form}>
         {/* Start Dates */}
         <fieldset className={styles.fieldset}>

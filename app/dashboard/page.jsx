@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
@@ -8,15 +8,19 @@ import Loading from '@components/overlays/Loading';
 import ErrorMessage from '@components/overlays/ErrorMessage';
 import Highlight from '@/components/Highlight';
 
+import CustomUserContext from '@components/GlobalUserContext'; 
+
 import PageLink from '@/components/PageLink';
 
 function Profile() {
+  const { globalUserData, updateGlobalUserData } = useContext(CustomUserContext)
   const { user, isLoading } = useUser();
 
   return (
     <>
       {isLoading && <Loading />}
       {/* Temporary link */}
+      {globalUserData ? <h1>{globalUserData.username}</h1> : null}
       <PageLink href="/dashboard/create-event" className="nav-link" testId="navbar-home">
         <span>Create Event Form</span>
       </PageLink>

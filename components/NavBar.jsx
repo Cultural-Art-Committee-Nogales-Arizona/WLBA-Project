@@ -1,6 +1,6 @@
-'use  client';
+'use  client'
 
-import React, { useState } from 'react';
+import { useState, useEffect, useContext } from 'react'
 import {
   Collapse,
   Container,
@@ -13,20 +13,43 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from 'reactstrap';
-import { useUser } from '@auth0/nextjs-auth0/client';
+} from 'reactstrap'
+import { useUser } from '@auth0/nextjs-auth0/client'
 import WhiteLogo from '@/public/whiteLogo'
-
+import CustomUserContext from './GlobalUserContext'; 
 
 import styles from './NavBar.module.css'
 
-import PageLink from './PageLink';
-import AnchorLink from './AnchorLink';
+import PageLink from './PageLink'
+import AnchorLink from './AnchorLink'
 
 const NavBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { user, isLoading } = useUser();
-  const toggle = () => setIsOpen(!isOpen);
+  const { globalUserData, updateGlobalUserData } = useContext(CustomUserContext)
+  const [isOpen, setIsOpen] = useState(false)
+  const { user, isLoading } = useUser()
+  const toggle = () => setIsOpen(!isOpen)
+
+  // Fetch custom user data when the component mounts
+  useEffect(() => {
+    if (user) {
+      console.log(globalUserData)
+      let name = user.given_name ?? user.name
+
+      // Example fetch function to get custom user data
+      const fetchCustomUserData = async () => {
+        // Perform your fetch to get custom user data
+        const response = await fetch(`/api/user?name=${name}`, { method: 'GET' })
+        if (response.ok) {
+          const responseData = await response.json()
+          updateGlobalUserData(responseData.data)
+          console.log(responseData)
+        }
+      }
+
+      fetchCustomUserData()
+    }
+
+  }, [user])
   
   return (
     <div className="nav-container" data-testid="navbar" >
@@ -166,7 +189,7 @@ const NavBar = () => {
         </Container>
       </Navbar>
     </div>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar
