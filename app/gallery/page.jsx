@@ -2,16 +2,13 @@
 
 import React from 'react';
 
-import Hero from '../../components/Hero';
-import Content from '../../components/Content';
+import Gallery from '@/components/Gallery';
 
-export default function Gallery() {
+export default function GalleryPage() {
   return (
     <>
       <h1>This is the Gallery page</h1>
-      <Hero />
-      <hr />
-      <Content />
+      <Gallery />
     </>
   );
 }
