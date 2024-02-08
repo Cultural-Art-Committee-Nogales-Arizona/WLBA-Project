@@ -83,8 +83,8 @@ export default function aboutUs() {
           <div className={styles.child1}>
             <div>
               <Image
-                width={330}
-                height={248}
+                width={370}
+                height={300}
                 src={AboutUsImagetwo}
                 alt={"text"}
               />
@@ -119,8 +119,8 @@ export default function aboutUs() {
 
             <div>
               <Image
-                width={330}
-                height={248}
+                width={370}
+                height={307}
                 src={AboutUsImagetwo}
                 alt={"text"}
               />
