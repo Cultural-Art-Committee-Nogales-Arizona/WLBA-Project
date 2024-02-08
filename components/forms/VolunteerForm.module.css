@@ -1,0 +1,50 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: fit-content;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  border: 4px solid var(--dark-red);
+  padding: 10px
+}
+
+
+.formGroup {
+  display: flex;
+  justify-content: space-between;
+  border: solid 2px var(--blue-accent);
+  border-radius: 5px;
+  margin: 5px;
+  font-size: x-large
+}
+
+.formGroup > input {
+  width: 300px;
+}
+
+.textArea {
+  resize: vertical;
+  width: 300px;
+  min-height: 44px;
+  height: 44px;
+}
+
+.fieldset {
+  border: 2px solid var(--bright-orange);
+  border-radius: 5px;
+  padding: 10px; 
+  width: 100%;
+}
+
+.legend {
+  width: fit-content;
+}
+
+.submit {
+  width: 150px;
+  font-size: 20px;
+  margin-top: 10px;
+}
