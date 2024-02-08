@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import React, { createContext, useEffect, useState } from 'react';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 
-// import { CustomUserProvider } from '@components/GlobalUserContext'; // Update the path accordingly
+import { CustomUserProvider } from '@components/GlobalUserContext'; // Update the path accordingly
 
 export default function RootLayout({ children }) {
 /*   const CustomUserContext = createContext();

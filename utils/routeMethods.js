@@ -1,8 +1,8 @@
-// const bcrypt = require('bcryptjs') 
-
 /* -------------------------------------------------------------------------- */
 /*     All of the commented out function are for if we decide to use them     */
 /* -------------------------------------------------------------------------- */
+
+import bcrypt from 'bcryptjs'
 
 /* ----------------------------- MongoDB Schemas ---------------------------- */
 
@@ -128,24 +128,18 @@ function generateUserAuthID() {
 
 /* -------------------- Hash password on account creation ------------------- */
 
-/* async function hashPassword(password) {
-  try {
-    // Generate a salt
-    const salt = await bcrypt.genSalt(10)
+async function hashPassword(password) {
+  const salt = await bcrypt.genSalt(10)
 
-    // Hash the password using the generated salt
-    const hashedPassword = await bcrypt.hash(password, salt)
+  // Hash the password using the generated salt
+  const hashedPassword = await bcrypt.hash(password, salt)
 
-    return hashedPassword
-  } catch (err) {
-    throw err
-  }
-} */
+  return hashedPassword
+}
 
 /* -------------------------------------------------------------------------- */
 
 // countVotes, 
 // isDuplicate, 
 // getUserWithID, 
-export { generateUserAuthID, isAdmin }
-// hashPassword
+export { generateUserAuthID, isAdmin, hashPassword }
