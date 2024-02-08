@@ -73,8 +73,8 @@
     border: solid black 1px;
 
     width: 70%;
-    height: 450px;
-    margin: 10%;
+    height: 502px;
+    margin: 7%;
 
     display: flex;
     flex-direction: column;
@@ -104,6 +104,22 @@
 
 .child2{
     border: solid black 1px;
+    
     width: 100%;
     height: 30vh;
+
+    font-size: smaller;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+
+    background-color: var(--primary-color);
+}
+
+.child2 p {
+    padding: 2%;
+    color: whitesmoke;
+    text-align: center;
 }
