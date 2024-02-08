@@ -15,7 +15,18 @@
     width: 100%;
 }
 
-.bod{
+
+/*=================================*/
+.godfather{
+    display: flex;
+
+    width: 100%;
+    height: 90vh;
+}
+
+
+/* =================================*/
+.container1{
     width: 20%;
     height: 70vh;
 
@@ -38,4 +49,37 @@
 
 .li{
     margin-right: 5%;
+}
+
+
+/* =============================== */
+.container2{
+    border: solid black 1px;
+
+    width: 70%;
+    height: 450px;
+    margin: 10%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.child1{
+    border: solid black 1px;
+
+    width: 100%;
+    height: 30vh;
+
+    font-size: smaller;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+}
+
+.child2{
+    border: solid black 1px;
+    width: 100%;
+    height: 30vh;
 }
