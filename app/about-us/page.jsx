@@ -10,7 +10,7 @@ export default function aboutUs() {
   return (
     <div>
       <Image
-        className={styles.bannerImage} 
+        className={styles.bannerImage}
         src={AboutUsImageone}
         alt={"Banner"}
         width={1690}
@@ -75,12 +75,14 @@ export default function aboutUs() {
 
         <div className={styles.container2}>
           <div className={styles.child1}>
-            <Image
-              width={300}
-              height={150}
-              src={AboutUsImagetwo}
-              alt={"text"}
-            />
+            <div>
+              <Image
+                width={330}
+                height={248}
+                src={AboutUsImagetwo}
+                alt={"text"}
+              />
+            </div>
 
             <p>
               Esther Melendez-Lopez, seeking re-election to the Nogales City Council, emphasizes her commitment to cultural events,
