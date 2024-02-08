@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-const userDB = require('@/connections/blogDB')
+const userDB = require('@/connections/userDB')
 require('dotenv').config()
 
 let adminSchema = new Schema({
@@ -14,7 +14,7 @@ let adminSchema = new Schema({
     required: true
   },
   user: {
-    type: mongoose.Schema.Types.objectId,
+    type: Schema.Types.ObjectId,
     ref: 'Users',
     unique: true,
     required: true

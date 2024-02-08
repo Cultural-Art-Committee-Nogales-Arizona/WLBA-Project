@@ -1,10 +1,14 @@
-const bcrypt = require('bcryptjs') 
+// const bcrypt = require('bcryptjs') 
+
+/* -------------------------------------------------------------------------- */
+/*     All of the commented out function are for if we decide to use them     */
+/* -------------------------------------------------------------------------- */
 
 /* ----------------------------- MongoDB Schemas ---------------------------- */
 
-const Festival = require('@/models/events/Festivals')
-const User = require('@/models/users/User')
-const Admin = require('@/models/users/Admin')
+// import Festival from '../models/events/Festivals'
+// import User from '@/models/users/User'
+import Admin  from '@/models/users/Admins'
 
 /* ------------------------------- Count votes ------------------------------ */
 
@@ -80,18 +84,26 @@ const Admin = require('@/models/users/Admin')
 
 /* ---------------------- Get a users auth with authID ---------------------- */
 
-async function getUserWithID(userID) {
+/* async function getUserWithID(userID) {
   const user = await User.findOne({ userAuthID: userID })
   if (!user) throw new Error(`User with userAuthID: ${userID} has not been found`)
   return user
-}
+} */
 
 /* ------------------------ Get a users _id with name ----------------------- */
 
-async function getIdWithName(name) {
+/* async function getIdWithName(name) {
   const user = await User.findOne({ username: name })
   if (!user) throw new Error(`User with username: ${name} not found`)
   return user._id
+} */
+
+/* ------------------- Will throw an error if not an admin ------------------ */
+
+async function isAdmin(userAuthId) {
+  const user = await Admin.findOne({ userAuthId: userAuthId })
+  if (!user) throw new Error(`User not an admin and not allowed to preform call`)
+  return true
 }
 
 /* ----------------- Generate userAuthID on account creation ---------------- */
@@ -132,11 +144,8 @@ function generateUserAuthID() {
 
 /* -------------------------------------------------------------------------- */
 
-module.exports = { 
-  // countVotes, 
-  // isDuplicate, 
-  getUserWithID, 
-  getIdWithName,
-  generateUserAuthID, 
-  // hashPassword
-}
+// countVotes, 
+// isDuplicate, 
+// getUserWithID, 
+export { generateUserAuthID, isAdmin }
+// hashPassword

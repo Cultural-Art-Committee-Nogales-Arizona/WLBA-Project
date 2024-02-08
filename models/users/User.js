@@ -23,7 +23,7 @@ let userSchema = new Schema({
 const User = userDB.model('User', userSchema)
 
 userDB.once('open', () => {
-    console.log('Connected to blogDB for post')
+  console.log('Connected to userDB for Users')
 })
 
 module.exports = User

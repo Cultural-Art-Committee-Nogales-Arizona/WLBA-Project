@@ -77,8 +77,6 @@ export default function Calendar() {
 		// It screwed everything up, its done now. !!HALLELUJAH!!
 		const clickedDate = new Date(date);
 		const currentSelectedEvents = events.filter(festival => {
-		const clickedDate = new Date(date);
-		const currentSelectedEvents = events.filter(festival => {
 			const startDate = new Date(festival.start);
 			const endDate = new Date(festival.end);
 			// Extract the day parts of the dates
@@ -89,7 +87,6 @@ export default function Calendar() {
 			if (startDay <= clickedDay && clickedDay <= endDay) return true
 
 			return false;
-		});
 		});
 
 		setDayData(currentSelectedEvents);
