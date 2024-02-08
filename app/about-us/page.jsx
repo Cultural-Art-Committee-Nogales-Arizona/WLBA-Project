@@ -2,11 +2,19 @@ import React from "react";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import styles from "./page.module.css";
 import Highlight from "@/components/Highlight";
+import Image from 'next/image'
+import AboutUsImage from '@/public/Images/aboutUs.jpg'
 
 export default function aboutUs() {
   return (
     <div>
-      
+      <Image
+        className={styles.bannerImage} 
+        src={AboutUsImage}
+        alt={"Banner"}
+        width={1690}
+        height={300}
+      />
       <div className={styles.header} >
         <div className={styles.auc}>About us</div>
         Established in 2014 as a non-profit organization, the Cultural Arts
