@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 export default function aboutUs() {
   return (
-    <>
+    <div>
       <div className={styles.header} >
         <Image 
           src={`/Images/aboutUs.jpg`}
@@ -28,6 +28,6 @@ export default function aboutUs() {
         General of Mexico, and local business leaders, helps steer the ship.
         We're all about supporting and celebrating our community.
       </div>
-    </>
+    </div>
   );
 }
