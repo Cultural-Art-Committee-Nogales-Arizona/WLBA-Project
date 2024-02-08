@@ -8,7 +8,13 @@ import AboutUsImage from '@/public/Images/president.jpg'
 export default function aboutUs() {
   return (
     <div>
-
+      <Image
+        className={styles.bannerImage} 
+        src={AboutUsImage}
+        alt={"Banner"}
+        width={1690}
+        height={300}
+      />
       <div className={styles.header} >
         <div className={styles.auc}>About us</div>
         Established in 2014 as a non-profit organization, the Cultural Arts
