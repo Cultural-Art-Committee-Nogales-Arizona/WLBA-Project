@@ -95,7 +95,7 @@
     border: solid black 1px;
 
     width: 70%;
-    height: 502px;
+    height: 612px;
     margin: 7%;
 
     display: flex;
@@ -106,7 +106,7 @@
     border: solid black 1px;
 
     width: 100%;
-    height: 30vh;
+    height: 50vh;
 
     font-size: smaller;
 
@@ -115,11 +115,11 @@
 
     justify-content: space-between;
 
-    background-color: var(--primary-color);
+    background-color: var(--orange-accent);
 }
 
 .child1 p {
-    padding: 2%;
+    padding: 3%;
     color: whitesmoke;
     text-align: center;
 }
@@ -128,7 +128,7 @@
     border: solid black 1px;
     
     width: 100%;
-    height: 30vh;
+    height: 50vh;
 
     font-size: smaller;
 
@@ -137,11 +137,11 @@
 
     justify-content: space-between;
 
-    background-color: var(--primary-color);
+    background-color: var(--orange-accent);
 }
 
 .child2 p {
-    padding: 2%;
+    padding: 4%;
     color: whitesmoke;
     text-align: center;
 }
