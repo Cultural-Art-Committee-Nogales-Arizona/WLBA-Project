@@ -1,18 +1,19 @@
 import React from 'react';
-
-import Logo from '@/public/Logo';
+import Image from "next/image";
+import TitleImg from "@/public/Images/BackgroundImg.jpg";
+import Logo from '@/public/whiteLogo';
+import styles from './Hero.module.css'
 
 const Hero = () => (
   <div className="hero my-5 text-center" data-testid="hero">
     <Logo scale="340" testId="hero-logo" />
-    <h1 className="mb-4" data-testid="hero-title">
-      Cultural Art Committee of Nogales Arizona
-    </h1>
-
-    <p className="lead" data-testid="hero-lead">
-      This is a test application that demonstrates an authentication flow for a Regular Web App, using{' '}
-      <a href="https://nextjs.org">Next.js</a>
-    </p>
+    <Image
+      width={1000}
+      height={500}
+      src={TitleImg}
+      alt={"text"}
+      className={styles.Img}
+    />
   </div>
 );
 
