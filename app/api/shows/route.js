@@ -1,3 +1,4 @@
+// ! Don't change this route, its a default route from Auth0 
 import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { NextResponse } from 'next/server';
 

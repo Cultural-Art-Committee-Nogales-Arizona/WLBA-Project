@@ -1,38 +1,39 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
-import Hero from '@/components/Hero';
-import Loading from '@/components/overlays/Loading';
+import Hero from '@/components/Hero'
+import Loading from '@/components/overlays/Loading'
 
 export default function Index() {
   const [nextEvent, setNextEvent] = useState(null)
   
   useEffect(() => {
     const controller = new AbortController()
-    const signal = controller.signal;
+    const signal = controller.signal
 
 		async function fetchData() {
 			try {
-        const eventCall = await fetch('./api/events/festivals?nextEvent=true', { signal, method: "GET" });
-        const fetchedData = await eventCall.json();
+        const eventCall = await fetch('./api/events/festivals?nextEvent=true', { signal, method: "GET" })
+        const fetchedData = await eventCall.json()
         
-        const startDate = new Date(fetchedData.data.start);
-        const endDate = new Date(fetchedData.data.end);
+        const startDate = new Date(fetchedData.data.start)
+        const endDate = new Date(fetchedData.data.end)
         
         const returnedEvent = {
           ...fetchedData.data,
+          // You can change these Date methods to whatever format you want
           start: startDate.toLocaleDateString(),
           end: endDate.toLocaleDateString()
-        };
+        }
         
-        console.log(returnedEvent);
-        setNextEvent(returnedEvent);
+        console.log(returnedEvent)
+        setNextEvent(returnedEvent)
       } catch (error) {
         if (error.name === 'AbortError') {
-          console.log('Fetch aborted');
+          console.log('Fetch aborted')
         } else {
-          console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error)
         }
       }
 		}
@@ -60,5 +61,5 @@ export default function Index() {
         <Loading scale={200} />
       }
     </>
-  );
+  )
 }

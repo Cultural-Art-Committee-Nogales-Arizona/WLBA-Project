@@ -8,6 +8,7 @@ import styles from './page.module.css'
 import EventForm from '@components/forms/EventForm'
 
 export default function EditEventPage() {
+  const abortControllerRef = useRef(null)
   const requestMethod = 'PUT'
   const [eventId, setEventId] = useState('')
   const [events, setEvents] = useState([])
@@ -29,11 +30,35 @@ export default function EditEventPage() {
 
   const deleteEvent = async (event) => {
     event.preventDefault()
+
+    // If there's an existing request in progress, abort it
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
+    const controller = new AbortController()
+    abortControllerRef.current = controller
+    const signal = controller.signal
+
     const confirmDelete = prompt(`Please confirm deletion of event titled: ${formData.title}\nType "Yes" to confirm`)
-    if (confirmDelete !== "Yes") return 
-    const response = await fetch(`../api/events/festivals?festivalId=${formData._id}`, { method: 'DELETE' })
-      .then(res => res.json())
-    console.log(response)
+    if (confirmDelete !== "Yes") return
+
+    try {
+      const response = await fetch(`../api/events/festivals?festivalId=${formData._id}`, { signal, method: 'DELETE' })
+      const data = await response.json()
+
+      // Handle response data as needed
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        console.log('Fetch aborted')
+      } else {
+        console.error('Error:', error)
+        // Handle other errors as needed
+      }
+    } finally {
+      // Cleanup: Remove the reference to the abort controller
+      abortControllerRef.current = null
+    }
   }
   
   function returnUnfinishedEvents(events) {
