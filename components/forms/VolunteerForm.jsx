@@ -22,11 +22,13 @@ import CustomUserContext from '@components/GlobalUserContext'
 export default function VolunteerForm({ params }) {
   const abortControllerRef = useRef(null)
 
+  const {globalUserData, updateGlobalUserData} = useContext(CustomUserContext)
+
   const { formData, setFormData, requestMethod } = params
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-//   console.log(globalUserData)
+  console.log(globalUserData?._id)
 
   const updateForm = (event) => {
     const { id, value } = event.target
@@ -72,7 +74,10 @@ export default function VolunteerForm({ params }) {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+            ...formData,
+            id: globalUserData?._id
+        })
       })
       
       const responseData = await response.json()
