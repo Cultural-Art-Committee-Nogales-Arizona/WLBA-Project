@@ -7,6 +7,7 @@ import Image from 'next/image'
 export default function aboutUs() {
   return (
     <div>
+      
       <div className={styles.header} >
         <div className={styles.auc}>About us</div>
         Established in 2014 as a non-profit organization, the Cultural Arts
