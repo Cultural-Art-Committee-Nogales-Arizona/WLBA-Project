@@ -15,6 +15,22 @@
     width: 100%;
 }
 
+.container {
+    position: relative;
+  }
+  
+  .bannerImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.5; /* Set the desired opacity value */
+  }
+  
+  .transparent {
+    background-color: transparent; /* Set the background color of the div to transparent */
+  }
+  
+
 
 /*=================================*/
 .godfather{
