@@ -34,25 +34,30 @@ const NavBar = () => {
     const controller = new AbortController()
     const signal = controller.signal
 
-    if (user) {
-      // console.log(globalUserData)
-      let name = user.given_name ?? user.name
+    try {
 
-      // Example fetch function to get custom user data
-      const fetchCustomUserData = async () => {
-        // Perform your fetch to get custom user data
-        const response = await fetch(`/api/user?name=${name}`, { signal, method: 'GET' })
-        if (response.ok) {
-          const responseData = await response.json()
-          updateGlobalUserData(responseData.data)
-          console.log(responseData)
+      if (user) {
+          // console.log(globalUserData)
+        let name = user.given_name ?? user.name
+
+        // Example fetch function to get custom user data
+        const fetchCustomUserData = async () => {
+          // Perform your fetch to get custom user data
+          const response = await fetch(`/api/user?name=${name}`, { signal, method: 'GET' })
+          if (response.ok) {
+            const responseData = await response.json()
+            updateGlobalUserData(responseData.data)
+            console.log(responseData)
+          }
         }
+
+        fetchCustomUserData()
       }
-
-      fetchCustomUserData()
+      
+    } catch (error) {
+      console.error(error)
     }
-
-    return () => controller.abort()
+    
   }, [user])
   
   return (

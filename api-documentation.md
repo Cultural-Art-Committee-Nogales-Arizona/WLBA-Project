@@ -9,7 +9,6 @@ v0.1
   "success": true,
   "message": Success message,
   "data": {Single object} or [{Array of objects},...], //Returned only by GET, POST, and PUT requests
-  "status": 200
 }
 ```
 
@@ -19,8 +18,7 @@ v0.1
   "success": false,
   "message": General error message,
   "errorMessage": Specific message of error encountered,
-  "err": {Error object},
-  "status": 500
+  "err": {Error object}
 }
 ```
 
@@ -28,19 +26,7 @@ v0.1
 
 ## Festivals Route
 
-### Get Festivals
-
-#### Description
-Get either all festivals for display in the dashboard or calendar, or get the closest festival.
-
-#### Endpoint
-`GET https://wlba-project.vercel.app/api/events/festivals`
-
-#### Query Parameters
-- `nextEvent`: If set to "true", it returns only the next event. Otherwise, it returns all events.
-
-#### Data Unit Returned
-Returns either an array of all recorded events or the next event.
+### Festival Data Object
 ```json
 {
   "_id": "MongoDB Document _id", // Object._id
@@ -54,6 +40,20 @@ Returns either an array of all recorded events or the next event.
   "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
 }
 ```
+
+### Get Festivals
+
+#### Description
+Get either all festivals for display in the dashboard or calendar, or get the closest festival.
+
+#### Endpoint
+`GET https://wlba-project.vercel.app/api/events/festivals`
+
+#### Query Parameters
+- `nextEvent`: If set to "true", it returns only the next event. Otherwise, it returns all events.
+
+#### Data Unit Returned
+Returns either an array of all festivals in the database or the next festival.
 
 ### Post Festival
 
@@ -80,19 +80,6 @@ Add a new festival to the database.
 
 #### Data Unit Returned
 Returns the festival which has been created.
-```json
-{
-  "_id": "MongoDB Document _id", // Object._id
-  "title": "Title of the Event", // String
-  "description": "Description of Event", // String
-  "location": "Location in address form", // String 
-  "banner": "Link to image to display with Event", // String to URI in Cloudinary
-  "start": 2024-02-05T19:03:23.291Z, // Start date object in ISO8601 format
-  "end": 2024-03-05T19:03:23.291Z, // End date object in ISO8601 format
-  "createdAt": 2024-03-05T19:03:23.291Z, // Date object in ISO8601 format
-  "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
-}
-```
 
 ### Edit Festival
 
@@ -120,19 +107,6 @@ Edit existing festival information
 
 #### Data Unit Returned
 Returns the edited festival object.
-```json
-{
-  "_id": "MongoDB Document _id", // Object._id
-  "title": "Title of the Event", // String
-  "description": "Description of Event", // String
-  "location": "Location in address form", // String 
-  "banner": "Link to image to display with Event", // String to URI in Cloudinary
-  "start": 2024-02-05T19:03:23.291Z, // Start date object in ISO8601 format
-  "end": 2024-03-05T19:03:23.291Z, // End date object in ISO8601 format
-  "createdAt": 2024-03-05T19:03:23.291Z, // Date object in ISO8601 format
-  "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
-}
-```
 
 ### Delete Festival
 
@@ -148,16 +122,7 @@ Delete existing festival by ID.
 
 ## Volunteers Route
 
-### Get Volunteers
-
-#### Description
-Gets all regisered volunteers
-
-#### Endpoint 
-`GET https://wlba-project.vercel.app/api/events/volunteer`
-
-#### Data Unit Returned
-Returns an array of volunteer objects
+### Volunteer Data Object
 ```json
 {
   "_id": "MongoDB Document _id", // Object._id
@@ -169,6 +134,17 @@ Returns an array of volunteer objects
   "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
 }
 ```
+
+### Get Volunteers
+
+#### Description
+Gets all regisered volunteers
+
+#### Endpoint 
+`GET https://wlba-project.vercel.app/api/events/volunteer`
+
+#### Data Unit Returned
+Returns an array of volunteer objects.
 
 ### Post Volunteer
 
@@ -189,18 +165,7 @@ Registers a person as a volunteer. Phone Number must be unique.
 ```
 
 #### Data Unit Returned
-Returns new volunteer.
-```json
-{
-  "_id": "MongoDB Document _id", // Object._id
-  "name": "Name of the volunteer", // String
-  "phone": "Volunteer's phone number", // String
-  "email": "Volunteer's email", // String 
-  "interest": "Volunteer's volunteering interests", // String
-  "createdAt": 2024-03-05T19:03:23.291Z, // Date object in ISO8601 format
-  "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
-}
-```
+Returns new volunteer object created.
 
 ### Delete Volunteer
 
@@ -211,13 +176,51 @@ Delete existing volunteer by ID.
 `DELETE https://wlba-project.vercel.app/api/events/volunteer`
 
 #### Query Parameters
-- `volunteerId` Database identifier of volunteer to delete.
+- `volunteerId`: Database identifier of volunteer to delete.
 
 ## Vendors Route
 
+### Vendor Data Object
+```json
+{
+  "_id": "MongoDB Document _id", // Object._id
+  "name": "Name of the vendor", // String
+  "description": "Vendor's description", // String
+  "tags": "Vendor's tags", // String
+  "email": "Vendor's email", // String 
+  "user": "MongoDB User _id of user related to the vendor", // Object._id
+  "accepted": "Returned only by GET requests, depends on whether the vendor's database identifier has been accepted", // Boolean
+  "createdAt": "2024-03-05T19:03:23.291Z", // Date object in ISO8601 format
+  "updatedAt": "2024-03-05T19:03:23.291Z" // Date object in ISO8601 format
+}
+```
+
+### Get Vendors
+
+#### Description
+Get a list of all vendors in the database.
+
+#### Endpoint
+`GET https://wlba-project.vercel.app/api/vendor`
+
+#### Query Parameters
+- `adminId`: Admin authentication token to ensure only administrators can look at registered vendors.
+
+#### Data Unit Returned
+Returns all registered vendors.
+
+### Post Vendor
+
+#### Description
+Registers a new vendor.
+
+#### Endpoint
+`POST https://wlba-project.vercel.app/api/vendor`
+
+#### Request Body
+
 # PATHS THAT NEED DOCUMENTATION
 - Vendor
-- `GET https://wlba-project.vercel.app/api/vendor`
 - `POST https://wlba-project.vercel.app/api/vendor`
 - `PUT https://wlba-project.vercel.app/api/vendor`
 - `DELETE https://wlba-project.vercel.app/api/vendor`
