@@ -1,5 +1,6 @@
 .header{
-   /* background-color: var(--dark-red); */
+    background-image:url(/public/Images/aboutUs.jpg);
+   background-color: var(--dark-red);
     text-align: center;
     color: white;
     width: 100%;
@@ -8,6 +9,8 @@
 }
 
 .auc{
+    font-size: 40px;
+    margin-bottom: 50px;
     text-align: center;
     width: 100%;
 }
