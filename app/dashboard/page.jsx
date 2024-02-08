@@ -15,7 +15,7 @@ import PageLink from '@/components/PageLink';
 function Profile() {
   const { globalUserData, updateGlobalUserData } = useContext(CustomUserContext)
   const { user, isLoading } = useUser();
-
+  console.log(globalUserData)
   return (
     <>
       {isLoading && <Loading />}

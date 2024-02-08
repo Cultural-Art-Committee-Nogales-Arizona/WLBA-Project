@@ -1,6 +1,27 @@
+FRONTEND:
+
+Volunteering page:
+- Style page
+
+Spanish support:
+
+- Translate all page text to spanish
+- Implement language toggle logic
+
+User Dashboard:
+- Style page
+- Add admin login
+- Add admin dashboard
+- Add vendor registration
+
+BACKEND:
+
 API
 
+- Create 'isAccepted' function to make accepted vendor verification more modular
 - Add Volunteer Contact Route
+- Fix PUT request on volunteer route
+- Test all volunteer routes
 
 API Documentation
 

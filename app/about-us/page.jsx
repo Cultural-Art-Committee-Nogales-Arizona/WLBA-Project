@@ -5,7 +5,7 @@ import Highlight from "@/components/Highlight";
 import Image from "next/image";
 import AboutUsImageone from "@/public/Images/aboutUs.jpg";
 import AboutUsImagetwo from "@/public/Images/president.jpg";
-
+import AboutUsImagethree from "@/public/Images/kory.jpg";
 export default function aboutUs() {
   return (
     <div>
@@ -107,20 +107,15 @@ export default function aboutUs() {
 
           <div className={styles.child2}>
             <p>
-              Esther Melendez-Lopez, seeking re-election to the Nogales City Council, emphasizes her commitment to cultural events,
-              tourism, affordable housing, and public safety. As a member of the Cultural Arts Committee, she has been instrumental
-              in organizing events to enrich the community. Melendez-Lopez supports the IME Becas scholarship program and defends her
-              focus on cultural events, asserting her active engagement in council matters. She advocates for affordable housing,
-              backs the city's annexation plan for growth, and prioritizes public safety by allocating COVID relief funds to pay down
-              the pension debt. Overall, she presents herself as a dedicated community leader with a comprehensive approach to
-              addressing Nogales' diverse needs.
+            Sandra Kory, Treasurer of the Cultural Arts Committee in Nogales, Arizona, is a dedicated community leader with strong local ties. Recognized with the Ohtli Award in 2015 for her commitment to cultural events, Sandra actively contributes to community richness. She plays a vital role in the success of South32's initiatives in the region, introducing significant cultural celebrations like Cinco De Mayo. Sandra's multifaceted contributions and expertise showcase her passion for preserving and promoting cultural arts in the community.
             </p>
 
             <div>
               <Image
+                className={styles.koryJpg}
                 width={370}
                 height={307}
-                src={AboutUsImagetwo}
+                src={AboutUsImagethree}
                 alt={"text"}
               />
             </div>
