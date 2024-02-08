@@ -275,7 +275,7 @@ export default function EventForm({ params }) {
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
-      { loading || isLoading ? <Loading scale={150} /> :
+      { loading ? <Loading scale={150} /> :
       <form onSubmit={event => submitForm(event)} className={styles.form}>
         {/* Start Dates */}
         <fieldset className={styles.fieldset}>
