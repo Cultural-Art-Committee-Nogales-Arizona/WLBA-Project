@@ -68,7 +68,7 @@ export default function aboutUs() {
 
         <div className={styles.container2}>
           <div className={styles.child1}>
-            <Image 
+            <Image
               width={300}
               height={150}
               src={AboutUsImage}
@@ -76,7 +76,13 @@ export default function aboutUs() {
             />
 
             <p>
-            Esther Melendez-Lopez, seeking re-election to the Nogales City Council, emphasizes her commitment to cultural events, tourism, affordable housing, and public safety. As a member of the Cultural Arts Committee, she has been instrumental in organizing events to enrich the community. Melendez-Lopez supports the IME Becas scholarship program and defends her focus on cultural events, asserting her active engagement in council matters. She advocates for affordable housing, backs the city's annexation plan for growth, and prioritizes public safety by allocating COVID relief funds to pay down the pension debt. Overall, she presents herself as a dedicated community leader with a comprehensive approach to addressing Nogales' diverse needs.
+              Esther Melendez-Lopez, seeking re-election to the Nogales City Council, emphasizes her commitment to cultural events,
+              tourism, affordable housing, and public safety. As a member of the Cultural Arts Committee, she has been instrumental
+              in organizing events to enrich the community. Melendez-Lopez supports the IME Becas scholarship program and defends her
+              focus on cultural events, asserting her active engagement in council matters. She advocates for affordable housing,
+              backs the city's annexation plan for growth, and prioritizes public safety by allocating COVID relief funds to pay down
+              the pension debt. Overall, she presents herself as a dedicated community leader with a comprehensive approach to
+              addressing Nogales' diverse needs.
             </p>
           </div>
 
