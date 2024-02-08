@@ -94,6 +94,8 @@ export const PUT = async (request) => {
         const newUser = await User.findByIdAndUpdate(userId, {
             username,
             email
+        },{
+            returnDocument: 'after'
         })
 
         return NextResponse.json({

@@ -107,7 +107,9 @@ export const PUT = async (request) => {
 			start,
 			end,
 			banner,
-		});
+		},{
+            returnDocument: 'after'
+        });
 
 		return NextResponse.json({
 				success: true,
