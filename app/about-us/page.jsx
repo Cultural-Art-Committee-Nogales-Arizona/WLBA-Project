@@ -9,15 +9,17 @@ import AboutUsImagetwo from "@/public/Images/president.jpg";
 export default function aboutUs() {
   return (
     <div>
+      <div className={styles.container}>
       <Image
         className={`${styles.bannerImage} ${styles.transparent}`} 
         src={AboutUsImageone}
         alt={"Banner"}
-        width={1690}
-        height={300}
+        // width={100}
+        height={200}
       />
-      <div className={styles.container}>
         <div className={styles.header}>
+          <div className={styles.header2}>
+            <div className={styles.header3}>
           <div className={styles.auc}>About us</div>
           Established in 2014 as a non-profit organization, the Cultural Arts
           Committee of Nogales, Arizona, has been busy creating events that
@@ -31,6 +33,8 @@ export default function aboutUs() {
           former Consul General of Mexico, and local business leaders, helps
           steer the ship. We're all about supporting and celebrating our
           community.
+          </div>
+          </div>
         </div>
       </div>
       <div className={styles.godfather}>

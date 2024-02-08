@@ -1,16 +1,28 @@
 .header{
     /* background-image: url(/public/Images/aboutUs.jpg); */
-    background-color: var(--dark-red);
+    background-color:  var(--dark-red);
     text-align: center;
     color: white;
     width: 100%;
     height: 245px;
+    margin-top: .2rem;
 
 }
 
+.header2{
+    width: 94%;
+    height: 200px;
+    margin-left: 50px;
+}
+
+.header3{
+    background-color:#30303087 ;
+    width: 90%;
+    margin-left: 5rem;
+}
 .auc{
     font-size: 40px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     text-align: center;
     width: 100%;
 }
@@ -26,6 +38,9 @@
     top: 0;
     left: 0;
     opacity: 0.5; /* Set the desired opacity value */
+    width: 97%;
+    height: 220px;
+    margin-left: 30px;
   }
   
   .transparent {
