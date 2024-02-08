@@ -21,6 +21,47 @@ export default function aboutUs() {
         General of Mexico, and local business leaders, helps steer the ship.
         We're all about supporting and celebrating our community.
       </div>
+
+      <div className={styles.bod}>
+        <fieldset className={styles.fs}>
+          <h5>Board of Directors</h5>
+          <ul>
+            <li className={styles.li}>
+              <p>Esther Melendez-Lopez, President</p>
+            </li>
+            <li className={styles.li}> 
+              <p>Laura Diaz, Vice-President</p>
+            </li>
+            <li className={styles.li}>
+              <p>Sandra Kory, Treasurer</p>
+            </li>
+            <li className={styles.li}>
+              <p>Jaime Paz y Puente, Secretary</p>
+            </li>
+            <li className={styles.li}>
+              <p>Silvia Acosta</p>
+            </li>
+            <li className={styles.li}>
+              <p>Reyna Armenta</p>
+            </li>
+            <li className={styles.li}> 
+              <p>Lucia Bojorquez</p>
+            </li>
+            <li className={styles.li}>
+              <p>Gabriela Campaña</p>
+            </li>
+            <li className={styles.li}>
+              <p>Sandra Moraga</p>
+            </li>
+            <li className={styles.li}>
+              <p>Octavio Moraga</p>
+            </li>
+            <li className={styles.li}>
+              <p>Santos Yescas</p>
+            </li>
+          </ul>
+        </fieldset>
+      </div>
     </div>
   );
 }

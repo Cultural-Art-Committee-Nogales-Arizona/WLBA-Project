@@ -14,3 +14,28 @@
     text-align: center;
     width: 100%;
 }
+
+.bod{
+    width: 20%;
+    height: 70vh;
+
+    margin: 5%;
+    padding: 1%;
+}
+
+.fs{
+    width: 100%;
+    height: 65vh;
+
+    border: solid black 3px;
+    padding: 4%;
+
+    text-align: center;
+    color: whitesmoke;
+
+    background-color: var(--primary-color);
+}
+
+.li{
+    margin-right: 5%;
+}
