@@ -8,14 +8,7 @@ export default function aboutUs() {
   return (
     <div>
       <div className={styles.header} >
-        <Image 
-          src={`/Images/aboutUs.jpg`}
-          alt="About us banner"
-          width={300}
-          height={300}
-
-        />
-        <h1 className={styles.auc}>About us</h1>
+        <div className={styles.auc}>About us</div>
         Established in 2014 as a non-profit organization, the Cultural Arts
         Committee of Nogales, Arizona, has been busy creating events that bring
         the community together. We've hosted all sorts of things, from concerts
