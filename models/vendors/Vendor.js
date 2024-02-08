@@ -35,7 +35,7 @@ let vendorSchema = new Schema({
 const Vendor = vendorDB.model('Vendor', vendorSchema)
 
 vendorDB.once('open', () => {
-    console.log('Connected to blogDB for post')
+    console.log('Connected to vendorDB for Vendors')
 })
 
 

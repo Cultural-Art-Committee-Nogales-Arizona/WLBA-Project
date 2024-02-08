@@ -1,11 +1,17 @@
 import AcceptedVendor from "@/models/vendors/Accepted";
 import Vendor from "@/models/vendors/Vendor";
 import { NextResponse } from "next/server";
+import { isAdmin } from "@/utils/routeMethods";
 
 export const POST = async (request) => {
+    const searchParams = request.nextUrl.searchParams;
+	const adminId = searchParams.get("adminId") || "";
     const {name, id} = await request.json()
 
     try{
+        // ! Uncomment line when ready to only allow admins
+		// await isAdmin(adminId)
+        
         const existingVendor = await Vendor.findById(id)
 
         if (!existingVendor) throw new Error('Vendor does not exist')
@@ -41,8 +47,12 @@ export const POST = async (request) => {
 export const DELETE = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const vendorId = searchParams.get('vendorId')
+	const adminId = searchParams.get("adminId") || "";
 
     try{
+        // ! Uncomment line when ready to only allow admins
+		// await isAdmin(adminId)
+
         const existingVendor = await AcceptedVendor.findOne({ id: vendorId })
 
         if (!existingVendor) throw new Error('Vendor does not exist or has not been accepted')

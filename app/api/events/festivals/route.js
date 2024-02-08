@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Festival from "@/models/events/Festivals";
+import { isAdmin } from "@/utils/routeMethods";
 
 // get either all festivals for display in the dashboard or calendar, or get closest festival
 export const GET = async (request) => {
@@ -43,9 +44,14 @@ export const GET = async (request) => {
 
 // add a festival to the database
 export const POST = async (request) => {
+	const searchParams = request.nextUrl.searchParams;
+	const adminId = searchParams.get("adminId") || "";
 	const { title, description, location, start, end, banner } = await request.json();
 
 	try {
+		// ! Uncomment line when ready to only allow admins
+		// await isAdmin(adminId)
+
 		const result = await Festival.create({
 			title,
 			description,
@@ -79,9 +85,13 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
+	const adminId = searchParams.get("adminId") || "";
 	const { title, description, location, start, end, banner } = await request.json();
 
 	try {
+		// ! Uncomment line when ready to only allow admins
+		// await isAdmin(adminId)
+
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("No Festival _id was defined");
 
@@ -123,8 +133,12 @@ export const PUT = async (request) => {
 export const DELETE = async (request) => {
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
+	const adminId = searchParams.get("adminId") || "";
 
 	try {
+		// ! Uncomment line when ready to only allow admins
+		// await isAdmin(adminId)
+
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("No festival id was defined");
 

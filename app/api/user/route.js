@@ -1,12 +1,13 @@
 import User from "@/models/users/User";
 import { NextResponse } from 'next/server'
+import { isAdmin } from "@/utils/routeMethods";
 
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams
-    const userId = searchParams.get('userId')
+    const userId = searchParams.get('userId') || ""
 
     try{
-        if (!userId) throw new Error("No userId query defined, you must append ?userId=DocumentIdOfUser")
+        if (!userId) throw new Error("No userId query defined, you must append ?userId=DocumentIdOfUser to URL")
 
         const user = await User.findById(userId)
 
@@ -116,8 +117,12 @@ export const PUT = async (request) => {
 export const DELETE = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const userId = searchParams.get('userId')
+	const adminId = searchParams.get("adminId") || "";
 
     try{
+        // ! Uncomment line when ready to only allow admins
+		// await isAdmin(adminId)
+
         if (!userId) throw new Error("No userId query defined, you must append ?userId=DocumentIdOfUser")
 
         const existingUser = await User.findById(userId)

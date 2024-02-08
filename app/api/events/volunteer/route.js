@@ -1,7 +1,7 @@
 import Volunteer from "@/models/events/Volunteer"
 import { NextResponse } from "next/server"
 
-export const GET = async (request) => {
+export const GET = async (/* request */) => {
     try{
         const volunteers = await Volunteer.find()
 
