@@ -47,15 +47,8 @@
     height: 320px;
     margin-left: 30px;
   }
-  
 
-  .koryJpg{
-    width: 20rem;
-  }
   
-  
-
-
 /*=================================*/
 .godfather{
     display: flex;
@@ -87,28 +80,34 @@
     background-color: var(--primary-color);
 }
 
-.li{
-    margin-right: 5%;
+.h3{
+    margin-top: 10%;
+    font-size: medium;
 }
 
 
 /* =============================== */
 .container2{
-    border: solid black 1px;
 
     width: 70%;
-    height: 612px;
-    margin: 7%;
+    height: 800px;
+    margin: 1%;
 
     display: flex;
     flex-direction: column;
 }
 
+.Imagec1{
+    border: solid black 3px;
+    margin: 5%;
+}
+
+
 .child1{
-    border: solid black 1px;
+    border: solid black 3px;
 
     width: 100%;
-    height: 50vh;
+    height: 40vh;
 
     font-size: smaller;
 
@@ -127,10 +126,10 @@
 }
 
 .child2{
-    border: solid black 1px;
+    border: solid black 3px;
     
     width: 100%;
-    height: 50vh;
+    height: 40vh;
 
     font-size: smaller;
 
@@ -146,4 +145,9 @@
     padding: 6%;
     color: whitesmoke;
     text-align: center;
+}
+
+.Imagec2{
+    border: solid black 3px;
+    
 }
