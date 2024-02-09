@@ -3,26 +3,27 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  gap: 20px;
+  width: 40% ;
   height: fit-content;
   background-color: var(--primary-color);
   border-radius: 5px;
   border: 4px solid var(--dark-red);
-  padding: 10px
+  padding: 30px
+
 }
-
-
 .formGroup {
   display: flex;
   justify-content: space-between;
-  border: solid 2px var(--blue-accent);
   border-radius: 5px;
-  margin: 5px;
-  font-size: x-large
+  margin: 3%;
+  font-size: x-large;
+  resize: none;
+  
 }
 
 .formGroup > input {
-  width: 300px;
+  width: 64.5%;
 }
 
 .textArea {
@@ -33,8 +34,7 @@
 }
 
 .fieldset {
-  border: 2px solid var(--bright-orange);
-  border-radius: 5px;
+  border: 2px solid var(--blue-accent);
   padding: 10px; 
   width: 100%;
 }
@@ -43,8 +43,42 @@
   width: fit-content;
 }
 
-.submit {
-  width: 150px;
-  font-size: 20px;
-  margin-top: 10px;
+
+
+.textArea {
+  resize: none; /* Remove the resize functionality */
+  min-height: 44px;
+  height: 44px;
+  width: 64.5%;
+}
+
+
+/* CSS */
+.submit  {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 3px solid;
+  padding: 0.25em 0.5em;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.submit :active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+
+@media (min-width: 768px) {
+  .submit  {
+    padding: 0.25em 0.75em;
+  }
 }

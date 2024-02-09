@@ -13,6 +13,7 @@ import Error from '@components/overlays/Error'
 import Loading from '@components/overlays/Loading'
 
 import CustomUserContext from '@components/GlobalUserContext'; 
+import { NodeNextRequest } from 'next/dist/server/base-http/node'
 
 /* -------------------------------------------------------------------------- */
 /*                           flatpickr Documentation                          */
@@ -275,7 +276,7 @@ export default function EventForm({ params }) {
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
-      { loading || isLoading ? <Loading scale={150} /> :
+      { loading ? <Loading scale={150} /> :
       <form onSubmit={event => submitForm(event)} className={styles.form}>
         {/* Start Dates */}
         <fieldset className={styles.fieldset}>
