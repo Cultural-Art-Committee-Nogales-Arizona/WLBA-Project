@@ -39,42 +39,42 @@ export default function aboutUs() {
       <div className={styles.godfather}>
         <div className={styles.container1}>
           <fieldset className={styles.fs}>
-            <h5>Board of Directors</h5>
-            <ul>
-              <li className={styles.li}>
+            <h4>Board of Directors</h4>
+            
+              <h3 className={styles.h3}>
                 <p>Esther Melendez-Lopez, President</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Laura Diaz, Vice-President</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Sandra Kory, Treasurer</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Jaime Paz y Puente, Secretary</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Silvia Acosta</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Reyna Armenta</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Lucia Bojorquez</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Gabriela Campaña</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Sandra Moraga</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Octavio Moraga</p>
-              </li>
-              <li className={styles.li}>
+              </h3>
+              <h3 className={styles.h3}>
                 <p>Santos Yescas</p>
-              </li>
-            </ul>
+              </h3>
+            
           </fieldset>
         </div>
 
@@ -82,9 +82,10 @@ export default function aboutUs() {
           <div className={styles.child1}>
             <div>
               <Image
-                width={370}
-                height={300}
+                width={220}
+                height={290}
                 src={AboutUsImagetwo}
+                className={styles.Imagec1}
                 alt={"text"}
               />
             </div>
@@ -104,7 +105,6 @@ export default function aboutUs() {
               addressing Nogales' diverse needs.
             </p>
           </div>
-
           <div className={styles.child2}>
             <p>
             Sandra Kory, Treasurer of the Cultural Arts Committee in Nogales, Arizona, is a dedicated community leader with strong local ties. Recognized with the Ohtli Award in 2015 for her commitment to cultural events, Sandra actively contributes to community richness. She plays a vital role in the success of South32's initiatives in the region, introducing significant cultural celebrations like Cinco De Mayo. Sandra's multifaceted contributions and expertise showcase her passion for preserving and promoting cultural arts in the community.
@@ -112,10 +112,10 @@ export default function aboutUs() {
 
             <div>
               <Image
-                className={styles.koryJpg}
-                width={370}
-                height={307}
+                width={220}
+                height={290}
                 src={AboutUsImagethree}
+                className={styles.Imagec2}
                 alt={"text"}
               />
             </div>
