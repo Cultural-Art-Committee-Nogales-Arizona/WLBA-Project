@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&family=Slabo+27px&display=swap');
 :root {
   --primary-color: #FF955F; /* Atomic Tangerine */ 
   --blue-accent: #008080; /* Teal */
@@ -9,6 +10,7 @@
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Slabo 27px', serif;
 }
 
 code {

@@ -13,6 +13,7 @@ import Error from '@components/overlays/Error'
 import Loading from '@components/overlays/Loading'
 
 import CustomUserContext from '@components/GlobalUserContext'; 
+import { NodeNextRequest } from 'next/dist/server/base-http/node'
 
 /* -------------------------------------------------------------------------- */
 /*                           flatpickr Documentation                          */
