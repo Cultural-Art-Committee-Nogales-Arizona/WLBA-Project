@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server'
 import { isAdmin } from "@/utils/routeMethods";
 
 export const GET = async (request) => {
+    //Get user by _id instead?
     const searchParams = request.nextUrl.searchParams
     const name = searchParams.get('name') || ""
 

@@ -1,3 +1,4 @@
+v1.0
 # CACNA API Documentation
 
 ## Response Objects
@@ -8,7 +9,6 @@
   "success": true,
   "message": Success message,
   "data": {Single object} or [{Array of objects},...], //Returned only by GET, POST, and PUT requests
-  "status": 200
 }
 ```
 
@@ -18,52 +18,55 @@
   "success": false,
   "message": General error message,
   "errorMessage": Specific message of error encountered,
-  "err": {Error object},
-  "status": 500
+  "err": {Error object}
 }
 ```
 
 # Routes
 
-## Get Festivals
+## Festivals Route
 
-### Description
+### Festival Data Object
+```json
+{
+  "_id": "MongoDB Document _id", // Object._id
+  "title": "Title of the Event", // String
+  "description": "Description of Event", // String
+  "location": "Location in address form", // String 
+  "banner": "Link to image to display with Event", // String to URI in Cloudinary
+  "start": 2024-02-05T19:03:23.291Z, // Start date object in ISO8601 format
+  "end": 2024-03-05T19:03:23.291Z, // End date object in ISO8601 format
+  "createdAt": 2024-03-05T19:03:23.291Z, // Date object in ISO8601 format
+  "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
+}
+```
+
+### Get Festivals
+
+#### Description
 Get either all festivals for display in the dashboard or calendar, or get the closest festival.
 
-### Endpoint
+#### Endpoint
 `GET https://wlba-project.vercel.app/api/events/festivals`
 
-### Query Parameters
+#### Query Parameters
 - `nextEvent`: If set to "true", it returns only the next event. Otherwise, it returns all events.
 
-### Data Unit Returned
-Returns either an array of all recorded events or the next event.
-```json
-{
-  "_id": "MongoDB Document _id", // Object._id
-  "title": "Title of the Event", // String
-  "description": "Description of Event", // String
-  "location": "Location in address form", // String 
-  "banner": "Link to image to display with Event", // String to URI in Cloudinary
-  "start": 2024-02-05T19:03:23.291Z, // Start date object in ISO8601 format
-  "end": 2024-03-05T19:03:23.291Z, // End date object in ISO8601 format
-  "createdAt": 2024-03-05T19:03:23.291Z, // Date object in ISO8601 format
-  "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
-}
-```
+#### Data Unit Returned
+Returns either an array of all festivals in the database or the next festival.
 
-## Post Festivals
+### Post Festival
 
-### Description 
+#### Description 
 Add a new festival to the database.
 
-### Endpoint
+#### Endpoint
 `POST https://wlba-project.vercel.app/api/events/festivals`
 
-### Query Parameters
+#### Query Parameters
 - `adminId`: Authentication token for administrators. Ensures that only users with an admin token can create festivals.
 
-### Request Body
+#### Request Body
 ```json
 {
   "title": "Title of the Event", // String
@@ -71,39 +74,26 @@ Add a new festival to the database.
   "location": "Location in address form", // String 
   "banner": "Link to image to display with Event", // String to URI in Cloudinary
   "start": 2024-02-05T19:03:23.291Z, // Start date object in ISO8601 format
-  "end": 2024-03-05T19:03:23.291Z, // End date object in ISO8601 format
+  "end": 2024-03-05T19:03:23.291Z // End date object in ISO8601 format
 }
 ```
 
-### Data Unit Returned
+#### Data Unit Returned
 Returns the festival which has been created.
-```json
-{
-  "_id": "MongoDB Document _id", // Object._id
-  "title": "Title of the Event", // String
-  "description": "Description of Event", // String
-  "location": "Location in address form", // String 
-  "banner": "Link to image to display with Event", // String to URI in Cloudinary
-  "start": 2024-02-05T19:03:23.291Z, // Start date object in ISO8601 format
-  "end": 2024-03-05T19:03:23.291Z, // End date object in ISO8601 format
-  "createdAt": 2024-03-05T19:03:23.291Z, // Date object in ISO8601 format
-  "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
-}
-```
 
-## Edit Festivals
+### Edit Festival
 
-### Description 
+#### Description 
 Edit existing festival information
 
-### Endpoint
+#### Endpoint
 `PUT https://wlba-project.vercel.app/api/events/festivals`
 
-### Query Parameters
+#### Query Parameters
 - `festivalId`: Database identifier of festival to update.
 - `adminId`: Authentication token for administrators. Ensures that only users with an admin token can update festivals.
 
-### Request Body
+#### Request Body
 ```json
 {
   "title": "Title of the Event", // String
@@ -111,53 +101,397 @@ Edit existing festival information
   "location": "Location in address form", // String 
   "banner": "Link to image to display with Event", // String to URI in Cloudinary
   "start": 2024-02-05T19:03:23.291Z, // Start date object in ISO8601 format
-  "end": 2024-03-05T19:03:23.291Z, // End date object in ISO8601 format
+  "end": 2024-03-05T19:03:23.291Z // End date object in ISO8601 format
 }
 ```
 
-### Data Unit Returned
+#### Data Unit Returned
 Returns the edited festival object.
+
+### Delete Festival
+
+#### Description
+Delete existing festival by ID.
+
+#### Endpoint
+`DELETE https://wlba-project.vercel.app/api/events/festivals`
+
+#### Query Parameters
+- `festivalId`: Database identifier of festival to delete.
+- `adminId`: Authentication token for administrators. Ensures that only users with an admin token can delete festivals.
+
+## Volunteers Route
+
+### Volunteer Data Object
 ```json
 {
   "_id": "MongoDB Document _id", // Object._id
-  "title": "Title of the Event", // String
-  "description": "Description of Event", // String
-  "location": "Location in address form", // String 
-  "banner": "Link to image to display with Event", // String to URI in Cloudinary
-  "start": 2024-02-05T19:03:23.291Z, // Start date object in ISO8601 format
-  "end": 2024-03-05T19:03:23.291Z, // End date object in ISO8601 format
+  "name": "Name of the volunteer", // String
+  "phone": "Volunteer's phone number", // String
+  "email": "Volunteer's email", // String 
+  "interest": "Volunteer's volunteering interests", // String
   "createdAt": 2024-03-05T19:03:23.291Z, // Date object in ISO8601 format
   "updatedAt": 2024-03-05T19:03:23.291Z // Date object in ISO8601 format
 }
 ```
 
-# PATHS THAT NEED DOCUMENTATION
-- Festivals
-- `DELETE https://wlba-project.vercel.app/api/events/festivals`
-- `------------------------------------------------------------`
-- Volunteer
-- `GET https://wlba-project.vercel.app/api/events/volunteer`
-- `POST https://wlba-project.vercel.app/api/events/volunteer`
-- `DELETE https://wlba-project.vercel.app/api/events/volunteer`
-- `------------------------------------------------------------`
-- Vendor
-- `GET https://wlba-project.vercel.app/api/vendor`
-- `POST https://wlba-project.vercel.app/api/vendor`
-- `PUT https://wlba-project.vercel.app/api/vendor`
-- `DELETE https://wlba-project.vercel.app/api/vendor`
-- `------------------------------------------------------------`
-- Vendor Accept
-- `POST https://wlba-project.vercel.app/api/vendor/accept`
-- `DELETE https://wlba-project.vercel.app/api/vendor/accept`
-- `------------------------------------------------------------`
-- User
-- `GET https://wlba-project.vercel.app/api/user`
-- `POST https://wlba-project.vercel.app/api/user`
-- `PUT https://wlba-project.vercel.app/api/user`
-- `DELETE https://wlba-project.vercel.app/api/user`
-- Admin
-- `GET https://wlba-project.vercel.app/api/admin`
-- `POST https://wlba-project.vercel.app/api/admin`
-- `DELETE https://wlba-project.vercel.app/api/admin`
-- Contact
-- `POST https://wlba-project.vercel.app/api/contact`
+### Get Volunteers
+
+#### Description
+Gets all regisered volunteers
+
+#### Endpoint 
+`GET https://wlba-project.vercel.app/api/events/volunteer`
+
+#### Data Unit Returned
+Returns an array of volunteer objects.
+
+### Post Volunteer
+
+#### Description
+Registers a person as a volunteer. Phone Number must be unique.
+
+#### Endpoint
+`POST https://wlba-project.vercel.app/api/events/volunteer`
+
+#### Request Body
+```json
+{
+  "name": "Name of the volunteer", // String
+  "phone": "Volunteer's phone number", // String
+  "email": "Volunteer's email", // String 
+  "interest": "Volunteer's volunteering interests" // String
+}
+```
+
+#### Data Unit Returned
+Returns new volunteer object created.
+
+### Delete Volunteer
+
+#### Description
+Delete existing volunteer by ID.
+
+#### Endpoint 
+`DELETE https://wlba-project.vercel.app/api/events/volunteer`
+
+#### Query Parameters
+- `volunteerId`: Database identifier of volunteer to delete.
+
+## Vendors Route
+
+### Vendor Data Object
+```json
+{
+  "_id": "MongoDB Document _id", // Object._id
+  "name": "Name of the vendor", // String
+  "description": "Vendor's description", // String
+  "tags": "Vendor's tags", // String
+  "email": "Vendor's email", // String 
+  "user": "MongoDB User _id of user related to the vendor", // Object._id
+  "accepted": "Returned only by GET requests, depends on whether the vendor's database identifier has been accepted", // Boolean
+  "createdAt": "2024-03-05T19:03:23.291Z", // Date object in ISO8601 format
+  "updatedAt": "2024-03-05T19:03:23.291Z" // Date object in ISO8601 format
+}
+```
+
+### Accepted Vendor Object
+```json
+{
+  "_id": "MongoDB Document _id", // Object._id
+  "name": "Name of the vendor", // 
+  "id": "MongoDB Vendor _id", // 
+  "createdAt": "2024-03-05T19:03:23.291Z", // Date object in ISO8601 format
+  "updatedAt": "2024-03-05T19:03:23.291Z" // Date object in ISO8601 format
+}
+```
+
+### Get Vendors
+
+#### Description
+Get a list of all vendors in the database.
+
+#### Endpoint
+`GET https://wlba-project.vercel.app/api/vendor`
+
+#### Query Parameters
+- `adminId`: Authentication token for administrators. Ensures that only users with an admin token can see registered vendors.
+
+#### Data Unit Returned
+Returns all registered vendors.
+
+### Post Vendor
+
+#### Description
+Registers a new vendor.
+
+#### Endpoint
+`POST https://wlba-project.vercel.app/api/vendor`
+
+#### Request Body
+```json
+{
+  "name": "Name of the vendor", // String
+  "description": "Vendor's description", // String
+  "tags": "Vendor's tags", // String
+  "email": "Vendor's email", // String 
+  "user": "MongoDB User _id of user related to the vendor" // Object._id
+}
+```
+
+#### Data Unit Returned
+Vendor object recently created.
+
+### Edit Vendor
+
+#### Description
+Edit an existing registered vendor's information.
+
+#### Endpoint
+`PUT https://wlba-project.vercel.app/api/vendor`
+
+#### Query parameters
+- `vendorId`: Database identifier of the vendor to edit.
+
+#### Request Body
+```json
+{
+  "name": "Name of the vendor", // String
+  "description": "Vendor's description", // String
+  "tags": "Vendor's tags", // String
+  "email": "Vendor's email" // String 
+}
+```
+
+#### Data Unit Returned
+Updated vendor object.
+
+### Delete Vendor
+
+#### Description
+Delete an existing registered vendor.
+
+#### Endpoint
+`DELETE https://wlba-project.vercel.app/api/vendor`
+
+#### Query parameters
+- `vendorId`: Database idntifier ofthe vendor to delete.
+
+### Accept Vendor
+
+#### Description
+Accept a registered vendor.
+
+#### Endpoint 
+`POST https://wlba-project.vercel.app/api/vendor/accept`
+
+#### Query parameters
+- `adminId`: Authentication token for administrator. Ensures that only users with an admin token can accept vendors.
+
+#### Request Body
+```json
+{
+  "name": "Name of the vendor", //String
+  "id": "MongoDB Vendor _id" //Object._id
+}
+```
+
+#### Data Unit Returned
+Accepted vendor object.
+
+### Remove Accepted Vendor
+
+#### Description
+Remove an accepted vendor from the accepted documents list.
+
+#### Endpoint
+`DELETE https://wlba-project.vercel.app/api/vendor/accept`
+
+#### Query parameters 
+- `adminId`: Authentication token for administrator. Ensures that only users with an admin token can remove accepted vendors.
+- `vendorId`: Database identifier of vendor to remove.
+
+## User Route
+
+### User Data Object
+```json
+{
+  "_id": "MongoDB Document _id", // Object._id
+  "username": "Username specific to the user's auth0 or google account.", //String
+  "email": "Email specific to the user's account", //String
+  "createdAt": "2024-03-05T19:03:23.291Z", // Date object in ISO8601 format
+  "updatedAt": "2024-03-05T19:03:23.291Z" // Date object in ISO8601 format
+}
+```
+
+### Get User
+
+#### Description
+Fetch a specific user's data object by username.
+
+#### Endpoint
+`GET https://wlba-project.vercel.app/api/user`
+
+#### Query parameters
+- `name`: Name of the user to fetch.
+
+#### Data Unit Returned
+Best matching username's user object.
+
+### Post User
+
+#### Description
+Upon sign in, either register any new users in the database if they don't already exist or return existing user with same username/email.
+
+#### Endpoint 
+`POST https://wlba-project.vercel.app/api/user`
+
+#### Request Body
+```json
+{
+  "username": "Username specific to the user's auth0 or google account.", //String
+  "email": "Email specific to the user's account" //String
+}
+```
+
+#### Data Unit Returned
+New user object created.
+
+### Edit User
+
+#### Description
+Edit existing registered users.
+
+#### Endpoint
+`PUT https://wlba-project.vercel.app/api/user`
+
+#### Query parameters 
+- `userId`: Database identifier of user to edit.
+
+#### Request Body
+```json
+{
+  "username": "Username specific to the user's auth0 or google account.", //String
+  "email": "Email specific to the user's account" //String
+}
+```
+
+#### Data Unit Returned
+Updated User Document.
+
+### Delete User
+
+#### Description
+Deletes an user document.
+
+#### Endpoint
+`DELETE https://wlba-project.vercel.app/api/user`
+
+#### Query parameters
+- `userId`: Database identifier of user to delete.
+- `adminId`: Authentication token for administrator. Ensures that only users with an admin token can remove users.
+
+## Admin Route
+
+### Admin Data Object
+```json
+{
+  "_id": "MongoDB Document _id", // Object._id
+  "username": "Username specific to the user's auth0 or google account", // String
+  "userAuthId": "Authentication token for admins", // String
+  "password": "Admin password. Separate from actual account's password. Used for extra safety", // String
+  "user" : "MongoDB User _id of user related to the administrator", // Object._id
+  "createdAt": "2024-03-05T19:03:23.291Z", // Date object in ISO8601 format
+  "updatedAt": "2024-03-05T19:03:23.291Z" // Date object in ISO8601 format
+}
+```
+
+### Get Admin
+
+#### Description
+Validates admin credentials and returns a corresponding admin object.
+
+#### Endpoint
+`GET https://wlba-project.vercel.app/api/admin`
+
+#### Query Parameters
+- `username`: Username of the admin logging in.
+- `password`: Admin password related to the admin account.
+
+#### Data Unit Returned
+Returns only minimal administrator information.
+```json
+{
+  "admin": "If the user is an admin or not", // Boolean
+  "userAuthId": "Administrator authentication token" // String
+}
+```
+
+### Post Admin
+
+#### Description
+Creates an admin object for a specific user. Called when making somebody an admin.
+
+#### Endpoint
+`POST https://wlba-project.vercel.app/api/admin`
+
+#### Query Parameters
+- `adminId`: Authentication token for administrators. Ensures that only users with an admin role can add admins.
+- `password`: Password for the new admin that is to be created.
+
+#### Request Body
+```json
+{
+  "username": "Username of the account which is to be made an admin", // String
+  "id": "MongoDB User _id of the account which is to be made an admin" // Object._id
+}
+```
+
+#### Data Unit Returned
+New admin data object created.
+
+## Contact Routes
+
+### Contact CACNA
+
+#### Description
+Sends an email to the CACNA organization when called. Used in the contact us page to send user messages to CACNA.
+
+#### Endpoint
+`POST https://wlba-project.vercel.app/api/contact`
+
+#### Request Body
+```json
+{
+  "name": "Contacter's name", // String
+  "email": "Contacter's email", // String
+  "referralSource": "", // String
+  "message": "Email body" // Sting
+}
+```
+
+#### Data Unit Returned
+Success string from nodemail.
+`250 2.0.0 OK  1707455489 l20-20020a170902d05400b001d8f12b0009sm629494pll.293 - gsmtp`
+
+### Contact Volunteer
+
+#### Description
+Sends an email to a specific volunteer from the volunteers database.
+
+#### Endpoint
+`POST https://wlba-project.vercel.app/api/contact/volunteer`
+
+#### Request Body
+```json
+{
+  "name": "Contacter's name", // String
+  "email": "Contacter's email", // String
+  "referralSource": "", // String
+  "message": "Email body" // Sting
+}
+```
+
+#### Data Unit Returned
+Success string from nodemail.
+`250 2.0.0 OK  1707455489 l20-20020a170902d05400b001d8f12b0009sm629494pll.293 - gsmtp`

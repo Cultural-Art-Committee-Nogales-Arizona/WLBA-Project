@@ -4,7 +4,8 @@ import TitleImg from "@/public/Images/BackgroundImg.jpg";
 import Logo from '@/public/whiteLogo';
 import styles from './Hero.module.css'
 
-const Hero = () => (
+export default function Gallery() {
+  /* --------------- This is just a placeholder for the gallery --------------- */
   <div className="hero my-5 text-center" data-testid="hero">
     <Logo scale="340" testId="hero-logo" />
     <Image
@@ -15,6 +16,4 @@ const Hero = () => (
       className={styles.Img}
     />
   </div>
-);
-
-export default Hero;
+}

@@ -1,16 +1,149 @@
 .header{
-    background-image:url(/public/Images/aboutUs.jpg);
-   background-color: var(--dark-red);
+    /* background-image: url(/public/Images/aboutUs.jpg); */
+    background-color:  var(--dark-red);
     text-align: center;
-    color: white;
     width: 100%;
-    height: 245px;
+    height: 345px;
+    margin-top: .2rem;
+    color: white;
 
 }
 
+.header2{
+    width: 94%;
+    height: 300px;
+    margin-left: 50px;
+    color: white;
+}
+
+.header3{
+    background-color:#3030305b ;
+    width: 95%;
+    height: 300px;
+    margin-left: 1rem;
+    color: white;
+}
+
 .auc{
-    font-size: 40px;
-    margin-bottom: 50px;
+    font-size: 50px;
+    margin-bottom: 60px;
     text-align: center;
     width: 100%;
+}
+
+.container {
+    position: relative;
+    background: url(/public/Images/aboutUs.jpg) no-repeat center center fixed;
+    background-size: cover;
+    color: white;  
+}
+  
+  .bannerImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.2; 
+    width: 94%;
+    height: 320px;
+    margin-left: 30px;
+  }
+  
+
+  .koryJpg{
+    width: 20rem;
+  }
+  
+  
+
+
+/*=================================*/
+.godfather{
+    display: flex;
+
+    width: 100%;
+    height: 90vh;
+}
+
+
+/* =================================*/
+.container1{
+    width: 20%;
+    height: 70vh;
+
+    margin: 5%;
+    padding: 1%;
+}
+
+.fs{
+    width: 100%;
+    height: 65vh;
+
+    border: solid black 3px;
+    padding: 4%;
+
+    text-align: center;
+    color: whitesmoke;
+
+    background-color: var(--primary-color);
+}
+
+.li{
+    margin-right: 5%;
+}
+
+
+/* =============================== */
+.container2{
+    border: solid black 1px;
+
+    width: 70%;
+    height: 612px;
+    margin: 7%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.child1{
+    border: solid black 1px;
+
+    width: 100%;
+    height: 50vh;
+
+    font-size: smaller;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+
+    background-color: var(--orange-accent);
+}
+
+.child1 p {
+    padding: 3%;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.child2{
+    border: solid black 1px;
+    
+    width: 100%;
+    height: 50vh;
+
+    font-size: smaller;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+
+    background-color: var(--orange-accent);
+}
+
+.child2 p {
+    padding: 6%;
+    color: whitesmoke;
+    text-align: center;
 }

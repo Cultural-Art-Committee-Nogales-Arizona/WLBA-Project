@@ -44,10 +44,10 @@ export default function Index() {
 	}, [])
 
   return (
-    <>
+    <div>
       <Hero />
-      <h1>Next Event</h1>
-      <hr />
+
+      {/* <h1>Next Event</h1>
       { nextEvent ? 
         <div>
           <h4>Start Date:</h4><p> The next event starts on {nextEvent.start}</p>
@@ -59,7 +59,7 @@ export default function Index() {
         </div> 
         : 
         <Loading scale={200} />
-      }
-    </>
+      } */}
+    </div>
   )
 }
