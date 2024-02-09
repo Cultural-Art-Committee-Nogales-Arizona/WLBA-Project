@@ -8,9 +8,8 @@ export default function GalleryPage() {
   return (
     <>
       <h1>This is the Gallery page</h1>
-      <Hero />
+      
       <hr />
-      <Content />
     </>
   );
 }
