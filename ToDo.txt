@@ -8,6 +8,8 @@ Spanish support:
 - Translate all page text to spanish
 - Implement language toggle logic
 
+- Make the default local of Calendar.jsx be the page local setting
+
 User Dashboard:
 - Style page
 - Add admin login
@@ -15,6 +17,15 @@ User Dashboard:
 - Add vendor registration
 
 BACKEND:
+
+MONGO
+- Change the way that Admins are stored. Change it to,
+User docs can have an two required: false properties
+UserAuthId: String,
+Admin: Boolean.
+When someone wants to be in admin mode they must sign in and it will check if it says their an admin,
+if so then return the UserAuthId, otherwise Admin: false and no code.
+The UserAuthId will be sent it all Admin POST routes   
 
 API
 
