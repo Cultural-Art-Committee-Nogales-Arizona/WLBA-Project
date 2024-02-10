@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import VolunteerForm from '@components/forms/VolunteerForm';
+import Link from 'next/link'
 
 import Loading from '@/components/overlays/Loading'
 
@@ -16,7 +17,8 @@ export default function VolunteerSignUp() {
 
   return (
     <>
-      Sign up as a Volunteer
+      Sign up as a Volunteer ||
+      <Link href={'/volunteer/update'}> Update</Link>
       <VolunteerForm params={{formData, setFormData, requestMethod}} />
     </>
   );

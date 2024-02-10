@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import VolunteerForm from '@components/forms/VolunteerForm';
+import Link from 'next/link'
 
 import { globalUserData, setCustomUserData } from '@/components/GlobalUserContext'
 
@@ -45,7 +46,8 @@ export default function VolunteerUpdate({ params }) {
 
   return (
     <>
-      Update a Volunteer
+      Update a Volunteer ||
+      <Link href={'/volunteer/sign-up'}> Sign up</Link>
       <VolunteerForm params={{formData, setFormData, requestMethod}} />
     </>
   );
