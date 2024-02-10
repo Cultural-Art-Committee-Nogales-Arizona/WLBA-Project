@@ -1,12 +1,17 @@
+"use client"
 import React from "react";
-import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import styles from "./page.module.css";
 import Highlight from "@/components/Highlight";
 import Image from "next/image";
 import AboutUsImageone from "@/public/Images/aboutUs.jpg";
 import AboutUsImagetwo from "@/public/Images/president.jpg";
 import AboutUsImagethree from "@/public/Images/kory.jpg";
+import { useTranslation } from 'react-i18next';
+
+
 export default function aboutUs() {
+  const { t } = useTranslation();
+
   return (
     <div>
       <div className={styles.container}>
@@ -20,18 +25,7 @@ export default function aboutUs() {
           <div className={styles.header2}>
             <div className={styles.header3}>
           <div className={styles.auc}>About us</div>
-          Established in 2014 as a non-profit organization, the Cultural Arts
-          Committee of Nogales, Arizona, has been busy creating events that
-          bring the community together. We've hosted all sorts of things, from
-          concerts and mariachi festivals to art workshops for kids and nativity
-          exhibitions. In collaboration with the City of Nogales and the
-          Consulate of Mexico, our programs cover a wide range, including
-          scholarship initiatives, talks for Women's Week, and even a binational
-          marathon. What makes it all happen? Our dedicated team of volunteers.
-          The Board of Directors, made up of community members, including the
-          former Consul General of Mexico, and local business leaders, helps
-          steer the ship. We're all about supporting and celebrating our
-          community.
+          {t('aboutUs.missionStatement')}
           </div>
           </div>
         </div>

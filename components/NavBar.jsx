@@ -22,6 +22,7 @@ import styles from './NavBar.module.css'
 
 import PageLink from './PageLink'
 import AnchorLink from './AnchorLink'
+import ChangeLanguage from './LanguageButton'
 
 const NavBar = () => {
   const { globalUserData, updateGlobalUserData } = useContext(CustomUserContext)
@@ -194,6 +195,7 @@ const NavBar = () => {
                 </NavItem>
               </Nav>
             )}
+            <ChangeLanguage />
           </Collapse>
         </Container>
       </Navbar>
