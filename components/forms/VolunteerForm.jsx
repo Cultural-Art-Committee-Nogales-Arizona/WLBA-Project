@@ -28,7 +28,7 @@ export default function VolunteerForm({ params }) {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  console.log(globalUserData?._id)
+  /* console.log(globalUserData?._id) */
 
   const updateForm = (event) => {
     const { id, value } = event.target

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const eventsDB = require('@/connections/eventsDB')
 require('dotenv').config()
 
-// ! NEEDS UNIQUE DATA TO BE USEFUL
+// ! NEEDS UNIQUE DATA TO BE USEFUL, MIGHT DELETE LATER
 
 let marketSchema = new Schema({
   name: {

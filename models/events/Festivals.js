@@ -26,7 +26,7 @@ let festivalSchema = new Schema({
   },
   banner: {
     type: String,
-    required: true,
+    required: false
   }
 },{
   collection: 'Festivals',

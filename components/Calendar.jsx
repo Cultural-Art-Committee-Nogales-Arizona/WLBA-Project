@@ -36,7 +36,7 @@ export default function Calendar() {
 	}
 
 	const spanishTranslation = {
-		text: 'Spanish',
+		text: 'Español',
 		click: () => setCurrentLocale(esLocale)
 	}
 
