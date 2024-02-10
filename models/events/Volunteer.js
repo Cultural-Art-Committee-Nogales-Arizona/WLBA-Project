@@ -21,12 +21,6 @@ let volunteerSchema = new Schema({
         type: String,
         required: true,
     },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'Users',
-        unique: true,
-        required: true
-    },
 },{
     collection: 'Volunteers',
     timestamps: true,
