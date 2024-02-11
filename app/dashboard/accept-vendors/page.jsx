@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react'
 import Loading from '@/components/overlays/Loading'
 import Error from '@/components/overlays/Error'
 import styles from './page.module.css'
@@ -8,15 +8,15 @@ function VolunteerRequest() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const [allVendors, setAllVendors] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
+  const [allVendors, setAllVendors] = useState([])
+  const [searchResults, setSearchResults] = useState([])
 
   const [formData, setFormData] = useState({ 
     subjectLine: "Accepted Vendor Registration", 
     vendors: [],
     message: `You have been approved as a vendor of Cultural Arts Committee of Nogales Arizona as of: 
     ${new Date().toLocaleDateString()}`,
-  });
+  })
 
   // Fetch all volunteers
   useEffect(() => {
@@ -26,40 +26,54 @@ function VolunteerRequest() {
 
     const fetchVolunteers = async () => {
       try {
-        const response = await fetch('/api/vendor', { signal, method: 'GET' });
-        const fetchedData = await response.json();
-        setAllVendors(fetchedData.data);
+        const response = await fetch('/api/vendor', { signal, method: 'GET' })
+        const fetchedData = await response.json()
+        setAllVendors(fetchedData.data)
         setSearchResults(fetchedData.data)
         setLoading(false)
       } catch (error) {
         if (error.name !== 'AbortError') {
-          console.error('Error fetching volunteers:', error);
+          console.error('Error fetching volunteers:', error)
         }
       }
-    };
+    }
 
-    fetchVolunteers();
+    fetchVolunteers()
 
     return () => controller.abort()
-  }, []);
+  }, [])
 
   /* -------------------------- Handle vendor changes ------------------------- */
   
   const handleCheckboxChange = (vendor) => {
+    /* -------------------------------------------------------------------------- */
+    // I am aware that this function is a Tower Of Terror but its working fine.
+    // We shouldn't have to touch it.
+
+    // if you want a short way way of writing this, this function does the same thing.
+    // But it is very hard to read
     /* 
-      I am aware that this function is a Tower Of Terror but its working fine.
-      We shouldn't have to touch it
+      const handleCheckboxChange = (vendor) => {
+        setFormData(prevFormData => ({
+          ...prevFormData,
+          vendors: prevFormData.vendors.some(v => v.id === vendor._id) ?
+            prevFormData.vendors.filter(v => v.id !== vendor._id) :
+            [...prevFormData.vendors, { name: vendor.name, email: vendor.email, id: vendor._id }]
+        }))
+      } 
     */
+    /* -------------------------------------------------------------------------- */
+  
     setFormData(prevFormData => {
       // Check if the vendor is already in the array
-      const isVendorSelected = prevFormData.vendors.some(v => v.id === vendor._id);
+      const isVendorSelected = prevFormData.vendors.some(v => v.id === vendor._id)
   
       if (isVendorSelected) {
         // If the vendor is already selected, remove it from the array
         return {
           ...prevFormData,
           vendors: prevFormData.vendors.filter(v => v.id !== vendor._id)
-        };
+        }
       } else {
         // If the vendor is not selected, add it to the array
         return {
@@ -72,30 +86,43 @@ function VolunteerRequest() {
               id: vendor._id
             }
           ]
-        };
-      }
-    });
-  };
-  
-  
-
-  const handleSelectAll = () => {
-    const allUserData = searchResults.map(result =>  {
-      return {
-        name: result.name,
-        email: result.email,
-        id: result._id
+        }
       }
     })
+  }
 
-    setFormData((prev) => ({
-      ...prev,
-      vendors: allUserData
-    }))
+  const toggleAll = () => {
+    // Check if all vendors are already selected
+    const allSelected = searchResults.every(result => {
+      // This is cringe, why is this what works?
+      return formData.vendors.some(vendor => vendor.email === result.email)
+    })
+
+    if (allSelected) {
+      // If all vendors are selected, deselect all
+      setFormData(prev => ({
+        ...prev,
+        vendors: []
+      }))
+    } else {
+      // If not all vendors are selected, select all
+      const allVendors = searchResults.map(result => {
+        return {
+          email: result.email,
+          id: result._id,
+          name: result.name
+        }
+      })
+      setFormData(prev => ({
+        ...prev,
+        vendors: allVendors
+      }))
+    }
   }
 
   const updateFormData = (event) => {
     const { id, value } = event.target
+
     setFormData(prev => ({
       ...prev,
       [id]: value
@@ -106,16 +133,16 @@ function VolunteerRequest() {
 
   const searchVendors = (searchParam) => {
     // Create a regex pattern using the search parameter and the 'i' flag for case-insensitive matching
-    const regex = new RegExp(searchParam, 'i');
+    const regex = new RegExp(searchParam, 'i')
     
     // Filter the allVendors array based on whether the name or email matches the regex pattern
     const filtered = allVendors.filter(vendor => {
       return regex.test(vendor.name) || regex.test(vendor.email) || regex.test(vendor.description) || regex.test(...vendor.tags)
-    });
+    })
     
     // Update the state with the filtered results
-    setSearchResults(filtered);
-  };
+    setSearchResults(filtered)
+  }
   
 
   const handleSubmit = async (event) => {
@@ -191,7 +218,7 @@ function VolunteerRequest() {
       <table className={styles.volunteer_table}>
         <thead>
           <tr>
-            <th><button onClick={handleSelectAll}>Select All</button></th>
+            <th><button onClick={toggleAll}>Toggle All</button></th>
             <th>Name</th>
             <th>Email</th>
             <th>Description</th>
@@ -261,7 +288,7 @@ function VolunteerRequest() {
     </div>
     }
     </>
-  );
+  )
 }
 
-export default VolunteerRequest;
+export default VolunteerRequest
