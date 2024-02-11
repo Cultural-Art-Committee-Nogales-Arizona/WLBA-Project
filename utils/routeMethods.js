@@ -100,8 +100,8 @@ import User from '@/models/users/User'
 
 /* ------------------- Will throw an error if not an admin ------------------ */
 
-async function isAdmin(userAuthId) {
-  const user = await Admin.findOne({ userAuthId: userAuthId })
+async function isAdmin(adminAuthId) {
+  const user = await User.findOne({ adminAuthId: adminAuthId })
   if (!user) throw new Error(`User not an admin and not allowed to preform API call`)
   return true
 }

@@ -20,7 +20,7 @@ let userSchema = new Schema({
     required: true,
     default: false
   },
-  adminAuthid: {
+  adminAuthId: {
     type: String,
     default: `NULL`
   },

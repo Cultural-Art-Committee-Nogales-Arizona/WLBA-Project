@@ -317,8 +317,11 @@ Remove an accepted vendor from the accepted documents list.
 ```json
 {
   "_id": "MongoDB Document _id", // Object._id
-  "username": "Username specific to the user's auth0 or google account.", //String
-  "email": "Email specific to the user's account", //String
+  "username": "Username specific to the user's auth0 or google account", // String
+  "email": "Email specific to the user's account", // String
+  "admin": "Attribute describing user's admin status", // Boolean
+  "adminAuthId": "Authentication token for administrators", // String
+  "adminPassword": "Password for admin authentication", // String
   "createdAt": "2024-03-05T19:03:23.291Z", // Date object in ISO8601 format
   "updatedAt": "2024-03-05T19:03:23.291Z" // Date object in ISO8601 format
 }
@@ -336,7 +339,15 @@ Fetch a specific user's data object by username.
 - `name`: Name of the user to fetch.
 
 #### Data Unit Returned
-Best matching username's user object.
+Returns the best macthing user's information in the following format:
+```json
+{
+  "_id": "MongoDB Document _id", // String
+  "username": "Username specific to the user's auth0 or google account", // String
+  "email": "Email specific to the user's account", // String
+  "admin": "Attribute describing user's admin status" // Boolean
+}
+```
 
 ### Post User
 
@@ -355,12 +366,30 @@ Upon sign in, either register any new users in the database if they don't alread
 ```
 
 #### Data Unit Returned
-New user object created.
+If a user with that Username and Email didn't already exist:
+```json
+{
+  "_id": "MongoDB Document _id", // String
+  "username": "New user's username", // String
+  "email": "Email specific to the user's account", // String
+  "admin": "Attribute describing user's admin status" // Boolean
+}
+```
+
+If a user already existed:
+```json
+{
+  "_id": "MongoDB Document _id", // String
+  "username": "Username specific to the user's auth0 or google account", // String
+  "email": "Email specific to the user's account", // String
+  "admin": "Attribute describing user's admin status" // Boolean
+}
+```
 
 ### Edit User
 
 #### Description
-Edit existing registered users.
+Edit existing registered users. 
 
 #### Endpoint
 `PUT https://wlba-project.vercel.app/api/user`
@@ -369,15 +398,23 @@ Edit existing registered users.
 - `userId`: Database identifier of user to edit.
 
 #### Request Body
+It is not required to input an updated value for every asset, however, un-updated fields must contain the original value.
 ```json
 {
-  "username": "Username specific to the user's auth0 or google account.", //String
-  "email": "Email specific to the user's account" //String
+  "username": "Username specific to the user's auth0 or google account, either a new value or the original value", //String
+  "email": "Email specific to the user's account, either a new value or the original value" //String
 }
 ```
 
 #### Data Unit Returned
-Updated User Document.
+```json
+{
+  "_id": "MongoDB Document _id", // String
+  "username": "Updated username", // String
+  "email": "Updated email", // String
+  "admin": "Attribute describing user's admin status" // Boolean
+}
+```
 
 ### Delete User
 
@@ -391,22 +428,7 @@ Deletes an user document.
 - `userId`: Database identifier of user to delete.
 - `adminId`: Authentication token for administrator. Ensures that only users with an admin token can remove users.
 
-## Admin Route
-
-### Admin Data Object
-```json
-{
-  "_id": "MongoDB Document _id", // Object._id
-  "username": "Username specific to the user's auth0 or google account", // String
-  "userAuthId": "Authentication token for admins", // String
-  "password": "Admin password. Separate from actual account's password. Used for extra safety", // String
-  "user" : "MongoDB User _id of user related to the administrator", // Object._id
-  "createdAt": "2024-03-05T19:03:23.291Z", // Date object in ISO8601 format
-  "updatedAt": "2024-03-05T19:03:23.291Z" // Date object in ISO8601 format
-}
-```
-
-### Get Admin
+### Admin Sign In
 
 #### Description
 Validates admin credentials and returns a corresponding admin object.
@@ -422,28 +444,26 @@ Validates admin credentials and returns a corresponding admin object.
 Returns only minimal administrator information.
 ```json
 {
-  "admin": "If the user is an admin or not", // Boolean
-  "userAuthId": "Administrator authentication token" // String
+  "adminAuthId": "Administrator authentication token" // String
 }
 ```
 
 ### Post Admin
 
 #### Description
-Creates an admin object for a specific user. Called when making somebody an admin.
+Register a user as an admin
 
 #### Endpoint
 `POST https://wlba-project.vercel.app/api/admin`
 
 #### Query Parameters
 - `adminId`: Authentication token for administrators. Ensures that only users with an admin role can add admins.
-- `password`: Password for the new admin that is to be created.
 
 #### Request Body
 ```json
 {
-  "username": "Username of the account which is to be made an admin", // String
-  "id": "MongoDB User _id of the account which is to be made an admin" // Object._id
+  "id": "MongoDB User _id of the account which is to be made an admin", // Object._id
+  "password": "New password for the user" // String
 }
 ```
 

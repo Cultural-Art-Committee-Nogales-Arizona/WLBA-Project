@@ -11,29 +11,22 @@ export const GET = async (request) => {
     try{
         if (!username) throw new Error("You must append ?username= query to URL")
 
-        const isUsernameAdmin = await Admin.findOne({ username })
+        const isUserAdmin = await User.findOne({ username, admin: true })
         
-        if (!isUsernameAdmin) {
-            const userExists = await User.findOne({ username })
-            if(!userExists) throw new Error(`User: ${username} does not exist`)
-        }
-
-        let returnedAdmin = {
-            // Return a boolean value for admin, for safety
-            admin: !!isUsernameAdmin,
-        }
+        if (!isUserAdmin) throw new Error(`User: ${username} does not exist or is not an admin`)
 
         // Return the userAuthId only if the correct password is supplied and user is an admin
-        if (password && isUsernameAdmin) {
-            const passwordMatch = await bcrypt.compare(password, isUsernameAdmin.password)
+        if (password && isUserAdmin) {
+            const passwordMatch = await bcrypt.compare(password, isUserAdmin.adminPassword)
             if (!passwordMatch) throw new Error("User is unauthorized") 
-            returnedAdmin.userAuthId = isUsernameAdmin.userAuthId
         }
 
         return NextResponse.json({
             success: true,
             message: `Successfully fetched ${username}`,
-            data: returnedAdmin
+            data: {
+                adminAuthId: isUserAdmin.adminAuthId
+            }
         },{ 
             status: 200
         });
@@ -51,20 +44,18 @@ export const GET = async (request) => {
 
 export const POST = async (request) => {
     const searchParams = request.nextUrl.searchParams;
-	const password = searchParams.get("password") || "";
-	const adminId = searchParams.get("adminId") || "";
-    const { username, id } = await request.json()
+	//const adminId = searchParams.get("adminId") || "";
+    const { id, password } = await request.json()
     
     try{
-        if (!adminId) throw new Error("You must append ?adminId= query to URL")
-        if (!password) throw new Error("You must append &password= query to URL")
+        //if (!adminId) throw new Error("You must append ?adminId= query to URL")
 
-        await isAdmin(adminId)
+        //await isAdmin(adminId)
 
         // Generate a password used to get the userAuthId in another route
         const hashedPassword = await hashPassword(password)
 
-        const  existingAdmin = await Admin.findOne({ user: id })
+        const existingAdmin = await User.findOne({ _id: id, admin: true})
         
         if (existingAdmin) {
             const { _id, username, user } = existingAdmin
@@ -77,17 +68,24 @@ export const POST = async (request) => {
             })
         }
 
-        const newAdmin = await Admin.create({
-            username: username,
-            userAuthId: generateUserAuthID(),
-            user: id,
-            password: hashedPassword
+        const newAdmin = await User.findByIdAndUpdate(id, {
+            adminAuthId: generateUserAuthID(),
+            admin: true,
+            adminPassword: hashedPassword
+        },{
+            returnDocument: 'after'
         })
 
         return NextResponse.json({
             success: true,
-            message: `Successfully registered ${username} as an Admin.`,
-            data: newAdmin,
+            message: `Successfully registered ${ newAdmin.username } as an Admin.`,
+            data: {
+                _id: newAdmin._id,
+                username: newAdmin.username,
+                email: newAdmin.email,
+                admin: newAdmin.admin,
+                adminAuthId: newAdmin.adminAuthId
+            },
         },{ 
             status: 201 
         });
@@ -113,19 +111,23 @@ export const DELETE = async (request) => {
 
         const shouldDeleteUser = deleteUser === 'true' ? true : false 
 
-        const adminExists = await Admin.findOne({ id: userId })
+        const adminExists = await User.findOne({ _id: userId, admin: true })
 
         if(!adminExists) throw new Error('User does not exist or is not an Admin.')
 
-        await Admin.findOneAndDelete({ user: userId })
+        await User.findByIdAndUpdate(userId, {
+            adminAuthId: 'NULL',
+            admin: false,
+            adminPassword: 'NULL'
+        })
 
-        let message = `Successfully removed user from admin database`
+        let message = `Successfully removed admin role from user`
         
         /* ----------------- Delete user if query "deleteUser=true" ----------------- */
 
         if (shouldDeleteUser) {
             const userDeleted = await User.findByIdAndDelete(userId)
-            if (userDeleted) message += `and user database`
+            if (userDeleted) message += ` and deleted from user database`
         }
 
         /* -------------------------------------------------------------------------- */

@@ -21,7 +21,8 @@ export const GET = async (request) => {
             data: {
                 _id: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                admin: user.admin
             }
         }, {
             status: 200
@@ -57,7 +58,8 @@ export const POST = async (request) => {
                 data: {
                     _id: newUser._id,
                     username: newUser.username,
-                    email: newUser.email
+                    email: newUser.email,
+                    admin: newUser.admin
                 }
             }, {
                 status: 201
@@ -67,7 +69,12 @@ export const POST = async (request) => {
         return NextResponse.json({
             success: true,
             message: `User already exists, returning matching user`,
-            data: user
+            data: {
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                admin: user.admin
+            }
         }, {
             status: 200
         })
@@ -113,7 +120,8 @@ export const PUT = async (request) => {
             data: {
                 _id: newUser._id,
                 username: newUser.username,
-                email: newUser.email
+                email: newUser.email,
+                admin: newUser.admin
             }
         }, {
             status: 200
@@ -146,8 +154,6 @@ export const DELETE = async (request) => {
         if(!existingUser) throw new Error(`User with _id: ${userId} does not exist`)
 
         await User.findByIdAndDelete(userId)
-
-        await Admin.findOneAndDelete({ user: userId })
 
         return NextResponse.json({
             success: true,

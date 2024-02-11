@@ -1,13 +1,13 @@
 FRONTEND:
 
+Forms to build:
+- 
+
 Volunteering page:
 - Style page
 
 Spanish support:
-
 - Translate all page text to spanish
-- Implement language toggle logic
-
 - Make the default local of Calendar.jsx be the page local setting
 
 User Dashboard:
@@ -29,6 +29,7 @@ The UserAuthId will be sent it all Admin POST routes
 
 API
 
+- Create routes for admin sign-in, possibly implement a JWT admin session
 - Create 'isAccepted' function to make accepted vendor verification more modular
 - Test all volunteer routes
 
