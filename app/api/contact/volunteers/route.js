@@ -11,7 +11,8 @@ export const POST = async (request) => {
   try {
     const { emails, subjectLine, message } = await request.json();
 
-    await isAdmin(adminId)
+    // ! UNCOMMENT WHEN READY FOR ADMIN
+    // await isAdmin(adminId)
 
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({
@@ -37,7 +38,11 @@ export const POST = async (request) => {
     return NextResponse.json({
       success: true,
       message: `Successfully send email to clients`,
-      data: info,
+      data: {
+        email: mailOptions,
+        accepted: info.accepted,
+        rejected: info.rejected,
+      }
     },{ 
       status: 200 
     })

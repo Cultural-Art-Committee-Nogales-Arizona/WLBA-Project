@@ -31,7 +31,11 @@ export const POST = async (request) => {
     return NextResponse.json({
       success: true,
       message: `Successfully sent email to support team`,
-      data: info,
+      data: {
+        email: mailOptions,
+        accepted: info.accepted,
+        rejected: info.rejected,
+      }
     },{ 
       status: 200 
     })
