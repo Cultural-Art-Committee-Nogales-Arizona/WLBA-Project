@@ -16,7 +16,6 @@
     "cypress:open": "cypress open --browser chrome"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.2.4",
     "@auth0/nextjs-auth0": "^3.5.0",
     "@fullcalendar/core": "^6.1.10",
     "@fullcalendar/daygrid": "^6.1.10",
@@ -45,7 +44,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.0.5",
-    "react-router-dom": "^6.22.0",
     "reactstrap": "^9.1.5",
     "stripe": "^14.14.0"
   },
