@@ -7,7 +7,6 @@ import { isAdmin } from "@/utils/routeMethods";
 export const POST = async (request) => {
     const searchParams = request.nextUrl.searchParams;
 	const adminId = searchParams.get("adminId") || "";
-
     const { vendors, message, subjectLine } = await request.json();
 
     try {

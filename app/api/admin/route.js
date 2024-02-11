@@ -44,13 +44,13 @@ export const GET = async (request) => {
 
 export const POST = async (request) => {
     const searchParams = request.nextUrl.searchParams;
-	//const adminId = searchParams.get("adminId") || "";
+	const adminId = searchParams.get("adminId") || "";
     const { id, password } = await request.json()
     
     try{
-        //if (!adminId) throw new Error("You must append ?adminId= query to URL")
-
-        //await isAdmin(adminId)
+        if (!adminId) throw new Error("You must append ?adminId= query to URL")
+        
+        await isAdmin(adminId)
 
         // Generate a password used to get the userAuthId in another route
         const hashedPassword = await hashPassword(password)
@@ -58,11 +58,16 @@ export const POST = async (request) => {
         const existingAdmin = await User.findOne({ _id: id, admin: true})
         
         if (existingAdmin) {
-            const { _id, username, user } = existingAdmin
             return NextResponse.json({
                 success: true,
-                message: `User already admin, returning fetched user: ${username}`,
-                data: { _id, username, user }, // Leave out userAuthId for safety
+                message: `User already admin, returning fetched user: ${existingAdmin.username}`,
+                data: { 
+                    _id: existingAdmin._id,
+                    username: existingAdmin.username,
+                    email: existingAdmin.email,
+                    admin: existingAdmin.admin,
+                    adminAuthId: existingAdmin.adminAuthId
+                }
             },{ 
                 status: 200 
             })

@@ -1,5 +1,23 @@
-v1.0
+v1.1
 # CACNA API Documentation
+
+### Changelog
+```
+- v1.1 changelog:
+- Added Table of Contents
+- Reworked Admin storage. Removed admin collection. Admin information is now stored in User documents
+- Multiple vendors can be accepted with one API Call
+- Accepting vendors now sends an Email
+```
+
+## Contents
+
+- [Response Objects](#response-objects)
+- [Festivals](#festivals-route)
+- [Volunteers](#volunteers-route)
+- [Vendors](#vendors-route)
+- [Users and Admins](#user-route)
+- [Contact Routes](#contact-routes)
 
 ## Response Objects
 
@@ -280,7 +298,7 @@ Delete an existing registered vendor.
 ### Accept Vendor
 
 #### Description
-Accept a registered vendor.
+Accept one or more registered vendors.
 
 #### Endpoint 
 `POST https://wlba-project.vercel.app/api/vendor/accept`
@@ -291,13 +309,24 @@ Accept a registered vendor.
 #### Request Body
 ```json
 {
-  "name": "Name of the vendor", //String
+  "vendors": [
+    {
+      "name" : "Name of vendor", // String
+      "id": "ID of existing vendor document", // Object._id
+      "email": "Email of vendor to contact" // String
+    }
+  ], //Array
   "id": "MongoDB Vendor _id" //Object._id
 }
 ```
 
 #### Data Unit Returned
-Accepted vendor object.
+```json
+{
+  "vendor": "Created accepted vendor object", // Object
+  "mail": "Vendor's mail options" // Object
+}
+```
 
 ### Remove Accepted Vendor
 
@@ -468,7 +497,15 @@ Register a user as an admin
 ```
 
 #### Data Unit Returned
-New admin data object created.
+```json
+{
+  "_id": "MongoDB Document _id",
+  "username": "Username of the admin",
+  "email": "Email of the admin",
+  "admin": "Admin status of the admin",
+  "adminAuthId": "New admin or existing admin's token"
+}
+```
 
 ## Contact Routes
 
@@ -485,7 +522,7 @@ Sends an email to the CACNA organization when called. Used in the contact us pag
 {
   "name": "Contacter's name", // String
   "email": "Contacter's email", // String
-  "referralSource": "", // String
+  "referralSource": "How did you hear about us?", // String
   "message": "Email body" // Sting
 }
 ```
@@ -515,8 +552,3 @@ Sends an email to a specific volunteer from the volunteers database.
 #### Data Unit Returned
 Success string from nodemail.
 `250 2.0.0 OK  1707455489 l20-20020a170902d05400b001d8f12b0009sm629494pll.293 - gsmtp`
-
-## ROUTES THAT NEED DOCUMENTATION
-
-- Volunteer
-- `PUT http://localhost:3000/api/events/volunteer`
