@@ -14,6 +14,8 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
+import { useHistory } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { useUser } from '@auth0/nextjs-auth0/client'
 import WhiteLogo from '@/public/whiteLogo'
 import CustomUserContext from './GlobalUserContext'; 
@@ -25,21 +27,29 @@ import AnchorLink from './AnchorLink'
 import ChangeLanguage from './LanguageButton'
 
 const NavBar = () => {
-  const { globalUserData, updateGlobalUserData } = useContext(CustomUserContext)
+  const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const [isOpen, setIsOpen] = useState(false)
   const { user, isLoading } = useUser()
   const toggle = () => setIsOpen(!isOpen)
+  
+  const handleLogout = () => {
+    // Perform any cleanup tasks here (e.g., clear localStorage)
+    localStorage.removeItem('adminAuthId');
+  }
 
   // Fetch custom user data when the component mounts
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
-
+    // console.log(user)
     try {
 
       if (user) {
           // console.log(globalUserData)
         let name = user.given_name ?? user.name
+
+        const adminAuthId = localStorage.getItem('adminAuthId');
+        const adminStatus = adminAuthId ? true : false
 
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
@@ -47,14 +57,19 @@ const NavBar = () => {
           const response = await fetch(`/api/user?name=${name}`, { signal, method: 'GET' })
           if (response.ok) {
             const responseData = await response.json()
-            updateGlobalUserData(responseData.data)
-            console.log(responseData)
+
+
+            setGlobalUserData(prev => ({
+              ...prev,
+              ...responseData.data,
+              admin: adminStatus,
+              adminAuthId: adminAuthId
+            }))
           }
         }
 
         fetchCustomUserData()
       }
-      
     } catch (error) {
       console.error(error)
     }
@@ -137,7 +152,7 @@ const NavBar = () => {
                         Dashboard
                       </PageLink>
                     </DropdownItem>
-                    <DropdownItem id="qsLogoutBtn">
+                    <DropdownItem id="qsLogoutBtn"  onClick={handleLogout}>
                       <AnchorLink href="/api/auth/logout" icon="power-off" testId="navbar-logout-desktop">
                         Log out
                       </AnchorLink>

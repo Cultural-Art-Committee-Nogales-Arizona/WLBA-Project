@@ -13,9 +13,9 @@ import CustomUserContext from '@components/GlobalUserContext';
 import PageLink from '@/components/PageLink';
 
 function Profile() {
-  const { globalUserData, updateGlobalUserData } = useContext(CustomUserContext)
+  const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const { user, isLoading } = useUser();
-  console.log(globalUserData)
+
   return (
     <>
       {isLoading && <Loading />}
@@ -32,6 +32,9 @@ function Profile() {
       </PageLink>
       <PageLink href="/dashboard/accept-vendors" className="nav-link" testId="navbar-home">
         <span>Accept Vendors Form</span>
+      </PageLink>
+      <PageLink href="/dashboard/admin/sign-in" className="nav-link" testId="navbar-home">
+        <span>Admin Sign-in</span>
       </PageLink>
       {user && (
         <>
@@ -52,8 +55,11 @@ function Profile() {
               </p>
             </Col>
           </Row>
+          { globalUserData.adminAuthId ? <h3>Signed in as Admin</h3> : <h3>Not signed in as admin</h3> }
           <Row data-testid="profile-json">
-            <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
+            {/* <Highlight>{JSON.stringify(user, null, 2)}</Highlight> */}
+            globalUserData Object
+            <Highlight>{JSON.stringify(globalUserData, null, 2)}</Highlight>
           </Row>
         </>
       )}

@@ -22,7 +22,7 @@ import CustomUserContext from '@components/GlobalUserContext'
 export default function VolunteerForm({ params }) {
   const abortControllerRef = useRef(null)
 
-  const {globalUserData, updateGlobalUserData} = useContext(CustomUserContext)
+  const {globalUserData, setGlobalUserData} = useContext(CustomUserContext)
 
   const { formData, setFormData, requestMethod } = params
   const [error, setError] = useState(null)

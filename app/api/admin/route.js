@@ -13,7 +13,15 @@ export const GET = async (request) => {
 
         const isUserAdmin = await User.findOne({ username, admin: true })
         
-        if (!isUserAdmin) throw new Error(`User: ${username} does not exist or is not an admin`)
+        if (!isUserAdmin) {
+            return NextResponse.json({
+                success: false,
+                message: `Failed to authenticate Admin`,
+                errorMessage:  `User: ${username} does not exist or is not an admin`
+            }, {
+                status: 403
+            })
+        } 
 
         // Return the userAuthId only if the correct password is supplied and user is an admin
         if (password && isUserAdmin) {

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import VolunteerForm from '@components/forms/VolunteerForm';
 import Link from 'next/link'
 
-import { globalUserData, setCustomUserData } from '@/components/GlobalUserContext'
+import { globalUserData, setGlobalUserData } from '@/components/GlobalUserContext'
 
 import Loading from '@/components/overlays/Loading'
 

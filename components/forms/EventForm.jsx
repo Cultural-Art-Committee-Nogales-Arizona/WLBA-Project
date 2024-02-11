@@ -22,7 +22,7 @@ import { NodeNextRequest } from 'next/dist/server/base-http/node'
 
 export default function EventForm({ params }) {
   // Get user to see if they can post to form
-  const { globalUserData, updateGlobalUserData } = useContext(CustomUserContext)
+  const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
   const { formData, setFormData, requestMethod, eventId } = params
   const [error, setError] = useState(null)
@@ -235,10 +235,14 @@ export default function EventForm({ params }) {
       } */
       /* getUserAuthId()
       return */
+
+      const controller = new AbortController()
+      const signal = controller.signal
       
       let API_Route = '/api/events/festivals'
       if (eventId) API_Route += `?festivalId=${eventId}`
       const response = await fetch(API_Route, {
+        signal,
         method: requestMethod,
         headers: {
           'Content-Type': 'application/json'

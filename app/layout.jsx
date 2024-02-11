@@ -10,9 +10,6 @@ import i18n from '@utils/i18n';
 import { CustomUserProvider } from '@components/GlobalUserContext'; // Update the path accordingly
 
 export default function RootLayout({ children }) {
-/*   const CustomUserContext = createContext();
-  const [globalUserData, setCustomUserData] = useState(null); */
-
 
   return (
     <html lang="en">
