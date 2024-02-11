@@ -8,13 +8,14 @@ function VolunteerRequest() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const [allVolunteers, setAllVolunteers] = useState([]);
+  const [allVendors, setAllVendors] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
 
   const [formData, setFormData] = useState({ 
-    subjectLine: "", 
-    message: "",
-    emails: []
+    subjectLine: "Accepted Vendor Registration", 
+    emails: [],
+    message: `You have been approved as a vendor of Cultural Arts Committee of Nogales Arizona as of: 
+    ${new Date().toLocaleDateString()}`,
   });
 
   // Fetch all volunteers
@@ -25,9 +26,9 @@ function VolunteerRequest() {
 
     const fetchVolunteers = async () => {
       try {
-        const response = await fetch('/api/events/volunteer', { signal, method: 'GET' });
+        const response = await fetch('/api/vendor', { signal, method: 'GET' });
         const fetchedData = await response.json();
-        setAllVolunteers(fetchedData.data);
+        setAllVendors(fetchedData.data);
         setSearchResults(fetchedData.data)
         setLoading(false)
       } catch (error) {
@@ -36,7 +37,8 @@ function VolunteerRequest() {
         } else {
           console.error('Error fetching volunteers:', error);
         }
-        setLoading(false)
+      } finally {
+        // setLoading(false)
       }
     };
 
@@ -45,49 +47,36 @@ function VolunteerRequest() {
     return () => controller.abort()
   }, []);
 
-  /* ------------------------ Handle volunteer changes ------------------------ */
+  /* -------------------------- Handle vendor changes ------------------------- */
 
-  const handleCheckboxChange = (volunteerEmail) => {
+  const handleCheckboxChange = (vendorEmail) => {
     setFormData((prevFormData) => {
-      // Check if the volunteerEmail is already in the array
-      const isVolunteerSelected = prevFormData.emails.includes(volunteerEmail);
+      // Check if the vendorEmail is already in the array
+      const isVendorSelected = prevFormData.emails.includes(vendorEmail);
   
-      // If the volunteerEmail is already selected, remove it from the array
-      if (isVolunteerSelected) {
+      // If the vendorEmail is already selected, remove it from the array
+      if (isVendorSelected) {
         return {
           ...prevFormData,
-          emails: prevFormData.emails.filter((v) => v !== volunteerEmail)
+          emails: prevFormData.emails.filter((v) => v !== vendorEmail)
         };
       } else {
-        // If the volunteerEmail is not selected, add it to the array
+        // If the vendorEmail is not selected, add it to the array
         return {
           ...prevFormData,
-          emails: [...prevFormData.emails, volunteerEmail]
+          emails: [...prevFormData.emails, vendorEmail]
         };
       }
     });
   }  
 
-  const toggleAll = () => {
-    // Check if all emails are already selected
-    const allSelected = searchResults.every(result => formData.emails.includes(result.email));
-  
-    if (allSelected) {
-      // If all emails are selected, deselect all
-      setFormData(prev => ({
-        ...prev,
-        emails: []
-      }));
-    } else {
-      // If not all emails are selected, select all
-      const allEmails = searchResults.map(result => result.email);
-      setFormData(prev => ({
-        ...prev,
-        emails: allEmails
-      }));
-    }
-  };
-  
+  const handleSelectAll = () => {
+    const allEmails = searchResults.map(result =>  result.email)
+    setFormData((prev) => ({
+      ...prev,
+      emails: allEmails
+    }))
+  }
 
   const updateFormData = (event) => {
     const { id, value } = event.target
@@ -99,13 +88,13 @@ function VolunteerRequest() {
 
   /* -------------------------------------------------------------------------- */
 
-  const searchVolunteers = (searchParam) => {
+  const searchVendors = (searchParam) => {
     // Create a regex pattern using the search parameter and the 'i' flag for case-insensitive matching
     const regex = new RegExp(searchParam, 'i');
     
-    // Filter the allVolunteers array based on whether the name or email matches the regex pattern
-    const filtered = allVolunteers.filter(volunteer => {
-      return regex.test(volunteer.name) || regex.test(volunteer.email) || regex.test(volunteer.interest)
+    // Filter the allVendors array based on whether the name or email matches the regex pattern
+    const filtered = allVendors.filter(vendor => {
+      return regex.test(vendor.name) || regex.test(vendor.email) || regex.test(vendor.interest)
     });
     
     // Update the state with the filtered results
@@ -141,7 +130,7 @@ function VolunteerRequest() {
 
       const controller = new AbortController()
       const signal = controller.signal
-      const returnedData = await fetch(`/api/contact/volunteers`/* ?adminId=${adminId} */, { 
+      const returnedData = await fetch(`/api/contact/vendors`/* ?adminId=${adminId} */, { 
         signal, 
         method: 'POST',
         headers: {
@@ -152,10 +141,10 @@ function VolunteerRequest() {
 
       const result = await returnedData.json()
       console.log(result)
-      setLoading(false)
     } catch (error) {
-      setLoading(false)
       console.error(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -173,21 +162,22 @@ function VolunteerRequest() {
         <input
           id="search"
           type="text"
-          onChange={(event) => searchVolunteers(event.target.value)}
+          onChange={(event) => searchVendors(event.target.value)}
         />
       </div>
-      <h2>Selected Volunteers: {formData.emails.length}</h2>
+      <h2>Selected Vendors: {formData.emails.length}</h2>
       <table className={styles.volunteer_table}>
         <thead>
           <tr>
-            <th><button onClick={toggleAll}>Toggle All</button></th>
+            <th><button onClick={handleSelectAll}>Select All</button></th>
             <th>Name</th>
             <th>Email</th>
-            <th>Interest</th>
+            <th>Description</th>
           </tr>
         </thead>
         <tbody>
         {
+          searchResults.length ?
           searchResults.map(volunteer => {
             return (
               <tr key={volunteer._id}>
@@ -200,17 +190,22 @@ function VolunteerRequest() {
                   />
                 </td>
                 <td>
-                  <label htmlFor={volunteer._id}>{volunteer.name}</label>
+                  {/* <label htmlFor={volunteer._id}>{volunteer.name}</label> */}
+                  <p>{volunteer.name}</p>
                 </td>
                 <td>
                   <p>{volunteer.email}</p>
                 </td>
                 <td>
-                  <p>{volunteer.interest}</p>
+                  <p>{volunteer.description}</p>
                 </td>
               </tr>
             )
           })
+          : 
+          <tr>
+            <td>No matches</td>
+          </tr>
         }
         </tbody>
       </table>
@@ -221,6 +216,7 @@ function VolunteerRequest() {
             type="text" 
             id="subjectLine" 
             onChange={(event) => updateFormData(event)}
+            value={formData.subjectLine}
           />
         </div>
         <div className="formGroup">
@@ -229,6 +225,7 @@ function VolunteerRequest() {
             type="text" 
             id="message"
             onChange={(event) => updateFormData(event)}
+            value={formData.message}
           />
         </div>
         <button type="submit">Submit</button>

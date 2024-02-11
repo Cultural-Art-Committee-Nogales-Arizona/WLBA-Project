@@ -28,7 +28,10 @@ function Profile() {
         <span>Edit Event Form</span>
       </PageLink>
       <PageLink href="/dashboard/request-volunteers" className="nav-link" testId="navbar-home">
-        <span>Request volunteers Form</span>
+        <span>Request Volunteers Form</span>
+      </PageLink>
+      <PageLink href="/dashboard/accept-vendors" className="nav-link" testId="navbar-home">
+        <span>Accept Vendors Form</span>
       </PageLink>
       {user && (
         <>
