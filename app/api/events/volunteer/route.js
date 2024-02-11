@@ -23,19 +23,18 @@ export const GET = async (/* request */) => {
 }
 
 export const POST = async (request) => {
-    const { name, phone, email, interest, id } = await request.json()
+    const { name, phone, email, interest } = await request.json()
 
     try {
         const alreadySignedUp = await Volunteer.findOne({ phone })
 
-        if (alreadySignedUp) throw new Error(`User is already signed up as a volunteer`)
+        if (alreadySignedUp) throw new Error(`User is already signed up as a volunteer with phone number: ${phone}`)
         
         const newVolunteer = await Volunteer.create({
             name,
             phone,
             email,
-            interest,
-            user: id
+            interest
         })
 
         return NextResponse.json({
@@ -57,6 +56,8 @@ export const POST = async (request) => {
     }
 }
 
+/* export const PUT = async (request) => {
+    const { name, phone, email, interest, id } = await request.json()
 export const PUT = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const volunteerId = searchParams.get('volunteerId')
@@ -93,7 +94,7 @@ export const PUT = async (request) => {
             status: 500
         });
     }
-}
+} */
 
 export const DELETE = async (request) => {
     const searchParams = request.nextUrl.searchParams
@@ -108,7 +109,7 @@ export const DELETE = async (request) => {
         
         return NextResponse.json({
             success: true,
-            message: `Successfully deleted registration for user: ${existingVolunteer.name}`,
+            message: `Successfully deleted volunteer registration for user: ${existingVolunteer.name}`,
         }, {
             status: 200
         })

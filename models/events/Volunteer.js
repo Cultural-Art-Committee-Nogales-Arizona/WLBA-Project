@@ -20,7 +20,7 @@ let volunteerSchema = new Schema({
     interest: {
         type: String,
         required: true,
-    },
+    }
 },{
     collection: 'Volunteers',
     timestamps: true,

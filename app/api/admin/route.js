@@ -1,5 +1,4 @@
 import User from "@/models/users/User";
-import Admin from "@/models/users/Admins";
 import { NextResponse } from 'next/server';
 import { generateUserAuthID, isAdmin, hashPassword } from "@/utils/routeMethods";
 import bcrypt from 'bcryptjs'

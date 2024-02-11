@@ -22,8 +22,11 @@ let userSchema = new Schema({
   },
   adminAuthid: {
     type: String,
-    required: true,
-    default: '0000'
+    default: `NULL`
+  },
+  adminPassword: {
+    type: String,
+    default: `NULL`
   }
 },{
   collection: 'Users',

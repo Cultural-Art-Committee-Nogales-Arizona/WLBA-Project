@@ -18,7 +18,11 @@ export const GET = async (request) => {
         return NextResponse.json({
             success: true,
             message: `Successfully found user`,
-            data: user
+            data: {
+                _id: user._id,
+                username: user.username,
+                email: user.email
+            }
         }, {
             status: 200
         })
@@ -50,7 +54,11 @@ export const POST = async (request) => {
             return NextResponse.json({
                 success: true,
                 message: `Successfully Created User`,
-                data: newUser
+                data: {
+                    _id: newUser._id,
+                    username: newUser.username,
+                    email: newUser.email
+                }
             }, {
                 status: 201
             })
@@ -102,7 +110,11 @@ export const PUT = async (request) => {
         return NextResponse.json({
             success: true,
             message: `Successfully Updated User: ${existingUser.username}`,
-            data: newUser
+            data: {
+                _id: newUser._id,
+                username: newUser.username,
+                email: newUser.email
+            }
         }, {
             status: 200
         })

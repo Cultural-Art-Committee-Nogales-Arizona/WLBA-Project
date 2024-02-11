@@ -1,11 +1,18 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv'
+import { isAdmin } from '@/utils/routeMethods'
 dotenv.config()
-
+// We need to learn reactMail to make the emails nicer
 export const POST = async (request) => {
+  const searchParams = request.nextUrl.searchParams;
+	const adminId = searchParams.get("adminId") || "";
+
   try {
-    const { name, email, referralSource, message } = await request.json();
+    const { emails, subjectLine, message } = await request.json();
+
+    // ! UNCOMMENT WHEN READY FOR ADMIN
+    // await isAdmin(adminId)
 
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({
@@ -20,9 +27,9 @@ export const POST = async (request) => {
 
     const mailOptions = {
       from: 'cultrualartsofnogalesarizona@gmail.com',
-      to: email,
-      subject: 'New Message from Contact Form',
-      text: `Name: ${name}\nEmail: ${email}\nReferral Source: ${referralSource}\nMessage: ${message}`
+      to: emails, // Emails is an array to sent to many at once
+      subject: subjectLine,
+      text: message
     }
 
     // Send email
@@ -30,16 +37,20 @@ export const POST = async (request) => {
 
     return NextResponse.json({
       success: true,
-      message: `Successfully sent email to support team`,
-      data: info.response,
+      message: `Successfully send email to clients`,
+      data: {
+        email: mailOptions,
+        accepted: info.accepted,
+        rejected: info.rejected,
+      }
     },{ 
       status: 200 
     })
   } catch (err) {
-    console.error('Error:', err);
+    console.error(err);
     return NextResponse.json({
       success: false,
-      message: `Failed to send email to support team`,
+      message: `Failed to send email to clients`,
       errorMessage: err.message,
       error: err
     },{ 
