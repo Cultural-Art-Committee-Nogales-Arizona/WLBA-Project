@@ -22,11 +22,11 @@ let userSchema = new Schema({
   },
   adminAuthId: {
     type: String,
-    default: `NULL`
+    default: ""
   },
   adminPassword: {
     type: String,
-    default: `NULL`
+    default: ""
   }
 },{
   collection: 'Users',

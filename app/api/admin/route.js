@@ -116,9 +116,9 @@ export const DELETE = async (request) => {
         if(!adminExists) throw new Error('User does not exist or is not an Admin.')
 
         await User.findByIdAndUpdate(userId, {
-            adminAuthId: 'NULL',
+            adminAuthId: "",
             admin: false,
-            adminPassword: 'NULL'
+            adminPassword: ""
         })
 
         let message = `Successfully removed admin role from user`
@@ -135,9 +135,9 @@ export const DELETE = async (request) => {
         return NextResponse.json({
             success: true,
             message: message,
-        },
-        { status: 201 }
-        );
+        },{ 
+            status: 201 
+        });
     } catch (err) {
         return NextResponse.json({
             success: false,
