@@ -27,6 +27,9 @@ function Profile() {
       <PageLink href="/dashboard/edit-event" className="nav-link" testId="navbar-home">
         <span>Edit Event Form</span>
       </PageLink>
+      <PageLink href="/dashboard/request-volunteers" className="nav-link" testId="navbar-home">
+        <span>Request volunteers Form</span>
+      </PageLink>
       {user && (
         <>
           <Row className="align-items-center profile-header mb-5 text-center text-md-left" data-testid="profile">
