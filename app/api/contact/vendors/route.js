@@ -1,4 +1,8 @@
-import { NextResponse } from 'next/server'
+/* -------------------------------------------------------------------------- */
+/*       This route is no longer necessary but il keep it around for now      */
+/* -------------------------------------------------------------------------- */
+
+/* import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv'
 import { isAdmin } from '@/utils/routeMethods'
@@ -59,3 +63,4 @@ export const POST = async (request) => {
   }
 
 }
+ */

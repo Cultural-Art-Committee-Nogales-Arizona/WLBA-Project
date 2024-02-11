@@ -13,7 +13,7 @@ function VolunteerRequest() {
 
   const [formData, setFormData] = useState({ 
     subjectLine: "Accepted Vendor Registration", 
-    emails: [],
+    vendors: [],
     message: `You have been approved as a vendor of Cultural Arts Committee of Nogales Arizona as of: 
     ${new Date().toLocaleDateString()}`,
   });
@@ -32,13 +32,9 @@ function VolunteerRequest() {
         setSearchResults(fetchedData.data)
         setLoading(false)
       } catch (error) {
-        if (error.name === 'AbortError') {
-          console.log('Fetch aborted')
-        } else {
+        if (error.name !== 'AbortError') {
           console.error('Error fetching volunteers:', error);
         }
-      } finally {
-        // setLoading(false)
       }
     };
 
@@ -48,33 +44,53 @@ function VolunteerRequest() {
   }, []);
 
   /* -------------------------- Handle vendor changes ------------------------- */
-
-  const handleCheckboxChange = (vendorEmail) => {
-    setFormData((prevFormData) => {
-      // Check if the vendorEmail is already in the array
-      const isVendorSelected = prevFormData.emails.includes(vendorEmail);
   
-      // If the vendorEmail is already selected, remove it from the array
+  const handleCheckboxChange = (vendor) => {
+    /* 
+      I am aware that this function is a Tower Of Terror but its working fine.
+      We shouldn't have to touch it
+    */
+    setFormData(prevFormData => {
+      // Check if the vendor is already in the array
+      const isVendorSelected = prevFormData.vendors.some(v => v.id === vendor._id);
+  
       if (isVendorSelected) {
+        // If the vendor is already selected, remove it from the array
         return {
           ...prevFormData,
-          emails: prevFormData.emails.filter((v) => v !== vendorEmail)
+          vendors: prevFormData.vendors.filter(v => v.id !== vendor._id)
         };
       } else {
-        // If the vendorEmail is not selected, add it to the array
+        // If the vendor is not selected, add it to the array
         return {
           ...prevFormData,
-          emails: [...prevFormData.emails, vendorEmail]
+          vendors: [
+            ...prevFormData.vendors,
+            {
+              name: vendor.name,
+              email: vendor.email,
+              id: vendor._id
+            }
+          ]
         };
       }
     });
-  }  
+  };
+  
+  
 
   const handleSelectAll = () => {
-    const allEmails = searchResults.map(result =>  result.email)
+    const allUserData = searchResults.map(result =>  {
+      return {
+        name: result.name,
+        email: result.email,
+        id: result._id
+      }
+    })
+
     setFormData((prev) => ({
       ...prev,
-      emails: allEmails
+      vendors: allUserData
     }))
   }
 
@@ -94,7 +110,7 @@ function VolunteerRequest() {
     
     // Filter the allVendors array based on whether the name or email matches the regex pattern
     const filtered = allVendors.filter(vendor => {
-      return regex.test(vendor.name) || regex.test(vendor.email) || regex.test(vendor.interest)
+      return regex.test(vendor.name) || regex.test(vendor.email) || regex.test(vendor.description) || regex.test(...vendor.tags)
     });
     
     // Update the state with the filtered results
@@ -105,16 +121,18 @@ function VolunteerRequest() {
   const handleSubmit = async (event) => {
     event.preventDefault()  
 
-    if (formData.emails.length === 0) {
-      setError('You must select at least one recipient')
+    if (formData.vendors.length === 0) {
+      setError('You must select at least one vendor')
       return
     }
+
+    const allEmails = formData.vendors.map((vendor) => vendor.email)
 
     const confirmEmail = prompt(`
         Confirm information\n
         Subject: ${formData.subjectLine}\n
         Message: ${formData.message}\n
-        Recipients: ${[...formData.emails]}\n\n
+        Recipients: ${[...allEmails]}\n\n
         Type "Yes" to confirm
         `)
         
@@ -124,13 +142,14 @@ function VolunteerRequest() {
       } 
 
     setLoading(true)
+    
     try {
-      // ! CHANGE TO BE THE ONE FROM ADMIN LOGIN
+      // ! CHANGE TO BE THE ONE FROM globalUserData
       // const adminId = ""
 
       const controller = new AbortController()
       const signal = controller.signal
-      const returnedData = await fetch(`/api/contact/vendors`/* ?adminId=${adminId} */, { 
+      const returnedData = await fetch(`/api/vendor/accept`/* ?adminId=${adminId} */, { 
         signal, 
         method: 'POST',
         headers: {
@@ -148,15 +167,17 @@ function VolunteerRequest() {
     }
   }
 
-  useEffect(() => {
+  // Dev logs
+  /* useEffect(() => {
     console.log(formData)
-  }, [formData.message])
+  }, [formData]) */
 
   return (
     <>
     {error ? <Error params={{error, setError}} /> : null}
+    {/* Display table  */}
     { loading ? <Loading /> : 
-    <div>
+    <div className={styles.container}>
       <div className="formGroup">
         <label htmlFor="search">Search</label>
         <input
@@ -165,7 +186,8 @@ function VolunteerRequest() {
           onChange={(event) => searchVendors(event.target.value)}
         />
       </div>
-      <h2>Selected Vendors: {formData.emails.length}</h2>
+      <h2>Selected Vendors: {formData.vendors.length}</h2>
+      {/* Start of table */}
       <table className={styles.volunteer_table}>
         <thead>
           <tr>
@@ -173,31 +195,34 @@ function VolunteerRequest() {
             <th>Name</th>
             <th>Email</th>
             <th>Description</th>
+            <th>Tags</th>
           </tr>
         </thead>
         <tbody>
         {
           searchResults.length ?
-          searchResults.map(volunteer => {
+          searchResults.map(vendor => {
             return (
-              <tr key={volunteer._id}>
+              <tr key={vendor._id}>
                 <td>
                   <input
                     type="checkbox"
-                    id={volunteer._id}
-                    checked={formData.emails.includes(volunteer.email)}
-                    onChange={() => handleCheckboxChange(volunteer.email)}
+                    id={vendor._id}
+                    checked={formData.vendors.some(v => v.id === vendor._id)}
+                    onChange={() => handleCheckboxChange(vendor)}
                   />
                 </td>
                 <td>
-                  {/* <label htmlFor={volunteer._id}>{volunteer.name}</label> */}
-                  <p>{volunteer.name}</p>
+                  <p>{vendor.name}</p>
                 </td>
                 <td>
-                  <p>{volunteer.email}</p>
+                  <p>{vendor.email}</p>
                 </td>
                 <td>
-                  <p>{volunteer.description}</p>
+                  <p>{vendor.description}</p>
+                </td>
+                <td>
+                  <p>{vendor.tags.join(", ")}</p>
                 </td>
               </tr>
             )
@@ -209,12 +234,14 @@ function VolunteerRequest() {
         }
         </tbody>
       </table>
+      {/* Start of form input */}
       <form action="" onSubmit={handleSubmit}>
         <div className="formGroup">
           <label htmlFor="subjectLine">Subject Line</label>
           <input 
             type="text" 
             id="subjectLine" 
+            className={styles.subject}
             onChange={(event) => updateFormData(event)}
             value={formData.subjectLine}
           />
@@ -224,6 +251,7 @@ function VolunteerRequest() {
           <textarea 
             type="text" 
             id="message"
+            className={styles.message}
             onChange={(event) => updateFormData(event)}
             value={formData.message}
           />

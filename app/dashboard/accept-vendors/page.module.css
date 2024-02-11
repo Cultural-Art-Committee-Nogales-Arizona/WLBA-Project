@@ -1,6 +1,7 @@
 .volunteer_table {
   border-collapse: collapse; /* Collapse table borders */
-  width: 35%; /* Set table width */
+  width: 35%;
+  border: 2px, solid black;
 }
 
 .volunteer_table td {
@@ -15,4 +16,16 @@
 
 .volunteer_table tr:hover {
   background-color: #ddd; /* Hover color for rows */
+}
+
+.message {
+  min-height: 150px;
+}
+
+.subject {
+  min-width: 250px; 
+}
+
+.container {
+  background-color: white;
 }
