@@ -58,19 +58,23 @@ export const POST = async (request) => {
 }
 
 export const PUT = async (request) => {
-    const { name, phone, email, interest, id } = await request.json()
+    const searchParams = request.nextUrl.searchParams
+    const volunteerId = searchParams.get('volunteerId')
+    const { name, phone, email, interest } = await request.json()
 
     try {
         const alreadySignedUp = await Volunteer.findOne({ phone })
 
         if (!alreadySignedUp) throw new Error(`User is not signed up as a volunteer`)
         
-        const newVolunteer = await Volunteer.findByIdAndUpdate(id, {
+        const newVolunteer = await Volunteer.findByIdAndUpdate(volunteerId, {
             name,
             phone,
             email,
             interest
-        })
+        },{
+            returnDocument: 'after'
+        });
 
         return NextResponse.json({
             success: true,
@@ -78,7 +82,7 @@ export const PUT = async (request) => {
             data: newVolunteer
         }, {
             status: 200
-        })
+        });
     } catch (err) {
         return NextResponse.json({
             success: false,
@@ -87,7 +91,7 @@ export const PUT = async (request) => {
             error: err
         }, {
             status: 500
-        })
+        });
     }
 }
 

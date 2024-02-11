@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+/*const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 const userDB = require('@/connections/userDB')
 require('dotenv').config()
@@ -34,4 +34,4 @@ userDB.once('open', () => {
   console.log('Connected to userDB for Admins')
 })
 
-module.exports = Admin
+module.exports = Admin*/

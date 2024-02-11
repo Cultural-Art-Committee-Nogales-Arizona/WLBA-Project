@@ -495,3 +495,8 @@ Sends an email to a specific volunteer from the volunteers database.
 #### Data Unit Returned
 Success string from nodemail.
 `250 2.0.0 OK  1707455489 l20-20020a170902d05400b001d8f12b0009sm629494pll.293 - gsmtp`
+
+## ROUTES THAT NEED DOCUMENTATION
+
+- Volunteer
+- `PUT http://localhost:3000/api/events/volunteer`

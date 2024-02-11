@@ -6,7 +6,7 @@ require('dotenv').config()
 
 let userSchema = new Schema({
   username: { 
-    type: String,
+    type: String, 
     unique: true,
     required: true
   },
@@ -15,6 +15,16 @@ let userSchema = new Schema({
     unique: true,
     required: true
   },
+  admin: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  adminAuthid: {
+    type: String,
+    required: true,
+    default: '0000'
+  }
 },{
   collection: 'Users',
   timestamps: true
