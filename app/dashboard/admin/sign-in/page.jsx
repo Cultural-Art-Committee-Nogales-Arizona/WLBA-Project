@@ -30,7 +30,7 @@ export default function AdminSignIn() {
     event.preventDefault()
 
     try {
-      let API_STRING = `/api/admin?username=${credentials.username}&password=${credentials.password}`
+      let API_STRING = `/api/admin?username=${credentials.username}&password=${credentials.password}&userId=${globalUserData._id}`
       const response = await fetch(API_STRING, { method: 'GET' })
 
       const returnedAdmin = await response.json()

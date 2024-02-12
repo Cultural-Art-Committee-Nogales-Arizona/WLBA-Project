@@ -6,12 +6,18 @@ import { isAdmin } from "@/utils/routeMethods";
 
 export const DELETE = async (request) => {
     const searchParams = request.nextUrl.searchParams
-    const vendorId = searchParams.get('vendorId')
 	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
+    const vendorId = searchParams.get('vendorId')
 
     try{
         // ! Uncomment line when ready to only allow admins
-		// await isAdmin(adminId)
+		/* 
+		if (!adminId) throw new Error("You must append ?adminId= query to URL")
+		if (!userId) throw new Error("You must append &userId= query to URL")
+        
+		await isAdmin(userId, adminId) 
+		*/
 
         const existingVendor = await AcceptedVendor.findOne({ id: vendorId })
 

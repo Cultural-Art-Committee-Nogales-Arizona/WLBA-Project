@@ -1,10 +1,12 @@
 "use client"
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
+import CustomUserContext from '@components/GlobalUserContext';
 import Loading from '@/components/overlays/Loading'
 import Error from '@/components/overlays/Error'
 import styles from './page.module.css'
 
 function VolunteerRequest() {
+  const { globalUserData, setGlobalUserData }  = useContext(CustomUserContext)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
@@ -136,12 +138,13 @@ function VolunteerRequest() {
 
     setLoading(true)
     try {
-      // ! CHANGE TO BE THE ONE FROM ADMIN LOGIN
-      // const adminId = ""
-
       const controller = new AbortController()
       const signal = controller.signal
-      const returnedData = await fetch(`/api/contact/volunteers`/* ?adminId=${adminId} */, { 
+
+      const { adminAuthId, _id } = globalUserData
+      const API_STRING = `/api/contact/volunteers?adminId=${adminAuthId}&userId=${_id}`
+      
+      const returnedData = await fetch(API_STRING, { 
         signal, 
         method: 'POST',
         headers: {

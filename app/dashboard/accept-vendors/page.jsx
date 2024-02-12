@@ -171,12 +171,12 @@ function VolunteerRequest() {
     setLoading(true)
     
     try {
-      // ! CHANGE TO BE THE ONE FROM globalUserData
-      // const adminId = ""
-
       const controller = new AbortController()
       const signal = controller.signal
-      const returnedData = await fetch(`/api/vendor/accept`/* ?adminId=${adminId} */, { 
+
+      const { adminAuthId, _id } = globalUserData
+
+      const returnedData = await fetch(`/api/vendor/accept?adminId=${adminAuthId}&userId=${_id}`, { 
         signal, 
         method: 'POST',
         headers: {

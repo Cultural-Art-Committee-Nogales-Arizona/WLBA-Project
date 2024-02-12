@@ -39,7 +39,7 @@ export default function Contact() {
     const signal = controller.signal
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/api/contact/CACNA', {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain, */*',

@@ -1,8 +1,9 @@
 import User from "@/models/users/User";
 import { NextResponse } from 'next/server';
-import { generateUserAuthID, isAdmin, hashPassword } from "@/utils/routeMethods";
+import { generateUserAuthID, isAdmin, hash } from "@/utils/routeMethods";
 import bcrypt from 'bcryptjs'
 
+// Get a hashed adminAuthId with username, password and document _id of admin
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams;
     const userId = searchParams.get("userId") || "";
@@ -12,9 +13,9 @@ export const GET = async (request) => {
     try{
         if (!username) throw new Error("You must append ?username= query to URL")
 
-        const isUserAdmin = await User.findOne({ _id: userId, username, admin: true })
+        const adminUser = await User.findOne({ _id: userId, username, admin: true })
         
-        if (!isUserAdmin) {
+        if (!adminUser) {
             return NextResponse.json({
                 success: false,
                 message: `Failed to authenticate Admin`,
@@ -24,21 +25,24 @@ export const GET = async (request) => {
             })
         } 
 
+        if (!password) throw new Error("You must append &password= query to URL") 
+
         // Return the userAuthId only if the correct password is supplied and user is an admin
-        if (password && isUserAdmin) {
-            const passwordMatch = await bcrypt.compare(password, isUserAdmin.adminPassword)
-            if (!passwordMatch) throw new Error("User is unauthorized") 
+        const passwordMatch = await bcrypt.compare(password, adminUser.adminPassword)
+
+        if (passwordMatch) {
+            return NextResponse.json({
+                success: true,
+                message: `Successfully fetched ${username}`,
+                data: {
+                    adminAuthId: await hash(adminUser.adminAuthId)
+                }
+            },{ 
+                status: 200
+            });
         }
 
-        return NextResponse.json({
-            success: true,
-            message: `Successfully fetched ${username}`,
-            data: {
-                adminAuthId: isUserAdmin.adminAuthId
-            }
-        },{ 
-            status: 200
-        });
+        throw new Error("User is unauthorized") 
     } catch (err) {
         return NextResponse.json({
             success: false,
@@ -54,16 +58,15 @@ export const GET = async (request) => {
 export const POST = async (request) => {
     const searchParams = request.nextUrl.searchParams;
 	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
     const { id, password } = await request.json()
     
     try{
         if (!adminId) throw new Error("You must append ?adminId= query to URL")
+        if (!userId) throw new Error("You must append &userId= query to URL")
         
-        await isAdmin(adminId)
-
-        // Generate a password used to get the userAuthId in another route
-        const hashedPassword = await hashPassword(password)
-
+        await isAdmin(userId, adminId)
+        
         const existingAdmin = await User.findOne({ _id: id, admin: true})
         
         if (existingAdmin) {
@@ -81,6 +84,9 @@ export const POST = async (request) => {
                 status: 200 
             })
         }
+        
+        // Generate a password used to get the adminAuthId in another route
+        const hashedPassword = await hash(password)
 
         const newAdmin = await User.findByIdAndUpdate(id, {
             adminAuthId: generateUserAuthID(),
@@ -117,38 +123,31 @@ export const POST = async (request) => {
 
 export const DELETE = async (request) => {
     const searchParams = request.nextUrl.searchParams
+    const adminId = searchParams.get('adminId') || ""
     const userId = searchParams.get('userId') || ""
-    const deleteUser = searchParams.get('deleteUser') || ""
+    const deleteId = searchParams.get('deleteId') || ""
 
     try{
-        if (!userId) throw new Error("You must append ?userId= query to URL")
+        if (!adminId) throw new Error("You must append ?adminId= query to URL")
+        if (!userId) throw new Error("You must append &userId= query to URL")
+        if (!deleteId) throw new Error("You must append &deleteId= query to URL")
 
-        const shouldDeleteUser = deleteUser === 'true' ? true : false 
+        await isAdmin(userId, adminId)
 
-        const adminExists = await User.findOne({ _id: userId, admin: true })
+        const adminExists = await User.findOne({ _id: deleteId, admin: true })
 
         if(!adminExists) throw new Error('User does not exist or is not an Admin.')
 
-        await User.findByIdAndUpdate(userId, {
+        const updatedUser = await User.findByIdAndUpdate(deleteId, {
             adminAuthId: "",
             admin: false,
             adminPassword: ""
         })
 
-        let message = `Successfully removed admin role from user`
-        
-        /* ----------------- Delete user if query "deleteUser=true" ----------------- */
-
-        if (shouldDeleteUser) {
-            const userDeleted = await User.findByIdAndDelete(userId)
-            if (userDeleted) message += ` and deleted from user database`
-        }
-
-        /* -------------------------------------------------------------------------- */
-
         return NextResponse.json({
             success: true,
             message: message,
+            data: updatedUser
         },{ 
             status: 201 
         });

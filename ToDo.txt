@@ -19,17 +19,10 @@ User Dashboard:
 BACKEND:
 
 MONGO
-- Change the way that Admins are stored. Change it to,
-User docs can have an two required: false properties
-UserAuthId: String,
-Admin: Boolean.
-When someone wants to be in admin mode they must sign in and it will check if it says their an admin,
-if so then return the UserAuthId, otherwise Admin: false and no code.
-The UserAuthId will be sent it all Admin POST routes   
 
 API
 
-- Create routes for admin sign-in, possibly implement a JWT admin session
+- Create a route to allow people to change their password
 - Create 'isAccepted' function to make accepted vendor verification more modular
 - Test all volunteer routes
 

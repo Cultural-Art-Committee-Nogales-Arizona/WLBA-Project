@@ -7,12 +7,18 @@ import { isAdmin } from "@/utils/routeMethods";
 export const POST = async (request) => {
     const searchParams = request.nextUrl.searchParams;
 	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
     const { vendors, message, subjectLine } = await request.json();
 
     try {
         // ! Uncomment line when ready to only allow admins
-		// await isAdmin(adminId)
+        /* 
+		if (!adminId) throw new Error("You must append ?adminId= query to URL")
+		if (!userId) throw new Error("You must append &userId= query to URL")
         
+		await isAdmin(userId, adminId) 
+		*/ 
+
         const responseData = [];
 
         for (const vendor of vendors) {
@@ -72,15 +78,21 @@ export const POST = async (request) => {
     }
 };
 
-
+// Reject a vendors request
 export const DELETE = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const vendorId = searchParams.get('vendorId')
 	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
 
     try{
         // ! Uncomment line when ready to only allow admins
-		// await isAdmin(adminId)
+		/* 
+		if (!adminId) throw new Error("You must append ?adminId= query to URL")
+		if (!userId) throw new Error("You must append &userId= query to URL")
+        
+		await isAdmin(userId, adminId) 
+		*/
 
         const existingVendor = await AcceptedVendor.findOne({ id: vendorId })
 

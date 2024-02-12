@@ -46,11 +46,17 @@ export const GET = async (request) => {
 export const POST = async (request) => {
 	const searchParams = request.nextUrl.searchParams;
 	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
 	const { title, description, location, start, end, banner } = await request.json();
 
 	try {
 		// ! Uncomment line when ready to only allow admins
-		// await isAdmin(adminId)
+		/* 
+		if (!adminId) throw new Error("You must append ?adminId= query to URL")
+		if (!userId) throw new Error("You must append &userId= query to URL")
+        
+		await isAdmin(userId, adminId) 
+		*/
 
 		const result = await Festival.create({
 			title,
@@ -86,11 +92,17 @@ export const PUT = async (request) => {
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
 	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
 	const { title, description, location, start, end, banner } = await request.json();
 
 	try {
 		// ! Uncomment line when ready to only allow admins
-		// await isAdmin(adminId)
+		/* 
+		if (!adminId) throw new Error("You must append ?adminId= query to URL")
+		if (!userId) throw new Error("You must append &userId= query to URL")
+        
+		await isAdmin(userId, adminId) 
+		*/
 
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("No Festival _id was defined");
@@ -136,10 +148,16 @@ export const DELETE = async (request) => {
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
 	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
 
 	try {
 		// ! Uncomment line when ready to only allow admins
-		// await isAdmin(adminId)
+		/* 
+		if (!adminId) throw new Error("You must append ?adminId= query to URL")
+		if (!userId) throw new Error("You must append &userId= query to URL")
+        
+		await isAdmin(userId, adminId) 
+		*/
 
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("No festival id was defined");

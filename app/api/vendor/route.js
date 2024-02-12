@@ -7,11 +7,18 @@ export const GET = async (request) => {
     // Might implement single vendor search in the future
     const searchParams = request.nextUrl.searchParams;
 	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
     // const vendorId = searchParams.get('vendorId') || ""
 
     try {
         // ! Uncomment line when ready to only allow admins
-		// await isAdmin(adminId)
+        // We might not make this admin only
+		/* 
+		if (!adminId) throw new Error("You must append ?adminId= query to URL")
+		if (!userId) throw new Error("You must append &userId= query to URL")
+        
+		await isAdmin(userId, adminId) 
+		*/
 
         const result = await Vendor.find()
 
@@ -91,6 +98,7 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const vendorId = searchParams.get('vendorId') || ""
+    // We need to make this so you cant edit someone elses vendor
     const { name, description, email, tags } = await request.json()
 
     try {
@@ -129,7 +137,8 @@ export const PUT = async (request) => {
 export const DELETE = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const vendorId = searchParams.get('vendorId')
-
+    // We need to make this so you cant delete someone elses vendor
+    
     try {
         /* ---------------- Delete acceptedVendor document if exists ---------------- */
 

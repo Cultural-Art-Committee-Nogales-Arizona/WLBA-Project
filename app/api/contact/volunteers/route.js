@@ -7,12 +7,18 @@ dotenv.config()
 export const POST = async (request) => {
   const searchParams = request.nextUrl.searchParams;
 	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
 
   try {
     const { emails, subjectLine, message } = await request.json();
 
     // ! UNCOMMENT WHEN READY FOR ADMIN
-    // await isAdmin(adminId)
+    
+		if (!adminId) throw new Error("You must append ?adminId= query to URL")
+		if (!userId) throw new Error("You must append &userId= query to URL")
+        
+		await isAdmin(userId, adminId) 
+		
 
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({

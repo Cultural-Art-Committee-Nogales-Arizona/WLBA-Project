@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
+import CustomUserContext from '@/components/GlobalUserContext'; 
 import PageLink from '@components/PageLink'
 
 import styles from './page.module.css'
@@ -8,6 +9,7 @@ import styles from './page.module.css'
 import EventForm from '@components/forms/EventForm'
 
 export default function EditEventPage() {
+  const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const abortControllerRef = useRef(null)
   const requestMethod = 'PUT'
   const [eventId, setEventId] = useState('')
@@ -44,7 +46,10 @@ export default function EditEventPage() {
     if (confirmDelete !== "Yes") return
 
     try {
-      const response = await fetch(`../api/events/festivals?festivalId=${formData._id}`, { signal, method: 'DELETE' })
+      const { adminAuthId, _id } = globalUserData
+      const API_STRING = `/api/events/festivals?festivalId=${formData._id}&adminId=${adminAuthId}&userId=${_id}`
+
+      const response = await fetch(API_STRING, { signal, method: 'DELETE' })
       const data = await response.json()
       console.log(data)
       // Handle response data as needed
@@ -78,7 +83,7 @@ export default function EditEventPage() {
     const signal = controller.signal
 
 		async function fetchData() {
-			const fetchedData = await fetch('../api/events/festivals', { signal, method: "GET" })
+			const fetchedData = await fetch('/api/events/festivals', { signal, method: "GET" })
 				.then(res => res.json())
 
 			setEvents(fetchedData.data)

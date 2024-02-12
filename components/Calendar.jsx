@@ -102,7 +102,6 @@ export default function Calendar() {
 		});
 
 		setDayData(currentSelectedEvents);
-		setDayData(currentSelectedEvents);
 	};
 
 	return (

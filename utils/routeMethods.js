@@ -100,10 +100,12 @@ import User from '@/models/users/User'
 
 /* ------------------- Will throw an error if not an admin ------------------ */
 
-async function isAdmin(adminAuthId) {
-  const user = await User.findOne({ adminAuthId: adminAuthId })
+async function isAdmin(id, hashedAdminId) {
+  const user = await User.findOne({ _id: id, admin: true })
   if (!user) throw new Error(`User not an admin and not allowed to preform API call`)
-  return true
+  const adminIdMatch = await bcrypt.compare(user.adminAuthId, hashedAdminId)
+  if (adminIdMatch) return true
+  return false
 }
 
 /* ----------------- Generate userAuthID on account creation ---------------- */
@@ -126,15 +128,15 @@ function generateUserAuthID() {
   return `${generateBlock()}-${generateBlock()}-${generateBlock()}-${generateBlock()}-${generateBlock()}-${generateBlock()}`
 }
 
-/* -------------------- Hash password on account creation ------------------- */
+/* ----------------------- Hash strings with bcryptjs ----------------------- */
 
-async function hashPassword(password) {
+async function hash(input) {
   const salt = await bcrypt.genSalt(10)
 
-  // Hash the password using the generated salt
-  const hashedPassword = await bcrypt.hash(password, salt)
+  // Hash the input using the generated salt
+  const hashedOutput = await bcrypt.hash(input, salt)
 
-  return hashedPassword
+  return hashedOutput
 }
 
 /* -------------------------------------------------------------------------- */
@@ -142,4 +144,4 @@ async function hashPassword(password) {
 // countVotes, 
 // isDuplicate, 
 // getUserWithID, 
-export { generateUserAuthID, isAdmin, hashPassword }
+export { generateUserAuthID, isAdmin, hash }

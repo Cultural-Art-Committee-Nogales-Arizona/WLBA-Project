@@ -222,25 +222,14 @@ export default function EventForm({ params }) {
         alert("Canceled form submission") 
         return
       } 
-      /*
-        TODO: This needs to be fixed so that it calls an API route that is password protected. 
-        otherwise everyone has the userAuthId or none does.
-        the GET requests all have just query's that are either public or easy to guess 
-      */
-      
-      /* async function getUserAuthId() {
-        const response = await fetch(`/api/admin?username=${globalUserData.username}&password=${an input}`, { method: 'GET' })
-        const responseData = await response.json()
-        console.log(responseData)
-      } */
-      /* getUserAuthId()
-      return */
 
       const controller = new AbortController()
       const signal = controller.signal
-      
-      let API_Route = '/api/events/festivals'
-      if (eventId) API_Route += `?festivalId=${eventId}`
+
+      const { adminAuthId, _id } = globalUserData
+      // Protect the API route from non admins
+      let API_Route = `/api/events/festivals?adminId=${adminAuthId}&userId=${_id}`
+      if (eventId) API_Route += `&festivalId=${eventId}`
       const response = await fetch(API_Route, {
         signal,
         method: requestMethod,
