@@ -137,6 +137,8 @@
     flex-direction: row;
 
     justify-content: space-between;
+    padding-right: 1%;
+    padding-top: 2%;
 
     background-color: var(--orange-accent);
 }
@@ -149,5 +151,6 @@
 
 .Imagec2{
     border: solid black 3px;
+    
     
 }
