@@ -15,10 +15,12 @@ const Footer = () => (
       <PageLink href="/gallery" className={styles.link} testId="navbar-external">
         <span>Gallery</span>
       </PageLink>
-      <p>Events</p>
+      <PageLink href="/calendar" className={styles.link} testId="navbar-csr">
+        <span>Events</span>
+      </PageLink>
     </div>
     <div className={styles.navLinks}>
-      <p>Facebook</p>
+      <a href="https://www.facebook.com/CulturalArtsCommitteeOfNogalesArizona/" className={styles.link} target="_blank"><p>Facebook</p></a>
       <p>|</p>
       <PageLink href="/contact-us" className={styles.link} testId="navbar-ssr">
         <span >Contact Us</span>
