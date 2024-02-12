@@ -31,8 +31,8 @@ const NavBar = () => {
   const toggle = () => setIsOpen(!isOpen)
 
   const handleLogout = () => {
-    // Perform any cleanup tasks here (e.g., clear localStorage)
-    localStorage.removeItem('adminAuthId');
+    // Perform any cleanup tasks here (e.g., clear sessionStorage)
+    sessionStorage.removeItem('adminAuthId');
   }
 
   // Fetch custom user data when the component mounts
@@ -43,10 +43,10 @@ const NavBar = () => {
     try {
 
       if (user) {
-          // console.log(globalUserData)
+        // console.log(globalUserData)
         let name = user.given_name ?? user.name
 
-        const adminAuthId = localStorage.getItem('adminAuthId');
+        const adminAuthId = sessionStorage.getItem('adminAuthId');
         const adminStatus = adminAuthId ? true : false
 
         // Example fetch function to get custom user data
