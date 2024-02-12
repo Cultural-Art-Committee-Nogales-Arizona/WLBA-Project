@@ -24,14 +24,19 @@
 
     text-decoration: none;
 
-    color: black;
+    color: whitesmoke;
 }
 
 .copyright{
-    color: black;
+    color: whitesmoke;
 }
 
 .link{
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+.link:hover {
     text-decoration: none;
     color: black;
 }

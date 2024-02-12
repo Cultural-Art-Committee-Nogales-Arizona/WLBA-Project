@@ -8,6 +8,8 @@ export default function VolunteerPage() {
       Sign up as a Volunteer
       <Link href={'/volunteer/sign-up'}>Sign up</Link>
       <br />
+      {/* Update a Volunteer
+      <Link href={'/volunteer/update'}>Sign up</Link> */}
     </>
   );
 }
