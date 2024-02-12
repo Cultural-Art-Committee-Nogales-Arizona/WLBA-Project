@@ -6,9 +6,15 @@ const Footer = () => (
   <footer className={styles.footer} data-testid="footer">
     <h2>Cultural Arts</h2>
     <div className={styles.navLinks}>
-      <p>Home</p>
-      <p>About Us</p>
-      <p>Gallery</p>
+      <PageLink href="/" className={styles.link} testId="navbar-home">
+        <span>Home</span>
+      </PageLink>
+      <PageLink href="/about-us" className={styles.link} testId="navbar-ssr">
+        <span>About Us</span>
+      </PageLink>
+      <PageLink href="/gallery" className={styles.link} testId="navbar-external">
+        <span>Gallery</span>
+      </PageLink>
       <p>Events</p>
     </div>
     <div className={styles.navLinks}>
@@ -18,7 +24,9 @@ const Footer = () => (
         <span >Contact Us</span>
       </PageLink>
       <p>|</p>
-      <p>Volunteer</p>
+      <PageLink href="/volunteer" className={styles.link} testId="navbar-external">
+        <span>Volunteer</span>
+      </PageLink>
     </div>
     <div className={styles.copyright}>
       <p>Nogales, Arizona 85621</p>
