@@ -29,7 +29,7 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const { user, isLoading } = useUser()
   const toggle = () => setIsOpen(!isOpen)
-  
+
   const handleLogout = () => {
     // Perform any cleanup tasks here (e.g., clear localStorage)
     localStorage.removeItem('adminAuthId');
@@ -72,7 +72,7 @@ const NavBar = () => {
       console.error(error)
     }
     
-  }, [user])
+  }, [user?.name])
   
   return (
     <div className="nav-container" data-testid="navbar" >
@@ -145,11 +145,20 @@ const NavBar = () => {
                     <DropdownItem header data-testid="navbar-user-desktop">
                       {user.name}
                     </DropdownItem>
+                    {globalUserData.admin ? 
                     <DropdownItem className="dropdown-profile" tag="span">
                       <PageLink href="/dashboard" icon="user" testId="navbar-profile-desktop">
                         Dashboard
                       </PageLink>
+                    </DropdownItem> : null
+                    }
+                    {globalUserData.admin ? null : 
+                    <DropdownItem className="dropdown-profile" tag="span">
+                      <PageLink href="/dashboard/admin/sign-in" icon="user" testId="navbar-profile-desktop">
+                        Admin Sign in
+                      </PageLink>
                     </DropdownItem>
+                    }
                     <DropdownItem id="qsLogoutBtn"  onClick={handleLogout}>
                       <AnchorLink href="/api/auth/logout" icon="power-off" testId="navbar-logout-desktop">
                         Log out
