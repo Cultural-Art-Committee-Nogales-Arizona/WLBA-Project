@@ -5,13 +5,14 @@ import bcrypt from 'bcryptjs'
 
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams;
+    const userId = searchParams.get("userId") || "";
 	const username = searchParams.get("username") || "";
     const password = searchParams.get("password") || "";
     
     try{
         if (!username) throw new Error("You must append ?username= query to URL")
 
-        const isUserAdmin = await User.findOne({ username, admin: true })
+        const isUserAdmin = await User.findOne({ _id: userId, username, admin: true })
         
         if (!isUserAdmin) {
             return NextResponse.json({
