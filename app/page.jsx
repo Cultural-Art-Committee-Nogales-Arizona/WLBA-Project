@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import Hero from '@/components/Hero'
 import Loading from '@/components/overlays/Loading'
+import styles from './page.module.css'
 
 export default function Index() {
   const [nextEvent, setNextEvent] = useState(null)
