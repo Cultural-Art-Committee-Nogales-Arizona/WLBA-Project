@@ -38,8 +38,8 @@ export default function AdminSignIn() {
       if (returnedAdmin.success) {
         const adminAuthId = returnedAdmin.data.adminAuthId;
         
-        // Set adminAuthId to localStorage
-        localStorage.setItem('adminAuthId', adminAuthId);
+        // Set adminAuthId to sessionStorage
+        sessionStorage.setItem('adminAuthId', adminAuthId);
         
         setGlobalUserData(prev => ({
           ...prev,
