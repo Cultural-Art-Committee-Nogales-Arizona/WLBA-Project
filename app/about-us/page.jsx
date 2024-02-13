@@ -6,6 +6,8 @@ import Image from "next/image";
 import AboutUsImageone from "@/public/Images/aboutUs.jpg";
 import AboutUsImagetwo from "@/public/Images/president.jpg";
 import AboutUsImagethree from "@/public/Images/kory.jpg";
+
+import Donate from '@/components/buttons/Donate'
 import { useTranslation } from 'react-i18next';
 
 
@@ -116,6 +118,7 @@ export default function aboutUs() {
           </div>
         </div>
       </div>
+      <Donate />
     </div>
   );
 }
