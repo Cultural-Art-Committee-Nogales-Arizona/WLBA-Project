@@ -1,0 +1,31 @@
+.volunteer_table {
+    border-collapse: collapse; /* Collapse table borders */
+    width: 35%;
+    border: 2px, solid black;
+  }
+  
+  .volunteer_table td {
+    border: 1px solid #ddd; /* Add border to table cells */
+    padding: 8px; /* Add padding to table cells */
+    height: 25px;
+  }
+  
+  .volunteer_table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Alternate row background color */
+  }
+  
+  .volunteer_table tr:hover {
+    background-color: #ddd; /* Hover color for rows */
+  }
+  
+  .message {
+    min-height: 150px;
+  }
+  
+  .subject {
+    min-width: 250px; 
+  }
+  
+  .container {
+    background-color: white;
+  }

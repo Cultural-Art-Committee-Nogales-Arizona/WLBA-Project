@@ -1,13 +1,10 @@
-v1.1
+v1.1.2
 # CACNA API Documentation
 
 ### Changelog
 ```
-- v1.1 changelog:
-- Added Table of Contents
-- Reworked Admin storage. Removed admin collection. Admin information is now stored in User documents
-- Multiple vendors can be accepted with one API Call
-- Accepting vendors now sends an Email
+- v1.1.2 changelog:
+- You can now fetch vendors by user ID
 ```
 
 ## Contents
@@ -233,10 +230,10 @@ Get a list of all vendors in the database.
 `GET https://wlba-project.vercel.app/api/vendor`
 
 #### Query Parameters
-- `adminId`: Authentication token for administrators. Ensures that only users with an admin token can see registered vendors.
+- `userId`: Optional user database identifier. If a valid user value is passed only vendors registered by this user will be returned.
 
 #### Data Unit Returned
-Returns all registered vendors.
+Returns all registered vendors or all vendors corresponding to a specific user.
 
 ### Post Vendor
 
@@ -466,14 +463,14 @@ Validates admin credentials and returns a corresponding admin object.
 `GET https://wlba-project.vercel.app/api/admin`
 
 #### Query Parameters
+- `userId`: Database Identifier of user logging in as admin.
 - `username`: Username of the admin logging in.
 - `password`: Admin password related to the admin account.
 
 #### Data Unit Returned
-Returns only minimal administrator information.
 ```json
 {
-  "adminAuthId": "Administrator authentication token" // String
+  "adminAuthId": "Hashed administrator token" // String
 }
 ```
 
@@ -503,7 +500,7 @@ Register a user as an admin
   "username": "Username of the admin",
   "email": "Email of the admin",
   "admin": "Admin status of the admin",
-  "adminAuthId": "New admin or existing admin's token"
+  "adminAuthId": "New admin or existing admin's hashed token"
 }
 ```
 

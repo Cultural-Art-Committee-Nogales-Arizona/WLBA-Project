@@ -78,7 +78,7 @@ export const POST = async (request) => {
                     username: existingAdmin.username,
                     email: existingAdmin.email,
                     admin: existingAdmin.admin,
-                    adminAuthId: existingAdmin.adminAuthId
+                    adminAuthId: hash(existingAdmin.adminAuthId)
                 }
             },{ 
                 status: 200 
@@ -104,7 +104,7 @@ export const POST = async (request) => {
                 username: newAdmin.username,
                 email: newAdmin.email,
                 admin: newAdmin.admin,
-                adminAuthId: newAdmin.adminAuthId
+                adminAuthId: hash(newAdmin.adminAuthId)
             },
         },{ 
             status: 201 

@@ -20,7 +20,7 @@ export const GET = async (request) => {
 		await isAdmin(userId, adminId) 
 		*/
 
-        const result = await Vendor.find()
+        const result = userId ? await Vendor.find({ user: userId }) : await Vendor.find()
 
         //Checks if vendor's _ids are in the AcceptedVendor collection and gives them the boolean accepted status accordingly
         const mapVendors = async () => {

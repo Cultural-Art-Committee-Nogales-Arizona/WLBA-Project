@@ -1,7 +1,7 @@
 FRONTEND:
 
 Forms to build:
-- 
+- Create admin
 
 Volunteering page:
 - Style page
@@ -22,6 +22,7 @@ MONGO
 
 API
 
+- Create route to reset admin password
 - Create a route to allow people to change their password
 - Create 'isAccepted' function to make accepted vendor verification more modular
 - Test all volunteer routes

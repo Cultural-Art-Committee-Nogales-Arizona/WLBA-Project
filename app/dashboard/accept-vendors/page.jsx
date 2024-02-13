@@ -5,6 +5,7 @@ import Error from '@/components/overlays/Error'
 import styles from './page.module.css'
 
 function VolunteerRequest() {
+  const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
