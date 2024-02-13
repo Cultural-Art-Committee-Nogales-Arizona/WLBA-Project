@@ -70,15 +70,17 @@ export const POST = async (request) => {
         const existingAdmin = await User.findOne({ _id: id, admin: true})
         
         if (existingAdmin) {
+            const { _id, username, email, admin } = existingAdmin
+            const hashedAdminId = await hash(existingAdmin.adminAuthId)
             return NextResponse.json({
                 success: true,
                 message: `User already admin, returning fetched user: ${existingAdmin.username}`,
                 data: { 
-                    _id: existingAdmin._id,
-                    username: existingAdmin.username,
-                    email: existingAdmin.email,
-                    admin: existingAdmin.admin,
-                    adminAuthId: hash(existingAdmin.adminAuthId)
+                    _id,
+                    username,
+                    email,
+                    admin,
+                    adminAuthId: hashedAdminId
                 }
             },{ 
                 status: 200 

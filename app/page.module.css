@@ -1,0 +1,27 @@
+.mainDiv {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    margin: 0 auto;
+    /* grid-template-columns: 3;
+    grid-template-rows: 3; */
+}
+
+.Img {
+    filter: opacity(65%) blur(3px);
+    z-index: 1;
+    /* grid-column: 1/3;
+    grid-row: 1/3; */
+    position: absolute;
+    left: 0;
+    margin-left: 10px;
+}
+
+.logo {
+    z-index: 2;
+
+    /* grid-column-start: 2;
+    grid-row-start: 2; */
+}
