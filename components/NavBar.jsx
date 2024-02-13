@@ -45,7 +45,6 @@ const NavBar = () => {
         let name = user.given_name ?? user.name
 
         const adminAuthId = sessionStorage.getItem('adminAuthId');
-        // const adminStatus = adminAuthId ? true : false
 
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
@@ -58,7 +57,6 @@ const NavBar = () => {
             setGlobalUserData(prev => ({
               ...prev,
               ...responseData.data,
-              // admin: adminStatus,
               adminAuthId: adminAuthId
             }))
           }
@@ -142,6 +140,11 @@ const NavBar = () => {
                   <DropdownMenu>
                     <DropdownItem header data-testid="navbar-user-desktop">
                       {user.name}
+                    </DropdownItem>
+                    <DropdownItem>
+                      <AnchorLink href="/vendor" icon="user" testId="navbar-vendor-desktop">
+                        Vendor Center
+                      </AnchorLink>
                     </DropdownItem>
                     {globalUserData.adminAuthId ? 
                     <DropdownItem className="dropdown-profile" tag="span">

@@ -8,7 +8,7 @@ import CustomUserContext from '@components/GlobalUserContext';
 import styles from './page.module.css'
 import Link from 'next/link';
 
-function Profile() {
+function VendorCenter() {
   const [loading, setLoading] = useState(true)
   const [userVendors, setUserVendors] = useState([])
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
@@ -84,7 +84,7 @@ function Profile() {
                   <p>{vendor.accepted? "Accepted": "Pending"}</p>
                 </td>
                 <td>
-                  <Link href={`/vendor/edit?vendorId=${vendor._id}`}>Edit</Link>
+                  <Link href={`/vendor/edit?vendorId=${vendor._id}&name=${vendor.name}&description=${vendor.description}&tags=${vendor.tags}&email=${vendor.email}`}>Edit</Link>
                 </td>
               </tr>
             )
@@ -100,7 +100,7 @@ function Profile() {
   );
 }
 
-export default withPageAuthRequired(Profile, {
+export default withPageAuthRequired(VendorCenter, {
   onRedirecting: () => <Loading />,
   onError: error => <ErrorMessage>{error.message}</ErrorMessage>
 });

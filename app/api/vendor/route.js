@@ -6,20 +6,10 @@ import { isAdmin } from "@/utils/routeMethods";
 export const GET = async (request) => {
     // Might implement single vendor search in the future
     const searchParams = request.nextUrl.searchParams;
-	const adminId = searchParams.get("adminId") || "";
 	const userId = searchParams.get("userId") || "";
     // const vendorId = searchParams.get('vendorId') || ""
 
     try {
-        // ! Uncomment line when ready to only allow admins
-        // We might not make this admin only
-		/* 
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-		if (!userId) throw new Error("You must append &userId= query to URL")
-        
-		await isAdmin(userId, adminId) 
-		*/
-
         const result = userId ? await Vendor.find({ user: userId }) : await Vendor.find()
 
         //Checks if vendor's _ids are in the AcceptedVendor collection and gives them the boolean accepted status accordingly
