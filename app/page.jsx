@@ -3,22 +3,25 @@ import { useEffect, useState } from 'react'
 import Hero from '@/components/Hero'
 import Loading from '@/components/overlays/Loading'
 import styles from './page.module.css'
+import Image from "next/image";
+import TitleImg from "@/public/Images/BackgroundImg.jpg";
+import Logo from '@/public/Logo';
 
 export default function Index() {
   const [nextEvent, setNextEvent] = useState(null)
-  
+
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
 
-		async function fetchData() {
-			try {
+    async function fetchData() {
+      try {
         const eventCall = await fetch('./api/events/festivals?nextEvent=true', { signal, method: "GET" })
         const fetchedData = await eventCall.json()
-        
+
         const startDate = new Date(fetchedData.data.start)
         const endDate = new Date(fetchedData.data.end)
-        
+
         const returnedEvent = {
           ...fetchedData.data,
           // You can change these Date methods to whatever format you want
@@ -34,18 +37,26 @@ export default function Index() {
           console.error('Error fetching data:', error)
         }
       }
-		}
+    }
 
-		fetchData()
+    fetchData()
 
     return () => controller.abort()
-	}, [])
+  }, [])
 
   return (
-      <div>
-        <Hero />
-
-        {/* <h1>Next Event</h1>
+    <div>
+      <div className={styles.mainDiv}>
+        <Image
+          width={1500}
+          height={650}
+          src={TitleImg}
+          alt={"text"}
+          className={styles.Img}
+        />
+        <Logo scale="75" className={styles.logo} />
+      </div>
+      {/* <h1>Next Event</h1>
         { nextEvent ? 
           <div>
             <h4>Start Date:</h4><p> The next event starts on {nextEvent.start}</p>
@@ -58,6 +69,6 @@ export default function Index() {
           : 
           <Loading scale={200} />
         } */}
-      </div>
+    </div>
   )
 }
