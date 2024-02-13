@@ -123,18 +123,19 @@ function VolunteerRequest() {
       return
     }
 
-    const confirmEmail = prompt(`
-        Confirm information\n
-        Subject: ${formData.subjectLine}\n
-        Message: ${formData.message}\n
-        Recipients: ${[...formData.emails]}\n\n
-        Type "Yes" to confirm
-        `)
-        
-      if (confirmEmail !== "Yes") {
-        alert("Canceled form submission") 
-        return
-      } 
+    // We probably wont use this
+    /* const confirmEmail = prompt(`
+      Confirm information\n
+      Subject: ${formData.subjectLine}\n
+      Message: ${formData.message}\n
+      Recipients: ${[...formData.emails]}\n\n
+      Type "Yes" to confirm
+      `)
+      
+    if (confirmEmail !== "Yes") {
+      alert("Canceled form submission") 
+      return
+    }  */
 
     setLoading(true)
     try {
@@ -161,10 +162,6 @@ function VolunteerRequest() {
       console.error(error)
     }
   }
-
-  /* useEffect(() => {
-    console.log(formData)
-  }, [formData.message]) */
 
   return (
     <>

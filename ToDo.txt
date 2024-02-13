@@ -22,7 +22,7 @@ MONGO
 
 API
 
-- Create a route to allow people to change their password
+- Create a route to allow admins to change their password
 - Create 'isAccepted' function to make accepted vendor verification more modular
 - Test all volunteer routes
 

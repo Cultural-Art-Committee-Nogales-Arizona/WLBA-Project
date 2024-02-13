@@ -1,15 +1,24 @@
-"use client"
+'use client';
+
+import { useState, useEffect } from 'react';
+import VolunteerForm from '@components/forms/VolunteerForm';
 import Link from 'next/link'
 
-export default function VolunteerPage() {
+import Loading from '@/components/overlays/Loading'
+
+export default function VolunteerSignUp() {
+  const requestMethod = 'POST'
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    interest: ""
+  })
+
   return (
     <>
-    {/* Style this page just move the buttons to a place that makes since */}
       Sign up as a Volunteer
-      <Link href={'/volunteer/sign-up'}>Sign up</Link>
-      <br />
-      {/* Update a Volunteer
-      <Link href={'/volunteer/update'}>Sign up</Link> */}
+      <VolunteerForm params={{formData, setFormData, requestMethod}} />
     </>
   );
 }

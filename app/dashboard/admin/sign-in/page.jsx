@@ -24,6 +24,10 @@ export default function AdminSignIn() {
       [id]: value
     }))
   }
+
+  const resetPassword = () => {
+    setError("This will reset passwords in the future")
+  }
    
   
   const handleSubmit = async (event) => {
@@ -61,10 +65,6 @@ export default function AdminSignIn() {
     }
   }
 
-  useEffect(() => {
-    console.log(globalUserData)
-  }, [globalUserData])
-
   return (
     <div>
       {error ? <Error params={{error, setError}} /> : null}
@@ -89,6 +89,7 @@ export default function AdminSignIn() {
         </div>
         <button type="submit">Submit</button>
       </form>
+      <button type="text" onClick={resetPassword}>Reset password</button>
     </div>
   )
 }

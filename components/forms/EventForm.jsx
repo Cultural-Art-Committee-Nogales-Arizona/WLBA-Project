@@ -208,7 +208,8 @@ export default function EventForm({ params }) {
     setLoading(true)
 
     try {
-      const confirmEvent = prompt(`
+      // We will probably not use this confirmation box 
+      /* const confirmEvent = prompt(`
         Confirm information\n
         Title: ${formData.title}\n
         Description: ${formData.description}\n
@@ -221,7 +222,7 @@ export default function EventForm({ params }) {
       if (confirmEvent !== "Yes") {
         alert("Canceled form submission") 
         return
-      } 
+      }  */
 
       const controller = new AbortController()
       const signal = controller.signal
@@ -259,8 +260,12 @@ export default function EventForm({ params }) {
       }
 
     } catch (error) {
-      console.error('Error submitting the form:', error.message)
-      // setError(`Failed to submit the form ${error.message}`)
+      if (error.name === 'AbortError') {
+        console.log('Fetch aborted')
+      } else {
+        console.error('Error:', error)
+        // Handle other errors as needed
+      }
     } finally {
       setLoading(false)
     }
@@ -356,16 +361,16 @@ export default function EventForm({ params }) {
             />
           </div>
           {/* We might not implement adding images to events */}
-          <div className={styles.formGroup}>
+          {/* <div className={styles.formGroup}>
             <label htmlFor="banner">Banner:</label>
             <p>will add later, maybe</p>
-            {/* <input 
+            <input 
               id="banner" 
               type="file" 
               value={formData.file || ''} 
               onChange={updateForm} 
-              /> */}
-          </div>
+              />
+          </div> */}
         </fieldset>
         <input type="submit" className={styles.submit} />
       </form> }

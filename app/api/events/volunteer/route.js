@@ -26,9 +26,10 @@ export const POST = async (request) => {
     const { name, phone, email, interest } = await request.json()
 
     try {
-        const alreadySignedUp = await Volunteer.findOne({ phone })
+        const alreadySignedUp = await Volunteer.findOne({ $or: [{ email }, { phone }] })
 
-        if (alreadySignedUp) throw new Error(`User is already signed up as a volunteer with phone number: ${phone}`)
+        if (alreadySignedUp.phone === phone) throw new Error(`User is already signed up as a volunteer with phone number: ${phone}`)
+        if (alreadySignedUp.email === email) throw new Error(`User is already signed up as a volunteer with email: ${email}`)
         
         const newVolunteer = await Volunteer.create({
             name,

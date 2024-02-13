@@ -83,11 +83,20 @@ export default function EditEventPage() {
     const signal = controller.signal
 
 		async function fetchData() {
-			const fetchedData = await fetch('/api/events/festivals', { signal, method: "GET" })
+			try {
+        const fetchedData = await fetch('/api/events/festivals', { signal, method: "GET" })
 				.then(res => res.json())
 
-			setEvents(fetchedData.data)
-			console.log(fetchedData)
+        setEvents(fetchedData.data)
+        console.log(fetchedData)
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          console.log('Fetch aborted')
+        } else {
+          console.error('Error:', error)
+          // Handle other errors as needed
+        }
+      }
 		}
 
 		fetchData()
