@@ -1,15 +1,16 @@
 "use client"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import Loading from "@components/overlays/Loading"
 import CustomUserContext from "@components/GlobalUserContext"
 import Error from "@components/overlays/Error"
+import { useRouter } from "next/router"
 
-export default function VendorForm({ vendorId }){
+export default function VendorForm({ vendorId, vendorData }){
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
-    const [formData, setFormData] = useState({})
+    const router = useRouter()
+    const [formData, setFormData] = useState(vendorData || {})
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
-
     const method = vendorId ? 'PUT' : 'POST'
 
     const handleSubmit = async (event) => {
@@ -55,12 +56,11 @@ export default function VendorForm({ vendorId }){
             const responseData = await response.json()
 
             if(responseData.success){
-
+                router.push('/vendor')
             } else {
                 setError(`Failed to submit the form ${responseData.errorMessage}`)
                 throw new Error(`Vendor API failed to parse request. Status code: ${response.status}`)
             }
-
         } catch (err) {
             console.err('Error submitting the form:', err.message)
         } finally {
@@ -132,6 +132,7 @@ export default function VendorForm({ vendorId }){
                         />
                     </div>
                 </fieldset>
+                <input type="submit" />
             </form>
             }   
         </>

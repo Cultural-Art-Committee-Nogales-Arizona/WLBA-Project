@@ -143,6 +143,11 @@ const NavBar = () => {
                     <DropdownItem header data-testid="navbar-user-desktop">
                       {user.name}
                     </DropdownItem>
+                    <DropdownItem>
+                      <AnchorLink href="/vendor" icon="user" testId="navbar-vendor-desktop">
+                        Vendor Center
+                      </AnchorLink>
+                    </DropdownItem>
                     {globalUserData.adminAuthId ? 
                     <DropdownItem className="dropdown-profile" tag="span">
                       <PageLink href="/dashboard" icon="user" testId="navbar-profile-desktop">
