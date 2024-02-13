@@ -24,7 +24,18 @@ export default function EditEventPage() {
   })
 
   const handleDropdownChange = (event) => {
-    if (event.target.value === "") return
+    if (event.target.value === "") {
+      setEventId("selectEvent")
+      setFormData({
+        title: "",
+        location: "",
+        start: "",
+        end: "",
+        banner: "",
+        description: ""
+      })
+      return 
+    }
     setEventId(event.target.value)
     const foundEvent = events.find(festival => festival._id === event.target.value)
     setFormData(foundEvent)

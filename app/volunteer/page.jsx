@@ -17,7 +17,7 @@ export default function VolunteerSignUp() {
 
   return (
     <>
-      Sign up as a Volunteer
+      If you're interested in volunteering for one of our cultural celebrations please contact us using the form below:
       <VolunteerForm params={{formData, setFormData, requestMethod}} />
     </>
   );
