@@ -16,6 +16,7 @@ let volunteerSchema = new Schema({
     email: {
         type: String,
         required: true,
+        unique: true
     },
     interest: {
         type: String,

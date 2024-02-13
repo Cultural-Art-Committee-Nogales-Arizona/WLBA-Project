@@ -25,8 +25,7 @@ export default function Index() {
           start: startDate.toLocaleDateString(),
           end: endDate.toLocaleDateString()
         }
-        
-        console.log(returnedEvent)
+
         setNextEvent(returnedEvent)
       } catch (error) {
         if (error.name === 'AbortError') {

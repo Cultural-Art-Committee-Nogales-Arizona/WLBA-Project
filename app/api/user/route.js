@@ -1,5 +1,4 @@
 import User from "@/models/users/User";
-import Admin from "@/models/users/Admins";
 import { NextResponse } from 'next/server'
 import { isAdmin } from "@/utils/routeMethods";
 
@@ -15,14 +14,15 @@ export const GET = async (request) => {
 
         if(!user) throw new Error(`No such user exists with name: ${name}`)
 
+        const { username, _id, email, admin } = user
         return NextResponse.json({
             success: true,
             message: `Successfully found user`,
             data: {
-                _id: user._id,
-                username: user.username,
-                email: user.email,
-                admin: user.admin
+                _id, 
+                username, 
+                email, 
+                admin    
             }
         }, {
             status: 200

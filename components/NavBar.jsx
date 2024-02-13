@@ -39,15 +39,13 @@ const NavBar = () => {
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
-    // console.log(user)
     try {
 
       if (user) {
-        // console.log(globalUserData)
         let name = user.given_name ?? user.name
 
         const adminAuthId = sessionStorage.getItem('adminAuthId');
-        const adminStatus = adminAuthId ? true : false
+        // const adminStatus = adminAuthId ? true : false
 
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
@@ -60,7 +58,7 @@ const NavBar = () => {
             setGlobalUserData(prev => ({
               ...prev,
               ...responseData.data,
-              admin: adminStatus,
+              // admin: adminStatus,
               adminAuthId: adminAuthId
             }))
           }
@@ -145,19 +143,19 @@ const NavBar = () => {
                     <DropdownItem header data-testid="navbar-user-desktop">
                       {user.name}
                     </DropdownItem>
-                    {globalUserData.admin ? 
+                    {globalUserData.adminAuthId ? 
                     <DropdownItem className="dropdown-profile" tag="span">
                       <PageLink href="/dashboard" icon="user" testId="navbar-profile-desktop">
                         Dashboard
                       </PageLink>
                     </DropdownItem> : null
                     }
-                    {globalUserData.admin ? null : 
+                    {globalUserData.admin && !globalUserData.adminAuthId ?  
                     <DropdownItem className="dropdown-profile" tag="span">
                       <PageLink href="/dashboard/admin/sign-in" icon="user" testId="navbar-profile-desktop">
                         Admin Sign in
                       </PageLink>
-                    </DropdownItem>
+                    </DropdownItem> : null
                     }
                     <DropdownItem id="qsLogoutBtn"  onClick={handleLogout}>
                       <AnchorLink href="/api/auth/logout" icon="power-off" testId="navbar-logout-desktop">
@@ -201,11 +199,20 @@ const NavBar = () => {
                     </h6>
                   </span>
                 </NavItem>
-                <NavItem>
-                  <PageLink href="/profile" icon="user" testId="navbar-profile-mobile">
-                    Profile
-                  </PageLink>
-                </NavItem>
+                {globalUserData.adminAuthId ? 
+                  <NavItem className="dropdown-profile" tag="span">
+                    <AnchorLink href="/dashboard" icon="user" testId="navbar-profile-desktop">
+                      Dashboard
+                    </AnchorLink>
+                  </NavItem> : null
+                }
+                {globalUserData.admin && !globalUserData.adminAuthId ?  
+                  <NavItem className="dropdown-profile" tag="span">
+                    <AnchorLink href="/dashboard/admin/sign-in" icon="user" testId="navbar-profile-desktop">
+                      Admin Sign in
+                    </AnchorLink>
+                  </NavItem> : null
+                }
                 <NavItem id="qsLogoutBtn">
                   <AnchorLink
                     href="/api/auth/logout"

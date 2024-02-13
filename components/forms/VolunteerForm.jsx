@@ -28,8 +28,6 @@ export default function VolunteerForm({ params }) {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  /* console.log(globalUserData?._id) */
-
   const updateForm = (event) => {
     const { id, value } = event.target
   
@@ -44,7 +42,8 @@ export default function VolunteerForm({ params }) {
     setLoading(true)
 
     try {
-      const confirmEvent = prompt(`
+      // We will probably not use this confirmation box 
+      /* const confirmEvent = prompt(`
             Confirm information\n
             Name: ${formData.name}\n
             Phone: ${formData.phone}\n
@@ -56,12 +55,12 @@ export default function VolunteerForm({ params }) {
       if (confirmEvent !== "Yes") {
         alert("Canceled form submission") 
         return
-      } 
+      }  */
     
-        // If there's an existing request in progress, abort it
-            if (abortControllerRef.current) {
-            abortControllerRef.current.abort()
-        }
+      // If there's an existing request in progress, abort it
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
 
       const controller = new AbortController()
       abortControllerRef.current = controller
@@ -92,12 +91,12 @@ export default function VolunteerForm({ params }) {
       }
 
     } catch (error) {
-    if (error.name === 'AbortError') {
+      if (error.name === 'AbortError') {
         console.log('Fetch aborted')
-        } else {
+      } else {
         console.error('Error:', error)
         // Handle other errors as needed
-        }
+      }
     } finally {
         setLoading(false)
         // Cleanup: Remove the reference to the abort controller

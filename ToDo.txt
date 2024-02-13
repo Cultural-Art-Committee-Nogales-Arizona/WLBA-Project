@@ -1,3 +1,13 @@
+To use globalUserData variable in any component paste this code.
+import { useContext } from 'react'
+import CustomUserContext from '@components/GlobalUserContext'; 
+
+const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
+
+
+
+
+
 FRONTEND:
 
 Forms to build:
@@ -22,8 +32,12 @@ MONGO
 
 API
 
+<<<<<<< HEAD
 - Create route to reset admin password
 - Create a route to allow people to change their password
+=======
+- Create a route to allow admins to change their password
+>>>>>>> 2af362e463f337be5511f93ffbf5441e889a299a
 - Create 'isAccepted' function to make accepted vendor verification more modular
 - Test all volunteer routes
 
