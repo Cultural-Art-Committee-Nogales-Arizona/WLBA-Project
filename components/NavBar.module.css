@@ -2,6 +2,13 @@
   color: whitesmoke;
   /* text-decoration: underline; */
   font-size: x-large;
+  transition: .3s;
+}
+
+.link_animation:hover {
+  color: #FF955F !important;
+  transition: .3s;
+  text-decoration: underline;
 }
 
 /* .nav {

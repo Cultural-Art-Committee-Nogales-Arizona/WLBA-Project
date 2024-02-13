@@ -34,9 +34,11 @@
 .link{
     text-decoration: none;
     color: whitesmoke;
+    transition: .3s;
 }
 
 .link:hover {
-    text-decoration: none;
-    color: black;
+    text-decoration: underline;
+    color: #FF955F;
+    transition: .3s;
 }
