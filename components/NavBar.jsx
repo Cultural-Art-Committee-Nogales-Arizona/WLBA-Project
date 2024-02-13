@@ -199,11 +199,20 @@ const NavBar = () => {
                     </h6>
                   </span>
                 </NavItem>
-                <NavItem>
-                  <PageLink href="/profile" icon="user" testId="navbar-profile-mobile">
-                    Profile
-                  </PageLink>
-                </NavItem>
+                {globalUserData.adminAuthId ? 
+                  <NavItem className="dropdown-profile" tag="span">
+                    <AnchorLink href="/dashboard" icon="user" testId="navbar-profile-desktop">
+                      Dashboard
+                    </AnchorLink>
+                  </NavItem> : null
+                }
+                {globalUserData.admin && !globalUserData.adminAuthId ?  
+                  <NavItem className="dropdown-profile" tag="span">
+                    <AnchorLink href="/dashboard/admin/sign-in" icon="user" testId="navbar-profile-desktop">
+                      Admin Sign in
+                    </AnchorLink>
+                  </NavItem> : null
+                }
                 <NavItem id="qsLogoutBtn">
                   <AnchorLink
                     href="/api/auth/logout"

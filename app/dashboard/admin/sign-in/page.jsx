@@ -3,13 +3,16 @@
 import { useState, useEffect, useContext } from 'react'
 
 import CustomUserContext from '@/components/GlobalUserContext'; 
+
 import Error from '@/components/overlays/Error'
+import Success from '@/components/overlays/Success'
 
 import styles from './page.module.css'
 
 export default function AdminSignIn() {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const [error, setError] = useState(false)
+  const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [credentials, setCredentials] = useState({
     username: "",
@@ -26,7 +29,7 @@ export default function AdminSignIn() {
   }
 
   const resetPassword = () => {
-    setError("This will reset passwords in the future")
+    setSuccess("This will reset passwords in the future")
   }
    
   
@@ -68,6 +71,7 @@ export default function AdminSignIn() {
   return (
     <div>
       {error ? <Error params={{error, setError}} /> : null}
+      {success ? <Success params={{success, setSuccess}} /> : null}
       <form onSubmit={handleSubmit}>
         <div className="formGroup">
           <label htmlFor="username">Username</label>

@@ -10,6 +10,7 @@ import styles from './EventForm.module.css'
 import 'flatpickr/dist/themes/light.css'
 // import 'flatpickr/dist/l10n/default'
 import Error from '@components/overlays/Error'
+import Success from '@components/overlays/Success'
 import Loading from '@components/overlays/Loading'
 
 import CustomUserContext from '@components/GlobalUserContext'; 
@@ -25,10 +26,10 @@ export default function EventForm({ params }) {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
   const { formData, setFormData, requestMethod, eventId } = params
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
 
-  console.log(globalUserData)
+  const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   /* --------------------------- Date picking logic --------------------------- */
   // Yes, everything in the comment lines are JUST for setting the date with flatpickr,
@@ -109,7 +110,10 @@ export default function EventForm({ params }) {
       if (startFlatpickrCalendarInstance) {
         startFlatpickrCalendarInstance.setDate(formData.start, true)
       }
-      const fp = flatpickr(startDatePicker.current, flatpickrCalendarOptions)
+      const fp = flatpickr(startDatePicker.current, {
+        ...flatpickrCalendarOptions,
+        onChange: () => onStartChange(combineDateAndTime(startDatePicker.current.value, startTimePicker.current.value))
+      })
       setStartFlatpickrCalendarInstance(fp)
     }
 
@@ -121,7 +125,7 @@ export default function EventForm({ params }) {
 
       const fp = flatpickr(startTimePicker.current, {
         ...flatpickrTimeOptions, 
-        onClose: onStartChange(combineDateAndTime(startDatePicker.current.value, startTimePicker.current.value)) 
+        onChange: () => onStartChange(combineDateAndTime(startDatePicker.current.value, startTimePicker.current.value)) 
       })
       setStartFlatpickrTimeInstance(fp)
     }
@@ -137,7 +141,7 @@ export default function EventForm({ params }) {
       const fp = flatpickr(endDatePicker.current, {
         ...flatpickrCalendarOptions, 
         minDate: minEndDate,
-        onClose: onEndChange(combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value))
+        onClose: () => onEndChange(combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value))
       })
       setEndFlatpickrCalendarInstance(fp)
     }
@@ -150,7 +154,7 @@ export default function EventForm({ params }) {
 
       const fp = flatpickr(endTimePicker.current, { 
         ...flatpickrTimeOptions,
-        onClose: onEndChange(combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value))
+        onClose: () => onEndChange(combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value))
       })
       setEndFlatpickrTimeInstance(fp)
     }
@@ -243,7 +247,7 @@ export default function EventForm({ params }) {
           title: formData.title,
           description: formData.description,
           location: formData.location,
-          banner: 'Test banner, will be image URL in future',  // Update this with the actual banner data
+          /* banner: 'Test banner, will be image URL in future', */  // Update this with the actual banner data
           // banner: event.target.banner.files[0],  // Uncomment this line if 'banner' is a file input
         })
       })
@@ -252,8 +256,7 @@ export default function EventForm({ params }) {
 
       if (responseData.success) {
         resetForm()
-        // I want to make a success component, alert freezes the window 
-        // alert(`Successfully make event titled: ${responseData.data.title}`)
+        setSuccess("submitted form data to event database")
       } else { 
         setError(`Failed to submit the form ${responseData.errorMessage}`)
         throw new Error(`Event API failed to parse request. Status code: ${response.status}`)
@@ -274,6 +277,7 @@ export default function EventForm({ params }) {
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
+      { success && <Success params={{ success, setSuccess }} /> }
       { loading ? <Loading scale={150} /> :
       <form onSubmit={event => submitForm(event)} className={styles.form}>
         {/* Start Dates */}
@@ -372,7 +376,7 @@ export default function EventForm({ params }) {
               />
           </div> */}
         </fieldset>
-        <input type="submit" className={styles.submit} />
+        <input type="submit" className={styles.submit} value={requestMethod === 'PUT' ? 'Edit Event' : 'Create Event'}/>
       </form> }
     </>
   )
