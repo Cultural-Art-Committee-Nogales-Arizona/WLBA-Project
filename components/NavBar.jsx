@@ -18,6 +18,8 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import WhiteLogo from '@/public/whiteLogo'
 import CustomUserContext from './GlobalUserContext'; 
 
+import useSessionStorage from '@utils/custom-hooks/useSessionStorage'
+
 import styles from './NavBar.module.css'
 
 import PageLink from './PageLink'
@@ -26,13 +28,14 @@ import ChangeLanguage from './LanguageButton'
 
 const NavBar = () => {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
+  const [adminAuthId, setAdminAuthId] = useSessionStorage("adminAuthId", {})
   const [isOpen, setIsOpen] = useState(false)
   const { user, isLoading } = useUser()
   const toggle = () => setIsOpen(!isOpen)
 
   const handleLogout = () => {
     // Perform any cleanup tasks here (e.g., clear sessionStorage)
-    sessionStorage.removeItem('adminAuthId');
+    setAdminAuthId({})
   }
 
   // Fetch custom user data when the component mounts
@@ -44,7 +47,7 @@ const NavBar = () => {
       if (user) {
         let name = user.given_name ?? user.name
 
-        const adminAuthId = sessionStorage.getItem('adminAuthId');
+        setAdminAuthId(globalUserData.adminAuthId)
 
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
