@@ -35,7 +35,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     // Perform any cleanup tasks here (e.g., clear sessionStorage)
-    setAdminAuthId({})
+    setAdminAuthId("adminAuthId", {})
   }
 
   // Fetch custom user data when the component mounts

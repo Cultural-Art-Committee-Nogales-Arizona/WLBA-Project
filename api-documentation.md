@@ -356,13 +356,14 @@ Remove an accepted vendor from the accepted documents list.
 ### Get User
 
 #### Description
-Fetch a specific user's data object by username.
+Get all users
 
 #### Endpoint
 `GET https://wlba-project.vercel.app/api/user`
 
-#### Query parameters
-- `name`: Name of the user to fetch.
+#### Query Parameters
+- `userId`: Databse identifier of admin user.
+-  `adminId`: 
 
 #### Data Unit Returned
 Returns the best macthing user's information in the following format:
@@ -451,8 +452,9 @@ Deletes an user document.
 `DELETE https://wlba-project.vercel.app/api/user`
 
 #### Query parameters
-- `userId`: Database identifier of user to delete.
+- `userId`: Database identifier of admin user.
 - `adminId`: Authentication token for administrator. Ensures that only users with an admin token can remove users.
+- `deleteId`: Database identifier of user to delete.
 
 ### Admin Sign In
 
@@ -549,3 +551,7 @@ Sends an email to a specific volunteer from the volunteers database.
 #### Data Unit Returned
 Success string from nodemail.
 `250 2.0.0 OK  1707455489 l20-20020a170902d05400b001d8f12b0009sm629494pll.293 - gsmtp`
+
+## ROUTES TO DOCUMENT
+
+Admin recovery routes
