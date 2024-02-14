@@ -6,7 +6,7 @@ import styles from './page.module.css'
 import Image from "next/image";
 import TitleImg from "@/public/Images/BackgroundImg.jpg";
 import Logo from '@/public/Logo';
-import Dod from '@/public/Images/HomeImageDOD.jpg'
+import Dod from '@/public/Images/HomeImageDOD.JPG'
 import headImg from '@/public/Images/NogalesTitle.jpg'
 
 export default function Index() {

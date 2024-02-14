@@ -5,7 +5,7 @@ import PageLink from '@components/PageLink'
 
 import styles from './page.module.css'
 
-import EventForm from '@components/forms/EventForm'
+import EventForm from '@/components/forms/EventForm'
 
 export default function CreateEventPage() {
   const requestMethod = 'POST'
