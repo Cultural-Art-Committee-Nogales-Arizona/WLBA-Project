@@ -7,7 +7,6 @@ require('dotenv').config()
 let userSchema = new Schema({
   username: { 
     type: String, 
-    unique: true,
     required: true
   },
   email: { 
