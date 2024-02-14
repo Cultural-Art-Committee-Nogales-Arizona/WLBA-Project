@@ -1,4 +1,4 @@
-import VendorForm from "@/components/forms/vendorForm"
+import VendorForm from "@/components/forms/VendorForm"
 
 export default function RegisterVendor(){
     return(
