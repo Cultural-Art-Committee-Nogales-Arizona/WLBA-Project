@@ -2,7 +2,7 @@ import User from "@/models/users/User";
 import { NextResponse } from 'next/server';
 import { generateUserAuthID, isAdmin, hash } from "@/utils/routeMethods";
 import bcrypt from 'bcryptjs'
-
+  
 // Get a hashed adminAuthId with username, password and document _id of admin
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams;

@@ -49,7 +49,7 @@ const NavBar = () => {
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
           // Perform your fetch to get custom user data
-          const response = await fetch(`/api/user?name=${name}`, { signal, method: 'GET' })
+          const response = await fetch(`/api/user/account?name=${name}`, { signal, method: 'GET' })
           if (response.ok) {
             const responseData = await response.json()
 

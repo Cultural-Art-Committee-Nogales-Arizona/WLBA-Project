@@ -3,27 +3,32 @@ import { NextResponse } from 'next/server'
 import { isAdmin } from "@/utils/routeMethods";
 
 export const GET = async (request) => {
-    //Get user by _id instead?
-    const searchParams = request.nextUrl.searchParams
-    const name = searchParams.get('name') || ""
+    const searchParams = request.nextUrl.searchParams;
+	const adminId = searchParams.get("adminId") || "";
+    const userId = searchParams.get("userId")
 
     try{
-        if (!name) throw new Error("No name query defined, you must append ?name= to URL")
+        // ! Uncomment line when ready to only allow admins
+		/* 
+		if (!adminId) throw new Error("You must append ?adminId= query to URL")
+        
+		await isAdmin(userId, adminId) 
+		*/
+        const users = await User.find()
 
-        const user = await User.findOne({ username: name })
+        const data = users.map(user => {
+            return {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                admin: user.admin
+            }
+        })
 
-        if(!user) throw new Error(`No such user exists with name: ${name}`)
-
-        const { username, _id, email, admin } = user
         return NextResponse.json({
             success: true,
             message: `Successfully found user`,
-            data: {
-                _id, 
-                username, 
-                email, 
-                admin    
-            }
+            data: data
         }, {
             status: 200
         })
