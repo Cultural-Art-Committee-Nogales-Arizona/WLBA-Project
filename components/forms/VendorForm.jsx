@@ -72,7 +72,7 @@ export default function VendorForm({ vendorId, vendorData }){
         const { id, value } = event.target
       
         setFormData((prevFormData) => ({
-          ...prevFormData,
+          ...prevFormData, 
           [id]: value,
         }))
     }

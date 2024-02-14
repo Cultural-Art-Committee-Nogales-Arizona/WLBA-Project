@@ -20,7 +20,7 @@ function VendorCenter() {
     setLoading(true)
     console.log(globalUserData)
 
-    const fetchVolunteers = async () => {
+    const fetchVendors = async () => {
       try {
         const response = await fetch(`/api/vendor?userId=${globalUserData._id}`, { signal, method: 'GET' })
         const fetchedData = await response.json()
@@ -28,12 +28,12 @@ function VendorCenter() {
         setLoading(false)
       } catch (error) {
         if (error.name !== 'AbortError') {
-          console.error('Error fetching volunteers:', error)
+          console.error('Error fetching vendors:', error)
         }
       }
     }
 
-    fetchVolunteers()
+    fetchVendors()
 
     return () => controller.abort()
   }, [globalUserData])
