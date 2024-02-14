@@ -1,5 +1,5 @@
 "use client"
-import { useState, useContext, useEffect } from "react"
+import { useState, useContext } from "react"
 import CustomUserContext from "@components/GlobalUserContext"
 import Error from "@components/overlays/Error"
 

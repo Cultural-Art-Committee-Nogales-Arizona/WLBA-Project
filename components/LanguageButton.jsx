@@ -7,9 +7,20 @@ const LanguageButton = () => {
     script.innerHTML = `
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
-          {pageLanguage: 'en', includedLanguages: 'es,en', layout: google.translate.TranslateElement.InlineLayout}, 
+          {pageLanguage: 'en,es', includedLanguages: 'es,en', layout: google.translate.TranslateElement.InlineLayout}, 
           'google_translate_element');
-          // document.querySelector('.goog-te-banner-frame').style.display = 'none';
+          const gadgets = document.getElementsByClassName('goog-te-gadget');
+        for (let i = 0; i < gadgets.length; i++) {
+          // Loop through child nodes of each element
+          const children = gadgets[i].childNodes;
+          for (let j = 0; j < children.length; j++) {
+            // Check if the child node is a text node
+            if (children[j].nodeType === Node.TEXT_NODE) {
+              // Remove the text content from the text node
+              children[j].nodeValue = '';
+            }
+          }
+        }
       }
     `;
 
@@ -20,10 +31,10 @@ const LanguageButton = () => {
     document.body.appendChild(script);
     document.body.appendChild(script2);
 
-    return () => {
+    /* return () => {
       document.body.removeChild(script);
       document.body.removeChild(script2);
-    };
+    }; */
   }, []);
 
   return (
