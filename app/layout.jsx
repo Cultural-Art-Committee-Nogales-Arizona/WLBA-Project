@@ -10,7 +10,7 @@ import i18n from '@utils/i18n';
 import { CustomUserProvider } from '@components/GlobalUserContext'; // Update the path accordingly
 
 export default function RootLayout({ children }) {
-
+  
   return (
     <html lang="en">
       <head>
@@ -20,6 +20,7 @@ export default function RootLayout({ children }) {
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossOrigin="anonymous"
         />
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         <link rel="stylesheet" href="https://cdn.auth0.com/js/auth0-samples-theme/1.0/css/auth0-theme.min.css" />
       </head>
       <body>

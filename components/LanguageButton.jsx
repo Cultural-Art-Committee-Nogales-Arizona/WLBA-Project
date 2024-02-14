@@ -1,19 +1,34 @@
-import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import React, { useEffect } from 'react';
 
-export default function ChangeLanguage(){
-    const { t, i18n } = useTranslation();
-    const [currentLanguage, setCurrentLanguage] = useState(i18n.language)
+const LanguageButton = () => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.innerHTML = `
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {pageLanguage: 'en', includedLanguages: 'es,en', layout: google.translate.TranslateElement.InlineLayout}, 
+          'google_translate_element');
+          // document.querySelector('.goog-te-banner-frame').style.display = 'none';
+      }
+    `;
 
-    const changeLanguage = () => {
-        const lang = currentLanguage == 'en-US' ? 'es-US' : 'en-US'
-        i18n.changeLanguage(lang);
-        setCurrentLanguage(i18n.language)
+    const script2 = document.createElement('script');
+    script2.type = 'text/javascript';
+    script2.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+
+    document.body.appendChild(script);
+    document.body.appendChild(script2);
+
+    return () => {
+      document.body.removeChild(script);
+      document.body.removeChild(script2);
     };
+  }, []);
 
-    return (
-        <div>
-        <button onClick={() => changeLanguage()}>{t('translate')}</button>
-        </div>
-    );
-}
+  return (
+    <div id="google_translate_element"></div>
+  );
+};
+
+export default LanguageButton;
