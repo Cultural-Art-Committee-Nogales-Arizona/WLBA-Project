@@ -123,7 +123,7 @@ export default function Contact() {
               name="message"
               id="message"
               rows="5"
-              cols="50"
+              cols="40"
               className={styles.Input}
               onChange={(event) => updateForm(event)}
               placeholder="This website is amazing"

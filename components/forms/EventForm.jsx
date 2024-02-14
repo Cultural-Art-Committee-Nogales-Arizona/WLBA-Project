@@ -292,6 +292,7 @@ export default function EventForm({ params }) {
           <legend className={styles.legend}>Event Start</legend>
           <div className={styles.formGroup}>
             <label htmlFor="date">Date:</label>
+            <br />
             <input
               type="text"
               ref={startDatePicker}
@@ -301,6 +302,7 @@ export default function EventForm({ params }) {
           </div>
           <div className={styles.formGroup}>
             <label htmlFor="time">Time:</label>
+            <br />
             <input 
               type="text" 
               ref={startTimePicker} 
@@ -371,6 +373,7 @@ export default function EventForm({ params }) {
               required
             />
           </div>
+
           {/* We might not implement adding images to events */}
           {/* <div className={styles.formGroup}>
             <label htmlFor="banner">Banner:</label>

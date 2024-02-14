@@ -10,17 +10,18 @@
     width: 450px;
     height: 600px;
 
-    border: var(--dark-red) solid 3px;
-    border-radius: 5px;
+    border: #962A27 solid 5px;
+    border-radius: 20px;
 
-    background-color: var(--primary-color);
-    color: var(--blue-accent);
+    background-color: #E9E9E9;
+    color: black;
 
     margin-bottom: 50px;
 }
 .fs{
-    padding: 10px;
+    padding: 25px;
     margin-top: 20px;
+    border-radius: 20px;
 }
 
 .Legend{
@@ -31,12 +32,20 @@
 
 .Input{
     margin-bottom: 25px;
-    border-radius: 2px;
-    border: 1px solid black
+    border-radius: 10px;
+    background-color: #D9D9D9;
+    border: 1px solid #962A27;
+    color: black;
+    padding: .5%;
 }
 
 .submit{
-    width: 100px;
-    border-radius: 5px;
+    width: 105px;
+    height: 40px;
+    border-radius: 10px;
     margin-left: 37%;
+    color: white;
+    font-weight: bold;
+    background-color: #008080;
+    border: solid #008080 1px;
 }

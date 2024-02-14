@@ -4,10 +4,11 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
+  margin-bottom: 5%;
   width: 40% ;
   height: fit-content;
-  background-color: var(--primary-color);
-  border-radius: 5px;
+  background-color: #D9D9D9;
+  border-radius: 15px;
   border: 4px solid var(--dark-red);
   padding: 30px
 
@@ -34,8 +35,9 @@
 }
 
 .fieldset {
-  border: 2px solid var(--blue-accent);
-  padding: 10px; 
+  border: solid #962A27 1px;
+  border-radius: 15px;
+  padding: 20px; 
   width: 100%;
 }
 
