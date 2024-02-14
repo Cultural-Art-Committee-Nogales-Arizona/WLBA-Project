@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {/* Use the custom user context provider */}
-        <I18nextProvider i18n={i18n}>
+        {/* <I18nextProvider i18n={i18n}> */}
           <CustomUserProvider>
             <UserProvider>
               <main id="app" className="d-flex flex-column h-100" data-testid="layout">
@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
               </main>
             </UserProvider>
           </CustomUserProvider>
-        </I18nextProvider>
+        {/* </I18nextProvider> */}
         
       </body>
     </html>

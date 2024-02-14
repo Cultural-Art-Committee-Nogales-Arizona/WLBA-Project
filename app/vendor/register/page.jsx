@@ -1,10 +1,10 @@
-"use client"
-import VendorForm from "@components/forms/vendorForm"
+import VendorForm from "@/components/forms/vendorForm"
 
 export default function RegisterVendor(){
     return(
         <>
-            <VendorForm/>
+            <VendorForm />
         </>
     )
 }
+// "use client"

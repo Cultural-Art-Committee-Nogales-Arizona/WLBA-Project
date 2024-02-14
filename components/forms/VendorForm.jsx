@@ -7,7 +7,8 @@ import { useRouter } from "next/router"
 
 export default function VendorForm({ vendorId, vendorData }){
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
-    const router = useRouter()
+    // This was breaking it, we need to look into it
+    // const router = useRouter()
     const [formData, setFormData] = useState(vendorData || {})
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
@@ -56,7 +57,8 @@ export default function VendorForm({ vendorId, vendorData }){
             const responseData = await response.json()
 
             if(responseData.success){
-                router.push('/vendor')
+                // router.push('/vendor')
+                // success()
             } else {
                 setError(`Failed to submit the form ${responseData.errorMessage}`)
                 throw new Error(`Vendor API failed to parse request. Status code: ${response.status}`)

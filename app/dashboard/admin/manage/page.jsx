@@ -1,3 +1,4 @@
+"use client"
 import { useState, useContext } from "react"
 import CustomUserContext from "@components/GlobalUserContext"
 

@@ -1,5 +1,6 @@
 "use client"
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useContext, useMemo } from 'react'
+import CustomUserContext from '@/components/GlobalUserContext'
 import Loading from '@/components/overlays/Loading'
 import Error from '@/components/overlays/Error'
 import styles from './page.module.css'

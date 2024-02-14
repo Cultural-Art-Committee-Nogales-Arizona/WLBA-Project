@@ -109,15 +109,16 @@ export default function Calendar() {
 			<div className={styles.calendar}>
 				{events ?
 					<FullCalendar
+						className="skiptranslate"
 						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
 						initialView='dayGridMonth'
 						events={events}
-						customButtons={{ englishTranslation, spanishTranslation }}
+						// customButtons={{ englishTranslation, spanishTranslation }}
 						headerToolbar={calendarHeader}
 						footerToolbar={calendarFooter}
 						selectable='true'
 						select={(start) => findData(start.start)}
-						locale={currentLocale}
+						// locale={currentLocale}
 						// We can change color to whatever we want
 						eventColor='#378006'
 					/>

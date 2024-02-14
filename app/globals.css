@@ -11,7 +11,25 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Slabo 27px', serif;
+  top: 0px !important;
 }
+
+/* ---------------------------- Google Translate ---------------------------- */
+
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important
+}
+
+/* Hide goog-te-gadget but not the select elements */
+.skiptranslate.goog-te-gadget > :not(div) {
+  display: none;
+}
+
+.goog-te-gadget {
+  width: 50px;
+}
+
+/* -------------------------------------------------------------------------- */
 
 code {
   white-space: pre-wrap; 

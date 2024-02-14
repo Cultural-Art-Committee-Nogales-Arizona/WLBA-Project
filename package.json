@@ -45,6 +45,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^14.0.5",
     "reactstrap": "^9.1.5",
+    "sharp": "^0.33.2",
     "stripe": "^14.14.0"
   },
   "devDependencies": {

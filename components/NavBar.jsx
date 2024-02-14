@@ -146,6 +146,9 @@ const NavBar = () => {
                         Vendor Center
                       </AnchorLink>
                     </DropdownItem>
+                    {/*  We can move the buttons here */}
+                    {/* <ChangeLanguage /> */}
+                      
                     {globalUserData.adminAuthId ? 
                     <DropdownItem className="dropdown-profile" tag="span">
                       <PageLink href="/dashboard" icon="user" testId="navbar-profile-desktop">
