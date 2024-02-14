@@ -1,7 +1,8 @@
 "use client"
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import CustomUserContext from "@components/GlobalUserContext"
 import Error from "@components/overlays/Error"
+import Loading from "@components/overlays/Loading"
 
 export default function ManageAdmin(){
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
@@ -9,6 +10,7 @@ export default function ManageAdmin(){
     const [selectedUser, setSelectedUser] = useState({})
     const [error, setError] = useState(false)
     const [formData, setFormData] = useState({})
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const controller = new AbortController()
@@ -35,16 +37,104 @@ export default function ManageAdmin(){
         return () => controller.abort()
     }, [globalUserData])
 
-    const handleUserSelect = (userId) => {
-        const user = allUsers.find((user) => user._id === userId);
+    const handleUserSelect = (event) => {
+        const user = allUsers.find((user) => user._id === event.target.value);
         setSelectedUser(user);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        setLoading(true)
+
         if (selectedUser.admin) {
+            try{
+                const confirmSubmission = prompt(`
+                    Remove admin role from this user \n
+                    ${selectedUser.username} \n
+                    ${selectedUser.email}\n
+                    Type "Yes" to confirm
+                    `)
+                    
+                if (confirmSubmission !== "Yes") {
+                    alert("Canceled form submission") 
+                    return
+                } 
+
+                const controller = new AbortController()
+                const signal = controller.signal
+
+                let API_Route = `/api/admin?adminId=${globalUserData.adminAuthId}&userId=${globalUserData._id}&deleteId=${selectedUser._id}`
+                const response = await fetch(API_Route, {
+                    signal,
+                    method: 'DELETE',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    }
+                })
+
+                const responseData = await response.json()
+
+                if(responseData.success){
+                    console.log('removed')
+                } else {
+                    setError(`Failed to submit the form ${responseData.errorMessage}`)
+                    throw new Error(`Admin API failed to parse request. Status code: ${response.status}`)
+                }
+            } catch (err) {
+                console.error('Error submitting the form:', err.message)
+            } finally {
+                setLoading(false)
+            }
             
         } else {
-            
+            try{
+                if (formData.password !== formData.confirmPassword){
+                    setError(`Admin passwords must match`)
+                    throw new Error(`Admin API failed to parse request. Status code: ${response.status}`)
+                }
+
+                const confirmSubmission = prompt(`
+                    Add user as an admin?\n
+                    ${selectedUser.username}\n
+                    ${selectedUser.email}\n
+                    Admin Password ${formData.password}\n
+                    Type "Yes" to confirm \n
+                    `)
+                    
+                if (confirmSubmission !== "Yes") {
+                    alert("Canceled form submission") 
+                    return
+                } 
+
+                const controller = new AbortController()
+                const signal = controller.signal
+
+                let API_Route = `/api/admin?adminId=${globalUserData.adminAuthId}&userId=${globalUserData._id}`
+                const response = await fetch(API_Route, {
+                    signal,
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: selectedUser._id,
+                        password: formData.password
+                    })
+                })
+
+                const responseData = await response.json()
+
+                if(responseData.success){
+                    console.log('added')
+                } else {
+                    setError(`Failed to submit the form ${responseData.errorMessage}`)
+                    throw new Error(`Admin API failed to parse request. Status code: ${response.status}`)
+                }
+            } catch (err) {
+                console.error('Error submitting the form: ', err.message)
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
@@ -59,13 +149,14 @@ export default function ManageAdmin(){
     return(
         <>
         {error && <Error params={{ error, setError }} />}
+        { loading ? <Loading scale={150} /> :
         <form onSubmit={handleSubmit}>
             <fieldset>
             <legend>Select user</legend>
-            <select onChange={(e) => handleUserSelect(e.target.value)}>
+            <select onChange={handleUserSelect}>
                 <option value="" disabled>Select a user</option>
                 {allUsers.map((user) => (
-                <option key={user._id} value={user._id}>{user.username}</option>
+                    <option key={user._id} value={user._id}>{user.username}</option>
                 ))}
             </select>
             </fieldset>
@@ -109,6 +200,7 @@ export default function ManageAdmin(){
                     </>
                     )}
                 </form>
+            }
         </>
     )
 }

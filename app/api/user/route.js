@@ -18,7 +18,7 @@ export const GET = async (request) => {
 
         const data = users.map(user => {
             return {
-                id: user.id,
+                _id: user._id,
                 username: user.username,
                 email: user.email,
                 admin: user.admin

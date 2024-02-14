@@ -148,7 +148,7 @@ export const DELETE = async (request) => {
 
         return NextResponse.json({
             success: true,
-            message: message,
+            message: "Admin sucessfully removed",
             data: updatedUser
         },{ 
             status: 201 
