@@ -1,5 +1,5 @@
 "use client"
-import VendorForm from "@components/forms/vendorForm"
+import VendorForm from "@/components/forms/VendorForm"
 import { useSearchParams } from "next/navigation"
 
 export default function RegisterVendor(){

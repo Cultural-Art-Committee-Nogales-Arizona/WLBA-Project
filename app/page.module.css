@@ -20,6 +20,14 @@
     top: 120px;
 }
 
+.headmsg{
+    width: 100%;
+    height: 10vh;
+
+    display: flex;
+    justify-content: center;
+}
+
 .logo {
     z-index: 2;
     /* grid-column-start: 2;

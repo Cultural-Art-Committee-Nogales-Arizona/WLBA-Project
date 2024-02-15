@@ -6,7 +6,7 @@ import PageLink from '@components/PageLink'
 
 import styles from './page.module.css'
 
-import EventForm from '@components/forms/EventForm'
+import EventForm from '@/components/forms/EventForm'
 
 export default function EditEventPage() {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)

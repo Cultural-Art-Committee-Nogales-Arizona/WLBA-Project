@@ -6,7 +6,7 @@ import styles from './page.module.css'
 import Image from "next/image";
 import TitleImg from "@/public/Images/BackgroundImg.jpg";
 import Logo from '@/public/Logo';
-import Dod from '@/public/Images/HomeImageDOD.jpg'
+import Dod from '@/public/Images/HomeImageDOD.JPG'
 import headImg from '@/public/Images/NogalesTitle.jpg'
 
 export default function Index() {
@@ -57,6 +57,10 @@ export default function Index() {
           className={styles.Img}
         />
         <Logo scale="75" className={styles.logo} />
+      </div>
+
+      <div className={styles.headmsg}>
+        <h1>Cultural Arts Comittee of Nogales Arizona</h1>
       </div>
 
       <div className={styles.contentDiv}>
