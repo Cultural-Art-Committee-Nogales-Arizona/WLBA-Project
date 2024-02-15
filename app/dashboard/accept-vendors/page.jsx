@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect, useContext, useMemo } from 'react'
+import DashboardLayout from '@/app/dashboard/DashboardLayout'
 import CustomUserContext from '@/components/GlobalUserContext'
 import Loading from '@/components/overlays/Loading'
 import Error from '@/components/overlays/Error'
@@ -202,7 +203,7 @@ function VolunteerRequest() {
   }, [formData]) */
 
   return (
-    <>
+    <DashboardLayout>
     {error ? <Error params={{error, setError}} /> : null}
     {/* Display table  */}
     { loading ? <Loading /> : 
@@ -289,7 +290,7 @@ function VolunteerRequest() {
       </form>
     </div>
     }
-    </>
+    </DashboardLayout>
   )
 }
 

@@ -116,7 +116,7 @@
 
     justify-content: space-between;
 
-    background-color: var(--orange-accent);
+    background-color: var(--primary-color);
 }
 
 .child1 p {
@@ -140,7 +140,7 @@
     padding-right: 1%;
     padding-top: 2%;
 
-    background-color: var(--orange-accent);
+    background-color: var(--primary-color);
 }
 
 .child2 p {

@@ -20,6 +20,8 @@ Spanish support:
 - Make the default local of Calendar.jsx be the page local setting
 
 User Dashboard:
+- Make sidebar component
+- Finish EmailForm
 - Style page
 - Add admin login
 - Add admin dashboard
