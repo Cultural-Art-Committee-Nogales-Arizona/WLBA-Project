@@ -6,7 +6,6 @@ import nodemailer from 'nodemailer'
 export const POST = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const userId = searchParams.get('userId') || ''
-    const userEmail = searchParams.get('email') || ''
 
     try{
         if(!userId) throw new Error('No ?userId= parameter was appended to the request')
