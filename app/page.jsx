@@ -59,6 +59,10 @@ export default function Index() {
         <Logo scale="75" className={styles.logo} />
       </div>
 
+      <div className={styles.headmsg}>
+        <h1>Cultural Arts Comittee of Nogales Arizona</h1>
+      </div>
+
       <div className={styles.contentDiv}>
         <div className={styles.child}>
           <div className={styles.p}>
