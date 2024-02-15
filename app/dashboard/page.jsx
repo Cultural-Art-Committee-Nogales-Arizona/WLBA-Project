@@ -7,6 +7,7 @@ import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Loading from '@components/overlays/Loading';
 import ErrorMessage from '@components/overlays/ErrorMessage';
 import Highlight from '@/components/Highlight';
+import EmailForm from '@/components/forms/EmailForm'
 
 import CustomUserContext from '@components/GlobalUserContext'; 
 
@@ -56,11 +57,12 @@ function Profile() {
             </Col>
           </Row>
           { globalUserData.adminAuthId ? <h3>Signed in as Admin</h3> : <h3>Not signed in as admin</h3> }
-          <Row data-testid="profile-json">
-            {/* <Highlight>{JSON.stringify(user, null, 2)}</Highlight> */}
+          {/* <Row data-testid="profile-json">
+            <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
             globalUserData Object
             <Highlight>{JSON.stringify(globalUserData, null, 2)}</Highlight>
-          </Row>
+          </Row> */}
+          <EmailForm />
         </>
       )}
     </>
