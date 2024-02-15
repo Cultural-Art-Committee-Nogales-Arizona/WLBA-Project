@@ -242,14 +242,7 @@
   margin-bottom: -1px;
   transform: matrix(0, -1, 1, 0, 0, 0);
 }
-.frame14 {
-  width: 620px;
-  height: 70px;
-  align-items: flex-start;
-  border-radius: 10px;
-  background-color: #fff;
-  
-}
+
 .subject {
   color: #000;
   font-size: 25px;

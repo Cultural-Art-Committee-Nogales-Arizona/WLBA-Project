@@ -6,6 +6,7 @@ import flatpickr from "flatpickr"
 import styles from './VolunteerForm.module.css'
 
 import Error from '@components/overlays/Error'
+import Success from '@components/overlays/Success'
 import Loading from '@components/overlays/Loading'
 
 import CustomUserContext from '@components/GlobalUserContext'
@@ -20,43 +21,79 @@ import CustomUserContext from '@components/GlobalUserContext'
 /* Commented out all flatpickr implementation incase we want to add an ending date to your volunteer */
 
 export default function VolunteerForm({ params }) {
-  const abortControllerRef = useRef(null)
-
   const {globalUserData, setGlobalUserData} = useContext(CustomUserContext)
-
-  const { formData, setFormData, requestMethod } = params
+  const abortControllerRef = useRef(null)
+  
+  
+  console.log(params)
   const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(null)
   const [loading, setLoading] = useState(false)
+  const { formData, setFormData, requestMethod } = params
 
-  const updateForm = (event) => {
+  const phoneNumberRegex = /^\d{3}-\d{3}-\d{4}$/;
+
+  /* const updateForm = (event) => {
     const { id, value } = event.target
   
     setFormData((prevFormData) => ({
       ...prevFormData,
       [id]: value,
     }))
-  }
+  } */
+
+  const updateForm = (event) => {
+    const { id, value } = event.target;
+  
+    // Check if the input is for the phone number field
+    if (id === 'phone') {
+      // Remove any non-numeric characters from the input value
+      const numericValue = value.replace(/\D/g, '');
+  
+      // Format the phone number as xxx-xxx-xxxx
+      let formattedValue = '';
+      if (numericValue.length > 3) {
+        formattedValue += numericValue.substring(0, 3) + '-';
+        if (numericValue.length > 6) {
+          formattedValue += numericValue.substring(3, 6) + '-';
+          formattedValue += numericValue.substring(6, 10);
+        } else {
+          formattedValue += numericValue.substring(3, numericValue.length);
+        }
+      } else {
+        formattedValue = numericValue;
+      }
+  
+      // Update the form data with the formatted phone number
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [id]: formattedValue,
+      }));
+    } else {
+      // For other input fields, update the form data as usual
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [id]: value,
+      }));
+    }
+  };
+  
+
+/*   useEffect(() => {
+    console.log(formData)
+  }, [formData])
+   */
   
   const submitForm = async (event) => {
     event.preventDefault()
-    setLoading(true)
-
-    try {
-      // We will probably not use this confirmation box 
-      /* const confirmEvent = prompt(`
-            Confirm information\n
-            Name: ${formData.name}\n
-            Phone: ${formData.phone}\n
-            email: ${formData.email}\n
-            Interest: ${formData.interest}\n\n
-            Type "Yes" to confirm
-        `)
-        
-      if (confirmEvent !== "Yes") {
-        alert("Canceled form submission") 
-        return
-      }  */
     
+    if (!phoneNumberRegex.test(formData.phone)) {
+      setError('Invalid phone number, needs xxx-xxx-xxxx');
+      return;
+    }
+    
+    try {
+      setLoading(true)
       // If there's an existing request in progress, abort it
       if (abortControllerRef.current) {
         abortControllerRef.current.abort()
@@ -65,7 +102,9 @@ export default function VolunteerForm({ params }) {
       const controller = new AbortController()
       abortControllerRef.current = controller
       const signal = controller.signal
-      
+
+      const { name, phone, email, interest } = formData
+      console.log(formData)
       let API_Route = '/api/events/volunteer'
       const response = await fetch(API_Route, {
         signal,
@@ -74,8 +113,11 @@ export default function VolunteerForm({ params }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            ...formData,
-            id: globalUserData?._id
+          name, 
+          phone, 
+          email, 
+          interest,
+          id: globalUserData?._id
         })
       })
       
@@ -84,7 +126,7 @@ export default function VolunteerForm({ params }) {
       if (responseData.success) {
         setFormData({})
         // I want to make a success component, alert freezes the window 
-        alert(`Successfully make volunteer Named: ${responseData.data.name}`)
+        setSuccess(`Successfully make volunteer Named: ${responseData.data.name}`)
       } else { 
         setError(`Failed to submit the form ${responseData.errorMessage}`)
         throw new Error(`Event API failed to parse request. Status code: ${response.status}`)
@@ -107,15 +149,14 @@ export default function VolunteerForm({ params }) {
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
+      { success && <Success params={{ success, setSuccess }} /> }
       { loading ? <Loading scale={150} /> 
       :
-      <form onSubmit={event => submitForm(event)} className={styles.form}>
-        {/* Add your Name */}
-        <fieldset className={styles.fieldset}>
-          {/* <legend className={styles.legend}>Name</legend> */}
-          <div className={styles.formGroup}>
-            <label htmlFor="name">Name:</label>
+      <form onSubmit={event => submitForm(event)} className={styles.container}>
+          <div className={styles.titleBox}>
+            <label htmlFor="name" className={styles.title}>Name:</label>
             <input 
+              className={styles.backgroundInput}
               id="name" 
               type="text" 
               value={formData.name || ''} 
@@ -124,9 +165,10 @@ export default function VolunteerForm({ params }) {
               required
             />
           </div>
-          <div className={`${styles.formGroup}`}>
-            <label htmlFor="phone">Phone:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="phone" className={styles.title}>Phone:</label>
             <input
+              className={styles.backgroundInput}
               id="phone"
               type='tel'
               value={formData.phone || ''}
@@ -135,13 +177,10 @@ export default function VolunteerForm({ params }) {
               required
             />
           </div>
-        </fieldset>
-        {/* Additional Information */}
-        <fieldset className={styles.fieldset}>
-          {/* <legend className={styles.legend}>Additional Information</legend> */}
-          <div className={styles.formGroup}>
-            <label htmlFor="email">Email:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="email" className={styles.title}>Email:</label>
             <input 
+              className={styles.backgroundInput}
               id="email" 
               type="email" 
               value={formData.email || ''} 
@@ -151,9 +190,10 @@ export default function VolunteerForm({ params }) {
             />
           </div>
           {/* We might not implement adding images to events */}
-          <div className={styles.formGroup}>
-            <label htmlFor="interest">Interest:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="interest" className={styles.title}>Interest:</label>
             <input 
+              className={styles.backgroundInput}
               id="interest" 
               type="text" 
               list="interests"
@@ -162,14 +202,31 @@ export default function VolunteerForm({ params }) {
               placeholder='cleanup'
             />
             <datalist id="interests">
-                <option value="Example">Example</option>
-                <option value="Example">Example</option>
-                <option value="Example">Example</option>
-                <option value="Example">Example</option>
+              <option value="Cleanup">Cleanup</option>
+              {/* <option value="Security">Security</option> */}
+              <option value="Ticketing">Ticketing</option>
+              <option value="Information Booth">Information Booth</option>
+              <option value="Stage Crew">Stage Crew</option>
+              <option value="Food Service">Food Service</option>
+              <option value="Merchandise Sales">Merchandise Sales</option>
+              <option value="Set-Up">Set-Up</option>
+              <option value="Breakdown">Breakdown</option>
+              <option value="First Aid">First Aid</option>
+              <option value="Parking">Parking</option>
+              <option value="Traffic Control">Traffic Control</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Social Media">Social Media</option>
+              <option value="Photography">Photography</option>
+              <option value="Videography">Videography</option>
+              <option value="Event Planning">Event Planning</option>
+              <option value="Hospitality">Hospitality</option>
+              <option value="Volunteer Coordination">Volunteer Coordination</option>
+              <option value="Decoration">Decoration</option>
+              <option value="Guest Services">Guest Services</option>
+              {/* <option value="Other">Other</option> */}
             </datalist>
           </div>
-        </fieldset>
-        <input type="submit" className={styles.submit} />
+        <input type="submit" className={styles.submit} value={"Become a volunteer"}/>
       </form> 
       }
     </>
