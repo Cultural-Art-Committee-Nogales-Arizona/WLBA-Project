@@ -98,6 +98,35 @@ import User from '@/models/users/User'
   return user._id
 } */
 
+/* ------------------------ Generate recovery token ----------------------- */
+
+function generateRecoveryToken() {
+  const getRandomChar = () => {
+    const characters = '0123456789ABCDEF'
+    const randomIndex = Math.floor(Math.random() * characters.length)
+    return characters[randomIndex]
+  }
+
+  let token = ''
+  for(let i = 0; i < 8; i++){
+    token += getRandomChar()
+  }
+
+  return token
+}
+
+/* ------------------------ Generate recovery token ----------------------- */
+
+function generateExpiryDate() {
+  let expiryDate = new Date()
+
+  expiryDate.setDate(expiryDate.getDate() + 1)
+
+  const dateString = expiryDate.toISOString()
+
+  return dateString
+}
+
 /* ------------------- Will throw an error if not an admin ------------------ */
 
 async function isAdmin(id, hashedAdminId) {
@@ -144,4 +173,4 @@ async function hash(input) {
 // countVotes, 
 // isDuplicate, 
 // getUserWithID, 
-export { generateUserAuthID, isAdmin, hash }
+export { generateUserAuthID, isAdmin, hash, generateRecoveryToken, generateExpiryDate }
