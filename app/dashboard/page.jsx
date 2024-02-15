@@ -33,6 +33,9 @@ function Profile() {
       <PageLink href="/dashboard/accept-vendors" className="nav-link" testId="navbar-home">
         <span>Accept Vendors Form</span>
       </PageLink>
+      <PageLink href="/dashboard/admin/manage" className="nav-link" testId="navbar-home">
+        <span>Manage Administrators</span>
+      </PageLink>
       {user && (
         <>
           <Row className="align-items-center profile-header mb-5 text-center text-md-left" data-testid="profile">

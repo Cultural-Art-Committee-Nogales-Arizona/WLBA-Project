@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import VolunteerForm from '@components/forms/VolunteerForm';
+import VolunteerForm from '@/components/forms/VolunteerForm';
 import Link from 'next/link'
 
 import Loading from '@/components/overlays/Loading'

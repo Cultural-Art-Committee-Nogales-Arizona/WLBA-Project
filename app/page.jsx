@@ -6,7 +6,7 @@ import styles from './page.module.css'
 import Image from "next/image";
 import TitleImg from "@/public/Images/BackgroundImg.jpg";
 import Logo from '@/public/Logo';
-import Dod from '@/public/Images/HomeImageDOD.jpg'
+import Dod from '@/public/Images/HomeImageDOD.JPG'
 import headImg from '@/public/Images/NogalesTitle.jpg'
 
 export default function Index() {
@@ -80,6 +80,7 @@ export default function Index() {
             className={styles.Img2}
             width={550}
             height={300}
+            alt={"Header Image"}
           />
         </div>
 
@@ -89,6 +90,7 @@ export default function Index() {
             width={570}
             height={350}
             className={styles.Img2}
+            alt={"Home image of dancers"}
           />
 
           <div className={styles.p}>
