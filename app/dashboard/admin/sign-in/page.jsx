@@ -6,8 +6,8 @@ import CustomUserContext from '@/components/GlobalUserContext';
 
 import Error from '@/components/overlays/Error'
 import Success from '@/components/overlays/Success'
-
 import styles from './page.module.css'
+import Link from 'next/link';
 
 export default function AdminSignIn() {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
@@ -27,11 +27,6 @@ export default function AdminSignIn() {
       [id]: value
     }))
   }
-
-  const resetPassword = () => {
-    setSuccess("This will reset passwords in the future")
-  }
-   
   
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -56,11 +51,11 @@ export default function AdminSignIn() {
       } else {
         setError(`Request Failed: ${returnedAdmin.message}`)
       }
-    } catch (error) {
-      if (error.name === 'AbortError') {
+    } catch (err) {
+      if (err.name === 'AbortError') {
         console.log('Fetch aborted')
       } else {
-        console.error('Error:', error)
+        console.error('Error:', err)
         alert('Failed submit credentials')
       }
     } finally {
@@ -93,7 +88,7 @@ export default function AdminSignIn() {
         </div>
         <button type="submit">Submit</button>
       </form>
-      <button type="text" onClick={resetPassword}>Reset password</button>
+      <Link href={'/dashboard/admin/recovery'}>Forgot password?</Link>
     </div>
   )
 }

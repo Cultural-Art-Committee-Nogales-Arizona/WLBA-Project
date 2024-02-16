@@ -8,6 +8,7 @@ export const POST = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const userId = searchParams.get('userId')
     const { newPassword, token } = await request.json()
+    console.log(userId)
 
     try{
         const exisitingAuthToken = await Token.findOne({ user: userId })
@@ -18,8 +19,10 @@ export const POST = async (request) => {
 
         if(!tokensMatch) throw new Error('Incorrect token provided')
 
+        const hashedPassword = await hash(newPassword)
+
         await User.findByIdAndUpdate(userId, {
-            adminPassword: await hash(newPassword)
+            adminPassword: hashedPassword
         })
 
         await Token.findByIdAndDelete(exisitingAuthToken._id)

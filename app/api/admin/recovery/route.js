@@ -35,9 +35,11 @@ export const POST = async (request) => {
 
         const recoveryToken = generateRecoveryToken()
 
+        const hashedToken = await hash(recoveryToken)
+
         const newToken = await Token.create({
             user: userId,
-            token: await hash(recoveryToken),
+            token: hashedToken,
             expires: generateExpiryDate()
         })
 

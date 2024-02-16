@@ -15,8 +15,7 @@ export default function ManageAdmin(){
     useEffect(() => {
         const controller = new AbortController()
         const signal = controller.signal
-        //setLoading(true)
-        console.log(globalUserData)
+        setLoading(true)
     
         const fetchUsers = async () => {
           try {
@@ -24,11 +23,12 @@ export default function ManageAdmin(){
             const fetchedData = await response.json()
             setAllUsers(fetchedData.data)
             console.log(fetchedData.data)
-            //setLoading(false)
           } catch (error) {
             if (error.name !== 'AbortError') {
               console.error('Error fetching users:', error)
             }
+          } finally {
+            setLoading(false)
           }
         }
     
@@ -90,7 +90,7 @@ export default function ManageAdmin(){
             try{
                 if (formData.password !== formData.confirmPassword){
                     setError(`Admin passwords must match`)
-                    throw new Error(`Admin API failed to parse request. Status code: ${response.status}`)
+                    throw new Error(`Passwords don't match`)
                 }
 
                 const confirmSubmission = prompt(`
