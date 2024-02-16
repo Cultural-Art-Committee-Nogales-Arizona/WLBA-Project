@@ -22,7 +22,7 @@ let recoverySchema = new Schema({
     timestamps: true
 })
 
-const Token = eventsDB.model('Token', recoverySchema)
+const Token = userDB.model('Token', recoverySchema)
 
 userDB.once('open', () => {
     console.log('Connected to userDB for recovery')

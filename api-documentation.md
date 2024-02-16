@@ -1,10 +1,11 @@
-v1.1.2
+v1.2
 # CACNA API Documentation
 
 ### Changelog
 ```
-- v1.1.2 changelog:
-- You can now fetch vendors by user ID
+- v1.2 changelog:
+- Added admin recovery routes
+- This might be the final version of the API, remove changelog and version for production
 ```
 
 ## Contents
@@ -506,6 +507,39 @@ Register a user as an admin
 }
 ```
 
+## Admin password recovery
+NOTE: Recovery POST Requests are the only POST requests that don't return a data unit. This is done to keep the recovery system as secure as possible.
+
+### Create recovery token
+
+#### Description
+Creates a valid token for password recovery for administrators and sends it to their email for recovery. Only one token can exist at a time for one user. The token will be set to expire in one day.
+
+#### Endpoint 
+`POST https://wlba-project.vercel.app/api/admin/recovery`
+
+#### Query Parameters
+- `userId`: Database identifier of the user trying to recover password. Must correspond to an administrator user.
+
+### Confirm password recovery
+
+#### Description
+Authenticate administrator's attempt at recovering password. Validates provided token with existing token in the database.
+
+#### Endpoint
+`POST https://wlba-project.vercel.app/api/admin/recovery/confirm`
+
+#### Query Parameters
+- `userId`: Database identifier of the user trying to recover password. Must correspond to an administrator user.
+
+#### Request Body
+```json
+{
+  "newPassword": "Admin's new password", // String
+  "token": "The token that the administrator received in their email" // String
+}
+```
+
 ## Contact Routes
 
 ### Contact CACNA
@@ -551,7 +585,3 @@ Sends an email to a specific volunteer from the volunteers database.
 #### Data Unit Returned
 Success string from nodemail.
 `250 2.0.0 OK  1707455489 l20-20020a170902d05400b001d8f12b0009sm629494pll.293 - gsmtp`
-
-## ROUTES TO DOCUMENT
-
-Admin recovery routes

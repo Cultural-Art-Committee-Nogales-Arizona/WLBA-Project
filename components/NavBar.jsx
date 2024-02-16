@@ -46,6 +46,7 @@ const NavBar = () => {
     try {
 
       if (user) {
+        console.log(user)
         let name = user.given_name ?? user.name
 
         // ! setAdminAuthId(globalUserData.adminAuthId)

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import Token from "@/models/users/Recovery"
-import { generateRecoveryToken, generateExpiryDate } from "@utils/routeMethods"
+import User from "@/models/users/User"
+import { generateRecoveryToken, generateExpiryDate, hash } from "@utils/routeMethods"
 import nodemailer from 'nodemailer'
 
 export const POST = async (request) => {
@@ -9,15 +10,20 @@ export const POST = async (request) => {
 
     try{
         if(!userId) throw new Error('No ?userId= parameter was appended to the request')
-        if(!userEmail) throw new Error('No ?userEmail= parameter was appended to the request')
+
+        const existingUser = await User.findById(userId)
+
+        if (!existingUser) throw new Error('User does not exist')
+
+        if (!existingUser.admin) throw new Error('Cannot recover password for non-admin users')
 
         const existingRecoveryToken = await Token.findOne({ user: userId })
 
         if(existingRecoveryToken){
             const rightNow = new Date()
 
-            if(new Date(existingRecoveryToken.expires < rightNow)){
-                await Token.findByIdandDelete(existingRecoveryToken._id)
+            if(new Date(existingRecoveryToken.expires) < rightNow){
+                await Token.findByIdAndDelete(existingRecoveryToken._id)
             } else {
                 return NextResponse.json({
                     success: true,
@@ -27,9 +33,11 @@ export const POST = async (request) => {
             }
         }
 
+        const recoveryToken = generateRecoveryToken()
+
         const newToken = await Token.create({
             user: userId,
-            token: generateRecoveryToken(),
+            token: await hash(recoveryToken),
             expires: generateExpiryDate()
         })
 
@@ -45,9 +53,9 @@ export const POST = async (request) => {
 
         const mailOptions = {
             from: 'cultrualartsofnogalesarizona@gmail.com',
-            to: userEmail,
+            to: existingUser.email,
             subject: 'Recover admin password',
-            text: `Your recovery token is ${newToken.token}`
+            text: `Your recovery token is ${recoveryToken}\nThis token will expire in 1 day`
         }
 
         await transporter.sendMail(mailOptions);
