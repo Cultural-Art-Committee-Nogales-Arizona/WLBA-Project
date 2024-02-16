@@ -19,7 +19,9 @@ export default function RecoveryPage(){
           try {
             const response = await fetch(`/api/admin/recovery?userId=${globalUserData._id}`, { signal, method: 'POST' })
             
-            console.log(response)
+            const body = await response.json()
+
+            console.log(body)
           } catch (err) {
             if (err.name !== 'AbortError') {
               console.error('Error fetching users:', err)
@@ -39,6 +41,8 @@ export default function RecoveryPage(){
     const handleSubmit = async (event) => {
         event.preventDefault()
         setLoading(true)
+        const controller = new AbortController()
+        const signal = controller.signal
 
         try{
             if (formData.password !== formData.confirmPassword){
@@ -55,6 +59,10 @@ export default function RecoveryPage(){
                     token: formData.token
                 })
             })
+
+            const parsedResponse = await response.json()
+
+            console.log(parsedResponse)
 
             if(response.success){
                 console.log('works')
