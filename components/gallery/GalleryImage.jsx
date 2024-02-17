@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-// import testImage from '@/public/Images/IMG_3888.JPG';
+// import testImage from '@/public/Images/IMG_3888.jpg';
 import styles from './GalleryImage.module.css'
 
 export default function GalleryImage({ image }) {
