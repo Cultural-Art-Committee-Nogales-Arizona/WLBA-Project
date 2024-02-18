@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import Hero from '@/components/Hero'
+import Calendar from '@/components/Calendar'
 import Loading from '@/components/overlays/Loading'
 import styles from './page.module.css'
 import Image from "next/image";
@@ -9,8 +9,15 @@ import Logo from '@/public/Logo';
 import Dod from '@/public/Images/HomeImageDOD.jpg'
 import headImg from '@/public/Images/NogalesTitle.jpg'
 
+import ImageUpload from '@components/forms/ImageUpload'
+import Carousel from '@/components/gallery/Carousel'
+
+
 export default function Index() {
   const [nextEvent, setNextEvent] = useState(null)
+  
+  // ! Temp photos
+  const [images, setImages] = useState([])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -47,8 +54,8 @@ export default function Index() {
   }, [])
 
   return (
-    <div>
-      <div className={styles.mainDiv}>
+    <div className={styles.mainDiv}>
+      {/* <div className={styles.mainDiv}>
         <Image
           width={1519}
           height={650}
@@ -57,9 +64,11 @@ export default function Index() {
           className={styles.Img}
         />
         <Logo scale="75" className={styles.logo} />
-      </div>
+      </div> */}
 
-      <div className={styles.headmsg}>
+      <Calendar />
+
+      {/* <div className={styles.headmsg}>
         <h1>Cultural Arts Comittee of Nogales Arizona</h1>
       </div>
 
@@ -103,7 +112,7 @@ export default function Index() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
 
 
 

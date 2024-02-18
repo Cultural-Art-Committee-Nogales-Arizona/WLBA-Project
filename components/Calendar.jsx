@@ -13,6 +13,8 @@ import enLocale from '@fullcalendar/core/locales/en-gb';
 
 import Loading from '@/components/overlays/Loading';
 
+import Carousel from '@/components/gallery/Carousel';
+
 import styles from './Calendar.module.css'
 
 /* -------------------------------------------------------------------------- */
@@ -109,7 +111,7 @@ export default function Calendar() {
 			<div className={styles.calendar}>
 				{events ?
 					<FullCalendar
-						className="skiptranslate"
+						className={"skiptranslate"}
 						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
 						initialView='dayGridMonth'
 						events={events}
@@ -145,8 +147,8 @@ export default function Calendar() {
 						<p> {event.description}</p>
 						<h4>Location:</h4>
 						<p> {event.location}</p>
-						<h4>Banner:</h4>
-						<p> {event.banner}</p>
+						<h4>Images:</h4>
+						<Carousel images={event.images} />
 						<hr />
 					</div>
 				))

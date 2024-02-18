@@ -1,4 +1,6 @@
 "use client"
+import { CloudinaryContext, Image } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 
 import { useRef, useEffect, useState, useContext } from 'react'
 import flatpickr from "flatpickr"
@@ -11,7 +13,12 @@ import Error from '@components/overlays/Error'
 import Success from '@components/overlays/Success'
 import Loading from '@components/overlays/Loading'
 
+import ImageUpload from '@components/forms/ImageUpload'
 import CustomUserContext from '@components/GlobalUserContext'; 
+
+import dotenv from 'dotenv'
+import Carousel from '@/components/gallery/Carousel';
+dotenv.config()
 
 /* -------------------------------------------------------------------------- */
 /*                           flatpickr Documentation                          */
@@ -27,6 +34,9 @@ export default function EventForm({ params }) {
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  // const [images, setImages] = useState(params.images || [])
+  const [images, setImages] = useState([])
 
   /* -------------------------------------------------------------------------- */
   /*                            flatpickr Date logic                            */
@@ -188,6 +198,12 @@ export default function EventForm({ params }) {
     }
     setFormData({})
   }
+
+  const cloudinary = new Cloudinary({
+    cloud: {
+        cloudName: process.env.CLOUD_NAME
+    }
+  });
   
   const submitForm = async (event) => {
     event.preventDefault()
@@ -219,22 +235,6 @@ export default function EventForm({ params }) {
     setLoading(true)
 
     try {
-      // We will probably not use this confirmation box 
-      /* const confirmEvent = prompt(`
-        Confirm information\n
-        Title: ${formData.title}\n
-        Description: ${formData.description}\n
-        Start Time: ${new Date(formData.start).toLocaleString()}\n
-        End Time: ${new Date(formData.end).toLocaleString()}\n
-        Location: ${formData.location}\n\n
-        Type "Yes" to confirm
-        `)
-        
-      if (confirmEvent !== "Yes") {
-        alert("Canceled form submission") 
-        return
-      }  */
-
       const controller = new AbortController()
       const signal = controller.signal
 
@@ -254,8 +254,7 @@ export default function EventForm({ params }) {
           title: formData.title,
           description: formData.description,
           location: formData.location,
-          /* banner: 'Test banner, will be image URL in future', */  // Update this with the actual banner data
-          // banner: event.target.banner.files[0],  // Uncomment this line if 'banner' is a file input
+          images: images
         })
       })
       
@@ -373,18 +372,14 @@ export default function EventForm({ params }) {
               required
             />
           </div>
-
-          {/* We might not implement adding images to events */}
-          {/* <div className={styles.formGroup}>
+          <div className={styles.formGroup}>
             <label htmlFor="banner">Banner:</label>
-            <p>will add later, maybe</p>
-            <input 
-              id="banner" 
-              type="file" 
-              value={formData.file || ''} 
-              onChange={updateForm} 
-              />
-          </div> */}
+            <ImageUpload params={{images, setImages}} />
+          </div>
+        </fieldset>
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>Images</legend>
+          <Carousel images={images} />
         </fieldset>
         <input type="submit" className={styles.submit} value={requestMethod === 'PUT' ? 'Edit Event' : 'Create Event'}/>
       </form> }

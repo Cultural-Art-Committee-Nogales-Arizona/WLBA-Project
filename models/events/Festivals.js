@@ -24,8 +24,8 @@ let festivalSchema = new Schema({
     type: Date, 
     required: true
   },
-  banner: {
-    type: String,
+  images: {
+    type: Array,
     required: false
   }
 },{

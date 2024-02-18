@@ -96,27 +96,21 @@ const NavBar = () => {
                   <span className={styles.link_animation}>About Us</span>
                 </PageLink>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
                 <PageLink href="/calendar" className="nav-link" testId="navbar-csr">
                   <span className={styles.link_animation}>Calendar</span>
                 </PageLink>
-              </NavItem>
-              <NavItem>
-                <PageLink href="/gallery" className="nav-link" testId="navbar-external">
-                  <span className={styles.link_animation}>Gallery</span>
-                </PageLink>
-              </NavItem>
+              </NavItem> */}
               <NavItem>
                 <PageLink href="/volunteer" className="nav-link" testId="navbar-external">
                   <span className={styles.link_animation}>Volunteer</span>
                 </PageLink>
               </NavItem>
-              {/*  Add this as a donate button later */}
-              {/* <NavItem>
-                <PageLink href="/stripe" className="nav-link" testId="navbar-stripe">
-                  Stripe Page
-                </PageLink>
-              </NavItem> */}
+              <NavItem>
+                <a href="https://buy.stripe.com/eVa6ptaH472hgkE000" target="_blank" className="nav-link" >
+                  <span className={styles.link_animation}>Donate</span>
+                </a>
+              </NavItem>
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isLoading && !user && (

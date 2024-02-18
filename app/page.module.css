@@ -1,11 +1,13 @@
 /* Main Stuff for the header of the main page */
 .mainDiv {
-    display: grid;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 100%;
-    margin: 0 auto;
+    height: 100%;
+    /* width: 100%; */
+    /* box-sizing: border-box; */
+    padding-top: 50px;
+    flex-direction: column;
     /* grid-template-columns: 3;
     grid-template-rows: 3; */
 }
@@ -38,8 +40,8 @@
 
 /* Main container for the body content */
 .contentDiv {
-    width: 100%;
-    height: 100vh;
+    /* width: 100%;
+    height: 100vh; */
 
     display: flex;
     flex-direction: column;
@@ -54,8 +56,8 @@
 .child {
     padding: 1%;
 
-    height: 50vh;
-    width: 100%;
+    /* height: 50vh;
+    width: 100%; */
 
     display: flex;
     justify-content: space-around;
@@ -63,8 +65,8 @@
 }
 
 .p{
-    width: 40%;
-    height: 30vh;
+    /* width: 40%;
+    height: 30vh; */
 
     background-color: #FF955F;
     border: #730704 solid 3px;
