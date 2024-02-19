@@ -12,7 +12,7 @@ import headImg from '@/public/Images/NogalesTitle.jpg'
 import ImageUpload from '@components/forms/ImageUpload'
 import Carousel from '@/components/gallery/Carousel'
 
-import { deleteImage } from '@/utils/routeMethods'
+// import { deleteImage } from '@/utils/routeMethods'
 
 
 export default function Index() {

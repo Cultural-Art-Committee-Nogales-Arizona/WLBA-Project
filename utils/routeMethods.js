@@ -173,6 +173,8 @@ async function hash(input) {
 
 async function deleteImage(imageURL) {
   try {
+      console.log(cloudinaryConfig)
+
       const parts = imageURL.split('/');
       // Find the last part of the URL, which contains the filename
       const filename = parts[parts.length - 1];
