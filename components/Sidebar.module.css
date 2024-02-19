@@ -1,8 +1,14 @@
 .sidebarContainer {
+  display: flex;
+  flex-direction: column;
   width: 200px;
-  height: 100%;
+  height: 1000px;
   background-color: var(--blumine);
-  position: fixed;
+  position: absolute;
   left: 0;
   z-index: 1000;
+}
+
+.nav-link {
+  background-color: var(--blue-accent);
 }
