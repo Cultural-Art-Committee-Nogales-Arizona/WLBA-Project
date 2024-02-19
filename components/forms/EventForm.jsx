@@ -167,7 +167,7 @@ export default function EventForm({ params }) {
       setEndFlatpickrTimeInstance(fp)
     }
 
-  }, [formData.start, formData.end])
+  }, [/* formData.start, formData.end */])
 
   /* -------------------------------------------------------------------------- */
   /*                              END OF FLATPICKR                              */

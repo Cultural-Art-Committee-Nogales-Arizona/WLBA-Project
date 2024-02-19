@@ -48,6 +48,7 @@ export default function AdminSignIn() {
           admin: true,
           adminAuthId: adminAuthId
         }))
+        setSuccess('Signed in as Admin')
       } else {
         setError(`Request Failed: ${returnedAdmin.message}`)
       }

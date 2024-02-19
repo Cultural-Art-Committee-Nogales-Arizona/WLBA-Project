@@ -111,7 +111,7 @@ export default function Calendar() {
 			<div className={styles.calendar}>
 				{events ?
 					<FullCalendar
-						className={"skiptranslate"}
+						className="notranslate"
 						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
 						initialView='dayGridMonth'
 						events={events}
