@@ -16,6 +16,11 @@ body {
   top: 0px !important;
 }
 
+html {
+  scroll-behavior: smooth;
+
+}
+
 /* ---------------------------- Google Translate ---------------------------- */
 
 .VIpgJd-ZVi9od-ORHb-OEVmcd {

@@ -12,14 +12,12 @@ import headImg from '@/public/Images/NogalesTitle.jpg'
 import ImageUpload from '@components/forms/ImageUpload'
 import Carousel from '@/components/gallery/Carousel'
 
+// I don't know why but importing this function breaks everything because of a random ASCII character
 // import { deleteImage } from '@/utils/routeMethods'
 
 
 export default function Index() {
   const [nextEvent, setNextEvent] = useState(null)
-  
-  // ! Temp photos
-  const [images, setImages] = useState([])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -57,7 +55,7 @@ export default function Index() {
 
   return (
     <div className={styles.mainDiv}>
-      {/* <div className={styles.mainDiv}>
+      <div className={styles.hero}>
         <Image
           width={1519}
           height={650}
@@ -65,11 +63,20 @@ export default function Index() {
           alt={"text"}
           className={styles.Img}
         />
-        <Logo scale="75" className={styles.logo} />
-      </div> */}
+        <h1>
+          <span>C</span>ultural<br/> 
+          <span>A</span>rts<br/>
+          <span>C</span>ommittee of<br/>
+          <span>N</span>ogales<br/>
+          <span>A</span>rizona
+        </h1>
+        <a className={styles.callToAction} href="#events">View Events</a>
+      </div>
 
-      <Calendar />
-      {/* <button onClick={async () => await deleteImage("https://res.cloudinary.com/dhh4hjypo/image/upload/v1708308711/EventImage/uf4otbmdw5vknqztbelu.jpg")}>Delete image</button> */}
+      <div id="events">
+        <p className={styles.heroText}>We're dedicated to celebrating our community's diverse cultural heritage through art, performances, and education. Here is a calendar containing all upcoming events, old events will stay up</p>
+        <Calendar />
+      </div>
 
       {/* <div className={styles.headmsg}>
         <h1>Cultural Arts Comittee of Nogales Arizona</h1>

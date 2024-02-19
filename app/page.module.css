@@ -6,29 +6,66 @@
     height: 100%;
     /* width: 100%; */
     /* box-sizing: border-box; */
-    padding-top: 50px;
+    /* padding-top: 50px; */
     flex-direction: column;
     /* grid-template-columns: 3;
     grid-template-rows: 3; */
 }
 
 .Img {
-    filter: opacity(65%) blur(3px);
-    z-index: 1;
-    /* grid-column: 1/3;
-    grid-row: 1/3; */
+    filter: brightness(0.2)/* opacity(65%) blur(3px) */;
+    z-index: -1;
     position: absolute;
-    left: 0;
+    width: 100%;
+    height: 875px;
+    object-fit: cover;
+    object-position: 50%;
+    /* left: 0; */
     top: 120px;
 }
 
-.headmsg{
-    width: 100%;
-    height: 10vh;
-
+.hero {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    height: 875px;
+    width: 100%;
 }
+
+.hero > h1 {
+    font-size: 75px;
+    text-align: start;
+}
+
+/* Color first letter */
+
+.hero > h1 > span {
+    color: var(--blue-accent);
+}
+
+.heroText {
+    width: 400px
+}
+
+.callToAction {
+    /* border: solid white 2px; */
+    border: none;
+    border-radius: 10px;
+    background-color: var(--dark-red);
+    color: white;
+    padding: 5px;
+    text-decoration: none;
+    font-size: x-large;
+}
+
+.callToAction:hover {
+    color: white;
+    background-color: #400000;
+    text-decoration: none;
+}
+
 
 .logo {
     z-index: 2;

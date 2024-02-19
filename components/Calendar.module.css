@@ -19,6 +19,18 @@
   padding: 2%;
 }
 
+.eventDetails > h5 {
+  background-color: white;
+  border: solid black 2px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.key {
+  color: var(--blumine);
+  font-size: x-large;
+}
+
 @media screen and (max-width: 500px) {
   .container {
     display: flex;

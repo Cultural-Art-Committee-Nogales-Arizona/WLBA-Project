@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  border: solid 18px var(--blue-accent);
+  /* border: solid 18px var(--blue-accent); */
 }
 
 .image {

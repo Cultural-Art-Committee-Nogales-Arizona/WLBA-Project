@@ -68,6 +68,9 @@ export default function Calendar() {
 			const fetchedData = await fetch('api/events/festivals', { signal, method: "GET" })
 			.then(res => res.json());
 			setEvents(fetchedData.data);
+			if (events === null) {
+				await findData(new Date.now())
+			}
 		} catch (error) {
 			if (error.name === 'AbortError') {
 			console.log('Fetch aborted');
@@ -135,17 +138,12 @@ export default function Calendar() {
 				dayData.map((event, index) => (
 					<div key={event._id}>
 						<h1>Title: {event.title}</h1>
-						<h4>{event.images.length} Images:</h4>
-						<Carousel images={event.images} />
 						<div className={styles.eventDetails}>
-							<h4>Start Date:</h4>
-							<p> This event starts on {new Date(event.start).toLocaleString()}</p>
-							<h4>End Date:</h4>
-							<p> This event ends on {new Date(event.end).toLocaleString()}</p>
-							<h4>Description:</h4>
-							<p> {event.description}</p>
-							<h4>Location:</h4>
-							<p> {event.location}</p>
+							<h5><span className={styles.key}>Start Date:</span> {new Date(event.start).toLocaleString()}</h5>
+							<h5><span className={styles.key}>End Date:</span> {new Date(event.end).toLocaleString()}</h5>
+							<h5><span className={styles.key}>Description:</span> {event.description}</h5>
+							<h5><span className={styles.key}>Location:</span> {event.location}</h5>
+							<h5><span className={styles.key}>{event.images.length} Images:</span><Carousel images={event.images} /></h5>
 							<hr />
 						</div>
 					</div>
@@ -154,6 +152,3 @@ export default function Calendar() {
 		</div>
 	)
 }
-
-// {/* <h4>Document _id:</h4>
-// 						<p>{event._id}</p> */}

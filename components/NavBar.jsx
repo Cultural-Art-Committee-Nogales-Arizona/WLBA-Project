@@ -15,7 +15,7 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import WhiteLogo from '@/public/whiteLogo'
+import Logo from '@/public/Logo'
 import CustomUserContext from './GlobalUserContext'; 
 
 import useSessionStorage from '@utils/custom-hooks/useSessionStorage'
@@ -46,7 +46,7 @@ const NavBar = () => {
     try {
 
       if (user) {
-        console.log(user)
+        // console.log(user)
         let name = user.given_name ?? user.name
 
         // ! setAdminAuthId(globalUserData.adminAuthId)
@@ -80,7 +80,7 @@ const NavBar = () => {
     <div className="nav-container" data-testid="navbar" >
       <Navbar className={styles.navbar}  expand="md">
         <a href="/">
-          <WhiteLogo scale="75" />
+          <Logo scale="75" />
         </a>
         <Container>
           <NavbarToggler onClick={toggle} data-testid="navbar-toggle"  /> 
@@ -96,11 +96,6 @@ const NavBar = () => {
                   <span className={styles.link_animation}>About Us</span>
                 </PageLink>
               </NavItem>
-              {/* <NavItem>
-                <PageLink href="/calendar" className="nav-link" testId="navbar-csr">
-                  <span className={styles.link_animation}>Calendar</span>
-                </PageLink>
-              </NavItem> */}
               <NavItem>
                 <PageLink href="/volunteer" className="nav-link" testId="navbar-external">
                   <span className={styles.link_animation}>Volunteer</span>
