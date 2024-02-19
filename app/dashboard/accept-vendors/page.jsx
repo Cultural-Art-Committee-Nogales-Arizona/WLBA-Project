@@ -1,6 +1,5 @@
 "use client"
 import { useState, useEffect, useContext, useMemo } from 'react'
-import DashboardLayout from '@/app/dashboard/DashboardLayout'
 import CustomUserContext from '@/components/GlobalUserContext'
 import Loading from '@/components/overlays/Loading'
 import Error from '@/components/overlays/Error'
@@ -203,94 +202,94 @@ function VolunteerRequest() {
   }, [formData]) */
 
   return (
-    <DashboardLayout>
-    {error ? <Error params={{error, setError}} /> : null}
-    {/* Display table  */}
-    { loading ? <Loading /> : 
-    <div className={styles.container}>
-      <div className="formGroup">
-        <label htmlFor="search">Search</label>
-        <input
-          id="search"
-          type="text"
-          onChange={(event) => searchVendors(event.target.value)}
-        />
+    <>
+      {error ? <Error params={{error, setError}} /> : null}
+      {/* Display table  */}
+      { loading ? <Loading /> : 
+      <div className={styles.container}>
+        <div className="formGroup">
+          <label htmlFor="search">Search</label>
+          <input
+            id="search"
+            type="text"
+            onChange={(event) => searchVendors(event.target.value)}
+          />
+        </div>
+        <h2>Selected Vendors: {formData.vendors.length}</h2>
+        {/* Start of table */}
+        <table className={styles.volunteer_table}>
+          <thead>
+            <tr>
+              <th><button onClick={toggleAll}>Toggle All</button></th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Description</th>
+              <th>Tags</th>
+            </tr>
+          </thead>
+          <tbody>
+          {
+            searchResults.length ?
+            searchResults.map(vendor => {
+              return (
+                <tr key={vendor._id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      id={vendor._id}
+                      checked={formData.vendors.some(v => v.id === vendor._id)}
+                      onChange={() => handleCheckboxChange(vendor)}
+                    />
+                  </td>
+                  <td>
+                    <p>{vendor.name}</p>
+                  </td>
+                  <td>
+                    <p>{vendor.email}</p>
+                  </td>
+                  <td>
+                    <p>{vendor.description}</p>
+                  </td>
+                  <td>
+                    <p>{vendor.tags.join(", ")}</p>
+                  </td>
+                </tr>
+              )
+            })
+            : 
+            <tr>
+              <td>No matches</td>
+            </tr>
+          }
+          </tbody>
+        </table>
+        {/* Start of form input */}
+        <form action="" onSubmit={handleSubmit}>
+          <div className="formGroup">
+            <label htmlFor="subjectLine">Subject Line</label>
+            <input 
+              type="text" 
+              id="subjectLine" 
+              className={styles.subject}
+              onChange={(event) => updateFormData(event)}
+              value={formData.subjectLine}
+            />
+          </div>
+          <div className="formGroup">
+            <label htmlFor="message">Message</label>
+            <textarea 
+              type="text" 
+              id="message"
+              className={styles.message}
+              onChange={(event) => updateFormData(event)}
+              value={formData.message}
+            />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
       </div>
-      <h2>Selected Vendors: {formData.vendors.length}</h2>
-      {/* Start of table */}
-      <table className={styles.volunteer_table}>
-        <thead>
-          <tr>
-            <th><button onClick={toggleAll}>Toggle All</button></th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Description</th>
-            <th>Tags</th>
-          </tr>
-        </thead>
-        <tbody>
-        {
-          searchResults.length ?
-          searchResults.map(vendor => {
-            return (
-              <tr key={vendor._id}>
-                <td>
-                  <input
-                    type="checkbox"
-                    id={vendor._id}
-                    checked={formData.vendors.some(v => v.id === vendor._id)}
-                    onChange={() => handleCheckboxChange(vendor)}
-                  />
-                </td>
-                <td>
-                  <p>{vendor.name}</p>
-                </td>
-                <td>
-                  <p>{vendor.email}</p>
-                </td>
-                <td>
-                  <p>{vendor.description}</p>
-                </td>
-                <td>
-                  <p>{vendor.tags.join(", ")}</p>
-                </td>
-              </tr>
-            )
-          })
-          : 
-          <tr>
-            <td>No matches</td>
-          </tr>
-        }
-        </tbody>
-      </table>
-      {/* Start of form input */}
-      <form action="" onSubmit={handleSubmit}>
-        <div className="formGroup">
-          <label htmlFor="subjectLine">Subject Line</label>
-          <input 
-            type="text" 
-            id="subjectLine" 
-            className={styles.subject}
-            onChange={(event) => updateFormData(event)}
-            value={formData.subjectLine}
-          />
-        </div>
-        <div className="formGroup">
-          <label htmlFor="message">Message</label>
-          <textarea 
-            type="text" 
-            id="message"
-            className={styles.message}
-            onChange={(event) => updateFormData(event)}
-            value={formData.message}
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-    }
-    </DashboardLayout>
+      }
+    </>
   )
 }
 

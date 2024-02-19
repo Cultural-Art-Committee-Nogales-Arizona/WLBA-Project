@@ -1,14 +1,16 @@
 "use client"
-import styles from './DashboardLayout.css'
+import styles from './layout.module.css'
 import Sidebar from '@/components/Sidebar';
 
-const DashboardLayout = ({ children }) => {
+const layout = ({ children }) => {
   return (
     <div className={styles.layout}>
       <Sidebar />
-      {children}
+      <div className={styles.children}>
+        {children}
+      </div>
     </div>
   );
 };
 
-export default DashboardLayout;
+export default layout;

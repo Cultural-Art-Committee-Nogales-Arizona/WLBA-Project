@@ -4,21 +4,19 @@ import PageLink from '@/components/PageLink'
 export default function Sidebar() {
   return (
     <div className={styles.sidebarContainer}>
-      <PageLink href="/dashboard/create-event" className="nav-link" testId="navbar-home">
-        <span>Create Event Form</span>
-      </PageLink>
-      <PageLink href="/dashboard/edit-event" className="nav-link" testId="navbar-home">
-        <span>Edit Event Form</span>
-      </PageLink>
-      <PageLink href="/dashboard/request-volunteers" className="nav-link" testId="navbar-home">
-        <span>Request Volunteers Form</span>
-      </PageLink>
-      <PageLink href="/dashboard/accept-vendors" className="nav-link" testId="navbar-home">
-        <span>Accept Vendors Form</span>
-      </PageLink>
-      <PageLink href="/dashboard/admin/manage" className="nav-link" testId="navbar-home">
-        <span>Manage Administrators</span>
-      </PageLink>
+      <a href="/dashboard" className={styles.nav_link}>Dashboard</a>
+      <h2>Events</h2>
+      <a href="/dashboard/create-event" className={styles.nav_link}>Create Event</a>
+      <a href="/dashboard/edit-event" className={styles.nav_link}>Edit Event</a>
+      <hr />
+      <h2>Vendors</h2>
+      <a href="/dashboard/accept-vendors" className={styles.nav_link}>Accept Vendors</a>
+      <hr />
+      <h2>Volunteers</h2>
+      <a href="/dashboard/request-volunteers" className={styles.nav_link}>Request</a>
+      <hr />
+      <h2>Admins</h2> 
+      <a href="/dashboard/admin/manage" className={styles.nav_link}>Manage Admins</a>
     </div>
   )
 }

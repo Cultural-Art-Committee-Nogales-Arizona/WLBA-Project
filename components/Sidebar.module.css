@@ -4,11 +4,24 @@
   width: 200px;
   height: 1000px;
   background-color: var(--blumine);
-  position: absolute;
+  position: relative;
   left: 0;
   z-index: 1000;
+  /* justify-content: start; */
+  align-items: center;
 }
 
-.nav-link {
+.sidebarContainer > h2 {
+  color: white;
+}
+
+.nav_link {
   background-color: var(--blue-accent);
+  width: 80%;
+  font-size: x-large;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  margin: 5px;
 }

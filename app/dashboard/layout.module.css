@@ -1,0 +1,10 @@
+.layout {
+  display: flex;
+  /* background-color: aqua; */
+  /* justify-content: space-between; */
+  flex-direction: row;
+}
+
+.children {
+  flex-grow: 1;
+}
