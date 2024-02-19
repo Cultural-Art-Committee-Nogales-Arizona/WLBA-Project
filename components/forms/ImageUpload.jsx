@@ -36,19 +36,6 @@ export default function ImageUpload({ params }) {
     }, [images]);
 
     return (
-        <div>
-            <input type="file" onChange={handleFileChange} multiple />
-            {/* {images.map((imageUrl, index) => (
-                <div key={index}>
-                    <p>Uploaded Image {index + 1}:</p>
-                    <Image
-                        src={imageUrl}
-                        alt={`Saved image ${index + 1}`}
-                        width={300}
-                        height={300}
-                    />
-                </div>
-            ))} */}
-        </div>
+        <input type="file" onChange={handleFileChange} multiple></input>
     );
 }

@@ -19,11 +19,11 @@ export default function EditEventPage() {
     location: "",
     start: "",
     end: "",
-    banner: "",
-    description: ""
+    description: "",
+    images: [],
   })
 
-  const handleDropdownChange = (event) => {
+  const handleEventChange = (event) => {
     if (event.target.value === "") {
       setEventId("selectEvent")
       setFormData({
@@ -31,8 +31,8 @@ export default function EditEventPage() {
         location: "",
         start: "",
         end: "",
-        banner: "",
-        description: ""
+        description: "",
+        images: [],
       })
       return 
     }
@@ -40,6 +40,17 @@ export default function EditEventPage() {
     const foundEvent = events.find(festival => festival._id === event.target.value)
     setFormData(foundEvent)
   }
+/*   const handleEventChange = (event) => {
+    const selectedOption = events.find(event => event._id === event.target.value);
+    if (selectedOption) {
+      setEventId(selectedOption._id);
+      setFormData(selectedOption);
+    } else {
+      // Handle case when no event is selected (optional)
+      setEventId("");
+      setFormData({});
+    }
+  }; */
 
   const deleteEvent = async (event) => {
     event.preventDefault()
@@ -77,7 +88,7 @@ export default function EditEventPage() {
     }
   }
   
-  function returnUnfinishedEvents(events) {
+  /* function returnUnfinishedEvents(events) {
     return events.filter(event => {
       const rightNow = new Date()
 
@@ -86,7 +97,7 @@ export default function EditEventPage() {
 
       return endDate > rightNow
     })
-  }
+  } */
 
 
   useEffect(() => {
@@ -123,15 +134,31 @@ export default function EditEventPage() {
       </PageLink>
       <form>
           Select Event: 
-          <select value={eventId} onChange={(event) => handleDropdownChange(event)}>
+          {/* <select value={eventId} onChange={(event) => handleEventChange(event)}>
+          </select> */}
+          {/* <input 
+            type="text" 
+            list="events" 
+            placeholder='Search Events' 
+            // value={formData?.title}
+            onChange={(event) => handleEventChange(event)}
+          />
+          <datalist id="events">
+            {events.map((festival) => (
+              <option key={festival._id} value={festival._id} onSelect={event => handleEventChange(event, festival._id)} >
+                {festival.title}
+              </option>
+            ))}
+          </datalist> */}
+          <select value={eventId} onChange={(event) => handleEventChange(event)}>
             <option value="">Select an event</option>
-            {returnUnfinishedEvents(events).map((event) => (
+            {events.map((event) => (
               <option key={event._id} value={event._id}>
                 {event.title}
               </option>
             ))}
           </select>
-        <button onClick={deleteEvent}>Delete Event</button>
+        {/* <button onClick={deleteEvent}>Delete Event</button> */}
       </form>
       <EventForm params={{ formData, setFormData, requestMethod, eventId }} />
     </div>

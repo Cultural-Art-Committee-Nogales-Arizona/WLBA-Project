@@ -10,11 +10,14 @@
 .calendar h2 {
   font-size: 50px;
 }
-/* 
-.calendar {
-  width: 500px;
-  height: 500px;
-} */
+
+.eventDetails {
+  border: solid 18px var(--blue-accent);
+  margin-top: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 2%;
+}
 
 @media screen and (max-width: 500px) {
   .container {

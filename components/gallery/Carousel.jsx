@@ -4,22 +4,17 @@ import styles from './Carousel.module.css';
 
 import Image from 'next/image'
 
-const Carousel = ({ images: initialImages }) => {
-  const [images, setImages] = useState(initialImages || []);
+const Carousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    setImages(initialImages || []);
-  }, [initialImages]);
 
   const goToPrevSlide = (event) => {
     event.preventDefault()
-    setCurrentIndex(currentIndex === 0 ? images.length - 1 : currentIndex - 1);
+    setCurrentIndex(() => currentIndex === 0 ? images.length - 1 : currentIndex - 1);
   };
 
   const goToNextSlide = (event) => {
     event.preventDefault()
-    setCurrentIndex(currentIndex === images.length - 1 ? 0 : currentIndex + 1);
+    setCurrentIndex(() => currentIndex === images.length - 1 ? 0 : currentIndex + 1);
   };
 
   return (
@@ -31,9 +26,10 @@ const Carousel = ({ images: initialImages }) => {
         width={700}  
         height={400}  
       />
-      <div>
-        <button onClick={event => goToPrevSlide(event)}>Previous</button>
-        <button onClick={event => goToNextSlide(event)}>Next</button>
+      <div className={styles.buttons}>
+        <button className={styles.button} onClick={event => goToPrevSlide(event)}>Previous</button>
+        <span className={styles.button}>{currentIndex + 1}</span>
+        <button className={styles.button} onClick={event => goToNextSlide(event)}>Next</button>
       </div>
     </div>
   );

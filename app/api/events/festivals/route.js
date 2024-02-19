@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Festival from "@/models/events/Festivals";
 import { isAdmin } from "@/utils/routeMethods";
+import cloudinary from '@/connections/cloudinary';
 
 // get either all festivals for display in the dashboard or calendar, or get closest festival
 export const GET = async (request) => {
@@ -47,7 +48,7 @@ export const POST = async (request) => {
 	const searchParams = request.nextUrl.searchParams;
 	const adminId = searchParams.get("adminId") || "";
 	const userId = searchParams.get("userId") || "";
-	const { title, description, location, start, end, banner } = await request.json();
+	const { title, description, location, start, end, images } = await request.json();
 
 	try {
 		// ! Uncomment line when ready to only allow admins
@@ -64,7 +65,7 @@ export const POST = async (request) => {
 			location,
 			start,
 			end,
-			banner,
+			images
 		});
 
 		return NextResponse.json({
@@ -93,7 +94,7 @@ export const PUT = async (request) => {
 	const festivalId = searchParams.get("festivalId") || "";
 	const adminId = searchParams.get("adminId") || "";
 	const userId = searchParams.get("userId") || "";
-	const { title, description, location, start, end, banner } = await request.json();
+	const { title, description, location, start, end, images } = await request.json();
 
 	try {
 		// ! Uncomment line when ready to only allow admins
@@ -118,10 +119,10 @@ export const PUT = async (request) => {
 			location,
 			start,
 			end,
-			banner,
+			images
 		},{
-            returnDocument: 'after'
-        });
+				returnDocument: 'after'
+		});
 
 		return NextResponse.json({
 				success: true,
@@ -165,9 +166,24 @@ export const DELETE = async (request) => {
 		const existingFestival = await Festival.findById(festivalId);
 
 		// Check if festival with given ID exists
-		if (!existingFestival) throw new Error(`Festival with _id ${festivalId} not found`)
+		if (!existingFestival) throw new Error(`Festival with _id ${festivalId} not found`);
 
 		await Festival.findByIdAndDelete(festivalId);
+
+		/* ---------------------- Delete images off Cloudinary ---------------------- */
+
+		const imagePublicIds = existingFestival.images.map(image => image.publicId);
+
+    await Promise.all(imagePublicIds.map(async (publicId) => {
+      try {
+        await cloudinary.uploader.destroy(publicId);
+      } catch (error) {
+        // console.error(`Error deleting image with public ID ${publicId} from Cloudinary:`, error)
+				console.error(error)
+      }
+    }));
+
+		/* -------------------------------------------------------------------------- */		
 
 		return NextResponse.json({
 				success: true,

@@ -3,18 +3,42 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  border: solid 18px var(--blue-accent);
 }
 
 .image {
-  width: 90%
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  padding: 2%;
 }
 
-/* button {
+.buttons {
+  display: flex;
+  justify-content: space-between;
   cursor: pointer;
+  width: 250px;
   padding: 8px 16px;
-  background-color: #333;
+  background-color: var(--gray-background);
   color: #fff;
   border: none;
   border-radius: 4px;
-  margin: 0 8px;
-} */
+  margin-bottom: 2%;
+}
+
+.buttons > span {
+  min-width: 50px;
+  text-align: center;
+}
+
+.button {
+  width: fit-content;
+  background-color: var(--blumine);
+  color: white;
+  border-radius: 5px;
+  border: solid 2px black;
+}
+
+.button:hover {
+  background-color: hsl(218, 65.3%, 23.36%);
+}

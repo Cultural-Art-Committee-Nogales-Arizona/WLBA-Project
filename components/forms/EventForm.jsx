@@ -35,8 +35,7 @@ export default function EventForm({ params }) {
   const [success, setSuccess] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  // const [images, setImages] = useState(params.images || [])
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState(formData?.images || [])
 
   /* -------------------------------------------------------------------------- */
   /*                            flatpickr Date logic                            */
@@ -198,12 +197,6 @@ export default function EventForm({ params }) {
     }
     setFormData({})
   }
-
-  const cloudinary = new Cloudinary({
-    cloud: {
-        cloudName: process.env.CLOUD_NAME
-    }
-  });
   
   const submitForm = async (event) => {
     event.preventDefault()
@@ -279,7 +272,15 @@ export default function EventForm({ params }) {
       setLoading(false)
     }
   }
-  
+
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      images
+    }))
+    console.log(formData)
+  }, [images])
+
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
@@ -373,13 +374,29 @@ export default function EventForm({ params }) {
             />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="banner">Banner:</label>
+            <label htmlFor="banner">Image:</label>
             <ImageUpload params={{images, setImages}} />
           </div>
         </fieldset>
+        {/* View images */}
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Images</legend>
-          <Carousel images={images} />
+          { !loading ?
+          formData.images ? 
+            (formData.images.length !== 0 ? 
+                <Carousel images={formData.images} />
+                :
+                <div>
+                    No images found
+                </div>
+            )
+            :
+            <div>
+                No images found
+            </div>
+            :
+            <Loading />
+          }
         </fieldset>
         <input type="submit" className={styles.submit} value={requestMethod === 'PUT' ? 'Edit Event' : 'Create Event'}/>
       </form> }

@@ -33,6 +33,8 @@ MONGO
 
 API
 
+- Fix event api to delete any images no longer present in the PUT request 
+
 - Make all admin protected routes also take in a user ID and pass to documentation
 - Create a route to allow admins to change their password
 - Create 'isAccepted' function to make accepted vendor verification more modular

@@ -9,7 +9,7 @@ import multiMonthPlugin from '@fullcalendar/multimonth'
 import timeGridPlugin from '@fullcalendar/timegrid'
 
 import esLocale from '@fullcalendar/core/locales/es';
-import enLocale from '@fullcalendar/core/locales/en-gb';
+import enLocale from '@fullcalendar/core/locales/en-nz';
 
 import Loading from '@/components/overlays/Loading';
 
@@ -115,12 +115,12 @@ export default function Calendar() {
 						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
 						initialView='dayGridMonth'
 						events={events}
-						// customButtons={{ englishTranslation, spanishTranslation }}
+						customButtons={{ englishTranslation, spanishTranslation }}
 						headerToolbar={calendarHeader}
 						footerToolbar={calendarFooter}
 						selectable='true'
 						select={(start) => findData(start.start)}
-						// locale={currentLocale}
+						locale={currentLocale}
 						// We can change color to whatever we want
 						eventColor='#378006'
 					/>
@@ -134,25 +134,26 @@ export default function Calendar() {
 				dayData &&
 				dayData.map((event, index) => (
 					<div key={event._id}>
-						<h1>Event Number: {index + 1}</h1>
-						<h4>Document _id:</h4>
-						<p>{event._id}</p>
-						<h4>Start Date:</h4>
-						<p> This event starts on {new Date(event.start).toLocaleString()}</p>
-						<h4>End Date:</h4>
-						<p> This event ends on {new Date(event.end).toLocaleString()}</p>
-						<h4>Title:</h4>
-						<p> {event.title}</p>
-						<h4>Description:</h4>
-						<p> {event.description}</p>
-						<h4>Location:</h4>
-						<p> {event.location}</p>
-						<h4>Images:</h4>
+						<h1>Title: {event.title}</h1>
+						<h4>{event.images.length} Images:</h4>
 						<Carousel images={event.images} />
-						<hr />
+						<div className={styles.eventDetails}>
+							<h4>Start Date:</h4>
+							<p> This event starts on {new Date(event.start).toLocaleString()}</p>
+							<h4>End Date:</h4>
+							<p> This event ends on {new Date(event.end).toLocaleString()}</p>
+							<h4>Description:</h4>
+							<p> {event.description}</p>
+							<h4>Location:</h4>
+							<p> {event.location}</p>
+							<hr />
+						</div>
 					</div>
 				))
 			}
 		</div>
 	)
 }
+
+// {/* <h4>Document _id:</h4>
+// 						<p>{event._id}</p> */}
