@@ -3,6 +3,7 @@
 /* -------------------------------------------------------------------------- */
 
 import bcrypt from 'bcryptjs'
+import cloudinary  from '@/connections/cloudinary'
 
 /* ----------------------------- MongoDB Schemas ---------------------------- */
 
@@ -168,9 +169,49 @@ async function hash(input) {
   return hashedOutput
 }
 
+/* --------------------- Delete an image from Cloudinary -------------------- */
+
+async function deleteImage(imageURL) {
+  try {
+      const parts = imageURL.split('/');
+      // Find the last part of the URL, which contains the filename
+      const filename = parts[parts.length - 1];
+      // Split the filename by ".", and get the part before ".jpg"
+      const publicId = filename.split('.')[0];
+
+      const encryptKeys = btoa(`${cloudinaryConfig.cloud.api_key}:${cloudinaryConfig.cloud.api_secret}`);
+      console.log(cloudinaryConfig)
+      const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud.cloud_name}/resources/image/destroy`,
+          {
+              method: 'POST',
+              headers: {
+                  'Authorization': `Basic ${encryptKeys}`,
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ public_ids: [publicId] })
+          }
+      );
+
+      if (response.ok) {
+          const data = await response.json();
+          console.log('Image deleted successfully:', data);
+          return data;
+      } else {
+          console.error('Failed to delete image');
+          throw new Error('Failed to delete image');
+      }
+      cloudinary.upl
+  } catch (error) {
+      console.error('Error occurred while deleting image:', error);
+      throw error;
+  }
+}
+
+
 /* -------------------------------------------------------------------------- */
 
 // countVotes, 
 // isDuplicate, 
 // getUserWithID, 
-export { generateUserAuthID, isAdmin, hash, generateRecoveryToken, generateExpiryDate }
+export { generateUserAuthID, isAdmin, hash, generateRecoveryToken, generateExpiryDate, deleteImage }

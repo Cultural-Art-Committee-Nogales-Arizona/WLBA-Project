@@ -1,13 +1,16 @@
-import dotenv from 'dotenv' 
-dotenv.config()
-const { CLOUD_NAME, API_KEY, SECRET_CLOUDINARY_KEY } = process.env
+import dotenv from 'dotenv';
 
+// Load environment variables
+dotenv.config();
+
+// Configure Cloudinary with environment variables
 const cloudinaryConfig = {
-  cloud: {
-    cloudName: CLOUD_NAME,
-    apiKey: API_KEY,
-    apiSecret: SECRET_CLOUDINARY_KEY,
-  }
-};
+    cloud: {
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.API_KEY,
+        api_secret: process.env.SECRET_CLOUDINARY_KEY,
+        secure: true
+    }
+}
 
 export default cloudinaryConfig;

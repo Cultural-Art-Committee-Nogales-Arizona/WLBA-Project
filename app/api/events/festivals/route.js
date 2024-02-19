@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Festival from "@/models/events/Festivals";
-import { isAdmin } from "@/utils/routeMethods";
+import { isAdmin, deleteImage } from "@/utils/routeMethods";
 import cloudinary from '@/connections/cloudinary';
 
 // get either all festivals for display in the dashboard or calendar, or get closest festival
@@ -161,7 +161,7 @@ export const DELETE = async (request) => {
 		*/
 
 		// If there is no festivalId query then throw an error
-		if (!festivalId) throw new Error("No festival id was defined");
+		if (!festivalId) throw new Error("You must append &festivalId= query to URL");
 
 		const existingFestival = await Festival.findById(festivalId);
 
@@ -172,16 +172,16 @@ export const DELETE = async (request) => {
 
 		/* ---------------------- Delete images off Cloudinary ---------------------- */
 
-		const imagePublicIds = existingFestival.images.map(image => image.publicId);
+		// const imagePublicIds = existingFestival.images.map(image => image.publicId);
 
-    await Promise.all(imagePublicIds.map(async (publicId) => {
-      try {
-        await cloudinary.uploader.destroy(publicId);
-      } catch (error) {
-        // console.error(`Error deleting image with public ID ${publicId} from Cloudinary:`, error)
+		existingFestival.images.map(async (imageURL) => {
+			try {
+
+				await deleteImage(imageURL)
+			} catch (error) {
 				console.error(error)
-      }
-    }));
+			}
+		})
 
 		/* -------------------------------------------------------------------------- */		
 
