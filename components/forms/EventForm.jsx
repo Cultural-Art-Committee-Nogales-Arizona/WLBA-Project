@@ -1,6 +1,4 @@
 "use client"
-import { CloudinaryContext, Image } from '@cloudinary/react';
-import { Cloudinary } from '@cloudinary/url-gen';
 
 import { useRef, useEffect, useState, useContext } from 'react'
 import flatpickr from "flatpickr"
@@ -9,16 +7,18 @@ import styles from './EventForm.module.css'
 // We can change the theme
 // import 'flatpickr/dist/themes/dark.css'
 import 'flatpickr/dist/themes/light.css'
+
+// Overlays
 import Error from '@components/overlays/Error'
 import Success from '@components/overlays/Success'
 import Loading from '@components/overlays/Loading'
 
 import ImageUpload from '@components/forms/ImageUpload'
 import CustomUserContext from '@components/GlobalUserContext'; 
-
+/* 
 import dotenv from 'dotenv'
+dotenv.config() */
 import Carousel from '@/components/gallery/Carousel';
-dotenv.config()
 
 /* -------------------------------------------------------------------------- */
 /*                           flatpickr Documentation                          */

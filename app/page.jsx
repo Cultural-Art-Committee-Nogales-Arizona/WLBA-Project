@@ -69,7 +69,7 @@ export default function Index() {
       </div> */}
 
       <Calendar />
-      <button onClick={async () => await deleteImage("https://res.cloudinary.com/dhh4hjypo/image/upload/v1708308711/EventImage/uf4otbmdw5vknqztbelu.jpg")}>Delete image</button>
+      {/* <button onClick={async () => await deleteImage("https://res.cloudinary.com/dhh4hjypo/image/upload/v1708308711/EventImage/uf4otbmdw5vknqztbelu.jpg")}>Delete image</button> */}
 
       {/* <div className={styles.headmsg}>
         <h1>Cultural Arts Comittee of Nogales Arizona</h1>

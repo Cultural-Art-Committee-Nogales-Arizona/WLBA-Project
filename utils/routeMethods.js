@@ -3,7 +3,7 @@
 /* -------------------------------------------------------------------------- */
 
 import bcrypt from 'bcryptjs'
-import cloudinary  from '@/connections/cloudinary'
+import cloudinaryConfig  from '@/connections/cloudinary'
 
 /* ----------------------------- MongoDB Schemas ---------------------------- */
 
@@ -179,14 +179,14 @@ async function deleteImage(imageURL) {
       // Split the filename by ".", and get the part before ".jpg"
       const publicId = filename.split('.')[0];
 
-      const encryptKeys = btoa(`${cloudinaryConfig.cloud.api_key}:${cloudinaryConfig.cloud.api_secret}`);
+      // const encryptKeys = btoa(`${cloudinaryConfig.cloud.api_key}:${cloudinaryConfig.cloud.api_secret}`);
       console.log(cloudinaryConfig)
       const response = await fetch(
           `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud.cloud_name}/resources/image/destroy`,
           {
               method: 'POST',
               headers: {
-                  'Authorization': `Basic ${encryptKeys}`,
+                  'Authorization': `Basic ${cloudinaryConfig.cloud.api_key}:${cloudinaryConfig.cloud.api_secret}`,
                   'Content-Type': 'application/json',
               },
               body: JSON.stringify({ public_ids: [publicId] })
@@ -201,7 +201,6 @@ async function deleteImage(imageURL) {
           console.error('Failed to delete image');
           throw new Error('Failed to delete image');
       }
-      cloudinary.upl
   } catch (error) {
       console.error('Error occurred while deleting image:', error);
       throw error;
