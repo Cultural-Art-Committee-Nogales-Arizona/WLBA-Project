@@ -40,17 +40,6 @@ export default function EditEventPage() {
     const foundEvent = events.find(festival => festival._id === event.target.value)
     setFormData(foundEvent)
   }
-/*   const handleEventChange = (event) => {
-    const selectedOption = events.find(event => event._id === event.target.value);
-    if (selectedOption) {
-      setEventId(selectedOption._id);
-      setFormData(selectedOption);
-    } else {
-      // Handle case when no event is selected (optional)
-      setEventId("");
-      setFormData({});
-    }
-  }; */
 
   const deleteEvent = async (event) => {
     event.preventDefault()
@@ -134,22 +123,6 @@ export default function EditEventPage() {
       </PageLink>
       <form>
           Select Event: 
-          {/* <select value={eventId} onChange={(event) => handleEventChange(event)}>
-          </select> */}
-          {/* <input 
-            type="text" 
-            list="events" 
-            placeholder='Search Events' 
-            // value={formData?.title}
-            onChange={(event) => handleEventChange(event)}
-          />
-          <datalist id="events">
-            {events.map((festival) => (
-              <option key={festival._id} value={festival._id} onSelect={event => handleEventChange(event, festival._id)} >
-                {festival.title}
-              </option>
-            ))}
-          </datalist> */}
           <select value={eventId} onChange={(event) => handleEventChange(event)}>
             <option value="">Select an event</option>
             {events.map((event) => (
@@ -158,7 +131,7 @@ export default function EditEventPage() {
               </option>
             ))}
           </select>
-        {/* <button onClick={deleteEvent}>Delete Event</button> */}
+        <button onClick={deleteEvent}>Delete Event</button>
       </form>
       <EventForm params={{ formData, setFormData, requestMethod, eventId }} />
     </div>
