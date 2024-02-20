@@ -19,8 +19,7 @@ Volunteering page:
 - Style page
 
 Spanish support:
-- Translate all page text to spanish
-- Make the default local of Calendar.jsx be the page local setting
+- Remove translation button from calendar
 
 User Dashboard:
 - Make sidebar component
@@ -32,16 +31,13 @@ User Dashboard:
 
 BACKEND:
 
-MONGO
-
 API
 
 - Fix event api to delete any images no longer present in the PUT request 
-
-- Make all admin protected routes also take in a user ID and pass to documentation
-- Create a route to allow admins to change their password
+- Rework admin protected routes
 - Create 'isAccepted' function to make accepted vendor verification more modular
 - Test all volunteer routes
+- Move cloudinary to work backend
 
 API Documentation
 

@@ -135,7 +135,7 @@ async function isAdmin(id, hashedAdminId) {
   if (!user) throw new Error(`User not an admin and not allowed to preform API call`)
   const adminIdMatch = await bcrypt.compare(user.adminAuthId, hashedAdminId)
   if (adminIdMatch) return true
-  return false
+  throw new Error(`User not an admin and not allowed to preform API call`)
 }
 
 /* ----------------- Generate userAuthID on account creation ---------------- */
