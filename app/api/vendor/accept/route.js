@@ -5,19 +5,16 @@ import { NextResponse } from "next/server";
 import { isAdmin } from "@/utils/routeMethods";
 
 export const POST = async (request) => {
-    const searchParams = request.nextUrl.searchParams;
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
-    const { vendors, message, subjectLine } = await request.json();
+    const headerList = headers()
+    const userId = headerList.get('x-userid')
+    const adminId = headerList.get('authorization')
+    const { vendors, message, subjectLine } = await request.json()
 
     try {
-        // ! Uncomment line when ready to only allow admins
-        /* 
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-		if (!userId) throw new Error("You must append &userId= query to URL")
-        
-		await isAdmin(userId, adminId) 
-		*/ 
+        if (!adminId) throw new Error("You must append authorization header")
+	    if (!userId) throw new Error("You must append user ID header")
+
+        await isAdmin(userId, adminId)
 
         const responseData = [];
 
@@ -77,43 +74,3 @@ export const POST = async (request) => {
         });
     }
 };
-
-// Reject a vendors request
-export const DELETE = async (request) => {
-    const searchParams = request.nextUrl.searchParams
-    const vendorId = searchParams.get('vendorId')
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
-
-    try{
-        // ! Uncomment line when ready to only allow admins
-		/* 
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-		if (!userId) throw new Error("You must append &userId= query to URL")
-        
-		await isAdmin(userId, adminId) 
-		*/
-
-        const existingVendor = await AcceptedVendor.findOne({ id: vendorId })
-
-        if (!existingVendor) throw new Error('Vendor does not exist or has not been accepted')
-
-        await AcceptedVendor.deleteOne({ id:vendorId })
-
-        return NextResponse.json({
-            success: true,
-            message: `Successfully removed vendor ${existingVendor.name} from accepted vendors list.`,
-        }, {
-            status: 200
-        })
-    } catch (err) {
-        return NextResponse.json({
-            success: false,
-            message: `Error removing vendor from accepted list`,
-            errorMessage: err.message,
-            error: err
-        }, {
-            status: 500
-        })
-    }
-}
