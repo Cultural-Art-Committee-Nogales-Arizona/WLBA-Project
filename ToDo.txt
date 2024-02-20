@@ -8,6 +8,7 @@ FRONTEND:
 
 Fixes:
 fix volunteer form
+remove that 2px line below navbar
 
 Forms to build:
 - Create admin

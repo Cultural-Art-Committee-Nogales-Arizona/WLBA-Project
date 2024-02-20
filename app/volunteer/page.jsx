@@ -4,7 +4,18 @@ import { useState, useEffect } from 'react';
 import VolunteerForm from '@/components/forms/VolunteerForm';
 import styles from './page.module.css'
 
+import heroImage from '@/public/Images/volunteerHero.JPG'
+import Hero from '@/components/Hero'
+
+// Overlays
 import Loading from '@/components/overlays/Loading'
+
+// Load custom font
+import localFont from 'next/font/local'
+const artesaniaFont = localFont({
+  src: '../../public/fonts/ARTESANIA.ttf',
+  display: 'swap',
+})
 
 export default function VolunteerSignUp() {
   const requestMethod = 'POST'
@@ -16,9 +27,13 @@ export default function VolunteerSignUp() {
   })
 
   return (
-    <div className={styles.container}>
+    <>
+      <Hero params={{heroImage}} />
+      <div className={`${styles.headText} ${artesaniaFont.className}`}>
+        <h1><span>V</span>olunteer</h1>
+      </div>
       If you're interested in volunteering for one of our cultural celebrations please contact us using the form below:
       <VolunteerForm params={{formData, setFormData, requestMethod}} />
-    </div>
+    </>
   );
 }

@@ -64,20 +64,20 @@ export default function Calendar() {
 		const signal = controller.signal;
 
 		async function fetchData() {
-		try {
-			const fetchedData = await fetch('api/events/festivals', { signal, method: "GET" })
-			.then(res => res.json());
-			setEvents(fetchedData.data);
-			if (events === null) {
-				await findData(new Date.now())
+			try {
+				const fetchedData = await fetch('api/events/festivals', { signal, method: "GET" })
+				.then(res => res.json());
+				setEvents(fetchedData.data);
+				if (events === null) {
+					await findData(new Date)
+				}
+			} catch (error) {
+				if (error.name === 'AbortError') {
+				console.log('Fetch aborted');
+				} else {
+				console.error('Error fetching data:', error);
+				}
 			}
-		} catch (error) {
-			if (error.name === 'AbortError') {
-			console.log('Fetch aborted');
-			} else {
-			console.error('Error fetching data:', error);
-			}
-		}
 		}
 
 		fetchData();
@@ -93,6 +93,7 @@ export default function Calendar() {
 		// it HAD to be stored as UTC, I should learn to read!
 		// It screwed everything up, its done now. !!HALLELUJAH!!
 		const clickedDate = new Date(date);
+		if (!events) return
 		const currentSelectedEvents = events.filter(festival => {
 			const startDate = new Date(festival.start);
 			const endDate = new Date(festival.end);
@@ -114,7 +115,7 @@ export default function Calendar() {
 			<div className={styles.calendar}>
 				{events ?
 					<FullCalendar
-						className="notranslate"
+						// className="notranslate"
 						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
 						initialView='dayGridMonth'
 						events={events}

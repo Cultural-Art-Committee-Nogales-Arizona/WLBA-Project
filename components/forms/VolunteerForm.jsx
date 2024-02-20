@@ -23,9 +23,7 @@ import CustomUserContext from '@components/GlobalUserContext'
 export default function VolunteerForm({ params }) {
   const {globalUserData, setGlobalUserData} = useContext(CustomUserContext)
   const abortControllerRef = useRef(null)
-  
-  
-  console.log(params)
+
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -89,7 +87,7 @@ export default function VolunteerForm({ params }) {
       const signal = controller.signal
 
       const { name, phone, email, interest } = formData
-      console.log(formData)
+
       let API_Route = '/api/events/volunteer'
       const response = await fetch(API_Route, {
         signal,

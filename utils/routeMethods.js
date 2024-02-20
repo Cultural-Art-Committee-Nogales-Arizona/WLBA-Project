@@ -173,7 +173,6 @@ async function hash(input) {
 
 async function deleteImage(imageURL) {
   try {
-      console.log(cloudinaryConfig)
 
       const parts = imageURL.split('/');
       // Find the last part of the URL, which contains the filename
@@ -182,7 +181,6 @@ async function deleteImage(imageURL) {
       const publicId = filename.split('.')[0];
 
       // const encryptKeys = btoa(`${cloudinaryConfig.cloud.api_key}:${cloudinaryConfig.cloud.api_secret}`);
-      console.log(cloudinaryConfig)
       const response = await fetch(
           `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud.cloud_name}/resources/image/destroy`,
           {

@@ -12,7 +12,7 @@
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Slabo 27px', serif;
+  font-family: 'Slabo 27px', sans-serif !important;
   top: 0px !important;
 }
 

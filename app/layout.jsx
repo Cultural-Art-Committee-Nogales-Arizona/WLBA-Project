@@ -7,6 +7,8 @@ import { createContext, useEffect, useState } from 'react';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { CustomUserProvider } from '@components/GlobalUserContext'; // Update the path accordingly
 
+import styles from './page.module.css'
+
 export default function RootLayout({ children }) {
   
   return (
@@ -26,7 +28,9 @@ export default function RootLayout({ children }) {
           <UserProvider>
             <main id="app" className="d-flex flex-column h-100" data-testid="layout">
               <NavBar />
-              <div className='flex-grow-1'> {children}</div>
+              <div className='flex-grow-1'>
+                <div className={styles.mainDiv}>{children}</div>
+              </div>
               <Footer />
             </main>
           </UserProvider>

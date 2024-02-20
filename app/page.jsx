@@ -4,13 +4,19 @@ import Calendar from '@/components/Calendar'
 import Loading from '@/components/overlays/Loading'
 import styles from './page.module.css'
 import Image from "next/image";
-import TitleImg from "@/public/Images/BackgroundImg.jpg";
+import heroImage from "@/public/Images/BackgroundImg.jpg";
 import Logo from '@/public/Logo';
-import Dod from '@/public/Images/HomeImageDOD.jpg'
-import headImg from '@/public/Images/NogalesTitle.jpg'
+import Hero from '@/components/Hero'
+
 
 import ImageUpload from '@components/forms/ImageUpload'
 import Carousel from '@/components/gallery/Carousel'
+
+import localFont from 'next/font/local'
+const artesaniaFont = localFont({
+  src: '../public/fonts/ARTESANIA.ttf',
+  display: 'swap',
+})
 
 // I don't know why but importing this function breaks everything because of a random ASCII character
 // import { deleteImage } from '@/utils/routeMethods'
@@ -54,8 +60,8 @@ export default function Index() {
   }, [])
 
   return (
-    <div className={styles.mainDiv}>
-      <div className={styles.hero}>
+    <>
+      {/* <div className={styles.hero}>
         <Image
           width={1519}
           height={650}
@@ -71,8 +77,20 @@ export default function Index() {
           <span>A</span>rizona
         </h1>
         <a className={styles.callToAction} href="#events">View Events</a>
+      </div> */}
+      <Hero params={{heroImage}} />
+      <div className={`${styles.headText} ${artesaniaFont.className}`}>
+        <h1>
+          <span>C</span>ultural<br/>
+          <span>A</span>rts<br/>
+          <span>C</span>ommittee of<br/>
+          <span>N</span>ogales<br/>
+          <span>A</span>rizona
+        </h1>
+        <div>
+          <a className={styles.callToAction} href="#events">View Events</a>
+        </div>
       </div>
-
       <div id="events">
         <p className={styles.heroText}>We're dedicated to celebrating our community's diverse cultural heritage through art, performances, and education. Here is a calendar containing all upcoming events, old events will stay up</p>
         <Calendar />
@@ -142,6 +160,6 @@ export default function Index() {
           : 
           <Loading scale={200} />
         } */}
-    </div>
+    </>
   )
 }

@@ -4,8 +4,6 @@ import Image from "next/image";
 import styles from './GalleryImage.module.css'
 
 export default function GalleryImage({ image }) {
-  // console.log(image)
-  console.log("hello")
 
   return (
     <div className={styles.imageContainer} data-testid="hero">

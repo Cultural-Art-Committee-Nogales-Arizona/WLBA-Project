@@ -24,7 +24,7 @@ export const GET = async (/* request */) => {
 
 export const POST = async (request) => {
     const { name, phone, email, interest } = await request.json()
-    console.log(phone)
+
     try {
         const alreadySignedUp = await Volunteer.findOne({ $or: [{ email }, { phone }] })
         

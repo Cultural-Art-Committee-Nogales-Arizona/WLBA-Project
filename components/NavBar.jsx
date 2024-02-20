@@ -77,7 +77,7 @@ const NavBar = () => {
   }, [user?.name])
   
   return (
-    <div className="nav-container" data-testid="navbar" >
+    <div className={styles.nav_container} data-testid="navbar" >
       <Navbar className={styles.navbar}  expand="md">
         <a href="/">
           <Logo scale="75" />

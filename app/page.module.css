@@ -4,12 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    /* width: 100%; */
-    /* box-sizing: border-box; */
-    /* padding-top: 50px; */
     flex-direction: column;
-    /* grid-template-columns: 3;
-    grid-template-rows: 3; */
 }
 
 .Img {
@@ -34,15 +29,27 @@
     width: 100%;
 }
 
-.hero > h1 {
-    font-size: 75px;
+.headText {
+    top: 333px;
+    position: absolute;
+    width: 470px;
+    height: 500px;
+}
+
+.headText > h1 {
+    font-size: 80px;
     text-align: start;
+    color: white;
 }
 
 /* Color first letter */
-
-.hero > h1 > span {
+.headText > h1 > span {
     color: var(--blue-accent);
+}
+
+.headText > div {
+    display: flex;
+    justify-content: center;
 }
 
 .heroText {
@@ -115,5 +122,3 @@
     text-align: center;
     padding: 1%;
 }
-
-

@@ -27,7 +27,7 @@ export default function aboutUs() {
           <div className={styles.header2}>
             <div className={styles.header3}>
           <div className={styles.auc}>About us</div>
-          {t('aboutUs.missionStatement')}
+            Established in 2014 as a non-profit organization, the Cultural Arts Committee of Nogales, Arizona, has been busy creating events that bring the community together. We've hosted all sorts of things, from concerts and mariachi festivals to art workshops for kids and nativity exhibitions. In collaboration with the City of Nogales and the Consulate of Mexico, our programs cover a wide range, including scholarship initiatives, talks for Women's Week, and even a binational marathon. What makes it all happen? Our dedicated team of volunteers. The Board of Directors, made up of community members, including the former Consul General of Mexico, and local business leaders, helps steer the ship. We're all about supporting and celebrating our community.
           </div>
           </div>
         </div>
@@ -118,7 +118,6 @@ export default function aboutUs() {
           </div>
         </div>
       </div>
-      <Donate />
     </div>
   );
 }

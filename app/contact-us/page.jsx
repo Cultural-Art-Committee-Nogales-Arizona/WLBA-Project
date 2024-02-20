@@ -1,13 +1,18 @@
 "use client"
 import { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation';
 import styles from "./page.module.css"
 
+// Overlays
 import Error from '@/components/overlays/Error'
+import Success from '@/components/overlays/Success'
 
 export default function Contact() {
+  const router = useRouter()
   // This will update if the user submits the form, this prevents spamming the submit button
   const abortControllerRef = useRef(null)
   const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(null)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -49,9 +54,11 @@ export default function Contact() {
         signal: signal
       })
 
-      if (response.ok) {
-        // Change this to the "Success" component
-        alert('Email sent successfully!')
+      const responseData = await response.json()
+
+      if (responseData.success) {
+        router.push('/');
+        setSuccess("contact message sent")
       } else {
         setError('Failed to send email. Please try again later.')
       }
@@ -60,7 +67,7 @@ export default function Contact() {
         console.log('Fetch aborted')
       } else {
         console.error('Error:', error)
-        alert('Failed to send email. Please try again later.')
+        setError('Failed to send email. Please try again later.')
       }
     } finally {
       // Cleanup: Remove the reference to the abort controller
@@ -70,7 +77,8 @@ export default function Contact() {
 
   return (
     <>
-      {error ? <Error error={{error, setError}} /> : null }
+      { error && <Error params={{error, setError}} /> }
+      { success && <Success params={{success, setSuccess}} /> }
       <div className={styles.fatherBox}>
         <form className={styles.mainBox} onSubmit={(event) => onSubmit(event)}>
           <fieldset className={styles.fs}>

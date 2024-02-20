@@ -24,4 +24,9 @@
 
 .navbar{
   background-color: var(--dark-red) !important;
+  /* border-bottom: solid var(--dark-red) 5px; */
+}
+
+.nav_container {
+  border-bottom-style: solid;
 }
