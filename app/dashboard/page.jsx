@@ -17,6 +17,7 @@ function Profile() {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const { user, isLoading } = useUser();
 
+
   return (
     <div className={styles.container}>
       {isLoading && <Loading />}
@@ -35,7 +36,6 @@ function Profile() {
             {user.email}
           </p>
           { globalUserData.adminAuthId ? <h3>Signed in as Admin</h3> : <h3>Not signed in as admin</h3> }
-          <EmailForm />
         </div>
       )}
     </div>

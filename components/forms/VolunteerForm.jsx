@@ -33,15 +33,6 @@ export default function VolunteerForm({ params }) {
 
   const phoneNumberRegex = /^\d{3}-\d{3}-\d{4}$/;
 
-  /* const updateForm = (event) => {
-    const { id, value } = event.target
-  
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [id]: value,
-    }))
-  } */
-
   const updateForm = (event) => {
     const { id, value } = event.target;
   
@@ -77,18 +68,12 @@ export default function VolunteerForm({ params }) {
       }));
     }
   };
-  
 
-/*   useEffect(() => {
-    console.log(formData)
-  }, [formData])
-   */
-  
   const submitForm = async (event) => {
     event.preventDefault()
     
     if (!phoneNumberRegex.test(formData.phone)) {
-      setError('Invalid phone number, needs xxx-xxx-xxxx');
+      setError('Invalid phone number, needs XXX-XXX-XXXX');
       return;
     }
     
