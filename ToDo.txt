@@ -9,6 +9,8 @@ FRONTEND:
 Fixes:
 fix volunteer form
 remove that 2px line below navbar
+finish vendor dashboard page
+finish vendor form page
 
 Forms to build:
 - Create admin
