@@ -1,7 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react';
 import cloudinaryConfig from '@/connections/cloudinary.js';
-import Image from 'next/image';
 
 export default function ImageUpload({ params }) {
     const { images, setImages } = params
@@ -17,7 +16,8 @@ export default function ImageUpload({ params }) {
 
         const uploadedImages = await Promise.all(formDataArray.map(async (formData) => {
             const response = await fetch(
-                // `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`,
+                // I don't know why cloudinaryConfig can't access env variables?
+                // `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud.cloud_name}/image/upload`,
                 `https://api.cloudinary.com/v1_1/dhh4hjypo/image/upload`,
                 {
                     method: 'POST',
@@ -30,10 +30,6 @@ export default function ImageUpload({ params }) {
 
         setImages([...images, ...uploadedImages]);
     };
-
-    useEffect(() => {
-        console.log(images);
-    }, [images]);
 
     return (
         <input type="file" onChange={handleFileChange} multiple></input>

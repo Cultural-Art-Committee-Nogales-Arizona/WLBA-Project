@@ -13,7 +13,7 @@ import styles from './page.module.css'
 function VolunteerRequest() {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(null)
 
   const [tableData, setTableData] = useState([])
 
@@ -39,6 +39,7 @@ function VolunteerRequest() {
       } catch (error) {
         if (error.name !== 'AbortError') {
           console.error('Error fetching volunteers:', error)
+          setError(error.message)
         }
       }
     }
@@ -49,9 +50,10 @@ function VolunteerRequest() {
   }, [])
 
   return (
-    <div>
-      {error ? <Error params={{error, setError}} /> : null}
+    <div className={styles.container}>
+      {/* {error ? <Error params={{error, setError}} /> : null} */}
       {/* Display table  */}
+      <h1>Select vendors to accept</h1>
       { loading ? <Loading /> : 
         <EmailForm params={{tableData, contactRoute: "/api/contact/volunteers", formData, setFormData}} />
       }

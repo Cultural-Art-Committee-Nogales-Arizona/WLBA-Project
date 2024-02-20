@@ -18,7 +18,6 @@ function VendorCenter() {
     const controller = new AbortController()
     const signal = controller.signal
     setLoading(true)
-    console.log(globalUserData)
 
     const fetchVendors = async () => {
       try {

@@ -1,25 +1,30 @@
 "use client"
 // ! CHANGE THIS, UNFINISHED
 import { useState, useContext, useEffect } from "react"
-import Loading from "@components/overlays/Loading"
 import CustomUserContext from "@components/GlobalUserContext"
+
+// Overlays
+import Loading from "@components/overlays/Loading"
 import Error from "@components/overlays/Error"
+import Success from "@components/overlays/Success"
+
 // import { useRouter } from "next/router"
+
 import styles from './EmailForm.module.css'
 
 export default function EmailForm({ params }) {
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
     // This was breaking it, we need to look into it
     // const router = useRouter()
-    const { tableData, vendorId, formData, setFormData } = params
+    const { tableData, formData, setFormData } = params
     // Api route needs to be mutable
     let { contactRoute } = params
 
     const [searchResults, setSearchResults] = useState([...tableData])
 
-    const [error, setError] = useState('')
+    const [success, setSuccess] = useState(null)
+    const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
-    const method = vendorId ? 'PUT' : 'POST'
 
     const toggleAll = (event) => {
         event.preventDefault()
@@ -27,10 +32,12 @@ export default function EmailForm({ params }) {
         const allSelected = searchResults.every(result => formData.emails?.includes(result.email));
 
         if (allSelected) {
-            // If all emails are selected, deselect all
+            // If all emails are selected in search results, deselect all
+            const allSearchEmails = searchResults.map(result => result.email);
+            const removeResults = formData.emails.filter(email => !allSearchEmails.includes(email))
             setFormData(prev => ({
                 ...prev,
-                emails: []
+                emails: removeResults
             }));
         } else {
             // If not all emails are selected, select all
@@ -40,14 +47,14 @@ export default function EmailForm({ params }) {
                 emails: allEmails
             }));
         }
-    };
+    }
 
     const searchTable = (searchParam) => {
         // Create a regex pattern using the search parameter and the 'i' flag for case-insensitive matching
         const regex = new RegExp(searchParam, 'i')
 
-        // Filter the allVendors array based on whether the name or email matches the regex pattern
-        const filtered = allVendors.filter(tableUser => {
+        // Filter the tableData array based on whether the name or email matches the regex pattern
+        const filtered = tableData.filter(tableUser => {
             return regex.test(tableUser.name) || regex.test(tableUser.email) || regex.test(tableUser.description) || regex.test(...tableUser.tags)
         })
 
@@ -73,16 +80,19 @@ export default function EmailForm({ params }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        setLoading(true)
+        
+        if (!formData.emails.length) throw new Error("You need at least one recipient")
 
+        
         try {
+            setLoading(true)
             const controller = new AbortController()
             const signal = controller.signal
 
             const { _id, adminAuthId } = globalUserData
             const response = await fetch(contactRoute + `?adminId=${adminAuthId}&userId=${_id}`, {
                 signal,
-                method: method,
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -97,13 +107,14 @@ export default function EmailForm({ params }) {
 
             if (responseData.success) {
                 // router.push('/vendor')
-                // success()
+                setSuccess(`Posted emails to ${responseData.data.accepted.length} clients`)
             } else {
                 setError(`Failed to submit the form ${responseData.errorMessage}`)
                 throw new Error(`Vendor API failed to parse request. Status code: ${response.status}`)
             }
         } catch (err) {
-            console.error('Error submitting the form:', err.message)
+            // console.error('Error submitting the form:', err.message)
+            // setError(err.message)
         } finally {
             setLoading(false)
         }
@@ -118,12 +129,10 @@ export default function EmailForm({ params }) {
         }))
     }
 
-    useEffect(() => {
-        console.log(formData)
-    }, [formData])
-
     return (
         <div className={styles.container}>
+            {success && <Success params={{success, setSuccess}} />}
+            {error && <Error params={{error, setError}} />}
             {loading ? <Loading scale="200" /> :
             <form className={styles.root} onSubmit={event => handleSubmit(event)}>
                 <div className={styles.titleBox}>
@@ -138,7 +147,11 @@ export default function EmailForm({ params }) {
                     <table className={styles.email_table}>
                         <thead>
                             <tr>
-                                <th><button onClick={event => toggleAll(event)}>Toggle</button></th>
+                                <th className={styles.toggle}>
+                                    <button onClick={event => toggleAll(event)}>
+                                        Toggle
+                                    </button>
+                                </th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Description</th>
@@ -160,16 +173,16 @@ export default function EmailForm({ params }) {
                                                         />
                                                 </td>
                                                 <td>
-                                                    <p>{tableUser.name}</p>
+                                                    {tableUser.name}
                                                 </td>
                                                 <td>
-                                                    <p>{tableUser.email}</p>
+                                                    {tableUser.email}
                                                 </td>
                                                 <td>
-                                                    <p>{tableUser.description}</p>
+                                                    {tableUser.description}
                                                 </td>
                                                 <td>
-                                                    <p>{tableUser.tags.join(", ")}</p>
+                                                    {tableUser.tags.join(", ")}
                                                 </td>
                                             </tr>
                                         )
