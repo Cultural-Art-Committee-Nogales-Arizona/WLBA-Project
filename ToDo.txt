@@ -5,6 +5,10 @@ import CustomUserContext from '@components/GlobalUserContext';
 const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
 FRONTEND:
+Add buttons for next and previous events on homepage calendar
+add loading for images in event form, disable buttons when loading
+add deletion of images to EventForm
+Change Cloudinary uploads to be backend, use formData to take in photos and upload them backend side  
 
 Fixes:
 fix volunteer form
@@ -40,6 +44,4 @@ API
 - Move cloudinary to work backend
 
 API Documentation
-
-- Add Documentation to all Routes
 - Ensure consistency and readability
