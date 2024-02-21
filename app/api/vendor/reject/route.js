@@ -3,21 +3,15 @@ import Vendor from "@/models/vendors/Vendor";
 import nodemailer from 'nodemailer';
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/utils/routeMethods";
+import { headers } from "next/headers";
 
 export const DELETE = async (request) => {
+    const headerList = headers()
     const searchParams = request.nextUrl.searchParams
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
     const vendorId = searchParams.get('vendorId')
 
     try{
-        // ! Uncomment line when ready to only allow admins
-		/* 
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-		if (!userId) throw new Error("You must append &userId= query to URL")
-        
-		await isAdmin(userId, adminId) 
-		*/
+        await isAdmin(headerList)
 
         const existingVendor = await AcceptedVendor.findOne({ id: vendorId })
 

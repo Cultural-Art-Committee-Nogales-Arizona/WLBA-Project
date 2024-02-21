@@ -4,6 +4,11 @@ import CustomUserContext from '@components/GlobalUserContext';
 
 const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
+
+AUTH0:
+
+
+
 FRONTEND:
 Add buttons for next and previous events on homepage calendar
 add loading for images in event form, disable buttons when loading

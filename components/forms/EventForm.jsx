@@ -233,13 +233,15 @@ export default function EventForm({ params }) {
 
       const { adminAuthId, _id } = globalUserData
       // Protect the API route from non admins
-      let API_Route = `/api/events/festivals?adminId=${adminAuthId}&userId=${_id}`
-      if (eventId) API_Route += `&festivalId=${eventId}`
+      let API_Route = `/api/events/festivals`
+      if (eventId) API_Route += `?festivalId=${eventId}`
       const response = await fetch(API_Route, {
         signal,
         method: requestMethod,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': globalUserData.adminAuthId,
+          'X-UserId': globalUserData._id
         },
         body: JSON.stringify({
           start: startingDate,
