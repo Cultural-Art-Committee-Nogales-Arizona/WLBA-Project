@@ -8,15 +8,10 @@ import { headers } from "next/headers";
 export const DELETE = async (request) => {
     const headerList = headers()
     const searchParams = request.nextUrl.searchParams
-    const userId = headerList.get('x-userid')
-    const adminId = headerList.get('authorization')
     const vendorId = searchParams.get('vendorId')
 
     try{
-        if (!adminId) throw new Error("You must append authorization header")
-	    if (!userId) throw new Error("You must append user ID header")
-
-        await isAdmin(userId, adminId)
+        await isAdmin(headerList)
 
         const existingVendor = await AcceptedVendor.findOne({ id: vendorId })
 

@@ -3,18 +3,14 @@ import Vendor from "@/models/vendors/Vendor";
 import nodemailer from 'nodemailer';
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/utils/routeMethods";
+import { headers } from "next/headers";
 
 export const POST = async (request) => {
     const headerList = headers()
-    const userId = headerList.get('x-userid')
-    const adminId = headerList.get('authorization')
     const { vendors, message, subjectLine } = await request.json()
 
     try {
-        if (!adminId) throw new Error("You must append authorization header")
-	    if (!userId) throw new Error("You must append user ID header")
-
-        await isAdmin(userId, adminId)
+        await isAdmin(headerList)
 
         const responseData = [];
 

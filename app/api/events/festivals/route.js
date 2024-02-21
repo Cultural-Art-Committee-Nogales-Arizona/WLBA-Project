@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Festival from "@/models/events/Festivals";
 import { isAdmin, deleteImage } from "@/utils/routeMethods";
+import { headers } from 'next/headers'
 import cloudinary from '@/connections/cloudinary';
 
 // get either all festivals for display in the dashboard or calendar, or get closest festival
@@ -45,19 +46,12 @@ export const GET = async (request) => {
 
 // add a festival to the database
 export const POST = async (request) => {
+	const headerList = headers()
 	const searchParams = request.nextUrl.searchParams;
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
 	const { title, description, location, start, end, images } = await request.json();
 
 	try {
-		// ! Uncomment line when ready to only allow admins
-		/* 
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-		if (!userId) throw new Error("You must append &userId= query to URL")
-        
-		await isAdmin(userId, adminId) 
-		*/
+		await isAdmin(headerList)
 
 		const result = await Festival.create({
 			title,
@@ -90,20 +84,13 @@ export const POST = async (request) => {
 
 // edit festival with _id
 export const PUT = async (request) => {
+	const headerList = headers()
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
 	const { title, description, location, start, end, images } = await request.json();
 
 	try {
-		// ! Uncomment line when ready to only allow admins
-		/* 
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-		if (!userId) throw new Error("You must append &userId= query to URL")
-        
-		await isAdmin(userId, adminId) 
-		*/
+		await isAdmin(headerList) 
 
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("No Festival _id was defined");
@@ -146,19 +133,12 @@ export const PUT = async (request) => {
 
 // delete a festival with _id
 export const DELETE = async (request) => {
+	const headerList = headers()
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
 
 	try {
-		// ! Uncomment line when ready to only allow admins
-		/* 
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-		if (!userId) throw new Error("You must append &userId= query to URL")
-        
-		await isAdmin(userId, adminId) 
-		*/
+		await isAdmin(headerList) 
 
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("You must append &festivalId= query to URL");
