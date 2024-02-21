@@ -91,7 +91,7 @@ export default function Index() {
           <a className={styles.callToAction} href="#events">View Events</a>
         </div>
       </div>
-      <div className={styles.events}>
+      <div id="events">
         <p className={styles.heroText}>We're dedicated to celebrating our 
         community's diverse cultural heritage through art, performances, 
         and education. Here is a calendar containing all upcoming events, 
