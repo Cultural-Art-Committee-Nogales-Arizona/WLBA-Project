@@ -7,7 +7,7 @@ const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
 AUTH0:
 
-
+find out what auth0 audience i s
 
 FRONTEND:
 Add buttons for next and previous events on homepage calendar
