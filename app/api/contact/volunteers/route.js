@@ -1,24 +1,18 @@
 import { NextResponse } from 'next/server'
-import nodemailer from 'nodemailer';
+import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
 import { isAdmin } from '@/utils/routeMethods'
+import { headers } from 'next/headers'
 dotenv.config()
+
 // We need to learn reactMail to make the emails nicer
 export const POST = async (request) => {
-  const searchParams = request.nextUrl.searchParams;
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
+  const headerList = headers()
 
   try {
     const { emails, subjectLine, message } = await request.json();
-
-    // ! UNCOMMENT WHEN READY FOR ADMIN
-    
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-		if (!userId) throw new Error("You must append &userId= query to URL")
         
-		await isAdmin(userId, adminId) 
-		
+		await isAdmin(headerList) 
 
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({

@@ -19,7 +19,15 @@ export default function ManageAdmin(){
     
         const fetchUsers = async () => {
           try {
-            const response = await fetch(`/api/user?userId=${globalUserData._id}&adminId=${globalUserData.adminAuthId}`, { signal, method: 'GET' })
+            const response = await fetch(`/api/user`, { 
+                signal, 
+                method: 'GET' ,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': globalUserData.adminAuthId,
+                    'X-UserId': globalUserData._id
+                }
+            })
             const fetchedData = await response.json()
             setAllUsers(fetchedData.data)
             console.log(fetchedData.data)
@@ -63,12 +71,14 @@ export default function ManageAdmin(){
                 const controller = new AbortController()
                 const signal = controller.signal
 
-                let API_Route = `/api/admin?adminId=${globalUserData.adminAuthId}&userId=${globalUserData._id}&deleteId=${selectedUser._id}`
+                let API_Route = `/api/admin?deleteId=${selectedUser._id}`
                 const response = await fetch(API_Route, {
                     signal,
                     method: 'DELETE',
                     headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': globalUserData.adminAuthId,
+                    'X-UserId': globalUserData._id
                     }
                 })
 
@@ -109,12 +119,13 @@ export default function ManageAdmin(){
                 const controller = new AbortController()
                 const signal = controller.signal
 
-                let API_Route = `/api/admin?adminId=${globalUserData.adminAuthId}&userId=${globalUserData._id}`
-                const response = await fetch(API_Route, {
+                const response = await fetch(`/api/admin`, {
                     signal,
                     method: 'POST',
                     headers: {
-                    'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': globalUserData.adminAuthId,
+                        'X-UserId': globalUserData._id
                     },
                     body: JSON.stringify({
                         id: selectedUser._id,

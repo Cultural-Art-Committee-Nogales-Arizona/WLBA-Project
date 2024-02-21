@@ -79,8 +79,9 @@ Add a new festival to the database.
 #### Endpoint
 `POST https://wlba-project.vercel.app/api/events/festivals`
 
-#### Query Parameters
-- `adminId`: Authentication token for administrators. Ensures that only users with an admin token can create festivals.
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 #### Request Body
 ```json
@@ -107,7 +108,10 @@ Edit existing festival information
 
 #### Query Parameters
 - `festivalId`: Database identifier of festival to update.
-- `adminId`: Authentication token for administrators. Ensures that only users with an admin token can update festivals.
+
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 #### Request Body
 ```json
@@ -134,7 +138,10 @@ Delete existing festival by ID.
 
 #### Query Parameters
 - `festivalId`: Database identifier of festival to delete.
-- `adminId`: Authentication token for administrators. Ensures that only users with an admin token can delete festivals.
+
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 ## Volunteers Route
 
@@ -301,8 +308,9 @@ Accept one or more registered vendors.
 #### Endpoint 
 `POST https://wlba-project.vercel.app/api/vendor/accept`
 
-#### Query parameters
-- `adminId`: Authentication token for administrator. Ensures that only users with an admin token can accept vendors.
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 #### Request Body
 ```json
@@ -334,9 +342,9 @@ Remove an accepted vendor from the accepted documents list.
 #### Endpoint
 `DELETE https://wlba-project.vercel.app/api/vendor/accept`
 
-#### Query parameters 
-- `adminId`: Authentication token for administrator. Ensures that only users with an admin token can remove accepted vendors.
-- `vendorId`: Database identifier of vendor to remove.
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 ## User Route
 
@@ -362,9 +370,9 @@ Get all users
 #### Endpoint
 `GET https://wlba-project.vercel.app/api/user`
 
-#### Query Parameters
-- `userId`: Databse identifier of admin user.
--  `adminId`: 
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 #### Data Unit Returned
 Returns the best macthing user's information in the following format:
@@ -453,9 +461,11 @@ Deletes an user document.
 `DELETE https://wlba-project.vercel.app/api/user`
 
 #### Query parameters
-- `userId`: Database identifier of admin user.
-- `adminId`: Authentication token for administrator. Ensures that only users with an admin token can remove users.
 - `deleteId`: Database identifier of user to delete.
+
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 ### Admin Sign In
 
@@ -485,8 +495,9 @@ Register a user as an admin
 #### Endpoint
 `POST https://wlba-project.vercel.app/api/admin`
 
-#### Query Parameters
-- `adminId`: Authentication token for administrators. Ensures that only users with an admin role can add admins.
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 #### Request Body
 ```json
@@ -499,13 +510,28 @@ Register a user as an admin
 #### Data Unit Returned
 ```json
 {
-  "_id": "MongoDB Document _id",
-  "username": "Username of the admin",
-  "email": "Email of the admin",
-  "admin": "Admin status of the admin",
-  "adminAuthId": "New admin or existing admin's hashed token"
+  "_id": "MongoDB Document _id", // Object._id
+  "username": "Username of the admin", // String
+  "email": "Email of the admin", // String
+  "admin": "Admin status of the admin", // String
+  "adminAuthId": "New admin or existing admin's hashed token" // String
 }
 ```
+
+### Delete Admin
+
+#### Description
+Remove a user's admin status.
+
+#### Endpoint
+`DELETE https://wlba-project.vercel.app/api/admin`
+
+#### Query Parameters
+- `deleteId`: Database identifier of user who's admin status to delete.
+
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 ## Admin password recovery
 NOTE: Recovery POST Requests are the only POST requests that don't return a data unit. This is done to keep the recovery system as secure as possible.
@@ -571,6 +597,10 @@ Sends an email to a specific volunteer from the volunteers database.
 
 #### Endpoint
 `POST https://wlba-project.vercel.app/api/contact/volunteer`
+
+#### Headers
+- `X-UserId`: User database identifier of administrator.
+- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
 
 #### Request Body
 ```json

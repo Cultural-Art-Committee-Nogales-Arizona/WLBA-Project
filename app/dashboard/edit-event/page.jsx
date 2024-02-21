@@ -58,9 +58,17 @@ export default function EditEventPage() {
 
     try {
       const { adminAuthId, _id } = globalUserData
-      const API_STRING = `/api/events/festivals?festivalId=${formData._id}&adminId=${adminAuthId}&userId=${_id}`
+      const API_STRING = `/api/events/festivals?festivalId=${formData._id}`
 
-      const response = await fetch(API_STRING, { signal, method: 'DELETE' })
+      const response = await fetch(API_STRING, { 
+        signal, 
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': globalUserData.adminAuthId,
+          'X-UserId': globalUserData._id
+        } 
+      })
       const data = await response.json()
       console.log(data)
       // Handle response data as needed

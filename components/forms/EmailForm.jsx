@@ -90,11 +90,13 @@ export default function EmailForm({ params }) {
             const signal = controller.signal
 
             const { _id, adminAuthId } = globalUserData
-            const response = await fetch(contactRoute + `?adminId=${adminAuthId}&userId=${_id}`, {
+            const response = await fetch(contactRoute, {
                 signal,
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': globalUserData.adminAuthId,
+                    'X-UserId': globalUserData._id
                 },
                 body: JSON.stringify({
                     subjectLine: formData.subjectLine,

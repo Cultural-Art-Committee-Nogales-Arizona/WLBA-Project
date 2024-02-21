@@ -1,19 +1,14 @@
 import User from "@/models/users/User";
 import { NextResponse } from 'next/server'
 import { isAdmin } from "@/utils/routeMethods";
+import { headers } from "next/headers";
 
 export const GET = async (request) => {
-    const searchParams = request.nextUrl.searchParams;
-	const adminId = searchParams.get("adminId") || "";
-    const userId = searchParams.get("userId")
+    const headerList = headers()
 
     try{
-        // ! Uncomment line when ready to only allow admins
-		/* 
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-        
-		await isAdmin(userId, adminId) 
-		*/
+		await isAdmin(headerList) 
+
         const users = await User.find()
 
         const data = users.map(user => {
@@ -144,19 +139,12 @@ export const PUT = async (request) => {
 }
 
 export const DELETE = async (request) => {
+    const headerList = headers()
     const searchParams = request.nextUrl.searchParams
-	const adminId = searchParams.get("adminId") || "";
-    const userId = searchParams.get('userId') || ""
     const deleteId = searchParams.get('deleteId') || ""
 
     try{
-        // ! Uncomment line when ready to only allow admins
-		/* 
-		if (!adminId) throw new Error("You must append ?adminId= query to URL")
-		if (!userId) throw new Error("You must append &userId= query to URL")
-        
-		await isAdmin(userId, adminId) 
-		*/
+        await isAdmin(headerList)
 
         if (!deleteId) throw new Error("No userId query defined, you must append ?deleteId= to URL")
 

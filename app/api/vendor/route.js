@@ -127,15 +127,8 @@ export const DELETE = async (request) => {
     const searchParams = request.nextUrl.searchParams
     const vendorId = searchParams.get('vendorId')
     // We need to make this so you cant delete someone elses vendor
-    const userId = searchParams.get('userId')
-    const adminId = searchParams.get('adminId')
-    // We need to make this so you cant edit someone elses vendor
     
-    try {
-        if (!adminId) throw new Error("You must append ?adminId= query to URL")
-	    if (!userId) throw new Error("You must append &userId= query to URL")
-
-        await isAdmin(userId, adminId) 
+    try { 
         /* ---------------- Delete acceptedVendor document if exists ---------------- */
 
         const vendorAccepted = await AcceptedVendor.findOne({ id: vendorId })

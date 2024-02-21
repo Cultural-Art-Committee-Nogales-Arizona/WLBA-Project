@@ -130,11 +130,19 @@ function generateExpiryDate() {
 
 /* ------------------- Will throw an error if not an admin ------------------ */
 
-async function isAdmin(id, hashedAdminId) {
-  const user = await User.findOne({ _id: id, admin: true })
+async function isAdmin(headerList) {
+  const adminToken = headerList.get('authorization')
+  const userId = headerList.get('x-userid')
+
+  if (!adminToken) throw new Error("You must append authorization header")
+	if (!userId) throw new Error("You must append user ID header")
+
+  const user = await User.findOne({ _id: userId, admin: true })
   if (!user) throw new Error(`User not an admin and not allowed to preform API call`)
-  const adminIdMatch = await bcrypt.compare(user.adminAuthId, hashedAdminId)
+
+  const adminIdMatch = await bcrypt.compare(user.adminAuthId, adminToken)
   if (adminIdMatch) return true
+  
   throw new Error(`User not an admin and not allowed to preform API call`)
 }
 

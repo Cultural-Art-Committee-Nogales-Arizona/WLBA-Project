@@ -142,14 +142,13 @@ function VolunteerRequest() {
       const controller = new AbortController()
       const signal = controller.signal
 
-      const { adminAuthId, _id } = globalUserData
-      const API_STRING = `/api/contact/volunteers?adminId=${adminAuthId}&userId=${_id}`
-      
-      const returnedData = await fetch(API_STRING, { 
+      const returnedData = await fetch(`/api/contact/volunteers`, { 
         signal, 
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': globalUserData.adminAuthId,
+          'X-UserId': globalUserData._id
         },
         body: JSON.stringify(formData) 
       })

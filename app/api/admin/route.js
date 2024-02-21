@@ -1,6 +1,7 @@
 import User from "@/models/users/User";
 import { NextResponse } from 'next/server';
 import { generateUserAuthID, isAdmin, hash } from "@/utils/routeMethods";
+import { headers } from 'next/headers'
 import bcrypt from 'bcryptjs'
   
 // Get a hashed adminAuthId with username, password and document _id of admin
@@ -56,16 +57,13 @@ export const GET = async (request) => {
 }
 
 export const POST = async (request) => {
+    const headerList = headers()
     const searchParams = request.nextUrl.searchParams;
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
     const { id, password } = await request.json()
     
     try{
-        if (!adminId) throw new Error("You must append ?adminId= query to URL")
-        if (!userId) throw new Error("You must append &userId= query to URL")
         
-        await isAdmin(userId, adminId)
+        await isAdmin(headerList)
         
         const existingAdmin = await User.findOne({ _id: id, admin: true})
         
@@ -124,17 +122,14 @@ export const POST = async (request) => {
 }
 
 export const DELETE = async (request) => {
+    const headerList = headers()
     const searchParams = request.nextUrl.searchParams
-    const adminId = searchParams.get('adminId') || ""
-    const userId = searchParams.get('userId') || ""
     const deleteId = searchParams.get('deleteId') || ""
 
     try{
-        if (!adminId) throw new Error("You must append ?adminId= query to URL")
-        if (!userId) throw new Error("You must append &userId= query to URL")
         if (!deleteId) throw new Error("You must append &deleteId= query to URL")
 
-        await isAdmin(userId, adminId)
+        await isAdmin(headerList)
 
         const adminExists = await User.findOne({ _id: deleteId, admin: true })
 
@@ -149,7 +144,6 @@ export const DELETE = async (request) => {
         return NextResponse.json({
             success: true,
             message: "Admin sucessfully removed",
-            data: updatedUser
         },{ 
             status: 201 
         });
