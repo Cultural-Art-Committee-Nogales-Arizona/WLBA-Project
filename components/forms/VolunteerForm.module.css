@@ -1,14 +1,17 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 600px;
-  height: 400px;
+  width: 50%;
+  height: 60Vh;
   padding: 10px;
+  margin-bottom: 10%;
   box-sizing: border-box;
   align-items: center;
   justify-content: space-around;
   border-radius: 10px;
-  background-color: #1e488f;  
+  background-color: #E9E9E9;  
+  border: solid black 3px;
+  box-shadow: 0px 0px 10px 1px;
 }
 
 .titleBox {
@@ -18,7 +21,6 @@
   width: 100%;
   height: 20%;
   border-radius: 10px;
-  background-color: #fff;
 }
 
 .title {
@@ -74,3 +76,5 @@
   top: 5px;
   left: 5px;
 }
+
+

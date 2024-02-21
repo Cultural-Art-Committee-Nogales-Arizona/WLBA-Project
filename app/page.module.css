@@ -8,7 +8,9 @@
 }
 
 .Img {
-    filter: brightness(0.2)/* opacity(65%) blur(3px) */;
+    filter: brightness(0.2)
+        /* opacity(65%) blur(3px) */
+    ;
     z-index: -1;
     position: absolute;
     width: 100%;
@@ -36,25 +38,64 @@
     height: 500px;
 }
 
-.headText > h1 {
+.headText>h1 {
     font-size: 80px;
     text-align: start;
     color: white;
 }
 
 /* Color first letter */
-.headText > h1 > span {
+.headText>h1>span {
     color: var(--blue-accent);
 }
 
-.headText > div {
+.headText>div {
     display: flex;
     justify-content: center;
 }
 
+.eventsDiv{
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+    justify-items: center;
+}
+
+.event {
+    height: 25vh;
+    width: 70%;
+
+    display: flex;
+    justify-content: center;
+    margin: 18%;
+    padding: 1%;
+    text-align: center;
+
+    border: solid black 3px;
+    box-shadow: 0px 0px 10px 1px ;
+    border-radius: 15px;
+
+    background-color: #FF955F;
+}
 
 .heroText {
-    width: 400px
+    width: 400px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 4%;
+}
+
+.calender{
+    border: solid black 3px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    width: 120%;
+    height: 93vh;
+    padding-top: 5%;
+    padding-left: 10%;
+    margin-bottom: 5%;
+
+    box-shadow: 1px 1px 10px 1px ;
 }
 
 .callToAction {
@@ -94,7 +135,7 @@
     margin-bottom: 5%;
 }
 
-.Img2{
+.Img2 {
     border: solid #730704 3px;
 }
 
@@ -109,7 +150,7 @@
     align-items: center;
 }
 
-.p{
+.p {
     /* width: 40%;
     height: 30vh; */
 

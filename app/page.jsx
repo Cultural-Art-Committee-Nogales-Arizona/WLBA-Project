@@ -87,16 +87,23 @@ export default function Index() {
           <span>N</span>ogales<br/>
           <span>A</span>rizona
         </h1>
+        <br />
+        <br />
         <div>
           <a className={styles.callToAction} href="#events">View Events</a>
         </div>
       </div>
-      <div id="events">
-        <p className={styles.heroText}>We're dedicated to celebrating our 
-        community's diverse cultural heritage through art, performances, 
-        and education. Here is a calendar containing all upcoming events, 
-        old events will stay up</p>
-        <Calendar />
+      <div className={styles.eventsDiv}>
+        <div className={styles.event}>
+          <p className={styles.heroText}>We're dedicated to celebrating our 
+          community's diverse cultural heritage through art, performances, 
+          and education. Here is a calendar containing all upcoming events, 
+          old events will stay up</p>
+        </div>
+
+        <div className={styles.calender}>
+          <Calendar />
+        </div>
       </div>
 
       {/* <div className={styles.headmsg}>

@@ -175,6 +175,7 @@ export default function VolunteerForm({ params }) {
           {/* We might not implement adding images to events */}
           <div className={styles.titleBox}>
             <label htmlFor="interest" className={styles.title}>Interest:</label>
+            <br /><br />
             <input 
               className={styles.backgroundInput}
               id="interest" 

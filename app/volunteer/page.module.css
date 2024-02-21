@@ -13,3 +13,16 @@
 .headText span {
   color: var(--blue-accent);
 }
+
+/* Jaden's Code */
+.mainDiv{
+  width: 100%;
+  height: 70vh;
+
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: center;
+  justify-items: center;
+
+  border: solid black 1px;
+}
