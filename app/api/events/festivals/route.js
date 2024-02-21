@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Festival from "@/models/events/Festivals";
-import { isAdmin, deleteImage } from "@/utils/routeMethods";
+import { isAdmin, deleteImage, uploadImages } from "@/utils/routeMethods";
 import { headers } from 'next/headers'
 import cloudinary from '@/connections/cloudinary';
 
@@ -87,7 +87,9 @@ export const PUT = async (request) => {
 	const headerList = headers()
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
-	const { title, description, location, start, end, images } = await request.json();
+	const adminId = searchParams.get("adminId") || "";
+	const userId = searchParams.get("userId") || "";
+	const { title, description, location, start, end } = await request.json();
 
 	try {
 		await isAdmin(headerList) 

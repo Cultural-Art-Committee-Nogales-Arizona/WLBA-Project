@@ -144,7 +144,7 @@ export default function EventForm({ params }) {
         endFlatpickrCalendarInstance.setDate(formData.end ? new Date(formData.end) : null, true)
       }
 
-      const minEndDate = formData.start ? new Date(formData.start) : 'today'
+      const minEndDate = formData.start ? new Date(formData.start) : null
 
       const fp = flatpickr(endDatePicker.current, {
         ...flatpickrCalendarOptions, 
@@ -167,7 +167,7 @@ export default function EventForm({ params }) {
       setEndFlatpickrTimeInstance(fp)
     }
 
-  }, [/* formData.start, formData.end */])
+  }, [error, success, loading])
 
   /* -------------------------------------------------------------------------- */
   /*                              END OF FLATPICKR                              */
@@ -231,7 +231,26 @@ export default function EventForm({ params }) {
       const controller = new AbortController()
       const signal = controller.signal
 
-      const { adminAuthId, _id } = globalUserData
+      // Upload the images to cloudinary,
+      // This is the only way I could figure out how to use the backend API for this
+      const imageData = new FormData()
+      console.log(imageData)
+      images.forEach(image => {
+        imageData.append(`file`, image.file);
+      })
+      imageData.append('upload_preset', 'Event_Images');
+
+      const uploadImages = await fetch('/api/image-upload', {
+        method: 'POST',
+        body: imageData,
+        duplex: true 
+      })
+
+      const imageResponse = await uploadImages.json()
+      console.log(imageResponse)
+      
+      if (!imageResponse.success) throw new Error(imageResponse.error)
+
       // Protect the API route from non admins
       let API_Route = `/api/events/festivals`
       if (eventId) API_Route += `?festivalId=${eventId}`
@@ -249,7 +268,7 @@ export default function EventForm({ params }) {
           title: formData.title,
           description: formData.description,
           location: formData.location,
-          images: images
+          images: imageResponse.data
         })
       })
       
@@ -274,6 +293,9 @@ export default function EventForm({ params }) {
       setLoading(false)
     }
   }
+
+  // Get the images out of files stored in images
+  const imagePreviews = images.map(image => image.preview)
 
   useEffect(() => {
     setFormData(prev => ({
@@ -384,9 +406,9 @@ export default function EventForm({ params }) {
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Images</legend>
           { !loading ?
-          formData.images ? 
-            (formData.images.length !== 0 ? 
-                <Carousel images={formData.images} />
+          imagePreviews ? 
+            (imagePreviews.length !== 0 ? 
+                <Carousel images={imagePreviews} />
                 :
                 <div>
                     No images found

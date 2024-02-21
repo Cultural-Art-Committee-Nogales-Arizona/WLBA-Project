@@ -177,6 +177,25 @@ async function hash(input) {
   return hashedOutput
 }
 
+/* ----------------------- Upload Image to Cloudinary ----------------------- */
+/* 
+async function uploadImages(request) {
+  const formData = await request.formData()
+    
+  const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/dvlb9ylqb/image/upload`, {
+      method: 'POST',
+      body: formData,
+  }); 
+
+  if (!imageUpload.ok) {
+    throw new Error(`Failed to upload images to Cloudinary: ${imageUpload.status} - ${imageUpload.statusText}`);
+  }
+
+  const imageResponse = await imageUpload.json();
+  console.log(imageResponse);
+  return imageResponse
+} */
+
 /* --------------------- Delete an image from Cloudinary -------------------- */
 
 async function deleteImage(imageURL) {
@@ -221,4 +240,4 @@ async function deleteImage(imageURL) {
 // countVotes, 
 // isDuplicate, 
 // getUserWithID, 
-export { generateUserAuthID, isAdmin, hash, generateRecoveryToken, generateExpiryDate, deleteImage }
+export { generateUserAuthID, isAdmin, hash, generateRecoveryToken, generateExpiryDate, deleteImage, /* uploadImages */ }

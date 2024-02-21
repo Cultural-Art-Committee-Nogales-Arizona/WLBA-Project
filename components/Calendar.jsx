@@ -85,6 +85,10 @@ export default function Calendar() {
 		return () => controller.abort()
 	}, []);
 
+	useEffect(() => {
+		console.log(dayData)
+	}, [dayData])
+
 	const findData = async (date) => {
 		// ! DON'T TOUCH THIS !
 		// IT'S WORKING IT TOOK ME OVER 5 HOURS GETTING EVERYTHING WORKING

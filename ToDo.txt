@@ -10,6 +10,7 @@ AUTH0:
 
 
 FRONTEND:
+make 
 Add buttons for next and previous events on homepage calendar
 add loading for images in event form, disable buttons when loading
 add deletion of images to EventForm
