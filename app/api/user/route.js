@@ -22,7 +22,7 @@ export const GET = async (request) => {
 
         return NextResponse.json({
             success: true,
-            message: `Successfully found user`,
+            message: `Successfully found users`,
             data: data
         }, {
             status: 200

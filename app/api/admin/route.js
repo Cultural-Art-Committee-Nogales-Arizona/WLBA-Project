@@ -67,11 +67,13 @@ export const GET = async (request) => {
 }
 
 export const POST = async (request) => {
+    const token = request.cookies.token
+    console.log(token)
+
     const headerList = headers()
     const { id, password } = await request.json()
     
     try{
-        
         await isAdmin(headerList)
         
         const existingAdmin = await User.findOne({ _id: id, admin: true})
