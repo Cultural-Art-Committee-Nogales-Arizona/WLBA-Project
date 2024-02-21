@@ -52,6 +52,13 @@
     justify-content: center;
 }
 
+.events{
+    width: 10%;
+    height: 10%;
+
+    border: solid black 3px
+}
+
 .heroText {
     width: 400px
 }
