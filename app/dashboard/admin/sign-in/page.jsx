@@ -15,7 +15,7 @@ export default function AdminSignIn() {
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: ""
   })
 
@@ -32,7 +32,7 @@ export default function AdminSignIn() {
     event.preventDefault()
 
     try {
-      let API_STRING = `/api/admin?username=${credentials.username}&password=${credentials.password}&userId=${globalUserData._id}`
+      let API_STRING = `/api/admin?email=${credentials.email}&password=${credentials.password}&userId=${globalUserData._id}`
       const response = await fetch(API_STRING, { method: 'GET' })
 
       const returnedAdmin = await response.json()
@@ -70,11 +70,11 @@ export default function AdminSignIn() {
       {success ? <Success params={{success, setSuccess}} /> : null}
       <form onSubmit={handleSubmit}>
         <div className="formGroup">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
           <input 
-            id="username" 
-            type="text" 
-            value={credentials.username}
+            id="email" 
+            type="email" 
+            value={credentials.email}
             onChange={event => handleInput(event)}
           />
         </div>
