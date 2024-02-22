@@ -6,15 +6,14 @@ const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
 
 AUTH0:
+Auth0 Audience is not needed
 
 
 
 FRONTEND:
-make 
 Add buttons for next and previous events on homepage calendar
 add loading for images in event form, disable buttons when loading
 add deletion of images to EventForm
-Change Cloudinary uploads to be backend, use formData to take in photos and upload them backend side  
 
 Fixes:
 fix volunteer form
@@ -32,7 +31,6 @@ Spanish support:
 - Remove translation button from calendar
 
 User Dashboard:
-- Make sidebar component
 - Finish EmailForm
 - Style page
 - Add admin login
