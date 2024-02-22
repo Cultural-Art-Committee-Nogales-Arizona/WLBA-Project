@@ -1,5 +1,5 @@
 # Cultural Arts Committee of Nogales, Arizona
-
+Non-profit organization of Nogales Arizona
 ## About Us
 
 Welcome to the Cultural Arts Committee of Nogales, Arizona! Our organization is a 501c3 non-profit committed to preserving and celebrating the rich tapestry of historic and Mexican cultural traditions in the heart of Nogales. Led by a dedicated Board of Directors, we strive to foster a sense of community and pride through the preservation of folkloric and artistic expressions.
