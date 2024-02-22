@@ -39,9 +39,6 @@ export const GET = async (request) => {
         if (passwordMatch) {
             const hashedId = await hash(adminUser.adminAuthId)
             const token = jwt.sign({ adminAuthId: hashedId }, process.env.JWT_SECRET, { expiresIn: '5h' })
-
-            console.log(`token: ${token}`)
-
             return NextResponse.json({
                 success: true,
                 message: `Successfully signed in as an admin`,

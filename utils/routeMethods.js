@@ -134,8 +134,6 @@ async function isAdmin(headerList) {
   const adminToken = headerList.get('authorization')
   const userId = headerList.get('x-userid')
 
-  console.log(`The headers are headerin man: ${adminToken + userId}`)
-
   if (!adminToken) throw new Error("You must append authorization header")
 	if (!userId) throw new Error("You must append user ID header")
 

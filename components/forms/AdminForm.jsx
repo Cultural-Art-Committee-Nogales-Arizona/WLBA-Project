@@ -1,134 +1,174 @@
 "use client"
-// ! CHANGE THIS, UNFINISHED
 import { useState, useContext, useEffect } from "react"
 import CustomUserContext from "@components/GlobalUserContext"
-
-// Overlays
 import Loading from "@components/overlays/Loading"
 import Error from "@components/overlays/Error"
 import Success from "@components/overlays/Success"
-
-// import { useRouter } from "next/router"
-
 import styles from './EmailForm.module.css'
 
-export default function EmailForm({ params }) {
+export default function AdminForm({ params }) {
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
-    // This was breaking it, we need to look into it
-    // const router = useRouter()
-    const { tableData, formData, setFormData } = params
-    // Api route needs to be mutable
-    let { contactRoute } = params
-
+    const [formData, setFormData] = useState({})
+    const [tableData, setTableData] = useState([])
     const [searchResults, setSearchResults] = useState([...tableData])
-
+    const [selectedUser, setSelectedUser] = useState({})
     const [success, setSuccess] = useState(null)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
 
-    const toggleAll = (event) => {
-        event.preventDefault()
-        // Check if all emails are already selected
-        const allSelected = searchResults.every(result => formData.emails?.includes(result.email));
-
-        if (allSelected) {
-            // If all emails are selected in search results, deselect all
-            const allSearchEmails = searchResults.map(result => result.email);
-            const removeResults = formData.emails.filter(email => !allSearchEmails.includes(email))
-            setFormData(prev => ({
-                ...prev,
-                emails: removeResults
-            }));
-        } else {
-            // If not all emails are selected, select all
-            const allEmails = searchResults.map(result => result.email);
-            setFormData(prev => ({
-                ...prev,
-                emails: allEmails
-            }));
-        }
-    }
-
     const searchTable = (searchParam) => {
-        // Create a regex pattern using the search parameter and the 'i' flag for case-insensitive matching
         const regex = new RegExp(searchParam, 'i')
 
-        // Filter the tableData array based on whether the name or email matches the regex pattern
         const filtered = tableData.filter(tableUser => {
-            return regex.test(tableUser.name) || regex.test(tableUser.email) || regex.test(tableUser.description) || regex.test(...tableUser.tags)
+            return regex.test(tableUser.username) || regex.test(tableUser.email)
         })
 
-        // Update the state with the filtered results
         setSearchResults(filtered)
     }
 
-    // Don't questions it, it works and if you look reeeeeally hard you might be able to read it
-    const handleCheckboxChange = (tableUser) => {
-        if (formData.emails === undefined) {
-            setFormData({emails: [tableUser.email]})
-            return
-        }
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            emails: prevFormData.emails?.some(email => email === tableUser.email) ?
-                prevFormData.emails?.filter(email => email !== tableUser.email) :
-                [...prevFormData?.emails, tableUser.email]
-            })
-        )
-    }
-
-
-    const handleSubmit = async (event) => {
-        event.preventDefault()
+    useEffect(() => {
+        const controller = new AbortController()
+        const signal = controller.signal
         
-        if (!formData.emails.length) throw new Error("You need at least one recipient")
-
-        
-        try {
-            setLoading(true)
-            const controller = new AbortController()
-            const signal = controller.signal
-
-            const { _id, adminAuthId } = globalUserData
-            const response = await fetch(contactRoute, {
-                signal,
-                method: 'POST',
+        const fetchUsers = async () => {
+          try {
+            const response = await fetch(`/api/user`, { 
+                signal, 
+                method: 'GET' ,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': globalUserData.adminAuthId,
                     'X-UserId': globalUserData._id
-                },
-                body: JSON.stringify({
-                    subjectLine: formData.subjectLine,
-                    emails: formData.emails,
-                    message: formData.message
-                })
+                }
             })
-
-            const responseData = await response.json()
-
-            if (responseData.success) {
-                // router.push('/vendor')
-                setSuccess(`Posted emails to ${responseData.data.accepted.length} clients`)
-            } else {
-                setError(`Failed to submit the form ${responseData.errorMessage}`)
-                throw new Error(`Vendor API failed to parse request. Status code: ${response.status}`)
+            const fetchedData = await response.json()
+            setTableData(fetchedData.data || [])
+            setSearchResults(fetchedData.data || [])
+            console.log(fetchedData)
+          } catch (error) {
+            if (error.name !== 'AbortError') {
+              console.error('Error fetching users:', error)
             }
-        } catch (err) {
-            // console.error('Error submitting the form:', err.message)
-            // setError(err.message)
-        } finally {
+          } finally {
             setLoading(false)
+          }
+        }
+    
+        fetchUsers()
+    
+        return () => controller.abort()
+    }, [globalUserData])
+
+    const handleUserSelect = (id) => {
+        const user = tableData.find((user) => user._id === id);
+        setSelectedUser(user);
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        setLoading(true)
+
+        if (selectedUser.admin) {
+            try{
+                const confirmSubmission = prompt(`
+                    Remove admin role from this user \n
+                    ${selectedUser.username} \n
+                    ${selectedUser.email}\n
+                    Type "Yes" to confirm
+                    `)
+                    
+                if (confirmSubmission !== "Yes") {
+                    alert("Canceled form submission") 
+                    return
+                } 
+
+                const controller = new AbortController()
+                const signal = controller.signal
+
+                let API_Route = `/api/admin?deleteId=${selectedUser._id}`
+                const response = await fetch(API_Route, {
+                    signal,
+                    method: 'DELETE',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': globalUserData.adminAuthId,
+                    'X-UserId': globalUserData._id
+                    }
+                })
+
+                const responseData = await response.json()
+
+                if(responseData.success){
+                    console.log('removed')
+                } else {
+                    setError(`Failed to submit the form ${responseData.errorMessage}`)
+                    throw new Error(`Admin API failed to parse request. Status code: ${response.status}`)
+                }
+            } catch (err) {
+                console.error('Error submitting the form:', err.message)
+            } finally {
+                setLoading(false)
+            }
+            
+        } else {
+            try{
+                if (formData.password !== formData.confirmPassword){
+                    setError(`Admin passwords must match`)
+                    throw new Error(`Passwords don't match`)
+                }
+
+                const confirmSubmission = prompt(`
+                    Add user as an admin?\n
+                    ${selectedUser.username}\n
+                    ${selectedUser.email}\n
+                    Admin Password ${formData.password}\n
+                    Type "Yes" to confirm \n
+                    `)
+                    
+                if (confirmSubmission !== "Yes") {
+                    alert("Canceled form submission") 
+                    return
+                } 
+
+                const controller = new AbortController()
+                const signal = controller.signal
+
+                const response = await fetch(`/api/admin`, {
+                    signal,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': globalUserData.adminAuthId,
+                        'X-UserId': globalUserData._id
+                    },
+                    body: JSON.stringify({
+                        id: selectedUser._id,
+                        password: formData.password
+                    })
+                })
+
+                const responseData = await response.json()
+
+                if(responseData.success){
+                    console.log('added')
+                } else {
+                    setError(`Failed to submit the form ${responseData.errorMessage}`)
+                    throw new Error(`Admin API failed to parse request. Status code: ${response.status}`)
+                }
+            } catch (err) {
+                console.error('Error submitting the form: ', err.message)
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     const updateForm = (event) => {
-        const { id, value } = event.target
-
+        const { id, value } = event.target;
         setFormData((prevFormData) => ({
-            ...prevFormData,
-            [id]: value,
-        }))
+          ...prevFormData,
+          [id]: value,
+        }));
     }
 
     return (
@@ -142,22 +182,16 @@ export default function EmailForm({ params }) {
                     <input className={styles.backgroundInput} onChange={(event) => searchTable(event.target.value)} />
                 </div>
                 <div className={styles.titleBox}>
-                    <div className={styles.title}>Selected: {formData.emails?.length || 0}</div>
                     <div className={styles.title}>Results: {searchResults.length}</div>
                 </div>
                 <div className={styles.table_container}>
                     <table className={styles.email_table}>
                         <thead>
                             <tr>
-                                <th className={styles.toggle}>
-                                    <button onClick={event => toggleAll(event)}>
-                                        Toggle
-                                    </button>
-                                </th>
+                                <th>Is Admin</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Description</th>
-                                <th>Tags</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody className={styles.table_body}>
@@ -167,24 +201,20 @@ export default function EmailForm({ params }) {
                                         return (
                                             <tr key={tableUser._id}>
                                                 <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        id={tableUser._id}
-                                                        checked={formData.emails?.includes(tableUser.email)}
-                                                        onChange={() => handleCheckboxChange(tableUser)}
-                                                        />
+                                                    {tableUser.admin?
+                                                        'Yes'
+                                                        :
+                                                        'No'
+                                                    }
                                                 </td>
                                                 <td>
-                                                    {tableUser.name}
+                                                    {tableUser.username}
                                                 </td>
                                                 <td>
                                                     {tableUser.email}
                                                 </td>
                                                 <td>
-                                                    {tableUser.description}
-                                                </td>
-                                                <td>
-                                                    {tableUser.tags.join(", ")}
+                                                    <button type="button" onClick={() => handleUserSelect(tableUser._id)}>Select</button>
                                                 </td>
                                             </tr>
                                         )
@@ -197,26 +227,56 @@ export default function EmailForm({ params }) {
                         </tbody>
                     </table>
                 </div>
-                <div className={styles.titleBox}>
-                    <div className={styles.title}>Subject</div>
-                    <input 
-                        id="subjectLine"
-                        className={styles.backgroundInput} 
-                        onChange={event => updateForm(event)}
-                        value={formData.subjectLine || ""}
+                {/*
+                    <div className={styles.titleBox}>
+                        <div className={styles.title}>Subject</div>
+                        <input 
+                            id="subjectLine"
+                            className={styles.backgroundInput} 
+                            onChange={event => updateForm(event)}
+                            value={formData.subjectLine || ""}
+                            />
+                    </div>
+                    <div className={`${styles.titleBox} ${styles.message}`}>
+                        <div className={styles.title}>Message</div>
+                        <textarea 
+                            id="message"
+                            className={`${styles.backgroundInput} ${styles.textArea}`}  
+                            onChange={event => updateForm(event)} 
+                            value={formData.message || ""}
+                            />
+                    </div>
+                    <input type="submit" className={styles.submit} value={"Submit"}></input>
+                */}
+                {selectedUser.admin ? (
+                        <input className={styles.titleBox} type="submit" value={'Remove Admin Status'} />
+                    ) : (
+                        <>
+                    <div className={styles.titleBox}>
+                        <label htmlFor="password">Password</label>
+                        <input
+                        id="password"
+                        type="password"
+                        value={formData.password || ''}
+                        onChange={(event) => updateForm(event)}
+                        placeholder='Create an admin password'
+                        required
                         />
-                </div>
-                <div className={`${styles.titleBox} ${styles.message}`}>
-                    <div className={styles.title}>Message</div>
-                    <textarea 
-                        id="message"
-                        className={`${styles.backgroundInput} ${styles.textArea}`}  
-                        onChange={event => updateForm(event)} 
-                        value={formData.message || ""}
+                    </div>
+                    <div className={styles.titleBox}>
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <input
+                        id="confirmPassword"
+                        type="password"
+                        value={formData.confirmPassword || ''}
+                        onChange={(event) => updateForm(event)}
+                        placeholder='Confirm Admin Password'
+                        required
                         />
-                </div>
-
-                <input type="submit" className={styles.submit} value={"Submit"}></input>
+                    </div>
+                    <input type="submit" value={`Register ${selectedUser.username}`} />
+                    </>
+                )}
             </form>
             }
         </div>
