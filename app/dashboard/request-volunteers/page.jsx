@@ -29,7 +29,7 @@ function VolunteerRequest() {
       try {
         const response = await fetch('/api/events/volunteer', { signal, method: 'GET' });
         const fetchedData = await response.json();
-        setAllVolunteers(fetchedData.data);
+        setAllVolunteers(fetchedData.data)
         setSearchResults(fetchedData.data)
         setLoading(false)
       } catch (error) {

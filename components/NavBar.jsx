@@ -59,7 +59,6 @@ const NavBar = () => {
           if (response.ok) {
             const responseData = await response.json()
 
-
             setGlobalUserData(prev => ({
               ...prev,
               ...responseData.data,

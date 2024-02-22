@@ -5,6 +5,7 @@ import { headers } from 'next/headers'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
+import { cookies } from "next/headers";
 
 dotenv.config()
   
@@ -67,8 +68,9 @@ export const GET = async (request) => {
 }
 
 export const POST = async (request) => {
-    const token = request.cookies.token
-    console.log(token)
+    const cookieStore = cookies()
+    const token = cookieStore.get('token')
+    console.log(`token: ${token}`)
 
     const headerList = headers()
     const { id, password } = await request.json()

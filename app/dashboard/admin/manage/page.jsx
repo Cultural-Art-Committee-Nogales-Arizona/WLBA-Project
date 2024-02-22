@@ -1,6 +1,6 @@
 "use client"
 import { useState, useContext, useEffect } from "react"
-import CustomUserContext from "@components/GlobalUserContext"
+import CustomUserContext from '@components/GlobalUserContext'
 import Error from "@components/overlays/Error"
 import Loading from "@components/overlays/Loading"
 
@@ -29,8 +29,8 @@ export default function ManageAdmin(){
                 }
             })
             const fetchedData = await response.json()
-            setAllUsers(fetchedData.data)
-            console.log(fetchedData.data)
+            setAllUsers(fetchedData.data || [])
+            console.log(fetchedData)
           } catch (error) {
             if (error.name !== 'AbortError') {
               console.error('Error fetching users:', error)
@@ -53,6 +53,7 @@ export default function ManageAdmin(){
     const handleSubmit = async (event) => {
         event.preventDefault()
         setLoading(true)
+        console.log(globalUserData)
 
         if (selectedUser.admin) {
             try{
