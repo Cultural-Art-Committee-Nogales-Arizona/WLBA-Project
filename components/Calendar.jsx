@@ -149,7 +149,7 @@ export default function Calendar() {
 							<h5><span className={styles.key}>End Date:</span> {new Date(event.end).toLocaleString()}</h5>
 							<h5><span className={styles.key}>Description:</span> {event.description}</h5>
 							<h5><span className={styles.key}>Location:</span> {event.location}</h5>
-							<h5><span className={styles.key}>{event.images.length} Images:</span><Carousel images={event.images} /></h5>
+							<h5><span className={styles.key}>{event.images.length} Images:</span><Carousel params={{images: event.images}} /></h5>
 						</div>
 						<hr />
 					</div>

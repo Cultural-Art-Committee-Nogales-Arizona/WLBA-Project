@@ -240,7 +240,7 @@ export default function EventForm({ params }) {
 
       // This api route SUCKS! but it works so I dont care
       // Don't think about it too hard
-      const uploadImages = await fetch('/api/image-upload', {
+      const uploadImages = await fetch('/api/image/upload', {
         method: 'POST',
         body: imageData,
         duplex: true 
@@ -295,6 +295,10 @@ export default function EventForm({ params }) {
 
   // Get the images out of files stored in images
   const imagePreviews = images.map(image => image.preview)
+
+  useEffect(() => {
+    console.log(images)
+  }, [images])
 
   return (
     <>
@@ -399,7 +403,7 @@ export default function EventForm({ params }) {
           { !loading ?
           imagePreviews ? 
             (imagePreviews.length !== 0 ? 
-                <Carousel images={imagePreviews} />
+                <Carousel params={{imagePreviews, images, setImages, edit: true}} />
                 :
                 <div>
                     No images found

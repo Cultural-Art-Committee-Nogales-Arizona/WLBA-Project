@@ -8,10 +8,6 @@ import heroImage from "@/public/Images/BackgroundImg.jpg";
 import Logo from '@/public/Logo';
 import Hero from '@/components/Hero'
 
-
-import ImageUpload from '@components/forms/ImageUpload'
-import Carousel from '@/components/gallery/Carousel'
-
 import localFont from 'next/font/local'
 const artesaniaFont = localFont({
   src: '../public/fonts/ARTESANIA.ttf',
