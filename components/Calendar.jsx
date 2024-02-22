@@ -142,6 +142,7 @@ export default function Calendar() {
 				dayData &&
 				dayData.map((event, index) => (
 					<div key={event._id}>
+						<br /> <br /><br />
 						<h1>Title: {event.title}</h1>
 						<div className={styles.eventDetails}>
 							<h5><span className={styles.key}>Start Date:</span> {new Date(event.start).toLocaleString()}</h5>
