@@ -234,12 +234,12 @@ export default function EventForm({ params }) {
       // Upload the images to cloudinary,
       // This is the only way I could figure out how to use the backend API for this
       const imageData = new FormData()
-      console.log(imageData)
       images.forEach(image => {
         imageData.append(`file`, image.file);
       })
-      imageData.append('upload_preset', 'Event_Images');
 
+      // This api route SUCKS! but it works so I dont care
+      // Don't think about it too hard
       const uploadImages = await fetch('/api/image-upload', {
         method: 'POST',
         body: imageData,
@@ -247,7 +247,6 @@ export default function EventForm({ params }) {
       })
 
       const imageResponse = await uploadImages.json()
-      console.log(imageResponse)
       
       if (!imageResponse.success) throw new Error(imageResponse.error)
 
@@ -296,14 +295,6 @@ export default function EventForm({ params }) {
 
   // Get the images out of files stored in images
   const imagePreviews = images.map(image => image.preview)
-
-  useEffect(() => {
-    setFormData(prev => ({
-      ...prev,
-      images
-    }))
-    console.log(formData)
-  }, [images])
 
   return (
     <>

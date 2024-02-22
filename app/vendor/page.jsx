@@ -63,7 +63,7 @@ function VendorCenter() {
         </thead>
         <tbody>
         {
-          userVendors.length ?
+          userVendors?.length ?
           userVendors.map(vendor => {
             return (
               <tr key={vendor._id}>
