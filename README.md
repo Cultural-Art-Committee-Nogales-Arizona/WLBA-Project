@@ -1,5 +1,4 @@
 # Cultural Arts Committee of Nogales, Arizona
-*501c3 Non-Profit Organization*
 
 ## About Us
 
