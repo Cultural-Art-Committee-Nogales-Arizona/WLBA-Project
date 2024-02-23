@@ -85,10 +85,6 @@ export default function Calendar() {
 		return () => controller.abort()
 	}, []);
 
-	useEffect(() => {
-		console.log(dayData)
-	}, [dayData])
-
 	const findData = async (date) => {
 		// ! DON'T TOUCH THIS !
 		// IT'S WORKING IT TOOK ME OVER 5 HOURS GETTING EVERYTHING WORKING
@@ -149,7 +145,7 @@ export default function Calendar() {
 							<h5><span className={styles.key}>End Date:</span> {new Date(event.end).toLocaleString()}</h5>
 							<h5><span className={styles.key}>Description:</span> {event.description}</h5>
 							<h5><span className={styles.key}>Location:</span> {event.location}</h5>
-							<h5><span className={styles.key}>{event.images.length} Images:</span><Carousel params={{images: event.images}} /></h5>
+							<h5><span className={styles.key}>{event.images.length} Images:</span><Carousel params={{ imagePreviews: event.images }} /></h5>
 						</div>
 						<hr />
 					</div>

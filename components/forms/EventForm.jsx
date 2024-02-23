@@ -196,6 +196,7 @@ export default function EventForm({ params }) {
       endFlatpickrTimeInstance.input.value = ""
     }
     setFormData({})
+    setImages([])
   }
   
   const submitForm = async (event) => {
@@ -292,14 +293,7 @@ export default function EventForm({ params }) {
       setLoading(false)
     }
   }
-
-  // Get the images out of files stored in images
-  const imagePreviews = images.map(image => image.preview)
-
-  useEffect(() => {
-    console.log(images)
-  }, [images])
-
+  
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
@@ -399,11 +393,11 @@ export default function EventForm({ params }) {
         </fieldset>
         {/* View images */}
         <fieldset className={styles.fieldset}>
-          <legend className={styles.legend}>Images</legend>
+          <legend className={styles.legend}>{images.length} Images</legend>
           { !loading ?
-          imagePreviews ? 
-            (imagePreviews.length !== 0 ? 
-                <Carousel params={{imagePreviews, images, setImages, edit: true}} />
+          images ? 
+            (images.length !== 0 ? 
+                <Carousel params={{ images, setImages, edit: true }} />
                 :
                 <div>
                     No images found

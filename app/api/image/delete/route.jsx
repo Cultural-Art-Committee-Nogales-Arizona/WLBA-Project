@@ -45,7 +45,8 @@ export const POST = async (request) => {
         try {
           const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/dvlb9ylqb/image/destroy`, {
             method: 'POST',
-            body: formData,
+            // body: formData,
+            body: "",
             /* headers: {
               'Content-Type': 'multipart/form-data' // Set Content-Type header
             } */
