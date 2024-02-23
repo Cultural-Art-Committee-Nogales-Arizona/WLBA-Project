@@ -40,7 +40,7 @@ const NavBar = () => {
     // Perform any cleanup tasks here (e.g., clear sessionStorage)
     // ! setAdminAuthId("")
     Cookies.remove('token', { path: '/api' })
-    sessionStorage.removeItem("adminAuthId")
+    sessionStorage.removeItem('adminAuthId')
   }
 
   // Fetch custom user data when the component mounts
@@ -50,6 +50,10 @@ const NavBar = () => {
     try {
 
       if (user) {
+
+        const token = Cookies.get('token', { path: '/api' });
+        console.log(`Token: ${token}`)
+        
         // console.log(user)
         let name = user.given_name ?? user.name
 
