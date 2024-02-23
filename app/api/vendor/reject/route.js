@@ -6,12 +6,12 @@ import { isAdmin } from "@/utils/routeMethods";
 import { headers } from "next/headers";
 
 export const DELETE = async (request) => {
-    const headerList = headers()
+    const token = request.cookies.get('token')
     const searchParams = request.nextUrl.searchParams
     const vendorId = searchParams.get('vendorId')
 
     try{
-        await isAdmin(headerList)
+        await isAdmin(token.value)
 
         const existingVendor = await AcceptedVendor.findOne({ id: vendorId })
 

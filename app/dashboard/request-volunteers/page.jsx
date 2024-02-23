@@ -147,9 +147,8 @@ function VolunteerRequest() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': globalUserData.adminAuthId,
-          'X-UserId': globalUserData._id
         },
+        credentials: "same-origin",
         body: JSON.stringify(formData) 
       })
 

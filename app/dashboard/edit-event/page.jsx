@@ -64,10 +64,9 @@ export default function EditEventPage() {
         signal, 
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': globalUserData.adminAuthId,
-          'X-UserId': globalUserData._id
-        } 
+          'Content-Type': 'application/json'
+        },
+        credentials: "same-origin"
       })
       const data = await response.json()
       console.log(data)

@@ -37,9 +37,8 @@ export default function AdminForm({ params }) {
                 method: 'GET' ,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': globalUserData.adminAuthId,
-                    'X-UserId': globalUserData._id
-                }
+                },
+                credentials: "same-origin"
             })
             const fetchedData = await response.json()
             setTableData(fetchedData.data || [])
@@ -90,10 +89,9 @@ export default function AdminForm({ params }) {
                     signal,
                     method: 'DELETE',
                     headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': globalUserData.adminAuthId,
-                    'X-UserId': globalUserData._id
-                    }
+                    'Content-Type': 'application/json'
+                    },
+                    credentials: "same-origin"
                 })
 
                 const responseData = await response.json()
@@ -138,9 +136,8 @@ export default function AdminForm({ params }) {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': globalUserData.adminAuthId,
-                        'X-UserId': globalUserData._id
                     },
+                    credentials: "same-origin",
                     body: JSON.stringify({
                         id: selectedUser._id,
                         password: formData.password
@@ -227,27 +224,6 @@ export default function AdminForm({ params }) {
                         </tbody>
                     </table>
                 </div>
-                {/*
-                    <div className={styles.titleBox}>
-                        <div className={styles.title}>Subject</div>
-                        <input 
-                            id="subjectLine"
-                            className={styles.backgroundInput} 
-                            onChange={event => updateForm(event)}
-                            value={formData.subjectLine || ""}
-                            />
-                    </div>
-                    <div className={`${styles.titleBox} ${styles.message}`}>
-                        <div className={styles.title}>Message</div>
-                        <textarea 
-                            id="message"
-                            className={`${styles.backgroundInput} ${styles.textArea}`}  
-                            onChange={event => updateForm(event)} 
-                            value={formData.message || ""}
-                            />
-                    </div>
-                    <input type="submit" className={styles.submit} value={"Submit"}></input>
-                */}
                 {selectedUser.admin ? (
                         <input className={styles.titleBox} type="submit" value={'Remove Admin Status'} />
                     ) : (

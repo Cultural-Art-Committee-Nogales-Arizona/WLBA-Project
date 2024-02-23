@@ -6,11 +6,11 @@ import { isAdmin } from "@/utils/routeMethods";
 import { headers } from "next/headers";
 
 export const POST = async (request) => {
-    const headerList = headers()
+    const token = request.cookies.get('token')
     const { vendors, message, subjectLine } = await request.json()
 
     try {
-        await isAdmin(headerList)
+        await isAdmin(token.value)
 
         const responseData = [];
 

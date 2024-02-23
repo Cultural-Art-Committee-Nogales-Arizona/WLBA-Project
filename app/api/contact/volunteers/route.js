@@ -7,12 +7,12 @@ dotenv.config()
 
 // We need to learn reactMail to make the emails nicer
 export const POST = async (request) => {
-  const headerList = headers()
+  const token = request.cookies.get('token')
 
   try {
     const { emails, subjectLine, message } = await request.json();
         
-		await isAdmin(headerList) 
+		await isAdmin(token.value) 
 
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({

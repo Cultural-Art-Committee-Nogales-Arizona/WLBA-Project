@@ -239,10 +239,9 @@ export default function EventForm({ params }) {
         signal,
         method: requestMethod,
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': globalUserData.adminAuthId,
-          'X-UserId': globalUserData._id
+          'Content-Type': 'application/json'
         },
+        credentials: "same-origin",
         body: JSON.stringify({
           start: startingDate,
           end: endingDate,

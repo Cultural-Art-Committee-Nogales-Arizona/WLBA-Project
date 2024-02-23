@@ -38,7 +38,14 @@ export const GET = async (request) => {
 
         if (passwordMatch) {
             const hashedId = await hash(adminUser.adminAuthId)
-            const token = jwt.sign({ adminAuthId: hashedId }, process.env.JWT_SECRET, { expiresIn: '5h' })
+            const token = jwt.sign({ 
+                adminAuthId: hashedId,
+                adminUserId: adminUser._id
+            }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '5h' }
+            )
+
             return NextResponse.json({
                 success: true,
                 message: `Successfully signed in as an admin`,
@@ -65,15 +72,11 @@ export const GET = async (request) => {
 }
 
 export const POST = async (request) => {
-    const cookieStore = cookies()
-    const token = cookieStore.get('token')
-    console.log(`token: ${token}`)
-
-    const headerList = headers()
+    const token = request.cookies.get('token')
     const { id, password } = await request.json()
     
     try{
-        await isAdmin(headerList)
+        await isAdmin(token.value)
         
         const existingAdmin = await User.findOne({ _id: id, admin: true})
         
@@ -134,14 +137,14 @@ export const POST = async (request) => {
 }
 
 export const DELETE = async (request) => {
-    const headerList = headers()
+    const token = request.cookies.get('token')
     const searchParams = request.nextUrl.searchParams
     const deleteId = searchParams.get('deleteId') || ""
 
     try{
         if (!deleteId) throw new Error("You must append &deleteId= query to URL")
 
-        await isAdmin(headerList)
+        await isAdmin(token.value)
 
         const adminExists = await User.findOne({ _id: deleteId, admin: true })
 
