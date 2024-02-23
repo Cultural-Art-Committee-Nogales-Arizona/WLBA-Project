@@ -49,16 +49,19 @@ const NavBar = () => {
         // console.log(user)
         let name = user.given_name ?? user.name
 
+        console.log(user.nickname)
         // ! setAdminAuthId(globalUserData.adminAuthId)
         const adminAuthId = sessionStorage.getItem('adminAuthId');
 
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
           // Perform your fetch to get custom user data
-          const response = await fetch(`/api/user/account?name=${name}`, { signal, method: 'GET' })
+          const response = await fetch(`/api/user/account?email=${user.nickname}`, { signal, method: 'GET' })
+
           if (response.ok) {
             const responseData = await response.json()
-
+            console.log(responseData)
+            
             setGlobalUserData(prev => ({
               ...prev,
               ...responseData.data,
