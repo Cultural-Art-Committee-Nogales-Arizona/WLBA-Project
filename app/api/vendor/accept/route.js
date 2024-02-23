@@ -10,6 +10,8 @@ export const POST = async (request) => {
     const { vendors, message, subjectLine } = await request.json()
 
     try {
+        if (!token) throw new Error("BAD REQUEST: No cookies found")
+
         await isAdmin(token.value)
 
         const responseData = [];

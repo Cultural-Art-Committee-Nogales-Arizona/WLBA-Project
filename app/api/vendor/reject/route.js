@@ -11,6 +11,8 @@ export const DELETE = async (request) => {
     const vendorId = searchParams.get('vendorId')
 
     try{
+        if (!token) throw new Error("BAD REQUEST: No cookies found")
+
         await isAdmin(token.value)
 
         const existingVendor = await AcceptedVendor.findOne({ id: vendorId })

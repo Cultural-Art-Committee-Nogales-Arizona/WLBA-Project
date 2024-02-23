@@ -50,6 +50,8 @@ export const POST = async (request) => {
 	const { title, description, location, start, end, images } = await request.json();
 
 	try {
+		if (!token) throw new Error("BAD REQUEST: No cookies found")
+
 		await isAdmin(token.value)
 
 		const result = await Festival.create({
@@ -89,6 +91,8 @@ export const PUT = async (request) => {
 	const { title, description, location, start, end, images } = await request.json();
 
 	try {
+		if (!token) throw new Error("BAD REQUEST: No cookies found")
+
 		await isAdmin(token.value) 
 
 		// If there is no festivalId query then throw an error
@@ -137,6 +141,8 @@ export const DELETE = async (request) => {
 	const festivalId = searchParams.get("festivalId") || "";
 
 	try {
+		if (!token) throw new Error("BAD REQUEST: No cookies found")
+
 		await isAdmin(token.value) 
 
 		// If there is no festivalId query then throw an error

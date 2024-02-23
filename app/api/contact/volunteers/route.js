@@ -10,7 +10,8 @@ export const POST = async (request) => {
   const token = request.cookies.get('token')
 
   try {
-    const { emails, subjectLine, message } = await request.json();
+    const { emails, subjectLine, message } = await request.json()
+    if (!token) throw new Error("BAD REQUEST: No cookies found")
         
 		await isAdmin(token.value) 
 

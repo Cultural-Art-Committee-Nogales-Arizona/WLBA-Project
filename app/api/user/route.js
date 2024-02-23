@@ -7,6 +7,8 @@ export const GET = async (request) => {
     const token = request.cookies.get('token')
 
     try{
+        if (!token) throw new Error("BAD REQUEST: No cookies found")
+
 		await isAdmin(token.value) 
 
         const users = await User.find()
@@ -138,6 +140,8 @@ export const DELETE = async (request) => {
     const deleteId = searchParams.get('deleteId') || ""
 
     try{
+        if (!token) throw new Error("BAD REQUEST: No cookies found")
+
         await isAdmin(token.value)
 
         if (!deleteId) throw new Error("No userId query defined, you must append ?deleteId= to URL")

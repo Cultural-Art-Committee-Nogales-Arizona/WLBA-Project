@@ -76,6 +76,8 @@ export const POST = async (request) => {
     const { id, password } = await request.json()
     
     try{
+        if (!token) throw new Error("BAD REQUEST: No cookies found")
+
         await isAdmin(token.value)
         
         const existingAdmin = await User.findOne({ _id: id, admin: true})
@@ -143,6 +145,7 @@ export const DELETE = async (request) => {
 
     try{
         if (!deleteId) throw new Error("You must append &deleteId= query to URL")
+        if (!token) throw new Error("BAD REQUEST: No cookies found")
 
         await isAdmin(token.value)
 
