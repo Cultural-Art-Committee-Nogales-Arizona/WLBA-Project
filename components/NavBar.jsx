@@ -26,6 +26,9 @@ import PageLink from './PageLink'
 import AnchorLink from './AnchorLink'
 import ChangeLanguage from './LanguageButton'
 
+import clearToken from '@/app/actions'
+import Cookies from 'js-cookie'
+
 const NavBar = () => {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   // ! const [adminAuthId, setAdminAuthId] = useSessionStorage("adminAuthId", "")
@@ -33,9 +36,10 @@ const NavBar = () => {
   const { user, isLoading } = useUser()
   const toggle = () => setIsOpen(!isOpen)
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // Perform any cleanup tasks here (e.g., clear sessionStorage)
     // ! setAdminAuthId("")
+    Cookies.remove('token', { path: '/api' })
     sessionStorage.removeItem("adminAuthId")
   }
 

@@ -54,7 +54,7 @@ export const GET = async (request) => {
                 }
             },{ 
                 status: 200,
-                headers: {'Set-Cookie': `token=${token}`}
+                headers: {'Set-Cookie': `token=${token}; Max-Age=${60 * 60 * 5}`}
             });
         }
 
@@ -76,9 +76,9 @@ export const POST = async (request) => {
     const { id, password } = await request.json()
     
     try{
-        if (!token) throw new Error("BAD REQUEST: No cookies found")
+        //if (!token) throw new Error("BAD REQUEST: No cookies found")
 
-        await isAdmin(token.value)
+        //await isAdmin(token.value)
         
         const existingAdmin = await User.findOne({ _id: id, admin: true})
         
