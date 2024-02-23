@@ -10,7 +10,7 @@ const Hero = ({ params }) => {
     <div className={styles.hero}>
       <Image
         width={1519}
-        height={650}
+        height={600}
         src={heroImage}
         alt={"text"}
         className={styles.Img}
