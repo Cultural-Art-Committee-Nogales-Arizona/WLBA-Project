@@ -33,11 +33,11 @@ export default function VolunteerSignUp() {
         <h1><span>V</span>olunteer</h1>
       </div>
       <div className={styles.mainDiv}>
-        <br />
         <h4>
           If you're interested in volunteering for one of our cultural celebrations
           please contact us using the form below:
         </h4>
+        <br />
         <VolunteerForm params={{ formData, setFormData, requestMethod }} />
       </div>
     </>
