@@ -196,6 +196,7 @@ export default function EventForm({ params }) {
       endFlatpickrTimeInstance.input.value = ""
     }
     setFormData({})
+    setImages([])
   }
   
   const submitForm = async (event) => {
@@ -240,7 +241,7 @@ export default function EventForm({ params }) {
 
       // This api route SUCKS! but it works so I dont care
       // Don't think about it too hard
-      const uploadImages = await fetch('/api/image-upload', {
+      const uploadImages = await fetch('/api/image/upload', {
         method: 'POST',
         body: imageData,
         duplex: true 
@@ -292,10 +293,7 @@ export default function EventForm({ params }) {
       setLoading(false)
     }
   }
-
-  // Get the images out of files stored in images
-  const imagePreviews = images.map(image => image.preview)
-
+  
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
@@ -395,11 +393,11 @@ export default function EventForm({ params }) {
         </fieldset>
         {/* View images */}
         <fieldset className={styles.fieldset}>
-          <legend className={styles.legend}>Images</legend>
+          <legend className={styles.legend}>{images.length} Images</legend>
           { !loading ?
-          imagePreviews ? 
-            (imagePreviews.length !== 0 ? 
-                <Carousel images={imagePreviews} />
+          images ? 
+            (images.length !== 0 ? 
+                <Carousel params={{ images, setImages, edit: true }} />
                 :
                 <div>
                     No images found
