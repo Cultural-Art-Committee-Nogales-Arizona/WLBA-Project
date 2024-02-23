@@ -1,83 +1,66 @@
 import { NextResponse } from "next/server";
+import crypto from 'crypto'
+import dotenv from 'dotenv'
+dotenv.config()
 
 // I am SO sorry for making this.
 // Lord, please forgive me.
 export const POST = async (request) => {
   try {
-    const getAllFormDataValues = (formData, key) => {
-      const values = [];
-      for (const [formDataKey, formDataValue] of formData.entries()) {
-        if (formDataKey === key) {
-          values.push(formDataValue);
-        }
-      }
-      return values;
-    };
-  
-    const formData = await request.formData()
-
-    const files = getAllFormDataValues(formData, 'file');
-    
-    // Array to hold FormData objects for each file
-    const formDataArray = [];
-
-    // Loop through each file
-    Array.from(files).forEach(file => {
-      // Create a new FormData object
-      const formData = new FormData();
-      
-      // Append the file to the FormData object with the key 'file'
-      formData.append('file', file);
-      
-      // Append any additional data as needed
-      formData.append('upload_preset', 'Event_Images');
-      
-      // Add the FormData object to the array
-      formDataArray.push(formData);
-    });
-
-    
-    async function getImageUrls(formDataArray) {
-      const imageFiles = [];
-      
-      // Map over the formDataArray and create an array of promises for each fetch operation
-      const promises = formDataArray.map(async formData => {
-        try {
-          const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/dvlb9ylqb/image/destroy`, {
-            method: 'POST',
-            // body: formData,
-            body: "",
-            /* headers: {
-              'Content-Type': 'multipart/form-data' // Set Content-Type header
-            } */
-          }); 
-            
-          const imageResponse = await imageUpload.json();
-          imageFiles.push(imageResponse.secure_url);
-        } catch (error) {
-          throw new Error('Image failed to upload');
-        }
-      });
-      
-      // Wait for all promises to resolve
-      await Promise.all(promises);
-      
-      return imageFiles;
+    function PublicIdFromUrl(url) {
+      // Split the URL by '/'
+    const parts = url.split('/');
+    // Get the index of "upload" in the URL
+    const uploadIndex = parts.indexOf("upload");
+    // Get the parts of the URL after "upload"
+    const uploadParts = parts.slice(uploadIndex + 2);
+    // Join the remaining parts to form the public ID
+    let publicId = uploadParts.join('/');
+    if (publicId.includes(".")) {
+      publicId = publicId.split(".")[0];
+  }
+    return publicId;
     }
-      
-    const imageUrls = await getImageUrls(formDataArray);
+    
+    // Generate the signature for authentication
+    function sha1Hash(data) {
+      const hash = crypto.createHash('sha1');
+      hash.update(data);
+      return hash.digest('hex');
+    }
+
+    // Signature parameters
+    const API_KEY = "578141593239547"
+    const API_SECRET = 'FwLekwqMLHgOvucXuGE6hIMRhL4' /*  process.env.API_KEY */
+    const currentTime = Date.now()
+    const { imageUrl } = await request.json()
+    const publicId = PublicIdFromUrl(imageUrl)
+    console.log(publicId)
+    
+    const signatureString = `public_id=${publicId}&timestamp=${currentTime}${API_SECRET}`
+    const hashedSignature = sha1Hash(signatureString)
+
+    const queryParams = `?signature=${hashedSignature}&public_id=${publicId}&timestamp=${currentTime}&api_key=${API_KEY}`
+    const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/dvlb9ylqb/image/destroy${queryParams}`, {
+      method: 'POST',
+      /* headers: {
+        'Content-Type': 'application/json' // Set Content-Type header
+      } */
+    }); 
+
+    const imageResponse = await imageUpload.json()
 
     return NextResponse.json({
       success: true,
-      message: `Uploaded images to Cloudinary`,
-      data: imageUrls
+      message: `Deleted image from Cloudinary`,
+      data: imageResponse
     });
   } catch (error) {
     console.error(error);
     return NextResponse.json({
       success: false,
-      message: `Failed to upload images to Cloudinary: ${error.message}`,
-      error: error.message
+      message: `Failed to delete image from Cloudinary: ${error.message}`,
+      error: error
     }, {
       status: 500
     });
