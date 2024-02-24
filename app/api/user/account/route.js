@@ -2,7 +2,6 @@ import User from "@/models/users/User"
 import { NextResponse } from 'next/server'
 
 export const GET = async (request) => {
-    //Get user by _id instead?
     const searchParams = request.nextUrl.searchParams
     const nick = searchParams.get('email') || ""
 

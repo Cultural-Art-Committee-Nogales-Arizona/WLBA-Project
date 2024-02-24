@@ -5,7 +5,6 @@ import { headers } from 'next/headers'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
-import { cookies } from "next/headers";
 
 dotenv.config()
   
@@ -46,7 +45,7 @@ export const GET = async (request) => {
             { expiresIn: '5h' }
             )
 
-            return NextResponse.json({
+            return NextResponse.json({ 
                 success: true,
                 message: `Successfully signed in as an admin`,
                 data: {

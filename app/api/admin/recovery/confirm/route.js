@@ -34,7 +34,6 @@ export const POST = async (request) => {
             status: 200
         })
     } catch (err) {
-        console.error(err);
         return NextResponse.json({
             success: false,
             message: `An error occurred resetting password`,

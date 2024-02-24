@@ -1,12 +1,16 @@
 "use client"
 
 import styles from './Success.module.css';
+import { useRouter } from 'next/navigation';
 
 export default function Success({ params }) {
-  const { success, setSuccess } = params 
+  const router = useRouter()
+
+  const { success, setSuccess, redirect } = params 
   const handleSuccessClose = () => {
     setSuccess(null);
-  };
+    if (redirect) router.push(redirect)
+  }; 
 
   return (
     <>

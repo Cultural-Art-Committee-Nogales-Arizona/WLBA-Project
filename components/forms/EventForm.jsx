@@ -285,7 +285,7 @@ export default function EventForm({ params }) {
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
-      { success && <Success params={{ success, setSuccess }} /> }
+      { success && <Success params={{ success, setSuccess, redirect: '/dashboard' }} /> }
       { loading ? <Loading scale={150} /> :
       <form onSubmit={event => submitForm(event)} className={styles.form}>
         {/* Start Dates */}

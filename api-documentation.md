@@ -80,8 +80,7 @@ Add a new festival to the database.
 `POST https://wlba-project.vercel.app/api/events/festivals`
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
 
 #### Request Body
 ```json
@@ -110,8 +109,7 @@ Edit existing festival information
 - `festivalId`: Database identifier of festival to update.
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
 
 #### Request Body
 ```json
@@ -140,8 +138,7 @@ Delete existing festival by ID.
 - `festivalId`: Database identifier of festival to delete.
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
 
 ## Volunteers Route
 
@@ -273,7 +270,7 @@ Edit an existing registered vendor's information.
 #### Endpoint
 `PUT https://wlba-project.vercel.app/api/vendor`
 
-#### Query parameters
+#### Query Parameters
 - `vendorId`: Database identifier of the vendor to edit.
 
 #### Request Body
@@ -297,7 +294,7 @@ Delete an existing registered vendor.
 #### Endpoint
 `DELETE https://wlba-project.vercel.app/api/vendor`
 
-#### Query parameters
+#### Query Parameters
 - `vendorId`: Database idntifier ofthe vendor to delete.
 
 ### Accept Vendor
@@ -309,8 +306,7 @@ Accept one or more registered vendors.
 `POST https://wlba-project.vercel.app/api/vendor/accept`
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
 
 #### Request Body
 ```json
@@ -343,8 +339,7 @@ Remove an accepted vendor from the accepted documents list.
 `DELETE https://wlba-project.vercel.app/api/vendor/accept`
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
 
 ## User Route
 
@@ -371,8 +366,7 @@ Get all users
 `GET https://wlba-project.vercel.app/api/user`
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
 
 #### Data Unit Returned
 Returns the best macthing user's information in the following format:
@@ -430,7 +424,7 @@ Edit existing registered users.
 #### Endpoint
 `PUT https://wlba-project.vercel.app/api/user`
 
-#### Query parameters 
+#### Query Parameters 
 - `userId`: Database identifier of user to edit.
 
 #### Request Body
@@ -460,12 +454,32 @@ Deletes an user document.
 #### Endpoint
 `DELETE https://wlba-project.vercel.app/api/user`
 
-#### Query parameters
+#### Query Parameters
 - `deleteId`: Database identifier of user to delete.
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
+
+### User Account
+
+#### Description
+Fetches an authenticated user's account by their email. Since this route is unprotected, it is best kept secret.
+
+#### Endpoint
+`GET https://wlba-project.vercel.app/api/user/account`
+
+#### Query Parameters
+- `Email`: User's email. Usually sent without the sign and domain extensions.
+
+#### Data Unit Returned
+```json
+{
+  "_id": "MongoDB Document _id", // String
+  "username": "Updated username", // String
+  "email": "Updated email", // String
+  "admin": "Attribute describing user's admin status" // Boolean
+}
+```
 
 ### Admin Sign In
 
@@ -487,6 +501,9 @@ Validates admin credentials and returns a corresponding admin object.
 }
 ```
 
+#### Response Cookies
+- `token`: A JWT token containing administrator's authorization token and database identifier.
+
 ### Post Admin
 
 #### Description
@@ -496,8 +513,7 @@ Register a user as an admin
 `POST https://wlba-project.vercel.app/api/admin`
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
 
 #### Request Body
 ```json
@@ -530,8 +546,7 @@ Remove a user's admin status.
 - `deleteId`: Database identifier of user who's admin status to delete.
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
 
 ## Admin password recovery
 NOTE: Recovery POST Requests are the only POST requests that don't return a data unit. This is done to keep the recovery system as secure as possible.
@@ -599,8 +614,7 @@ Sends an email to a specific volunteer from the volunteers database.
 `POST https://wlba-project.vercel.app/api/contact/volunteer`
 
 #### Headers
-- `X-UserId`: User database identifier of administrator.
-- `Authorization`: Authentication token for administrators. Used to authenticate the user trying to access this admin protected route. 
+- `token`: A JWT token containing administrator's authorization token and database identifier.
 
 #### Request Body
 ```json

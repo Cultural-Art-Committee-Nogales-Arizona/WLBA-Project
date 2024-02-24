@@ -8,8 +8,10 @@ import Error from '@/components/overlays/Error'
 import Success from '@/components/overlays/Success'
 import styles from './page.module.css'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function AdminSignIn() {
+  const router = useRouter()
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const [error, setError] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -18,6 +20,12 @@ export default function AdminSignIn() {
     email: "",
     password: ""
   })
+
+  useEffect(() => {
+    if(globalUserData.adminAuthId){
+      router.push('/dashboard')
+    }
+  }, [globalUserData])
 
   const handleInput = (event) => {
     const { id, value } = event.target
@@ -50,7 +58,7 @@ export default function AdminSignIn() {
         }))
         setSuccess('Signed in as Admin')
       } else {
-        setError(`Request Failed: ${returnedAdmin.message}`)
+        setError(`Request Failed: ${returnedAdmin.errorMessage}`)
       }
     } catch (err) {
       if (err.name === 'AbortError') {

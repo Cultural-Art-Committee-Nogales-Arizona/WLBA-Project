@@ -2,7 +2,7 @@
 import { useState, useEffect, useContext, useMemo } from 'react'
 import CustomUserContext from '@/components/GlobalUserContext'
 
-import EmailForm from '@/components/forms/EmailForm'
+import ManageVendorForm from '@components/forms/ManageVendorForm'
 
 import Loading from '@/components/overlays/Loading'
 import Error from '@/components/overlays/Error'
@@ -30,7 +30,7 @@ function VolunteerRequest() {
     const signal = controller.signal
     setLoading(true)
 
-    const fetchVolunteers = async () => {
+    const fetchVendors = async () => {
       try {
         const response = await fetch('/api/vendor', { signal, method: 'GET' })
         const fetchedData = await response.json()
@@ -38,13 +38,13 @@ function VolunteerRequest() {
         setLoading(false)
       } catch (error) {
         if (error.name !== 'AbortError') {
-          console.error('Error fetching volunteers:', error)
+          console.error('Error fetching vendors:', error)
           setError(error.message)
         }
       }
     }
 
-    fetchVolunteers()
+    fetchVendors()
 
     return () => controller.abort()
   }, [])
@@ -55,7 +55,7 @@ function VolunteerRequest() {
       {/* Display table  */}
       <h1>Select vendors to accept</h1>
       { loading ? <Loading /> : 
-        <EmailForm params={{tableData, contactRoute: "/api/contact/volunteers", formData, setFormData}} />
+        <ManageVendorForm params={{tableData, contactRoute: "/api/vendor/accept", formData, setFormData, accept: true}} />
       }
     </div>
   )

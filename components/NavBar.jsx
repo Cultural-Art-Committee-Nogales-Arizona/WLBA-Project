@@ -50,16 +50,11 @@ const NavBar = () => {
     try {
 
       if (user) {
-
         const token = Cookies.get('token', { path: '/api' });
         console.log(`Token: ${token}`)
-        
-        // console.log(user)
-        let name = user.given_name ?? user.name
 
-        console.log(user.nickname)
         // ! setAdminAuthId(globalUserData.adminAuthId)
-        const adminAuthId = sessionStorage.getItem('adminAuthId');
+        const adminAuthId = sessionStorage.getItem('adminAuthId') || "";
 
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
