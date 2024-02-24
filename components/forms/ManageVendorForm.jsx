@@ -8,16 +8,15 @@ import Loading from "@components/overlays/Loading"
 import Error from "@components/overlays/Error"
 import Success from "@components/overlays/Success"
 
-// import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 import styles from './EmailForm.module.css'
+import { FormFeedback } from "reactstrap"
 
 export default function ManageVendorForm({ params }) {
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
-    // This was breaking it, we need to look into it
-    // const router = useRouter()
+    const router = useRouter()
     const { tableData, formData, setFormData, accept } = params
-    // Api route needs to be mutable
     let { contactRoute } = params
 
     const [searchResults, setSearchResults] = useState([...tableData])
@@ -65,14 +64,25 @@ export default function ManageVendorForm({ params }) {
     // Don't questions it, it works and if you look reeeeeally hard you might be able to read it
     const handleCheckboxChange = (tableUser) => {
         if (formData.emails === undefined) {
-            setFormData({emails: [tableUser.email]})
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                vendors: [{
+                    name: tableUser.name,
+                    email: tableUser.email,
+                    id: tableUser._id
+                }]
+            }))
             return
         }
         setFormData(prevFormData => ({
             ...prevFormData,
-            emails: prevFormData.emails?.some(email => email === tableUser.email) ?
-                prevFormData.emails?.filter(email => email !== tableUser.email) :
-                [...prevFormData?.emails, tableUser.email]
+            vendors: prevFormData.vendors?.some(vendor => vendor.id === tableUser._id) ?
+                prevFormData.vendors?.filter(vendor => vendor.id !== tableUser._id) :
+                [...prevFormData?.vendors, {
+                    name: tableUser.name,
+                    email: tableUser.email,
+                    id: tableUser._id
+                }]
             })
         )
     }
@@ -81,43 +91,44 @@ export default function ManageVendorForm({ params }) {
     const handleSubmit = async (event) => {
         event.preventDefault()
         
-        if (!formData.emails.length) throw new Error("You need at least one recipient")
+        if(accept){
+            if (!formData.vendors.length) throw new Error("You need at least one vendor")            
+            try {
+                setLoading(true)
+                const controller = new AbortController()
+                const signal = controller.signal
 
-        
-        try {
-            setLoading(true)
-            const controller = new AbortController()
-            const signal = controller.signal
-
-            const { _id, adminAuthId } = globalUserData
-            const response = await fetch(contactRoute, {
-                signal,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: "same-origin",
-                body: JSON.stringify({
-                    subjectLine: formData.subjectLine,
-                    emails: formData.emails,
-                    message: formData.message
+                const response = await fetch(contactRoute, {
+                    signal,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: "same-origin",
+                    body: JSON.stringify({
+                        subjectLine: formData.subjectLine,
+                        vendors: formData.vendors,
+                        message: formData.message
+                    })
                 })
-            })
 
-            const responseData = await response.json()
+                const responseData = await response.json()
 
-            if (responseData.success) {
-                // router.push('/vendor')
-                setSuccess(`Posted emails to ${responseData.data.accepted.length} clients`)
-            } else {
-                setError(`Failed to submit the form ${responseData.errorMessage}`)
-                throw new Error(`Vendor API failed to parse request. Status code: ${response.status}`)
+                if (responseData.success) {
+                    // router.push('/vendor')
+                    setSuccess(responseData.message)
+                } else {
+                    setError(`Failed to submit the form ${responseData.errorMessage}`)
+                    throw new Error(`Vendor API failed to parse request. Status code: ${response.status}`)
+                }
+            } catch (err) {
+                console.error('Error submitting the form:', err.message)
+                // setError(err.message)
+            } finally {
+                setLoading(false)
             }
-        } catch (err) {
-            // console.error('Error submitting the form:', err.message)
-            // setError(err.message)
-        } finally {
-            setLoading(false)
+        } else {
+
         }
     }
 

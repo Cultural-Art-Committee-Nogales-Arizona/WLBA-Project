@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useContext }  from 'react'
+import { useState, useEffect, useContext } from 'react'
 import CustomUserContext from '@/components/GlobalUserContext'
 
 import ManageVendorForm from '@components/forms/ManageVendorForm'
@@ -55,7 +55,7 @@ function VolunteerRequest() {
       {/* Display table  */}
       <h1>Select vendors to accept</h1>
       { loading ? <Loading /> : 
-        <ManageVendorForm params={{tableData, contactRoute: "/api/vendor/accept", formData, setFormData, accept: true}} />
+        <ManageVendorForm params={{tableData, contactRoute: "/api/vendor/accept", formData, setFormData, accept: false}} />
       }
     </div>
   )
