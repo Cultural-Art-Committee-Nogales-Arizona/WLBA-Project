@@ -6,10 +6,11 @@ import { useRouter } from 'next/navigation';
 export default function Success({ params }) {
   const router = useRouter()
 
-  const { success, setSuccess, redirect } = params 
+  const { success, setSuccess, redirect, reload } = params 
   const handleSuccessClose = () => {
     setSuccess(null);
     if (redirect) router.push(redirect)
+    if (reload) router.refresh()
   }; 
 
   return (

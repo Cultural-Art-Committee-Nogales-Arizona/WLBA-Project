@@ -336,10 +336,19 @@ Accept one or more registered vendors.
 Remove an accepted vendor from the accepted documents list.
 
 #### Endpoint
-`DELETE https://wlba-project.vercel.app/api/vendor/accept`
+`DELETE https://wlba-project.vercel.app/api/vendor/reject`
 
 #### Headers
 - `token`: A JWT token containing administrator's authorization token and database identifier.
+
+#### Request Body
+```json
+{
+  "vendorId": "MongoDB Vendor _id", // Object._id
+  "id": "Message to send to that vendor's email", // String
+  "email": "Vendor's email" // String
+}
+```
 
 ## User Route
 

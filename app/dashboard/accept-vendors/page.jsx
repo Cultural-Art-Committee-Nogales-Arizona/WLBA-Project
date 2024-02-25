@@ -34,7 +34,8 @@ function VolunteerRequest() {
       try {
         const response = await fetch('/api/vendor', { signal, method: 'GET' })
         const fetchedData = await response.json()
-        setTableData(fetchedData.data)
+        const filtered = fetchedData.data.filter(vendor => vendor.accepted == false)
+        setTableData(filtered)
         setLoading(false)
       } catch (error) {
         if (error.name !== 'AbortError') {

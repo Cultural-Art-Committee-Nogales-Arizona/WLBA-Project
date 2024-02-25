@@ -1,6 +1,6 @@
 "use client"
 // ! CHANGE THIS, UNFINISHED
-import { useState, useContext, useEffect } from "react"
+import { useState, useContext } from "react"
 import CustomUserContext from "@components/GlobalUserContext"
 
 // Overlays
@@ -11,7 +11,6 @@ import Success from "@components/overlays/Success"
 import { useRouter } from "next/navigation"
 
 import styles from './EmailForm.module.css'
-import { FormFeedback } from "reactstrap"
 
 export default function ManageVendorForm({ params }) {
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
@@ -28,22 +27,27 @@ export default function ManageVendorForm({ params }) {
     const toggleAll = (event) => {
         event.preventDefault()
         // Check if all emails are already selected
-        const allSelected = searchResults.every(result => formData.emails?.includes(result.email));
+        const allSelected = searchResults.every(result => formData.vendors.some(formVendor => formVendor.id == result._id));
+        console.log(formData.vendors)
+        console.log(allSelected)
 
         if (allSelected) {
             // If all emails are selected in search results, deselect all
-            const allSearchEmails = searchResults.map(result => result.email);
-            const removeResults = formData.emails.filter(email => !allSearchEmails.includes(email))
+            const allSearchVendors = searchResults.map(result => result._id)
             setFormData(prev => ({
                 ...prev,
-                emails: removeResults
+                vendors: []
             }));
         } else {
             // If not all emails are selected, select all
-            const allEmails = searchResults.map(result => result.email);
+            const allVendors = searchResults.map(tableUser => ({
+                name: tableUser.name,
+                email: tableUser.email,
+                id: tableUser._id
+            }));
             setFormData(prev => ({
                 ...prev,
-                emails: allEmails
+                vendors: allVendors
             }));
         }
     }
@@ -63,7 +67,7 @@ export default function ManageVendorForm({ params }) {
 
     // Don't questions it, it works and if you look reeeeeally hard you might be able to read it
     const handleCheckboxChange = (tableUser) => {
-        if (formData.emails === undefined) {
+        if (formData.vendors === undefined) {
             setFormData(prevFormData => ({
                 ...prevFormData,
                 vendors: [{
@@ -92,7 +96,7 @@ export default function ManageVendorForm({ params }) {
         event.preventDefault()
         
         if(accept){
-            if (!formData.vendors.length) throw new Error("You need at least one vendor")            
+            if (!formData.vendors.length) return setError('You need at least one vendor selected') 
             try {
                 setLoading(true)
                 const controller = new AbortController()
@@ -127,8 +131,86 @@ export default function ManageVendorForm({ params }) {
             } finally {
                 setLoading(false)
             }
-        } else {
+        }
+    }
 
+    const handleRevoke = async (vendor) => {
+        setLoading(true)
+        const controller = new AbortController()
+        const signal = controller.signal
+
+        try{
+            const vendorObject = tableData.filter(result => result._id == vendor)[0]
+            if (!vendorObject) return setError('Selected vendor not found')
+            const message = prompt(`
+            Confirm revoke vendor permit for ${vendorObject.name} \n
+            Type in a rejection message
+            `)
+
+            if (!message) return setError('Request cancelled')
+
+            const response = await fetch(contactRoute, {
+                signal,
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    vendorId: vendor,
+                    message: message,
+                    email: vendorObject.email
+                })
+            })
+
+            const responseData = await response.json()
+
+            if (responseData.success) {
+                // router.push('/vendor')
+                setSuccess(responseData.message)
+            } else {
+                setError(`Failed to submit the form ${responseData.errorMessage}`)
+            }
+        } catch (err) {
+            console.error('Error submitting the form:', err.message)
+            setError(`Error submitting the form`)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const handleDelete = async () => {
+        setLoading(true)
+        const controller = new AbortController()
+        const signal = controller.signal
+
+        try{
+            const vendors = formData.vendors.map(formVendor => formVendor.id)
+            
+            const response = await fetch('/api/vendor', {
+                signal,
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    vendors
+                })
+            })
+
+            const responseData = await response.json()
+
+            if (responseData.success) {
+                // router.push('/vendor')
+                setSuccess(responseData.message)
+            } else {
+                setError(`Failed to delete vendors ${responseData.errorMessage}`)
+            }
+        } catch (err) {
+            setError(`Error deleting vendors`)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -143,7 +225,7 @@ export default function ManageVendorForm({ params }) {
 
     return (
         <div className={styles.container}>
-            {success && <Success params={{success, setSuccess}} />}
+            {success && <Success params={{success, setSuccess, reload: true}} />}
             {error && <Error params={{error, setError}} />}
             {loading ? <Loading scale="200" /> :
             <form className={styles.root} onSubmit={event => handleSubmit(event)}>
@@ -159,17 +241,18 @@ export default function ManageVendorForm({ params }) {
                     <table className={styles.email_table}>
                         <thead>
                             <tr>
+                                <th className={styles.toggle}>
+                                    <button onClick={event => toggleAll(event)}>
+                                        Toggle
+                                    </button>
+                                </th>
                                 {accept ? (
-                                    <th className={styles.toggle}>
-                                        <button onClick={event => toggleAll(event)}>
-                                            Toggle
-                                        </button>
-                                    </th>
+                                    <></>
                                 )
                                 :
                                 (
                                     <th className={styles.toggle}>
-                                        Remove
+                                        Revoke
                                     </th>
                                 )
                                 }
@@ -185,28 +268,37 @@ export default function ManageVendorForm({ params }) {
                                 searchResults.length ?
                                 searchResults.map(tableUser => {
                                         return (
-                                            <tr key={tableUser._id}>
-                                                <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        id={tableUser._id}
-                                                        checked={formData.emails?.includes(tableUser.email)}
-                                                        onChange={() => handleCheckboxChange(tableUser)}
+                                                <tr key={tableUser._id}>
+                                                    <td>
+                                                        <input
+                                                            type="checkbox"
+                                                            id={tableUser._id}
+                                                            checked={formData.vendors?.some(vendor => vendor.id == tableUser._id)}
+                                                            onChange={() => handleCheckboxChange(tableUser)}
                                                         />
-                                                </td>
-                                                <td>
-                                                    {tableUser.name}
-                                                </td>
-                                                <td>
-                                                    {tableUser.email}
-                                                </td>
-                                                <td>
-                                                    {tableUser.description}
-                                                </td>
-                                                <td>
-                                                    {tableUser.tags.join(", ")}
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    {accept?
+                                                        <></>
+                                                        :
+                                                        <td>
+                                                            <button type="button" onClick={() => handleRevoke(tableUser._id)}>
+                                                                Revoke
+                                                            </button>
+                                                        </td>
+                                                    }
+                                                    <td>
+                                                        {tableUser.name}
+                                                    </td>
+                                                    <td>
+                                                        {tableUser.email}
+                                                    </td>
+                                                    <td>
+                                                        {tableUser.description}
+                                                    </td>
+                                                    <td>
+                                                        {tableUser.tags.join(", ")}
+                                                    </td>
+                                                </tr>
                                         )
                                     })
                                     :
@@ -217,6 +309,7 @@ export default function ManageVendorForm({ params }) {
                         </tbody>
                     </table>
                 </div>
+                <button type="button" onClick={handleDelete}>Delete all selected vendors from database</button>
                 {accept? (
                     <>
                         <div className={styles.titleBox}>
@@ -242,7 +335,7 @@ export default function ManageVendorForm({ params }) {
                     </>
                 )
                     : 
-                    'reject'
+                    <p></p>
                 }
                 
             </form>
