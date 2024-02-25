@@ -7,7 +7,11 @@ import Image from 'next/image'
 const Carousel = ({ params }) => {
   let { imagePreviews, images, setImages, edit } = params
   const [currentIndex, setCurrentIndex] = useState(0);
-  imagePreviews ??= images.map(image => image.preview)
+
+  if (images.length) {
+    imagePreviews += images.map(image => image.preview)
+  }
+
   console.log(images)
 
   const removeImage = (event, imageName) => {
@@ -32,7 +36,7 @@ const Carousel = ({ params }) => {
     <div className={styles.carousel}>
       <Image 
         className={styles.image}
-        src={imagePreviews[currentIndex]} 
+        src={imagePreviews[currentIndex] || "https://res.cloudinary.com/dvlb9ylqb/image/upload/v1708461361/cld-sample-5.jpg"} 
         alt={`Slide ${currentIndex}`} 
         width={700}  
         height={400}  

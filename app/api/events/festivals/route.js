@@ -158,10 +158,9 @@ export const DELETE = async (request) => {
 
 		existingFestival.images.map(async (imageURL) => {
 			try {
-
 				await deleteImage(imageURL)
 			} catch (error) {
-				console.error(error)
+				console.error(`Error when deleting images from event: ${error}`)
 			}
 		})
 

@@ -4,6 +4,13 @@ import CustomUserContext from '@components/GlobalUserContext';
 
 const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
+# ------------------------------- URGENT FIXES ------------------------------- #
+
+Fix event form to show and update images with edit form
+Fix event api to delete any images no longer present in the PUT request 
+
+
+# ---------------------------------------------------------------------------- #
 
 AUTH0:
 Auth0 Audience is not needed
@@ -28,7 +35,8 @@ Volunteering page:
 - Style page
 
 Spanish support:
-- Remove translation button from calendar
+- Remove translation button from calendar 
+// This is necessary to have, the google translate messes up the calendar 
 
 User Dashboard:
 - Finish EmailForm
@@ -40,8 +48,6 @@ User Dashboard:
 BACKEND:
 
 API
-
-- Fix event api to delete any images no longer present in the PUT request 
 - Rework admin protected routes
 - Create 'isAccepted' function to make accepted vendor verification more modular
 - Test all volunteer routes

@@ -35,7 +35,7 @@ export default function EventForm({ params }) {
   const [success, setSuccess] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const [images, setImages] = useState(formData?.images || [])
+  const [images, setImages] = useState([])
 
   /* -------------------------------------------------------------------------- */
   /*                            flatpickr Date logic                            */
@@ -167,7 +167,7 @@ export default function EventForm({ params }) {
       setEndFlatpickrTimeInstance(fp)
     }
 
-  }, [error, success, loading])
+  }, [error, success, loading, formData.start, formData.end])
 
   /* -------------------------------------------------------------------------- */
   /*                              END OF FLATPICKR                              */
@@ -239,7 +239,7 @@ export default function EventForm({ params }) {
         imageData.append(`file`, image.file);
       })
 
-      // This api route SUCKS! but it works so I dont care
+      // This api route SUCKS! but it works so I don't care
       // Don't think about it too hard
       const uploadImages = await fetch('/api/image/upload', {
         method: 'POST',
@@ -293,6 +293,20 @@ export default function EventForm({ params }) {
       setLoading(false)
     }
   }
+
+  // When someone is editing events then set the images to be in the useState
+  useEffect(() => {
+    if (formData.images) {
+      const formImages = formData.images.map(image => {
+        return {
+          preview: image,
+          file: "Uploaded"
+        }
+      })
+
+      setImages(prev => [ ...prev, ...formImages ]) 
+    }
+  }, [formData.images])
   
   return (
     <>
@@ -395,18 +409,13 @@ export default function EventForm({ params }) {
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>{images.length} Images</legend>
           { !loading ?
-          images ? 
             (images.length !== 0 ? 
-                <Carousel params={{ images, setImages, edit: true }} />
+                <Carousel params={{ imagePreviews: formData.images, images, setImages, edit: true }} />
                 :
                 <div>
                     No images found
                 </div>
             )
-            :
-            <div>
-                No images found
-            </div>
             :
             <Loading />
           }
