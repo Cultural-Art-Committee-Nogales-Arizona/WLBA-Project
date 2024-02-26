@@ -178,7 +178,7 @@ async function hash(input) {
 }
 
 /* ----------------------- Upload Image to Cloudinary ----------------------- */
-/* 
+
 async function uploadImages(request) {
   const formData = await request.formData()
     
@@ -194,43 +194,43 @@ async function uploadImages(request) {
   const imageResponse = await imageUpload.json();
   console.log(imageResponse);
   return imageResponse
-} */
+}
 
 /* --------------------- Delete an image from Cloudinary -------------------- */
 
-async function deleteImage(imageURL) {
+async function deleteImages(imageArray) {
   try {
+    const returnedData = []
+    const promises = imageArray.map(async image => {
+      const response = await fetch(`/api/image/delete`, {
+        method: 'POST',
+        /* headers: {
+          'Content-type': 'Application/json'
+        }, */
+        body: JSON.stringify({ imageUrl: image })
+      })
 
-      const parts = imageURL.split('/');
-      // Find the last part of the URL, which contains the filename
-      const filename = parts[parts.length - 1];
-      // Split the filename by ".", and get the part before ".jpg"
-      const publicId = filename.split('.')[0];
+      returnedData.push(await response.json())
 
-      // const encryptKeys = btoa(`${cloudinaryConfig.cloud.api_key}:${cloudinaryConfig.cloud.api_secret}`);
-      const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud.cloud_name}/resources/image/destroy`,
-          {
-              method: 'POST',
-              headers: {
-                  'Authorization': `Basic ${cloudinaryConfig.cloud.api_key}:${cloudinaryConfig.cloud.api_secret}`,
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ public_ids: [publicId] })
-          }
-      );
-
-      if (response.ok) {
-          const data = await response.json();
-          console.log('Image deleted successfully:', data);
-          return data;
+      /* if (returnedData.success) {
+        console.log('Images deleted successfully:', data);
+        return returnedData;
       } else {
-          console.error('Failed to delete image');
-          throw new Error('Failed to delete image');
-      }
+        console.error('Failed to delete image');
+        throw new Error('Failed to delete image');
+      } */
+    })
+
+    await Promise.all(promises)
+
+    return {
+      success: true,
+      message: "Deleted all images on event from Cloudinary",
+      data: returnedData
+    }
   } catch (error) {
-      console.error('Error occurred while deleting image:', error);
-      throw error;
+    console.error('Error occurred while deleting image:', error);
+    throw new Error(error.message)
   }
 }
 
@@ -240,4 +240,4 @@ async function deleteImage(imageURL) {
 // countVotes, 
 // isDuplicate, 
 // getUserWithID, 
-export { generateUserAuthID, isAdmin, hash, generateRecoveryToken, generateExpiryDate, deleteImage, /* uploadImages */ }
+export { generateUserAuthID, isAdmin, hash, generateRecoveryToken, generateExpiryDate, deleteImages, uploadImages }

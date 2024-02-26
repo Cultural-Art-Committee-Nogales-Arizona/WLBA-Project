@@ -31,6 +31,7 @@ export default function Calendar() {
 
 	const [dayData, setDayData] = useState([])
 	const [events, setEvents] = useState([])
+	const imagePreviews = event
 
 	/* ----------------------------- Custom buttons ----------------------------- */
 
@@ -187,7 +188,7 @@ export default function Calendar() {
 								event?.images.length ? 
 								<h5>
 									<span className={styles.key}>{event.images.length} Images:</span>
-									<Carousel params={{ imagePreviews: event.images }} />
+									<Carousel params={{ images: event.images }} />
 								</h5> : null
 							}
 						</div>

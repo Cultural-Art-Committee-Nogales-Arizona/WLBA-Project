@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Festival from "@/models/events/Festivals";
-import { isAdmin, deleteImage, uploadImages } from "@/utils/routeMethods";
+import { isAdmin, deleteImages, uploadImages } from "@/utils/routeMethods";
 import { headers } from 'next/headers'
 import cloudinary from '@/connections/cloudinary';
 
@@ -87,9 +87,7 @@ export const PUT = async (request) => {
 	const headerList = headers()
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
-	const { title, description, location, start, end } = await request.json();
+	const { title, description, location, start, end, images } = await request.json();
 
 	try {
 		await isAdmin(headerList) 
@@ -149,22 +147,20 @@ export const DELETE = async (request) => {
 
 		// Check if festival with given ID exists
 		if (!existingFestival) throw new Error(`Festival with _id ${festivalId} not found`);
-
-		await Festival.findByIdAndDelete(festivalId);
-
+		
 		/* ---------------------- Delete images off Cloudinary ---------------------- */
-
-		// const imagePublicIds = existingFestival.images.map(image => image.publicId);
-
-		existingFestival.images.map(async (imageURL) => {
+		if (existingFestival.images.length) {
 			try {
-				await deleteImage(imageURL)
+				console.log(existingFestival.images)
+				await deleteImages(existingFestival.images)
 			} catch (error) {
-				console.error(`Error when deleting images from event: ${error}`)
+				throw new Error("Failed to delete images from Cloudinary")
 			}
-		})
+		}
 
-		/* -------------------------------------------------------------------------- */		
+		/* -------------------------------------------------------------------------- */
+
+		await Festival.findByIdAndDelete(festivalId);		
 
 		return NextResponse.json({
 				success: true,

@@ -234,8 +234,13 @@ export default function EventForm({ params }) {
 
       // Upload the images to cloudinary,
       // This is the only way I could figure out how to use the backend API for this
+      const returnedImages = []
       const imageData = new FormData()
       images.forEach(image => {
+        if (image.file === "Uploaded") {
+          returnedImages.push(image.preview)
+          return
+        }
         imageData.append(`file`, image.file);
       })
 
@@ -248,6 +253,7 @@ export default function EventForm({ params }) {
       })
 
       const imageResponse = await uploadImages.json()
+      returnedImages.push(...imageResponse.data)
       
       if (!imageResponse.success) throw new Error(imageResponse.error)
 
@@ -268,7 +274,7 @@ export default function EventForm({ params }) {
           title: formData.title,
           description: formData.description,
           location: formData.location,
-          images: imageResponse.data
+          images: returnedImages
         })
       })
       
