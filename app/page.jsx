@@ -15,7 +15,7 @@ const artesaniaFont = localFont({
 })
 
 // I don't know why but importing this function breaks everything because of a random ASCII character
-// import { deleteImage } from '@/utils/routeMethods'
+// import { deleteImages } from '@/utils/routeMethods'
 
 
 export default function Index() {
