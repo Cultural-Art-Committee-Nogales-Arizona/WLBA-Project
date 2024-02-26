@@ -155,6 +155,12 @@ function VolunteerRequest() {
       })
 
       const result = await returnedData.json()
+
+      if(result.success){
+        setSuccess('Successfully contacted all volunteers')
+      } else {
+        setError(result.errorMessage)
+      }
       console.log(result)
       setLoading(false)
     } catch (error) {
@@ -187,7 +193,7 @@ function VolunteerRequest() {
             <table className={styles.email_table}>
               <thead>
                 <tr>
-                  <th className={styles.toggle}><button onClick={toggleAll}>Toggle All</button></th>
+                  <th className={styles.toggle}><button type="button" onClick={toggleAll}>Toggle All</button></th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Interest</th>
