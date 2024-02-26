@@ -26,6 +26,8 @@ import PageLink from './PageLink'
 import AnchorLink from './AnchorLink'
 import ChangeLanguage from './LanguageButton'
 
+import Cookies from 'js-cookie'
+
 const NavBar = () => {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   // ! const [adminAuthId, setAdminAuthId] = useSessionStorage("adminAuthId", "")
@@ -33,10 +35,11 @@ const NavBar = () => {
   const { user, isLoading } = useUser()
   const toggle = () => setIsOpen(!isOpen)
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // Perform any cleanup tasks here (e.g., clear sessionStorage)
     // ! setAdminAuthId("")
-    sessionStorage.removeItem("adminAuthId")
+    Cookies.remove('token', { path: '/api' })
+    sessionStorage.removeItem('adminAuthId')
   }
 
   // Fetch custom user data when the component mounts
@@ -46,20 +49,21 @@ const NavBar = () => {
     try {
 
       if (user) {
-        // console.log(user)
-        let name = user.given_name ?? user.name
+        const token = Cookies.get('token')
+        console.log(token)
 
         // ! setAdminAuthId(globalUserData.adminAuthId)
-        const adminAuthId = sessionStorage.getItem('adminAuthId');
+        const adminAuthId = sessionStorage.getItem('adminAuthId') || "";
 
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
           // Perform your fetch to get custom user data
-          const response = await fetch(`/api/user/account?name=${name}`, { signal, method: 'GET' })
+          const response = await fetch(`/api/user/account?email=${user.nickname}`, { signal, method: 'GET' })
+
           if (response.ok) {
             const responseData = await response.json()
-
-
+            console.log(responseData)
+            
             setGlobalUserData(prev => ({
               ...prev,
               ...responseData.data,
@@ -75,9 +79,15 @@ const NavBar = () => {
     }
     
   }, [user?.name])
+
+  const bruh = () => {
+    const token = Cookies.get();
+        console.log(token)
+  }
   
   return (
     <div className={styles.nav_container} data-testid="navbar" >
+      <button onClick={bruh}> burh</button>
       <Navbar className={styles.navbar}  expand="md">
         <a href="/">
           <Logo scale="75" />

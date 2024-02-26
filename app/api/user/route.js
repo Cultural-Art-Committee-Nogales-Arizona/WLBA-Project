@@ -4,10 +4,12 @@ import { isAdmin } from "@/utils/routeMethods";
 import { headers } from "next/headers";
 
 export const GET = async (request) => {
-    const headerList = headers()
+    const token = request.cookies.get('token')
 
     try{
-		await isAdmin(headerList) 
+        if (!token) throw new Error("BAD REQUEST: No cookies found")
+
+		await isAdmin(token.value) 
 
         const users = await User.find()
 
@@ -22,7 +24,7 @@ export const GET = async (request) => {
 
         return NextResponse.json({
             success: true,
-            message: `Successfully found user`,
+            message: `Successfully found users`,
             data: data
         }, {
             status: 200
@@ -40,7 +42,6 @@ export const GET = async (request) => {
 }
 
 export const POST = async (request) => {
-    //We could run a POST request each time a user signs with Auth0, store their information if it isn't already in the database, and return it if it is. 
     const {username, email} = await request.json()
 
     try{
@@ -88,11 +89,6 @@ export const POST = async (request) => {
             status: 500
         })
     }
-    /* 
-    Do keep in mind the purpose of this is simply to have access to the user's database
-    ID in the frontend so that information specific to them can be fetched such as vendors or admin status. 
-    We might want to look into using JWT to modify the auth0 session object to add the user's database ID 
-    */
 }
 
 export const PUT = async (request) => {
@@ -139,12 +135,14 @@ export const PUT = async (request) => {
 }
 
 export const DELETE = async (request) => {
-    const headerList = headers()
+    const token = request.cookies.get('token')
     const searchParams = request.nextUrl.searchParams
     const deleteId = searchParams.get('deleteId') || ""
 
     try{
-        await isAdmin(headerList)
+        if (!token) throw new Error("BAD REQUEST: No cookies found")
+
+        await isAdmin(token.value)
 
         if (!deleteId) throw new Error("No userId query defined, you must append ?deleteId= to URL")
 

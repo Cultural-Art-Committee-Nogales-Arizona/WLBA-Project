@@ -46,12 +46,13 @@ export const GET = async (request) => {
 
 // add a festival to the database
 export const POST = async (request) => {
-	const headerList = headers()
-	const searchParams = request.nextUrl.searchParams;
+    const token = request.cookies.get('token')
 	const { title, description, location, start, end, images } = await request.json();
 
 	try {
-		await isAdmin(headerList)
+		if (!token) throw new Error("BAD REQUEST: No cookies found")
+
+		await isAdmin(token.value)
 
 		const result = await Festival.create({
 			title,
@@ -84,13 +85,15 @@ export const POST = async (request) => {
 
 // edit festival with _id
 export const PUT = async (request) => {
-	const headerList = headers()
+    const token = request.cookies.get('token')
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
 	const { title, description, location, start, end, images } = await request.json();
 
 	try {
-		await isAdmin(headerList) 
+		if (!token) throw new Error("BAD REQUEST: No cookies found")
+
+		await isAdmin(token.value) 
 
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("No Festival _id was defined");
@@ -133,12 +136,14 @@ export const PUT = async (request) => {
 
 // delete a festival with _id
 export const DELETE = async (request) => {
-	const headerList = headers()
+    const token = request.cookies.get('token')
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
 
 	try {
-		await isAdmin(headerList) 
+		if (!token) throw new Error("BAD REQUEST: No cookies found")
+
+		await isAdmin(token.value) 
 
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("You must append &festivalId= query to URL");

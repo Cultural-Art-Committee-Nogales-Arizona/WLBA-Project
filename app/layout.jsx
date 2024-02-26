@@ -6,7 +6,6 @@ import Footer from '../components/Footer';
 import { createContext, useEffect, useState } from 'react';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { CustomUserProvider } from '@components/GlobalUserContext'; // Update the path accordingly
-
 import styles from './page.module.css'
 
 export default function RootLayout({ children }) {
@@ -24,17 +23,17 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href="https://cdn.auth0.com/js/auth0-samples-theme/1.0/css/auth0-theme.min.css" />
       </head>
       <body>
-        <CustomUserProvider>
-          <UserProvider>
-            <main id="app" className="d-flex flex-column h-100" data-testid="layout">
-              <NavBar />
-              <div className='flex-grow-1'>
-                <div className={styles.mainDiv}>{children}</div>
-              </div>
-              <Footer />
-            </main>
-          </UserProvider>
-        </CustomUserProvider>
+          <CustomUserProvider>
+            <UserProvider>
+              <main id="app" className="d-flex flex-column h-100" data-testid="layout">
+                <NavBar />
+                <div className='flex-grow-1'>
+                  <div className={styles.mainDiv}>{children}</div>
+                </div>
+                <Footer />
+              </main>
+            </UserProvider>
+          </CustomUserProvider>
       </body>
     </html>
   );

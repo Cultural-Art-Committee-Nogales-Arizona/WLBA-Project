@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useContext }  from 'react'
+import { useState, useEffect, useContext } from 'react'
 import CustomUserContext from '@/components/GlobalUserContext'
 
 import ManageVendorForm from '@components/forms/ManageVendorForm'
@@ -18,9 +18,9 @@ function VolunteerRequest() {
   const [tableData, setTableData] = useState([])
 
   const [formData, setFormData] = useState({ 
-    subjectLine: "Accepted Vendor Registration", 
+    subjectLine: "Vendor permit suspended", 
     vendors: [],
-    message: `You have been approved as a vendor of Cultural Arts Committee of Nogales Arizona as of: 
+    message: `The Cultural Arts Committee of Nogales Arizona has revoked your vendor permit. Contact us if this is an error.: 
     ${new Date().toLocaleDateString()}`,
   })
 
@@ -34,7 +34,7 @@ function VolunteerRequest() {
       try {
         const response = await fetch('/api/vendor', { signal, method: 'GET' })
         const fetchedData = await response.json()
-        const filtered = fetchedData.data.filter(vendor => vendor.accepted == false)
+        const filtered = fetchedData.data.filter(vendor => vendor.accepted == true)
         setTableData(filtered)
         setLoading(false)
       } catch (error) {
@@ -54,9 +54,9 @@ function VolunteerRequest() {
     <div className={styles.container}>
       {/* {error ? <Error params={{error, setError}} /> : null} */}
       {/* Display table  */}
-      <h1>Incoming Vendors</h1>
+      <h1>List of accepted vendors</h1>
       { loading ? <Loading /> : 
-        <ManageVendorForm params={{tableData, contactRoute: "/api/vendor/accept", formData, setFormData, accept: true}} />
+        <ManageVendorForm params={{tableData, contactRoute: "/api/vendor/reject", formData, setFormData, accept: false}} />
       }
     </div>
   )

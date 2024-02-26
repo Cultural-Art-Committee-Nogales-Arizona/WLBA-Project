@@ -17,7 +17,6 @@ function Profile() {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const { user, isLoading } = useUser();
 
-
   return (
     <div className={styles.container}>
       {isLoading && <Loading />}

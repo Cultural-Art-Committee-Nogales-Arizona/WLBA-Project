@@ -7,7 +7,7 @@ const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
 AUTH0:
 
-
+Find out what the hell auth0 audience is
 
 FRONTEND:
 Add buttons for next and previous events on homepage calendar
@@ -20,6 +20,7 @@ fix volunteer form
 remove that 2px line below navbar
 finish vendor dashboard page
 finish vendor form page
+implement remove vendor
 
 Forms to build:
 - Create admin

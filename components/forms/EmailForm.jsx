@@ -94,10 +94,9 @@ export default function EmailForm({ params }) {
                 signal,
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': globalUserData.adminAuthId,
-                    'X-UserId': globalUserData._id
+                    'Content-Type': 'application/json'
                 },
+                credentials: "same-origin",
                 body: JSON.stringify({
                     subjectLine: formData.subjectLine,
                     emails: formData.emails,
