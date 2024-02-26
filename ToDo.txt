@@ -8,8 +8,6 @@ const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 AUTH0:
 Auth0 Audience is not needed
 
-Find out what the hell auth0 audience is
-
 FRONTEND:
 Add buttons for next and previous events on homepage calendar
 add loading for images in event form, disable buttons when loading
