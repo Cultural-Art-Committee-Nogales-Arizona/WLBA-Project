@@ -54,7 +54,7 @@ function VolunteerRequest() {
     <div className={styles.container}>
       {/* {error ? <Error params={{error, setError}} /> : null} */}
       {/* Display table  */}
-      <h1>Select vendors to accept</h1>
+      <h1>Incoming Vendors</h1>
       { loading ? <Loading /> : 
         <ManageVendorForm params={{tableData, contactRoute: "/api/vendor/accept", formData, setFormData, accept: true}} />
       }

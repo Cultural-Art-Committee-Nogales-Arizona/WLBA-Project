@@ -26,7 +26,6 @@ import PageLink from './PageLink'
 import AnchorLink from './AnchorLink'
 import ChangeLanguage from './LanguageButton'
 
-import clearToken from '@/app/actions'
 import Cookies from 'js-cookie'
 
 const NavBar = () => {
@@ -50,8 +49,8 @@ const NavBar = () => {
     try {
 
       if (user) {
-        const token = Cookies.get('token', { path: '/api' });
-        console.log(`Token: ${token}`)
+        const token = Cookies.get('token')
+        console.log(token)
 
         // ! setAdminAuthId(globalUserData.adminAuthId)
         const adminAuthId = sessionStorage.getItem('adminAuthId') || "";
@@ -80,9 +79,15 @@ const NavBar = () => {
     }
     
   }, [user?.name])
+
+  const bruh = () => {
+    const token = Cookies.get();
+        console.log(token)
+  }
   
   return (
     <div className={styles.nav_container} data-testid="navbar" >
+      <button onClick={bruh}> burh</button>
       <Navbar className={styles.navbar}  expand="md">
         <a href="/">
           <Logo scale="75" />

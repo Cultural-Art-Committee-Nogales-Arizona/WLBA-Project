@@ -11,6 +11,7 @@ export default function Success({ params }) {
     setSuccess(null);
     if (redirect) router.push(redirect)
     if (reload) router.refresh()
+    
   }; 
 
   return (
