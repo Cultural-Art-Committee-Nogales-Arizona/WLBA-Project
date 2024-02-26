@@ -4,9 +4,15 @@ import CustomUserContext from '@components/GlobalUserContext';
 
 const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
+# ------------------------------- URGENT FIXES ------------------------------- #
+
+Fix event form to show and update images with edit form
+Fix event api to delete any images no longer present in the PUT request 
+
+
+# ---------------------------------------------------------------------------- #
 
 AUTH0:
-Auth0 Audience is not needed
 
 FRONTEND:
 Add buttons for next and previous events on homepage calendar
@@ -14,7 +20,6 @@ add loading for images in event form, disable buttons when loading
 add deletion of images to EventForm
 
 Fixes:
-fix volunteer form
 remove that 2px line below navbar
 finish vendor dashboard page
 finish vendor form page
@@ -27,24 +32,15 @@ Volunteering page:
 - Style page
 
 Spanish support:
-- Remove translation button from calendar
 
 User Dashboard:
 - Finish EmailForm
 - Style page
-- Add admin login
-- Add admin dashboard
-- Add vendor registration
 
 BACKEND:
 
 API
-
-- Fix event api to delete any images no longer present in the PUT request 
-- Rework admin protected routes
-- Create 'isAccepted' function to make accepted vendor verification more modular
 - Test all volunteer routes
-- Move cloudinary to work backend
 
 API Documentation
 - Ensure consistency and readability
