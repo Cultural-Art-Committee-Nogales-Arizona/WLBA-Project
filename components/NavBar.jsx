@@ -79,15 +79,9 @@ const NavBar = () => {
     }
     
   }, [user?.name])
-
-  const bruh = () => {
-    const token = Cookies.get();
-        console.log(token)
-  }
   
   return (
     <div className={styles.nav_container} data-testid="navbar" >
-      <button onClick={bruh}> burh</button>
       <Navbar className={styles.navbar}  expand="md">
         <a href="/">
           <Logo scale="75" />
