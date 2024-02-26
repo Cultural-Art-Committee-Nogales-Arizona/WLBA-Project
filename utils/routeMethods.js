@@ -4,12 +4,16 @@
 
 import bcrypt from 'bcryptjs'
 import cloudinaryConfig  from '@/connections/cloudinary'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 /* ----------------------------- MongoDB Schemas ---------------------------- */
 
 // import Festival from '../models/events/Festivals'
 // import User from '@/models/users/User'
 import User from '@/models/users/User'
+import jwt from 'jsonwebtoken'
 
 /* ------------------------------- Count votes ------------------------------ */
 
@@ -130,17 +134,18 @@ function generateExpiryDate() {
 
 /* ------------------- Will throw an error if not an admin ------------------ */
 
-async function isAdmin(headerList) {
-  const adminToken = headerList.get('authorization')
-  const userId = headerList.get('x-userid')
+async function isAdmin(token) {
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+  const adminAuthId = decodedToken.adminAuthId
+  const userId = decodedToken.adminUserId
 
-  if (!adminToken) throw new Error("You must append authorization header")
+  if (!adminAuthId) throw new Error("You must append authorization header")
 	if (!userId) throw new Error("You must append user ID header")
 
   const user = await User.findOne({ _id: userId, admin: true })
   if (!user) throw new Error(`User not an admin and not allowed to preform API call`)
 
-  const adminIdMatch = await bcrypt.compare(user.adminAuthId, adminToken)
+  const adminIdMatch = await bcrypt.compare(user.adminAuthId, adminAuthId)
   if (adminIdMatch) return true
   
   throw new Error(`User not an admin and not allowed to preform API call`)

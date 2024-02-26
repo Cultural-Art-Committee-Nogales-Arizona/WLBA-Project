@@ -10,7 +10,8 @@ export default function Sidebar() {
       <a href="/dashboard/edit-event" className={styles.nav_link}>Edit Event</a>
       <hr />
       <h2>Vendors</h2>
-      <a href="/dashboard/accept-vendors" className={styles.nav_link}>Accept Vendors</a>
+      <a href="/dashboard/accept-vendors" className={styles.nav_link}>Incoming Vendors</a>
+      <a href="/dashboard/manage-vendors" className={styles.nav_link}>Manage Accepted Vendors</a>
       <hr />
       <h2>Volunteers</h2>
       <a href="/dashboard/request-volunteers" className={styles.nav_link}>Request</a>

@@ -29,7 +29,7 @@ function VolunteerRequest() {
       try {
         const response = await fetch('/api/events/volunteer', { signal, method: 'GET' });
         const fetchedData = await response.json();
-        setAllVolunteers(fetchedData.data);
+        setAllVolunteers(fetchedData.data)
         setSearchResults(fetchedData.data)
         setLoading(false)
       } catch (error) {
@@ -147,9 +147,8 @@ function VolunteerRequest() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': globalUserData.adminAuthId,
-          'X-UserId': globalUserData._id
         },
+        credentials: "same-origin",
         body: JSON.stringify(formData) 
       })
 

@@ -7,12 +7,13 @@ dotenv.config()
 
 // We need to learn reactMail to make the emails nicer
 export const POST = async (request) => {
-  const headerList = headers()
+  const token = request.cookies.get('token')
 
   try {
-    const { emails, subjectLine, message } = await request.json();
+    const { emails, subjectLine, message } = await request.json()
+    if (!token) throw new Error("BAD REQUEST: No cookies found")
         
-		await isAdmin(headerList) 
+		await isAdmin(token.value) 
 
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({

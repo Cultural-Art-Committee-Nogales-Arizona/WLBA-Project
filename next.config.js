@@ -7,4 +7,7 @@ module.exports = {
     defaultLocale: 'en-US',
     locales: ['en-US', 'es-US'],
   },
+  experimental: {
+    serverActions: true,
+  }
 };

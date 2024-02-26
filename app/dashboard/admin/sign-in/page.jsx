@@ -8,16 +8,24 @@ import Error from '@/components/overlays/Error'
 import Success from '@/components/overlays/Success'
 import styles from './page.module.css'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function AdminSignIn() {
+  const router = useRouter()
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const [error, setError] = useState(false)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: ""
   })
+
+  useEffect(() => {
+    if(globalUserData.adminAuthId){
+      router.push('/dashboard')
+    }
+  }, [globalUserData])
 
   const handleInput = (event) => {
     const { id, value } = event.target
@@ -32,7 +40,7 @@ export default function AdminSignIn() {
     event.preventDefault()
 
     try {
-      let API_STRING = `/api/admin?username=${credentials.username}&password=${credentials.password}&userId=${globalUserData._id}`
+      let API_STRING = `/api/admin?email=${credentials.email}&password=${credentials.password}&userId=${globalUserData._id}`
       const response = await fetch(API_STRING, { method: 'GET' })
 
       const returnedAdmin = await response.json()
@@ -50,7 +58,7 @@ export default function AdminSignIn() {
         }))
         setSuccess('Signed in as Admin')
       } else {
-        setError(`Request Failed: ${returnedAdmin.message}`)
+        setError(`Request Failed: ${returnedAdmin.errorMessage}`)
       }
     } catch (err) {
       if (err.name === 'AbortError') {
@@ -70,11 +78,11 @@ export default function AdminSignIn() {
       {success ? <Success params={{success, setSuccess}} /> : null}
       <form onSubmit={handleSubmit}>
         <div className="formGroup">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
           <input 
-            id="username" 
-            type="text" 
-            value={credentials.username}
+            id="email" 
+            type="email" 
+            value={credentials.email}
             onChange={event => handleInput(event)}
           />
         </div>

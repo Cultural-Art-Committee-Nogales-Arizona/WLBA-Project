@@ -6,12 +6,39 @@
   height: 500px;
 }
 
-.headText > h1 {
+.headText h1 {
   font-size: 100px;
 }
 
-.headText span {
+/* Color first letter */
+.headText h1::first-letter {
   color: var(--blue-accent);
+}
+
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.callToAction {
+  /* border: solid white 2px; */
+  border: none;
+  border-radius: 10px;
+  background-color: var(--dark-red);
+  width: 120px;
+  color: white;
+  padding: 5px;
+  text-decoration: none;
+  font-size: x-large;
+  text-align: center;
+}
+
+.callToAction:hover {
+  color: white;
+  background-color: #400000;
+  text-decoration: none;
 }
 
 /* Jaden's Code */

@@ -22,6 +22,7 @@ export default function EditEventPage() {
     description: "",
     images: [],
   })
+  const [initialImages, setInitialImages] = useState([])
 
   const handleEventChange = (event) => {
     if (event.target.value === "") {
@@ -64,10 +65,9 @@ export default function EditEventPage() {
         signal, 
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': globalUserData.adminAuthId,
-          'X-UserId': globalUserData._id
-        } 
+          'Content-Type': 'application/json'
+        },
+        credentials: "same-origin"
       })
       const data = await response.json()
       console.log(data)
@@ -107,7 +107,8 @@ export default function EditEventPage() {
 				.then(res => res.json())
 
         setEvents(fetchedData.data)
-        console.log(fetchedData)
+        setInitialImages(fetchedData.data.images)
+        console.log(fetchedData.data.images)
       } catch (error) {
         if (error.name === 'AbortError') {
           console.log('Fetch aborted')

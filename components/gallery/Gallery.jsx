@@ -1,5 +1,5 @@
 import React from 'react';
-import imageExports from "@/utils/ImportGalleryImages";
+import imageExports from "@utils/ImportDirectorInformation";
 import GalleryImage from './GalleryImage';
 import styles from './Gallery.module.css'
 

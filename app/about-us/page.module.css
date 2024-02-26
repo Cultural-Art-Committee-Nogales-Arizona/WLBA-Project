@@ -1,5 +1,5 @@
-.header{
-    /* background-image: url(/public/Images/aboutUs.jpg); */
+/* .header{
+    background-image: url(/public/Images/aboutUs.jpg);
     background-color:  var(--dark-red);
     text-align: center;
     width: 100%;
@@ -47,6 +47,74 @@
     height: 320px;
     margin-left: 30px;
   }
+ */
+ .aboutUsContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+ }
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.callToAction {
+    /* border: solid white 2px; */
+    border: none;
+    border-radius: 10px;
+    background-color: var(--dark-red);
+    width: 150px;
+    color: white;
+    padding: 5px;
+    text-decoration: none;
+    font-size: x-large;
+    text-align: center;
+
+}
+
+.callToAction:hover {
+    color: white;
+    background-color: #400000;
+    text-decoration: none;
+}
+
+.headText {
+    top: 300px;
+    position: absolute;
+    width: 470px;
+    height: 500px;
+}
+
+.headText > div >h1 {
+    font-size: 100px;
+    text-align: center;
+    color: white;
+}
+
+/* Color first letter */
+.headText>div>h1::first-letter {
+    color: var(--blue-accent);
+}
+
+.headText > div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* -------------------------------- Directors ------------------------------- */
+.boardOfDirectors {
+    margin-left: 40px;
+}
+
+.directorContainer {
+    display: flex;
+    width: 100vw;
+    overflow-x: scroll;
+    gap: 20px;
+}
 
   
 /*=================================*/

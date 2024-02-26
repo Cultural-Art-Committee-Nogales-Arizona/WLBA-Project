@@ -8,10 +8,6 @@ import heroImage from "@/public/Images/BackgroundImg.jpg";
 import Logo from '@/public/Logo';
 import Hero from '@/components/Hero'
 
-
-import ImageUpload from '@components/forms/ImageUpload'
-import Carousel from '@/components/gallery/Carousel'
-
 import localFont from 'next/font/local'
 const artesaniaFont = localFont({
   src: '../public/fonts/ARTESANIA.ttf',
@@ -80,16 +76,16 @@ export default function Index() {
       </div> */}
       <Hero params={{heroImage}} />
       <div className={`${styles.headText} ${artesaniaFont.className}`}>
-        <h1>
-          <span>C</span>ultural<br/>
-          <span>A</span>rts<br/>
-          <span>C</span>ommittee of<br/>
-          <span>N</span>ogales<br/>
-          <span>A</span>rizona
-        </h1>
-        <br />
-        <br />
         <div>
+          <h1>Cultural</h1>
+          <h1>Arts</h1>
+          <h1>Committee of</h1>
+          <h1>Nogales</h1>
+          <h1>Arizona</h1>
+        </div>
+        <br />
+        <br />
+        <div className={styles.buttonContainer}>
           <a className={styles.callToAction} href="#events">View Events</a>
         </div>
       </div>
