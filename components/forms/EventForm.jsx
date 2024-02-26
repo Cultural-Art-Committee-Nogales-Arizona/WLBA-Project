@@ -416,7 +416,7 @@ export default function EventForm({ params }) {
           <legend className={styles.legend}>{images.length} Images</legend>
           { !loading ?
             (images.length !== 0 ? 
-                <Carousel params={{ imagePreviews: formData.images, images, setImages, edit: true }} />
+                <Carousel params={{ images, setImages, edit: true }} />
                 :
                 <div>
                     No images found

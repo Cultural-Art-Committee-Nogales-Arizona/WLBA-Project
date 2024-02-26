@@ -5,17 +5,16 @@ import styles from './Carousel.module.css';
 import Image from 'next/image'
 
 const Carousel = ({ params }) => {
-  let { images, setImages, edit } = params
+  let { imagePreviews, images, setImages, edit } = params
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // if (images.length && !images[0].preview) {
-    images = images.map(image => image.preview)
-  // }
-
-  useEffect(() => {
-    console.log(images)
-  }, [images])
-
+  if (!images) {
+    images = imagePreviews.map(image => ({
+      preview: image,
+      file: "Uploaded"
+    }))
+  }
+  
   const removeImage = (event, imageName) => {
     event.preventDefault()
     console.log(imageName)
@@ -36,13 +35,15 @@ const Carousel = ({ params }) => {
 
   return (
     <div className={styles.carousel}>
-      <Image 
+      { images[currentIndex] && 
+        <Image 
         className={styles.image}
         src={images[currentIndex].preview || "https://res.cloudinary.com/dvlb9ylqb/image/upload/v1708461361/cld-sample-5.jpg"} 
         alt={`Slide ${currentIndex}`} 
         width={700}  
         height={400}  
-      />
+        />
+      }
       <div className={styles.buttons}>
         <button className={styles.button} onClick={event => goToPrevSlide(event)}>Previous</button>
         <span className={styles.button}>{currentIndex + 1}</span>

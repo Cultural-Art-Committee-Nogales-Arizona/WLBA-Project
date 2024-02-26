@@ -188,7 +188,7 @@ export default function Calendar() {
 								event?.images.length ? 
 								<h5>
 									<span className={styles.key}>{event.images.length} Images:</span>
-									<Carousel params={{ images: event.images }} />
+									<Carousel params={{ imagePreviews: event.images }} />
 								</h5> : null
 							}
 						</div>
