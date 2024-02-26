@@ -30,14 +30,19 @@ export default function VolunteerSignUp() {
     <>
       <Hero params={{ heroImage }} />
       <div className={`${styles.headText} ${artesaniaFont.className}`}>
-        <h1><span>V</span>olunteer</h1>
+        <div>
+          <h1>Volunteer</h1>
+        </div>
+        <div className={styles.buttonContainer}>
+          <a className={styles.callToAction} href="#volunteer">Sign up</a>
+        </div>
       </div>
       <div className={styles.mainDiv}>
         <h4>
           If you're interested in volunteering for one of our cultural celebrations
           please contact us using the form below:
         </h4>
-        <br />
+        <br  id="volunteer" />
         <VolunteerForm params={{ formData, setFormData, requestMethod }} />
       </div>
     </>
