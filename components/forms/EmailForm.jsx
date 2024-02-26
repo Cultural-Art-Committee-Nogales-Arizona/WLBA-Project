@@ -16,9 +16,11 @@ export default function EmailForm({ params }) {
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
     // This was breaking it, we need to look into it
     // const router = useRouter()
-    const { tableData, formData, setFormData } = params
+    let { tableData, formData, setFormData } = params
     // Api route needs to be mutable
     let { contactRoute } = params
+
+    tableData ??= [{ name: "", email: "", description: "", tags: [], _id: 1}]
 
     const [searchResults, setSearchResults] = useState([...tableData])
 

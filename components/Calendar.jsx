@@ -138,13 +138,14 @@ export default function Calendar() {
 				dayData &&
 				dayData.map((event, index) => (
 					<div key={event._id}>
+						<br /> <br /><br />
 						<h1>Title: {event.title}</h1>
 						<div className={styles.eventDetails}>
 							<h5><span className={styles.key}>Start Date:</span> {new Date(event.start).toLocaleString()}</h5>
 							<h5><span className={styles.key}>End Date:</span> {new Date(event.end).toLocaleString()}</h5>
 							<h5><span className={styles.key}>Description:</span> {event.description}</h5>
 							<h5><span className={styles.key}>Location:</span> {event.location}</h5>
-							<h5><span className={styles.key}>{event.images.length} Images:</span><Carousel images={event.images} /></h5>
+							<h5><span className={styles.key}>{event.images.length} Images:</span><Carousel params={{ imagePreviews: event.images }} /></h5>
 						</div>
 						<hr />
 					</div>

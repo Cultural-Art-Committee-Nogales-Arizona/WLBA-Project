@@ -23,6 +23,5 @@
   grid-template-columns: auto;
   justify-content: center;
   justify-items: center;
-
-  border: solid black 1px;
+  margin-bottom: 10%;
 }
