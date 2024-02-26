@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
+const { mongoose, vendorDB } = require('@/connections/vendorDB')
 const Schema = mongoose.Schema
-const vendorDB = require('@/connections/vendorDB')
 require('dotenv').config()
 
 let vendorSchema = new Schema({

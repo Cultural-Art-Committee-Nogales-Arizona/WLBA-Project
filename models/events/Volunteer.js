@@ -1,6 +1,5 @@
-const mongoose = require("mongoose")
+const { mongoose, eventsDB } = require('@/connections/eventsDB')
 const Schema = mongoose.Schema
-const eventsDB = require('@/connections/eventsDB')
 require('dotenv').config()
 
 let volunteerSchema = new Schema({

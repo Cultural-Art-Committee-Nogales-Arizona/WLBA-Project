@@ -1,8 +1,6 @@
 //Similar to the admins collection, this will hold the ID's of all vendors who are approved by an admin. 
-
-const mongoose = require("mongoose");
+const { mongoose, vendorDB } = require('@/connections/vendorDB')
 const Schema = mongoose.Schema
-const vendorDB = require('@/connections/vendorDB')
 require('dotenv').config()
 
 let acceptedVendorSchema = new Schema({

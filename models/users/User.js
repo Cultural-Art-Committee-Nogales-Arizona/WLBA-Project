@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
+const { mongoose, userDB } = require('@/connections/userDB')
 const Schema = mongoose.Schema
-const userDB = require('@/connections/userDB')
 require('dotenv').config()
 
 
