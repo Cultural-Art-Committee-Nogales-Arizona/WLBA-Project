@@ -3,7 +3,6 @@
 /* -------------------------------------------------------------------------- */
 
 import bcrypt from 'bcryptjs'
-import cloudinaryConfig  from '@/connections/cloudinary'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -187,7 +186,7 @@ async function hash(input) {
 async function uploadImages(request) {
   const formData = await request.formData()
     
-  const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/dvlb9ylqb/image/upload`, {
+  const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`, {
       method: 'POST',
       body: formData,
   }); 
@@ -216,14 +215,6 @@ async function deleteImages(imageArray) {
       })
 
       returnedData.push(await response.json())
-
-      /* if (returnedData.success) {
-        console.log('Images deleted successfully:', data);
-        return returnedData;
-      } else {
-        console.error('Failed to delete image');
-        throw new Error('Failed to delete image');
-      } */
     })
 
     await Promise.all(promises)

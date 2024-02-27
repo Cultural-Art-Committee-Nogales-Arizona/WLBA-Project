@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import Festival from "@/models/events/Festivals";
 import { isAdmin, deleteImages, uploadImages } from "@/utils/routeMethods";
 import { headers } from 'next/headers'
-import cloudinary from '@/connections/cloudinary';
 
 // get either all festivals for display in the dashboard or calendar, or get closest festival
 export const GET = async (request) => {
@@ -103,6 +102,22 @@ export const PUT = async (request) => {
 		// Check if festival with given ID exists
 		if (!existingFestival) throw new Error(`Festival with _id ${festivalId} not found`)
 
+		const oldImages = existingFestival.images
+		const newImages = images
+		const imagesNotInNewRequest = oldImages.filter(item => !newImages.includes(item));
+
+		/* ------------------- Delete images that were edited out ------------------- */
+
+		try {
+			if (imagesNotInNewRequest.length) {
+				await deleteImages(imagesNotInNewRequest)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+
+		/* -------------------------------------------------------------------------- */
+
 		const festival = await Festival.findByIdAndUpdate(festivalId, {
 			title,
 			description,
@@ -154,9 +169,10 @@ export const DELETE = async (request) => {
 		if (!existingFestival) throw new Error(`Festival with _id ${festivalId} not found`);
 		
 		/* ---------------------- Delete images off Cloudinary ---------------------- */
+
 		if (existingFestival.images.length) {
 			try {
-				console.log(existingFestival.images)
+				// console.log(existingFestival.images)
 				await deleteImages(existingFestival.images)
 			} catch (error) {
 				throw new Error("Failed to delete images from Cloudinary")

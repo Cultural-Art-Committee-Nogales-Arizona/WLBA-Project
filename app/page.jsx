@@ -19,7 +19,8 @@ const artesaniaFont = localFont({
 
 
 export default function Index() {
-  const [nextEvent, setNextEvent] = useState(null)
+  // We no longer need this as we have moved the whole calendar to the front page
+  /* const [nextEvent, setNextEvent] = useState(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -53,7 +54,7 @@ export default function Index() {
     fetchData()
 
     return () => controller.abort()
-  }, [])
+  }, []) */
 
   return (
     <>

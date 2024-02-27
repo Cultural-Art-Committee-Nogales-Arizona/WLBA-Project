@@ -167,7 +167,7 @@ export default function EventForm({ params }) {
       setEndFlatpickrTimeInstance(fp)
     }
 
-  }, [error, success, loading, formData.start, formData.end])
+  }, [error, success, loading, eventId])
 
   /* -------------------------------------------------------------------------- */
   /*                              END OF FLATPICKR                              */
@@ -181,6 +181,10 @@ export default function EventForm({ params }) {
       [id]: value,
     }))
   }
+
+  useEffect(() => {
+console.log(images)
+  }, [images])
 
   const resetForm = () => {
     if (startFlatpickrTimeInstance) {
@@ -204,11 +208,7 @@ export default function EventForm({ params }) {
     const startingDate = combineDateAndTime(startDatePicker.current.value, startTimePicker.current.value)
     const endingDate = combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value)
 
-    // eventId ONLY ever is selectEvent when you select the "Select an event" option
-    if (eventId === 'selectEvent') {
-      setError("Please select an event")
-      return
-    }
+    
     
     // Logic to disallow broken times
     if (!startingDate) {
@@ -220,7 +220,19 @@ export default function EventForm({ params }) {
       setError("End Date and End Time must be defined")
       return
     }
-    
+
+    setFormData(prev => ({
+      ...prev,
+      start: startingDate,
+      end: endingDate
+    }))
+
+    // eventId ONLY ever is selectEvent when you select the "Select an event" option
+    if (eventId === 'selectEvent') {
+      setError("Please select an event")
+      return
+    }
+
     if (startingDate >= endingDate) {
       setError("Start date must happen before End date")
       return
@@ -252,6 +264,7 @@ export default function EventForm({ params }) {
         duplex: true 
       })
 
+      // This is dumb, but it work, so me no care
       const imageResponse = await uploadImages.json()
       returnedImages.push(...imageResponse.data)
       
@@ -312,6 +325,10 @@ export default function EventForm({ params }) {
       setImages(prev => [ ...prev, ...formImages ]) 
     }
   }, [formData.images])
+
+  useEffect(() => {
+    console.log(formData)
+  }, [formData])
   
   return (
     <>

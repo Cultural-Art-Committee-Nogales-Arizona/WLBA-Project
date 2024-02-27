@@ -30,8 +30,8 @@ export const POST = async (request) => {
     }
 
     // Signature parameters
-    const API_KEY = "578141593239547"
-    const API_SECRET = 'FwLekwqMLHgOvucXuGE6hIMRhL4' /*  process.env.API_KEY */
+    const API_KEY = process.env.API_KEY
+    const API_SECRET = process.env.API_SECRET
     const currentTime = Date.now()
     const { imageUrl } = await request.json()
     console.log(`ImageUrl: ${imageUrl}`)
