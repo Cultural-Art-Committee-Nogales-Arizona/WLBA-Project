@@ -4,7 +4,7 @@ import SandraKory from '@/public/Images/directors/kory.jpg';
 import JaimePazYPuente from '@/public/Images/gallery/IMG_3899.JPG';
 import SilviaAcosta from '@/public/Images/gallery/IMG_3911.JPG';
 import ReynaArmenta from '@/public/Images/gallery/IMG_3914.JPG';
-import LuciaBojorquez from '@/public/Images/gallery/IMG_3922.JPG';
+import LuciaBojorquez from '@/public/Images/gallery/IMG_3914.JPG';
 import GabrielaCampaña from '@/public/Images/gallery/IMG_3928.JPG';
 import SandraMoraga from '@/public/Images/gallery/IMG_3930.JPG';
 import OctavioMoraga from '@/public/Images/gallery/IMG_7150.jpg';
