@@ -1,5 +1,6 @@
 import React from 'react';
 import PageLink from './PageLink';
+import GoogleMap from './GoogleMap'
 import styles from './Footer.module.css'
 
 const Footer = () => (
@@ -34,7 +35,8 @@ const Footer = () => (
       <p>Nogales, Arizona 85621</p>
       <p>©Cultural Arts Committee of Nogales Arizona </p>
     </div>
-
+    {/* We MIGHT implement this */}
+    {/* <GoogleMap /> */}
   </footer>
 );
 

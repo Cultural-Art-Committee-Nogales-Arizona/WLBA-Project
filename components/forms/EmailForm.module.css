@@ -66,21 +66,19 @@
   min-width: 250px; 
 }
 
-.container {
-  background-color: white;
-}
 /* -------------------------------------------------------------------------- */
 
 .container {
   display: flex;
-  width: 1000px;
+  width: 100%;
   justify-content: center;
+  background-color: white;
 }
 
 .root {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 50%;
   min-height: fit-content;
   align-items: center;
   border-radius: 10px;

@@ -71,6 +71,7 @@ export default function AdminSignIn() {
     <div>
       {error ? <Error params={{error, setError}} /> : null}
       {success ? <Success params={{success, setSuccess}} /> : null}
+      <h1>Sign in to use Admin features</h1>
       <form onSubmit={handleSubmit}>
         <div className="formGroup">
           <label htmlFor="email">Email</label>
