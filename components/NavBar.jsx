@@ -33,8 +33,6 @@ const NavBar = () => {
   const toggle = () => setIsOpen(!isOpen)
 
   const handleLogout = async () => {
-    // Perform any cleanup tasks here (e.g., clear sessionStorage)
-    // ! setAdminAuthId("")
     Cookies.remove('token', { path: '/' })
   }
 

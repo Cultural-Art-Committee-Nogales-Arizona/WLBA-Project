@@ -45,16 +45,11 @@ export default function AdminSignIn() {
 
       const returnedAdmin = await response.json()
 
-      if (returnedAdmin.success) {
-        const adminAuthId = returnedAdmin.data.adminAuthId;
-        
-        // Set adminAuthId to sessionStorage
-        sessionStorage.setItem('adminAuthId', adminAuthId);
-        
+      if (returnedAdmin.success) {        
         setGlobalUserData(prev => ({
           ...prev,
           admin: true,
-          adminAuthId: adminAuthId
+          adminAuthId: true
         }))
         setSuccess('Signed in as Admin')
       } else {

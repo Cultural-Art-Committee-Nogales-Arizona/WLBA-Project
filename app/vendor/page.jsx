@@ -4,6 +4,8 @@ import { useContext, useState, useEffect } from 'react';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Loading from '@components/overlays/Loading';
 import ErrorMessage from '@components/overlays/ErrorMessage';
+import Error from '@components/overlays/Error';
+import Success from '@components/overlays/Success';
 import CustomUserContext from '@components/GlobalUserContext'; 
 import styles from './page.module.css'
 import Link from 'next/link';
@@ -13,6 +15,8 @@ function VendorCenter() {
   const [userVendors, setUserVendors] = useState([])
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const { user, isLoading } = useUser();
+  const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -37,10 +41,45 @@ function VendorCenter() {
     return () => controller.abort()
   }, [globalUserData])
 
+  const handleDelete = async (vendor) => {
+      setLoading(true)
+      const controller = new AbortController()
+      const signal = controller.signal
+
+      try{
+          
+          const response = await fetch('/api/vendor', {
+              signal,
+              method: 'DELETE',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              credentials: "same-origin",
+              body: JSON.stringify({
+                  vendors: [vendor]
+              })
+          })
+
+          const responseData = await response.json()
+
+          if (responseData.success) {
+              // router.push('/vendor')
+              setSuccess(responseData.message)
+          } else {
+              setError(`Failed to delete vendors ${responseData.errorMessage}`)
+          }
+      } catch (err) {
+          setError(`Error deleting vendors`)
+      } finally {
+          setLoading(false)
+      }
+  }
+
   return (
     <>
       {isLoading && <Loading />}
-      {/* Temporary link */}
+      { error && <Error params={{ error, setError }} /> }
+      { success && <Success params={{ success, setSuccess, reload: true }} /> }
       {globalUserData ? <h1>Welcome {globalUserData.username}</h1> : null}
       <h3>Vendor dashboard</h3>
       
@@ -84,6 +123,9 @@ function VendorCenter() {
                 </td>
                 <td>
                   <Link href={`/vendor/edit?vendorId=${vendor._id}&name=${vendor.name}&description=${vendor.description}&tags=${vendor.tags}&email=${vendor.email}`}>Edit</Link>
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(vendor._id)}>Delete</button>
                 </td>
               </tr>
             )
