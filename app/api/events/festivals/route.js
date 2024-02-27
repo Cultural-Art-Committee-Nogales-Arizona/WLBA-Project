@@ -15,7 +15,7 @@ export const GET = async (request) => {
 		function returnNextEvent(events) {
 			// Find the first event whose date is larger then the current date
 			const rightNow = new Date();
-			return events.find((event) => new Date(event.start) > rightNow);
+			return events.find((event) => new Date(event.end) > rightNow);
 		}
 
 		const nextEvent = returnNextEvent(result);

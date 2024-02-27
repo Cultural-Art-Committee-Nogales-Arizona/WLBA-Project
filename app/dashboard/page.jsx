@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useMemo } from 'react';
 import { Row, Col } from 'reactstrap';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
@@ -15,26 +15,79 @@ import styles from './page.module.css';
 
 function Profile() {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
-  const { user, isLoading } = useUser();
+  const { user, isLoading } = useUser()
+  const [ pageData, setPageData ] = useState({
+    allEvents: [],
+    nextEvent: {}
+  })
+
+  useMemo(() => {
+    const controller = new AbortController()
+    const signal = controller.signal
+    
+    if(globalUserData.adminAuthId){
+      const fetchData = async () => {
+        const eventsResponse = await fetch('/api/events/festivals', {
+          signal,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: "same-origin"
+        })
+
+        const nextEventResponse = await fetch(`/api/events/festivals?nextEvent=${true}`, {
+          signal,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: "same-origin"
+        })
+
+        const parsedEvents = await eventsResponse.json()
+        const parsedNextEvent = await nextEventResponse.json()
+        console.log(parsedNextEvent)
+
+        setPageData({
+          allEvents: parsedEvents.data,
+          nextEvent: parsedNextEvent.data
+        })
+      }
+
+      fetchData()
+    }
+  }, [ globalUserData ])
 
   return (
-    <div className={styles.container}>
+    <div className='container'>
       {isLoading && <Loading />}
       {/* Temporary link */}
-      {globalUserData ? <h1>{globalUserData.username}</h1> : null}
       {user && (
         <div>
-          <img
-            src={user.picture}
-            alt="Profile"
-            className="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
-            decode="async"
-            data-testid="profile-picture"
-          />
-          <p className="lead" data-testid="profile-email">
-            {user.email}
-          </p>
-          { globalUserData.adminAuthId ? <h3>Signed in as Admin</h3> : <h3>Not signed in as admin</h3> }
+          { globalUserData.adminAuthId ? 
+            <>
+              <h1>Welcome {globalUserData.username}</h1> 
+              <img
+                src={user.picture}
+                alt="Profile"
+                className="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
+                decode="async"
+                data-testid="profile-picture"
+              />
+              <p className="lead" data-testid="profile-email">
+                {globalUserData.email}
+              </p>
+              <hr />
+              <h3>Events Information</h3>
+              <p>
+                <p>Current Next Event: {pageData.nextEvent.title || "No upcoming events"}</p>
+                <p>Registered Events: {pageData.allEvents.length}</p>
+              </p>
+            </>
+            : 
+            <h3>Not signed in as admin</h3> 
+          }
         </div>
       )}
     </div>

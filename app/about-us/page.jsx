@@ -37,6 +37,7 @@ export default function aboutUs() {
           <a className={styles.callToAction} href="#readMore">Read more</a>
         </div>
       </div>
+
       <div className={styles.boardOfDirectors}>
         <h1>Board Of Directors</h1>
         <div className={styles.directorContainer}>
@@ -45,7 +46,7 @@ export default function aboutUs() {
           })}
         </div>
       </div>
-      <div id="readMore">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit odit et dolores eveniet, dolor maxime ipsum rem incidunt quidem, beatae ea. Repudiandae neque maxime dolorum ex ratione qui adipisci saepe!</div>
+
       <div className={styles.godfather}>
         <div className={styles.container2}>
           <div className={styles.child1}>
@@ -76,7 +77,14 @@ export default function aboutUs() {
           </div>
           <div className={styles.child2}>
             <p>
-              Sandra Kory, Treasurer of the Cultural Arts Committee in Nogales, Arizona, is a dedicated community leader with strong local ties. Recognized with the Ohtli Award in 2015 for her commitment to cultural events, Sandra actively contributes to community richness. She plays a vital role in the success of South32's initiatives in the region, introducing significant cultural celebrations like Cinco De Mayo. Sandra's multifaceted contributions and expertise showcase her passion for preserving and promoting cultural arts in the community.
+              Sandra Kory, Treasurer of the Cultural Arts Committee in Nogales, 
+              Arizona, is a dedicated community leader with strong local ties. 
+              Recognized with the Ohtli Award in 2015 for her commitment to cultural 
+              events, Sandra actively contributes to community richness. She plays 
+              a vital role in the success of South32's initiatives in the region, 
+              introducing significant cultural celebrations like Cinco De Mayo. Sandra's 
+              multifaceted contributions and expertise showcase her passion for 
+              preserving and promoting cultural arts in the community.
             </p>
 
             {/* <div>
@@ -146,6 +154,7 @@ export default function aboutUs() {
                 src={DiaDel}
                 width={350}
                 height={415}
+                className={styles.img}
               />
             </div>
 
@@ -162,6 +171,7 @@ export default function aboutUs() {
                 src={ChristmasImg}
                 width={350}
                 height={415}
+                className={styles.img}
               />
             </div>
 
