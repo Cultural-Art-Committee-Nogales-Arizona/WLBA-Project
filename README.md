@@ -31,5 +31,4 @@ We organize community festivals in collaboration with local entities, creating v
 
 Thank you for taking the time to learn about the Cultural Arts Committee of Nogales. In this Read Me file, you'll find an essay that encapsulates our organization's mission, the dedicated individuals steering our initiatives on the Board of Directors, and the various ways we contribute to the preservation and celebration of our cultural heritage.
 
-Feel free to explore our activities, attend our festivals, and join us in fostering a community where diversity is celebrated, and traditions are cherished. Together, let's continue weaving the vibrant tapestry that is the cultural heritage of Nogales, Arizona.
-
+Feel free to explore our activities, attend our festivals, and join us in fostering a community where diversity is celebrated, and traditions are cherished. Together, let's continue weaving the vibrant tapestry that is the cultural heritage of Nogales, Arizona.   
