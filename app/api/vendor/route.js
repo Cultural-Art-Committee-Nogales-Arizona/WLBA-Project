@@ -127,7 +127,7 @@ export const DELETE = async (request) => {
     // We need to make this so you cant delete someone elses vendor
     const { vendors } = await request.json()
 
-    const message = vendors.length < 1 ? "Successfully deleted vendors" :`Successfully deleted Vendor with _id: ${vendors[0]}` 
+    const message = vendors.length > 1 ? "Successfully deleted vendors" :`Successfully deleted Vendor with _id: ${vendors[0]}` 
     
     try {
 
