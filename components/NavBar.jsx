@@ -18,8 +18,6 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import Logo from '@/public/Logo'
 import CustomUserContext from './GlobalUserContext'; 
 
-import useSessionStorage from '@utils/custom-hooks/useSessionStorage'
-
 import styles from './NavBar.module.css'
 
 import PageLink from './PageLink'
@@ -30,7 +28,6 @@ import Cookies from 'js-cookie'
 
 const NavBar = () => {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
-  // ! const [adminAuthId, setAdminAuthId] = useSessionStorage("adminAuthId", "")
   const [isOpen, setIsOpen] = useState(false)
   const { user, isLoading } = useUser()
   const toggle = () => setIsOpen(!isOpen)
@@ -38,8 +35,7 @@ const NavBar = () => {
   const handleLogout = async () => {
     // Perform any cleanup tasks here (e.g., clear sessionStorage)
     // ! setAdminAuthId("")
-    Cookies.remove('token', { path: '/api' })
-    sessionStorage.removeItem('adminAuthId')
+    Cookies.remove('token', { path: '/' })
   }
 
   // Fetch custom user data when the component mounts
@@ -50,10 +46,8 @@ const NavBar = () => {
 
       if (user) {
         const token = Cookies.get('token')
-        console.log(token)
 
-        // ! setAdminAuthId(globalUserData.adminAuthId)
-        const adminAuthId = sessionStorage.getItem('adminAuthId') || "";
+        const adminAuthId = token ? true : false
 
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
@@ -79,15 +73,9 @@ const NavBar = () => {
     }
     
   }, [user?.name])
-
-  const bruh = () => {
-    const token = Cookies.get();
-        console.log(token)
-  }
   
   return (
     <div className={styles.nav_container} data-testid="navbar" >
-      <button onClick={bruh}> burh</button>
       <Navbar className={styles.navbar}  expand="md">
         <a href="/">
           <Logo scale="75" />
