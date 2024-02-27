@@ -156,6 +156,12 @@ function VolunteerRequest() {
       })
 
       const result = await returnedData.json()
+
+      if(result.success){
+        setSuccess('Successfully contacted all volunteers')
+      } else {
+        setError(result.errorMessage)
+      }
       console.log(result)
       setLoading(false)
     } catch (error) {

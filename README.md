@@ -9,13 +9,17 @@ Welcome to the Cultural Arts Committee of Nogales, Arizona! Our organization is 
 Our mission is to safeguard and showcase the unique cultural heritage of Nogales. Through meticulous research, collaboration with educators, historians, and artists, and dynamic community festivals, we aim to provide resources and opportunities for the benefit of the community.
 
 ## Board of Directors
-
-- **Esther Melendez-Lopez (President):** Leading the charge in preserving Nogales' cultural legacy.
-- **Laura Diaz (Vice-President):** Infusing passion and creativity into our initiatives.
-- **Sandra Kory (Treasurer):** Ensuring the financial sustainability of our organization.
-- **Jaime Paz y Puente (Secretary):** Organizing and documenting our activities for a lasting impact.
-- **Silvia Acosta, Reyna Armenta, Lucia Bojorquez, Gabriela Campaña, Sandra Moraga, Octavio Moraga, Santos Yescas:** Diverse perspectives contributing to the cultural richness of Nogales.
-
+-Esther Melendez-Lopez, President
+-Laura Diaz, Vice-President
+-Sandra Kory, Treasurer
+-Jaime Paz y Puente, Secretary
+-Silvia Acosta
+-Reyna Armenta
+-Lucia Bojorquez
+-Gabriela Campaña
+-Sandra Moraga
+-Octavio Moraga
+-Santos Yescas
 ## Our Initiatives
 
 We organize community festivals in collaboration with local entities, creating vibrant showcases of Nogales' cultural wealth. These festivals are not just celebrations; they are a testament to our commitment to promoting inclusivity and fostering pride among our residents. By collaborating with educators, historians, and artists, we create a dynamic platform for the exchange of ideas, knowledge, and artistic expressions.
