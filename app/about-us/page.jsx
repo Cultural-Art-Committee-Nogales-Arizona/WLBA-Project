@@ -14,7 +14,7 @@ import DirectorImage from '@/components/gallery/DirectorImage'
 import Donate from '@/components/buttons/Donate'
 
 import ChristmasImg from '@/public/Images/Christmas.jpg'
-// import DiaDel from '@/public/Images/DiaDel.jpg'
+import DiaDel from '@/public/Images/DiaDel.jpg'
 
 import localFont from 'next/font/local'
 const artesaniaFont = localFont({
@@ -126,11 +126,11 @@ export default function aboutUs() {
 
           <div className={styles.events}>
             <div className={styles.eventsImg}>
-              <Image 
+              {/* <Image 
               src={DiaDel}
-              width={20}
-              height={20}
-              />
+              width={350}
+              height={370}
+              /> */}
             </div>
 
             <div className={styles.desc}>
@@ -142,7 +142,11 @@ export default function aboutUs() {
 
           <div className={styles.events}>
             <div className={styles.eventsImg}>
-              {/* Image */}
+              <Image
+                src={DiaDel}
+                width={350}
+                height={415}
+              />
             </div>
 
             <div className={styles.desc}>
@@ -154,10 +158,10 @@ export default function aboutUs() {
 
           <div className={styles.events}>
             <div className={styles.eventsImg}>
-              <Image 
-              src={ChristmasImg}
-              width={350}
-              height={370}
+              <Image
+                src={ChristmasImg}
+                width={350}
+                height={415}
               />
             </div>
 

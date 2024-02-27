@@ -255,16 +255,13 @@
 
 .eventsImg{
     width: 100%;
-    height: 45vh;
-
-    border: solid white 3px;
+    height: 50vh;
 }
 
 .desc{
     width: 100%;
     height: 20vh;
 
+    margin-top: 5%;
     text-align: center;
-
-    border: solid white 3px;
 }
