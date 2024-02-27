@@ -99,11 +99,12 @@ const NavBar = () => {
                   <span className={styles.link_animation}>Volunteer</span>
                 </PageLink>
               </NavItem>
-              <NavItem>
+              {/* REPLACE "href" WITH STRIPE LINK */}
+              {/* <NavItem>
                 <a href="https://buy.stripe.com/eVa6ptaH472hgkE000" target="_blank" className="nav-link" >
                   <span className={styles.link_animation}>Donate</span>
                 </a>
-              </NavItem>
+              </NavItem> */}
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isLoading && !user && (

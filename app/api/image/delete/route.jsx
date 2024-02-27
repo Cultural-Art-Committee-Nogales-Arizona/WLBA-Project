@@ -9,17 +9,17 @@ export const POST = async (request) => {
   try {
     function PublicIdFromUrl(url) {
       // Split the URL by '/'
-    const parts = url.split('/');
-    // Get the index of "upload" in the URL
-    const uploadIndex = parts.indexOf("upload");
-    // Get the parts of the URL after "upload"
-    const uploadParts = parts.slice(uploadIndex + 2);
-    // Join the remaining parts to form the public ID
-    let publicId = uploadParts.join('/');
-    if (publicId.includes(".")) {
-      publicId = publicId.split(".")[0];
-  }
-    return publicId;
+      const parts = url.split('/');
+      // Get the index of "upload" in the URL
+      const uploadIndex = parts.indexOf("upload");
+      // Get the parts of the URL after "upload"
+      const uploadParts = parts.slice(uploadIndex + 2);
+      // Join the remaining parts to form the public ID
+      let publicId = uploadParts.join('/');
+      if (publicId.includes(".")) {
+        publicId = publicId.split(".")[0];
+      }
+      return publicId;
     }
     
     // Generate the signature for authentication
@@ -34,8 +34,9 @@ export const POST = async (request) => {
     const API_SECRET = 'FwLekwqMLHgOvucXuGE6hIMRhL4' /*  process.env.API_KEY */
     const currentTime = Date.now()
     const { imageUrl } = await request.json()
+    console.log(`ImageUrl: ${imageUrl}`)
     const publicId = PublicIdFromUrl(imageUrl)
-    console.log(publicId)
+    console.log(`PublicID: ${publicId}`)
     
     const signatureString = `public_id=${publicId}&timestamp=${currentTime}${API_SECRET}`
     const hashedSignature = sha1Hash(signatureString)
@@ -43,18 +44,22 @@ export const POST = async (request) => {
     const queryParams = `?signature=${hashedSignature}&public_id=${publicId}&timestamp=${currentTime}&api_key=${API_KEY}`
     const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/dvlb9ylqb/image/destroy${queryParams}`, {
       method: 'POST',
-      /* headers: {
-        'Content-Type': 'application/json' // Set Content-Type header
-      } */
     }); 
 
     const imageResponse = await imageUpload.json()
 
     return NextResponse.json({
-      success: true,
-      message: `Deleted image from Cloudinary`,
       data: imageResponse
     });
+    /* if (imageResponse.result == "ok") {
+      return NextResponse.json({
+        success: true,
+        message: `Deleted image from Cloudinary`,
+        data: imageResponse
+      });
+    } else {
+      throw new Error("Image failed to delete")
+    } */
   } catch (error) {
     console.error(error);
     return NextResponse.json({

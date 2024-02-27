@@ -202,12 +202,12 @@ export default function EmailForm({ params }) {
                     <div className={styles.title}>Subject</div>
                     <input 
                         id="subjectLine"
-                        className={styles.backgroundInput} 
                         onChange={event => updateForm(event)}
                         value={formData.subjectLine || ""}
-                        />
+                        className={styles.textArea}  
+                    />
                 </div>
-                <div className={`${styles.titleBox} ${styles.message}`}>
+                <div className={styles.titleBox}>
                     <div className={styles.title}>Message</div>
                     <textarea 
                         id="message"

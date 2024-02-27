@@ -27,10 +27,44 @@ export default function Calendar() {
 	// Language change with buttons
 	const [currentLocale, setCurrentLocale] = useState(enLocale);
 
-	const [dayData, setDayData] = useState(null)
-	const [events, setEvents] = useState(null)
+	const [selectedTime, setSelectedTime] = useState(new Date().toISOString())
+
+	const [dayData, setDayData] = useState([])
+	const [events, setEvents] = useState([])
 
 	/* ----------------------------- Custom buttons ----------------------------- */
+
+	const lastEvent = {
+		text: '<-- Event',
+		click: () => {
+			/* let eventTime
+
+			if (!dayData.length) eventTime = new Date().toISOString()
+			else eventTime = dayData[0].start.map(event => new Date(event.start))
+			
+			const lastEvent = events.find(data => data.start <= eventTime)
+			// findData(recentEvents[0])
+			console.log(lastEvent) */
+			const now = new Date();
+			const pastEvents = events.filter(event => new Date(event.start) < now);
+
+			// Sort pastEvents by start time in descending order
+			pastEvents.sort((a, b) => new Date(b.start) - new Date(a.start));
+			const closestEventBeforeNow = pastEvents[0];
+			findData(closestEventBeforeNow.start)
+			setSelectedTime(closestEventBeforeNow.start)
+			console.log(closestEventBeforeNow.start)
+		}
+	}
+
+	const nextEvent = {
+		text: 'Event -->',
+		click: () => {
+			const recentEvents = dayData.map(event => new Date(event.start))
+			findData(recentEvents[0])
+			console.log(recentEvents)
+		}
+	}
 
 	const englishTranslation = {
 		text: 'English',
@@ -45,7 +79,7 @@ export default function Calendar() {
 	/* ---------------------------- Calendar toolbars --------------------------- */
 
 	const calendarHeader = {
-		left: 'dayGridMonth,timeGridWeek,timeGridDay',
+		left: 'lastEvent nextEvent',
 		center: 'title',
 		right: 'today prev,next',
 	}
@@ -69,7 +103,7 @@ export default function Calendar() {
 				.then(res => res.json());
 				setEvents(fetchedData.data);
 				if (events === null) {
-					await findData(new Date)
+					findData(new Date)
 				}
 			} catch (error) {
 				if (error.name === 'AbortError') {
@@ -85,7 +119,7 @@ export default function Calendar() {
 		return () => controller.abort()
 	}, []);
 
-	const findData = async (date) => {
+	const findData = (date) => {
 		// ! DON'T TOUCH THIS !
 		// IT'S WORKING IT TOOK ME OVER 5 HOURS GETTING EVERYTHING WORKING
 		// It's not as simple of a problem to debug as it looks, PLEASE! don't break this
@@ -110,8 +144,12 @@ export default function Calendar() {
 		setDayData(currentSelectedEvents);
 	};
 
+	/* useEffect(()=> {
+		console.log(dayData)
+	}, [dayData]) */
+
 	return (
-		<div className={styles.container}>
+		<div className={styles.container}> 
 			<div className={styles.calendar}>
 				{events ?
 					<FullCalendar
@@ -119,7 +157,7 @@ export default function Calendar() {
 						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
 						initialView='dayGridMonth'
 						events={events}
-						customButtons={{ englishTranslation, spanishTranslation }}
+						customButtons={{ lastEvent, nextEvent, englishTranslation, spanishTranslation }}
 						headerToolbar={calendarHeader}
 						footerToolbar={calendarFooter}
 						selectable='true'
@@ -145,7 +183,13 @@ export default function Calendar() {
 							<h5><span className={styles.key}>End Date:</span> {new Date(event.end).toLocaleString()}</h5>
 							<h5><span className={styles.key}>Description:</span> {event.description}</h5>
 							<h5><span className={styles.key}>Location:</span> {event.location}</h5>
-							<h5><span className={styles.key}>{event.images.length} Images:</span><Carousel params={{ imagePreviews: event.images }} /></h5>
+							{
+								event?.images.length ? 
+								<h5>
+									<span className={styles.key}>{event.images.length} Images:</span>
+									<Carousel params={{ imagePreviews: event.images }} />
+								</h5> : null
+							}
 						</div>
 						<hr />
 					</div>

@@ -32,26 +32,27 @@
 }
 
 .headText {
-    top: 333px;
+    top: 270px;
     position: absolute;
     width: 470px;
     height: 500px;
 }
 
-.headText>h1 {
-    font-size: 80px;
+.headText > div >h1 {
+    font-size: 75px;
     text-align: start;
     color: white;
 }
 
 /* Color first letter */
-.headText>h1>span {
+.headText>div>h1::first-letter {
     color: var(--blue-accent);
 }
 
-.headText>div {
+.headText > div {
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 .eventsDiv{
@@ -99,15 +100,24 @@
     box-shadow: 1px 1px 10px 1px ;
 }
 
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .callToAction {
     /* border: solid white 2px; */
     border: none;
     border-radius: 10px;
     background-color: var(--dark-red);
+    width: 150px;
     color: white;
     padding: 5px;
     text-decoration: none;
     font-size: x-large;
+    text-align: center;
+
 }
 
 .callToAction:hover {
@@ -165,3 +175,7 @@
     text-align: center;
     padding: 1%;
 }
+
+
+
+/* Sizing */
