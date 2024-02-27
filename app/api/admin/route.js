@@ -53,7 +53,7 @@ export const GET = async (request) => {
                 }
             },{ 
                 status: 200,
-                headers: {'Set-Cookie': `token=${token}; Max-Age=${60 * 60 * 5}`}
+                headers: {'Set-Cookie': `token=${token}; Max-Age=${60 * 60 * 5}; Path=/`}
             });
         }
 
