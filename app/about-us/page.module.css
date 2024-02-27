@@ -106,11 +106,29 @@
 
 /* -------------------------------- Directors ------------------------------- */
 
+.boardOfDirectors{
+    background-color: #590000;
+    color: whitesmoke;
+
+    border: black solid 3px;
+    box-shadow: 0px 0px 10px 1px black;
+    border-radius: 15px; 
+    padding: 1%;
+}
+
+.boardOfDirectors h1{
+    text-align: center;
+}
+
 .directorContainer {
     display: flex;
     width: 95vw;
     overflow-x: scroll;
     gap: 20px;
+}
+
+.directorContainer::-webkit-scrollbar {
+    display: none;
 }
 
   
@@ -120,6 +138,10 @@
 
     width: 100%;
     height: 90vh;
+
+    margin: 1%;
+
+    border: solid black 1px;
 }
 
 
@@ -245,7 +267,7 @@
     display: flex;
     flex-direction: row;
     
-    gap: 10px;
+    gap: 17px;
 }
 
 .events{
@@ -264,4 +286,15 @@
 
     margin-top: 5%;
     text-align: center;
+}
+
+.img{
+    border-radius: 2%;
+    /* box-shadow: 0px 0px 10px 0px whitesmoke; */
+    transition: .2s;
+}
+
+.img:hover {
+    box-shadow: 0px 0px 10px 5px white;
+    transition: .2s;
 }

@@ -13,6 +13,7 @@ export default function DirectorImage({ params }) {
         width={300}
         height={400}
         alt='Director Member headshot'
+        className={styles.img}
       />
       <div className={styles.information}>
         <h3 className={styles.name}>{name}</h3>
