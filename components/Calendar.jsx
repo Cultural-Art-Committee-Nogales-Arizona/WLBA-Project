@@ -31,7 +31,6 @@ export default function Calendar() {
 
 	const [dayData, setDayData] = useState([])
 	const [events, setEvents] = useState([])
-	const imagePreviews = event
 
 	/* ----------------------------- Custom buttons ----------------------------- */
 

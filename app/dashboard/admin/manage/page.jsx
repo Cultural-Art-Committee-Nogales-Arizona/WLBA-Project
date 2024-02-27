@@ -5,6 +5,8 @@ import Error from "@components/overlays/Error"
 import Loading from "@components/overlays/Loading"
 import AdminForm from "@components/forms/AdminForm"
 
+import styles from './page.module.css'
+
 export default function ManageAdmin(){
     /*
     return(
@@ -66,6 +68,9 @@ export default function ManageAdmin(){
     )
     */
    return(
-        <AdminForm />
+        <div className={styles.container}>
+            <h1>Manage Admin status</h1>
+            <AdminForm />
+        </div>
    )
 }

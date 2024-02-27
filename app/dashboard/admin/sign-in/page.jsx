@@ -45,16 +45,11 @@ export default function AdminSignIn() {
 
       const returnedAdmin = await response.json()
 
-      if (returnedAdmin.success) {
-        const adminAuthId = returnedAdmin.data.adminAuthId;
-        
-        // Set adminAuthId to sessionStorage
-        sessionStorage.setItem('adminAuthId', adminAuthId);
-        
+      if (returnedAdmin.success) {        
         setGlobalUserData(prev => ({
           ...prev,
           admin: true,
-          adminAuthId: adminAuthId
+          adminAuthId: true
         }))
         setSuccess('Signed in as Admin')
       } else {
@@ -76,6 +71,7 @@ export default function AdminSignIn() {
     <div>
       {error ? <Error params={{error, setError}} /> : null}
       {success ? <Success params={{success, setSuccess}} /> : null}
+      <h1>Sign in to use Admin features</h1>
       <form onSubmit={handleSubmit}>
         <div className="formGroup">
           <label htmlFor="email">Email</label>

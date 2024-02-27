@@ -105,13 +105,10 @@
 }
 
 /* -------------------------------- Directors ------------------------------- */
-.boardOfDirectors {
-    margin-left: 40px;
-}
 
 .directorContainer {
     display: flex;
-    width: 100vw;
+    width: 95vw;
     overflow-x: scroll;
     gap: 20px;
 }
@@ -221,4 +218,53 @@
     border: solid black 3px;
     
     
+}
+
+/* Jaden's P - 2 */
+.eventDiv{
+    width: 98vw;
+    height: 90vh;
+
+    display: grid;
+    align-items: center;
+    justify-items: center;
+
+    border: solid black 3px;
+    border-radius: 15px;
+    box-shadow: black 0px 0px 10px 1px;
+    margin-bottom: 2%;
+
+    background-color: #590000;
+    color: whitesmoke;
+}
+
+.eventsContainer{
+    width: 95%;
+    height: 70vh;
+
+    display: flex;
+    flex-direction: row;
+    
+    gap: 10px;
+}
+
+.events{
+    width: 40%;
+    height: 60vh;
+}
+
+.eventsImg{
+    width: 100%;
+    height: 45vh;
+
+    border: solid white 3px;
+}
+
+.desc{
+    width: 100%;
+    height: 20vh;
+
+    text-align: center;
+
+    border: solid white 3px;
 }

@@ -33,6 +33,7 @@
     "flatpickr": "^4.6.13",
     "fs": "^0.0.1-security",
     "fullcalendar": "^6.1.10",
+    "google-map-react": "^2.2.1",
     "helmet": "^7.1.0",
     "highlight.js": "^11.9.0",
     "i18next": "^23.8.2",

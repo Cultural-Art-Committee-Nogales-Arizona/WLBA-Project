@@ -72,7 +72,8 @@ function VolunteerRequest() {
     });
   }  
 
-  const toggleAll = () => {
+  const toggleAll = (event) => {
+    event.preventDefault()
     // Check if all emails are already selected
     const allSelected = searchResults.every(result => formData.emails.includes(result.email));
   
@@ -172,6 +173,7 @@ function VolunteerRequest() {
   return (
     <>
     <div className={styles.container}>
+      <h1>Request Volunteers for events</h1>
       {success && <Success params={{success, setSuccess}} />}
       {error ? <Error params={{error, setError}} /> : null}
       { loading ? <Loading /> : 
@@ -193,7 +195,7 @@ function VolunteerRequest() {
             <table className={styles.email_table}>
               <thead>
                 <tr>
-                  <th className={styles.toggle}><button type="button" onClick={toggleAll}>Toggle All</button></th>
+                  <th className={styles.toggle}><button onClick={event => toggleAll(event)}>Toggle All</button></th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Interest</th>

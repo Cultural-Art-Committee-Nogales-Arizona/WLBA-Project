@@ -13,6 +13,9 @@ import DirectorImage from '@/components/gallery/DirectorImage'
 
 import Donate from '@/components/buttons/Donate'
 
+import ChristmasImg from '@/public/Images/Christmas.jpg'
+// import DiaDel from '@/public/Images/DiaDel.jpg'
+
 import localFont from 'next/font/local'
 const artesaniaFont = localFont({
   src: '../../public/fonts/ARTESANIA.ttf',
@@ -23,7 +26,7 @@ export default function aboutUs() {
   console.log(ImportDirectorInformation)
   return (
     <div className={styles.aboutUsContainer} >
-      <Hero params={{heroImage}} />
+      <Hero params={{ heroImage }} />
       <div className={`${styles.headText} ${artesaniaFont.className}`}>
         <div>
           <h1>About Us</h1>
@@ -38,9 +41,9 @@ export default function aboutUs() {
         <h1>Board Of Directors</h1>
         <div className={styles.directorContainer}>
           {ImportDirectorInformation && ImportDirectorInformation.map(director => {
-            return <DirectorImage params={{profileImage: director.image.src, name: director.name, position: director.position}} />
+            return <DirectorImage params={{ profileImage: director.image.src, name: director.name, position: director.position }} />
           })}
-         </div>
+        </div>
       </div>
       <div id="readMore">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit odit et dolores eveniet, dolor maxime ipsum rem incidunt quidem, beatae ea. Repudiandae neque maxime dolorum ex ratione qui adipisci saepe!</div>
       <div className={styles.godfather}>
@@ -73,7 +76,7 @@ export default function aboutUs() {
           </div>
           <div className={styles.child2}>
             <p>
-            Sandra Kory, Treasurer of the Cultural Arts Committee in Nogales, Arizona, is a dedicated community leader with strong local ties. Recognized with the Ohtli Award in 2015 for her commitment to cultural events, Sandra actively contributes to community richness. She plays a vital role in the success of South32's initiatives in the region, introducing significant cultural celebrations like Cinco De Mayo. Sandra's multifaceted contributions and expertise showcase her passion for preserving and promoting cultural arts in the community.
+              Sandra Kory, Treasurer of the Cultural Arts Committee in Nogales, Arizona, is a dedicated community leader with strong local ties. Recognized with the Ohtli Award in 2015 for her commitment to cultural events, Sandra actively contributes to community richness. She plays a vital role in the success of South32's initiatives in the region, introducing significant cultural celebrations like Cinco De Mayo. Sandra's multifaceted contributions and expertise showcase her passion for preserving and promoting cultural arts in the community.
             </p>
 
             {/* <div>
@@ -87,7 +90,7 @@ export default function aboutUs() {
             </div> */}
           </div>
         </div>
-      </div> 
+      </div>
       {/* <div className={styles.container}>
       <Image
         className={`${styles.bannerImage} ${styles.transparent}`} 
@@ -105,6 +108,67 @@ export default function aboutUs() {
         </div>
       </div>
       */}
+
+      <div className={styles.eventDiv}>
+        <h1>Our Events</h1>
+        <div className={styles.eventsContainer}>
+          <div className={styles.events}>
+            <div className={styles.eventsImg}>
+              {/* Image */}
+            </div>
+
+            <div className={styles.desc}>
+              <h4>Feb 13, 2024</h4>
+              <h3>Dia Del Amor y La Amistad</h3>
+              <h5></h5>
+            </div>
+          </div>
+
+          <div className={styles.events}>
+            <div className={styles.eventsImg}>
+              <Image 
+              src={DiaDel}
+              width={20}
+              height={20}
+              />
+            </div>
+
+            <div className={styles.desc}>
+              <h4>May 4, 2024</h4>
+              <h3>Fiesta De Las Flores</h3>
+              <h5></h5>
+            </div>
+          </div>
+
+          <div className={styles.events}>
+            <div className={styles.eventsImg}>
+              {/* Image */}
+            </div>
+
+            <div className={styles.desc}>
+              <h4>October 26, 2024</h4>
+              <h3>Dia De Los Muertos</h3>
+              <h5></h5>
+            </div>
+          </div>
+
+          <div className={styles.events}>
+            <div className={styles.eventsImg}>
+              <Image 
+              src={ChristmasImg}
+              width={350}
+              height={370}
+              />
+            </div>
+
+            <div className={styles.desc}>
+              <h4>November 18, 2024 - January 7, 2025</h4>
+              <h3>Christmas Village In Karam Park</h3>
+              <h5></h5>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

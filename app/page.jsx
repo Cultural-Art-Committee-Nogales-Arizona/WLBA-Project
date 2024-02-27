@@ -57,23 +57,6 @@ export default function Index() {
 
   return (
     <>
-      {/* <div className={styles.hero}>
-        <Image
-          width={1519}
-          height={650}
-          src={TitleImg}
-          alt={"text"}
-          className={styles.Img}
-        />
-        <h1>
-          <span>C</span>ultural<br/> 
-          <span>A</span>rts<br/>
-          <span>C</span>ommittee of<br/>
-          <span>N</span>ogales<br/>
-          <span>A</span>rizona
-        </h1>
-        <a className={styles.callToAction} href="#events">View Events</a>
-      </div> */}
       <Hero params={{heroImage}} />
       <div className={`${styles.headText} ${artesaniaFont.className}`}>
         <div>
@@ -97,12 +80,12 @@ export default function Index() {
           old events will stay up</p>
         </div>
 
-        <div className={styles.calender}>
+        <div className={styles.calender} id="events">
           <Calendar />
         </div>
       </div>
 
-      {/* <div className={styles.headmsg}>
+      <div className={styles.headmsg}>
         <h1>Cultural Arts Comittee of Nogales Arizona</h1>
       </div>
 
@@ -118,23 +101,23 @@ export default function Index() {
             </p>
           </div>
 
-          <Image
+          {/* <Image
             src={headImg}
             className={styles.Img2}
             width={550}
             height={300}
             alt={"Header Image"}
-          />
+          /> */}
         </div>
 
         <div className={styles.child}>
-          <Image
+          {/* <Image
             src={Dod}
             width={570}
             height={350}
             className={styles.Img2}
             alt={"Home image of dancers"}
-          />
+          /> */}
 
           <div className={styles.p}>
             <p>
@@ -146,7 +129,7 @@ export default function Index() {
             </p>
           </div>
         </div>
-      </div> */}
+      </div>
 
 
 
