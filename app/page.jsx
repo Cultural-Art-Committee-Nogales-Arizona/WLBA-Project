@@ -57,7 +57,7 @@ export default function Index() {
 
   return (
     <>
-      <Hero params={{heroImage}} />
+      <Hero params={{ heroImage }} />
       <div className={`${styles.headText} ${artesaniaFont.className}`}>
         <div>
           <h1>Cultural</h1>
@@ -72,24 +72,19 @@ export default function Index() {
           <a className={styles.callToAction} href="#events">View Events</a>
         </div>
       </div>
-      <div className={styles.eventsDiv}>
-        <div className={styles.event}>
-          <p className={styles.heroText}>We're dedicated to celebrating our 
-          community's diverse cultural heritage through art, performances, 
-          and education. Here is a calendar containing all upcoming events, 
-          old events will stay up</p>
-        </div>
-
-        <div className={styles.calender} id="events">
-          <Calendar />
-        </div>
-      </div>
 
       <div className={styles.headmsg}>
         <h1>Cultural Arts Comittee of Nogales Arizona</h1>
       </div>
 
       <div className={styles.contentDiv}>
+        <div className={styles.event}>
+          <p>We're dedicated to celebrating our
+            community's diverse cultural heritage through art, performances,
+            and education. Here is a calendar containing all upcoming events,
+            old events will stay up</p>
+        </div>
+
         <div className={styles.child}>
           <div className={styles.p}>
             <p>
@@ -101,23 +96,6 @@ export default function Index() {
             </p>
           </div>
 
-          {/* <Image
-            src={headImg}
-            className={styles.Img2}
-            width={550}
-            height={300}
-            alt={"Header Image"}
-          /> */}
-        </div>
-
-        <div className={styles.child}>
-          {/* <Image
-            src={Dod}
-            width={570}
-            height={350}
-            className={styles.Img2}
-            alt={"Home image of dancers"}
-          /> */}
 
           <div className={styles.p}>
             <p>
@@ -131,10 +109,11 @@ export default function Index() {
         </div>
       </div>
 
-
-
-
-
+      <div className={styles.eventsDiv}>
+        <div className={styles.calender} id="events">
+          <Calendar />
+        </div>
+      </div>
 
       {/* <h1>Next Event</h1>
         { nextEvent ? 
