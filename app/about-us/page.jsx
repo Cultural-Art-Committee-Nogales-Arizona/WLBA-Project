@@ -120,11 +120,11 @@ export default function aboutUs() {
 
           <div className={styles.events}>
             <div className={styles.eventsImg}>
-              {/* <Image 
+              <Image 
               src={DiaDel}
               width={350}
               height={370}
-              /> */}
+              />
             </div>
 
             <div className={styles.desc}>
