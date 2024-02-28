@@ -3,6 +3,7 @@
 import { useContext, useState, useEffect, useMemo } from 'react';
 import { Row, Col } from 'reactstrap';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
+import Link from 'next/link';
 
 import Loading from '@components/overlays/Loading';
 import ErrorMessage from '@components/overlays/ErrorMessage';
@@ -83,6 +84,12 @@ function Profile() {
               <p>
                 <p>Current Next Event: {pageData.nextEvent.title || "No upcoming events"}</p>
                 <p>Registered Events: {pageData.allEvents.length}</p>
+              </p>
+              <hr />
+              <h3>Support Resources</h3>
+              <p>
+                
+                <p><a target="_blank" href={'https://github.com/Cultural-Art-Committee-Nogales-Arizona/WLBA-Project/blob/main/api-documentation.md'}>API Docs</a></p>
               </p>
             </>
             : 

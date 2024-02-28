@@ -25,18 +25,6 @@ finish vendor dashboard page
 finish vendor form page
 implement remove vendor
 
-Forms to build:
-- Create admin
-
-Volunteering page:
-- Style page
-
-Spanish support:
-
-User Dashboard:
-- Finish EmailForm
-- Style page
-
 BACKEND:
 
 API

@@ -28,8 +28,6 @@ export default function ManageVendorForm({ params }) {
         event.preventDefault()
         // Check if all emails are already selected
         const allSelected = searchResults.every(result => formData.vendors.some(formVendor => formVendor.id == result._id));
-        console.log(formData.vendors)
-        console.log(allSelected)
 
         if (allSelected) {
             // If all emails are selected in search results, deselect all
@@ -67,7 +65,7 @@ export default function ManageVendorForm({ params }) {
 
     // Don't questions it, it works and if you look reeeeeally hard you might be able to read it
     const handleCheckboxChange = (tableUser) => {
-        if (formData.vendors === undefined) {
+        if (formData.vendors === undefined || formData.vendors.length == 0) {
             setFormData(prevFormData => ({
                 ...prevFormData,
                 vendors: [{
@@ -185,6 +183,7 @@ export default function ManageVendorForm({ params }) {
         const signal = controller.signal
 
         try{
+            if (formData.vendors.length == 0) return setError('You MUST Select at least one vendor to delete')
             const vendors = formData.vendors.map(formVendor => formVendor.id)
             
             const response = await fetch('/api/vendor', {

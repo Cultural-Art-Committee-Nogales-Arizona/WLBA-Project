@@ -187,16 +187,20 @@ Registers a person as a volunteer. Phone Number must be unique.
 #### Data Unit Returned
 Returns new volunteer object created.
 
-### Delete Volunteer
+### Delete Volunteers
 
 #### Description
-Delete existing volunteer by ID.
+Delete a list of existing volunteers.
 
-#### Endpoint 
-`DELETE https://wlba-project.vercel.app/api/events/volunteer`
+#### Endpoint
+`DELETE https://wlba-project.vercel.app/api/event/volunteer`
 
-#### Query Parameters
-- `volunteerId`: Database identifier of volunteer to delete.
+#### Request Body
+```json
+{
+  "volunteers" : [] "Array of database identifiers of volunteers to delete." //Array
+}
+```
 
 ## Vendors Route
 
@@ -286,16 +290,20 @@ Edit an existing registered vendor's information.
 #### Data Unit Returned
 Updated vendor object.
 
-### Delete Vendor
+### Delete Vendors
 
 #### Description
-Delete an existing registered vendor.
+Delete a list of existing vendors
 
 #### Endpoint
 `DELETE https://wlba-project.vercel.app/api/vendor`
 
-#### Query Parameters
-- `vendorId`: Database idntifier ofthe vendor to delete.
+#### Request Body
+```json
+{
+  "vendors" : [] "Array of database identifiers of vendors to delete." //Array
+}
+```
 
 ### Accept Vendor
 
