@@ -206,7 +206,7 @@ async function deleteImages(imageArray) {
   try {
     const returnedData = []
     const promises = imageArray.map(async image => {
-      const response = await fetch(`/api/image/delete`, {
+      const response = await fetch(`http://localhost:3000/api/image/delete`, {
         method: 'POST',
         /* headers: {
           'Content-type': 'Application/json'

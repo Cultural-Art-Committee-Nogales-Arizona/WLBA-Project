@@ -241,6 +241,11 @@ console.log(images)
     setLoading(true)
 
     try {
+      if (requestMethod === 'PUT' && !eventId) {
+        setError("You must select an event to edit")
+        return
+      }
+
       const controller = new AbortController()
       const signal = controller.signal
 
@@ -326,9 +331,9 @@ console.log(images)
     }
   }, [formData.images])
 
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
+  /* useEffect(() => {
+    console.log(images)
+  }, [images]) */
   
   return (
     <>

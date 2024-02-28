@@ -42,16 +42,16 @@ export const POST = async (request) => {
     const hashedSignature = sha1Hash(signatureString)
 
     const queryParams = `?signature=${hashedSignature}&public_id=${publicId}&timestamp=${currentTime}&api_key=${API_KEY}`
-    const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/dvlb9ylqb/image/destroy${queryParams}`, {
+    const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/destroy${queryParams}`, {
       method: 'POST',
     }); 
 
     const imageResponse = await imageUpload.json()
 
-    return NextResponse.json({
+    /* return NextResponse.json({
       data: imageResponse
-    });
-    /* if (imageResponse.result == "ok") {
+    }); */
+    if (imageResponse.result == "ok") {
       return NextResponse.json({
         success: true,
         message: `Deleted image from Cloudinary`,
@@ -59,7 +59,7 @@ export const POST = async (request) => {
       });
     } else {
       throw new Error("Image failed to delete")
-    } */
+    }
   } catch (error) {
     console.error(error);
     return NextResponse.json({

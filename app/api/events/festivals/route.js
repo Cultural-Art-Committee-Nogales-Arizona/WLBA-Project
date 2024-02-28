@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import Festival from "@/models/events/Festivals";
 import { isAdmin, deleteImages, uploadImages } from "@/utils/routeMethods";
 import { headers } from 'next/headers'
+import dotenv from 'dotenv'
+dotenv.config()
 
 // get either all festivals for display in the dashboard or calendar, or get closest festival
 export const GET = async (request) => {
@@ -109,8 +111,11 @@ export const PUT = async (request) => {
 		/* ------------------- Delete images that were edited out ------------------- */
 
 		try {
+			console.log(imagesNotInNewRequest)
 			if (imagesNotInNewRequest.length) {
 				await deleteImages(imagesNotInNewRequest)
+			} else if (!images.length) {
+				await deleteImages(oldImages)
 			}
 		} catch (error) {
 			console.error(error)
@@ -175,7 +180,7 @@ export const DELETE = async (request) => {
 				// console.log(existingFestival.images)
 				await deleteImages(existingFestival.images)
 			} catch (error) {
-				throw new Error("Failed to delete images from Cloudinary")
+				console.error("Failed to delete images from Cloudinary")
 			}
 		}
 
