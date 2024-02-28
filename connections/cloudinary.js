@@ -1,7 +1,11 @@
 import dotenv from 'dotenv';
 
 // Load environment variables
-dotenv.config();
+const result = dotenv.config({ path: '.env.local' });
+
+if (result.error) {
+    console.error("Error loading .env file:", result.error);
+}
 
 // Configure Cloudinary with environment variables
 const cloudinaryConfig = {

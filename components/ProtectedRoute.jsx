@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }) => {
     if (!isLoading && !user) {
       router.push('/');
     }
-  }, [router, user, isLoading]);
+  }, [user, isLoading]);
 
   const token = useMemo(() => {
     return Cookies.get("token")

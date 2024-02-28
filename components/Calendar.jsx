@@ -27,6 +27,8 @@ export default function Calendar() {
 	// Language change with buttons
 	const [currentLocale, setCurrentLocale] = useState(enLocale);
 
+	const calendarRef = useRef()
+
 	const [selectedTime, setSelectedTime] = useState(new Date().toISOString())
 
 	const [dayData, setDayData] = useState([])
@@ -37,14 +39,6 @@ export default function Calendar() {
 	const lastEvent = {
 		text: '<-- Event',
 		click: () => {
-			/* let eventTime
-
-			if (!dayData.length) eventTime = new Date().toISOString()
-			else eventTime = dayData[0].start.map(event => new Date(event.start))
-			
-			const lastEvent = events.find(data => data.start <= eventTime)
-			// findData(recentEvents[0])
-			console.log(lastEvent) */
 			const now = new Date();
 			const pastEvents = events.filter(event => new Date(event.start) < now);
 
@@ -63,6 +57,14 @@ export default function Calendar() {
 			const recentEvents = dayData.map(event => new Date(event.start))
 			findData(recentEvents[0])
 			console.log(recentEvents)
+		}
+	}
+
+	// ! NEEDS FIXING, SHOULD CHANGE CALENDAR DATE
+	const showDate = {
+		text: `Today: `,
+		click: () => {
+			console.log(calendarRef.current)
 		}
 	}
 
@@ -86,7 +88,7 @@ export default function Calendar() {
 
 	const calendarFooter = {
 		start: 'englishTranslation spanishTranslation',
-		center: '',
+		center: 'showDate',
 		// ↓ We can change these button to do whatever we want ↓ 
 		end: 'dayGridMonth,timeGridWeek,timeGridDay'
 	}
@@ -144,9 +146,9 @@ export default function Calendar() {
 		setDayData(currentSelectedEvents);
 	};
 
-	/* useEffect(()=> {
+	useEffect(()=> {
 		console.log(dayData)
-	}, [dayData]) */
+	}, [dayData])
 
 	return (
 		<div className={styles.container}> 
@@ -154,17 +156,18 @@ export default function Calendar() {
 				{events ?
 					<FullCalendar
 						// className="notranslate"
+						ref={calendarRef}
 						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
 						initialView='dayGridMonth'
 						events={events}
-						customButtons={{ lastEvent, nextEvent, englishTranslation, spanishTranslation }}
+						customButtons={{ lastEvent, nextEvent, englishTranslation, spanishTranslation, showDate }}
 						headerToolbar={calendarHeader}
 						footerToolbar={calendarFooter}
 						selectable='true'
 						select={(start) => findData(start.start)}
 						locale={currentLocale}
 						// We can change color to whatever we want
-						eventColor='#378006'
+						eventColor='#008080'
 					/>
 					:
 					<Loading scale={200} />
@@ -172,7 +175,7 @@ export default function Calendar() {
 			</div>
 
 			{/* Display the data from the event */}
-			{/* selectedDay && */
+			{
 				dayData &&
 				dayData.map((event, index) => (
 					<div key={event._id}>
@@ -183,13 +186,14 @@ export default function Calendar() {
 							<h5><span className={styles.key}>End Date:</span> {new Date(event.end).toLocaleString()}</h5>
 							<h5><span className={styles.key}>Description:</span> {event.description}</h5>
 							<h5><span className={styles.key}>Location:</span> {event.location}</h5>
-							{
-								event?.images.length ? 
-								<h5>
-									<span className={styles.key}>{event.images.length} Images:</span>
+							<h5>
+								<span className={styles.key}>{event.images.length} Images:</span>
+								{
+									event?.images.length ? 
 									<Carousel params={{ imagePreviews: event.images }} />
-								</h5> : null
-							}
+									: <h5>No Images</h5>
+								}
+							</h5>
 						</div>
 						<hr />
 					</div>

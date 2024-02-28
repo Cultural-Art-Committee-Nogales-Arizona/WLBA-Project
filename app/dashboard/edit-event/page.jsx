@@ -58,7 +58,6 @@ export default function EditEventPage() {
     if (confirmDelete !== "Yes") return
 
     try {
-      const { adminAuthId, _id } = globalUserData
       const API_STRING = `/api/events/festivals?festivalId=${formData._id}`
 
       const response = await fetch(API_STRING, { 
@@ -71,6 +70,16 @@ export default function EditEventPage() {
       })
       const data = await response.json()
       console.log(data)
+      setEventId("")
+      setFormData({
+        title: "",
+        location: "",
+        start: "",
+        end: "",
+        description: "",
+        images: [],
+      })
+      setInitialImages([])
       // Handle response data as needed
     } catch (error) {
       if (error.name === 'AbortError') {
