@@ -7,7 +7,6 @@ import Success from "@components/overlays/Success"
 import styles from './page.module.css'
 
 function VolunteerRequest() {
-  const { globalUserData, setGlobalUserData }  = useContext(CustomUserContext)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
@@ -66,19 +65,19 @@ function VolunteerRequest() {
         // If the volunteerEmail is not selected, add it to the array
         return {
           ...prevFormData,
-          vendors: [...prevFormData.vendors, {
+          volunteers: [...prevFormData.volunteers, {
             email: volunteerEmail,
             id: volunteerId
           }]
         };
       }
-    });
+    })
   }  
 
   const toggleAll = (event) => {
     event.preventDefault()
     // Check if all emails are already selected
-    const allSelected = searchResults.every(result => formData.volunteers.some(formVolunteer => formVolunteer.id == result._id));
+    const allSelected = searchResults.some(result => formData.volunteers.some(formVolunteer => formVolunteer.id == result._id))
   
     if (allSelected) {
       // If all emails are selected, deselect all
@@ -88,13 +87,13 @@ function VolunteerRequest() {
       }));
     } else {
       // If not all emails are selected, select all
-      const allEmails = searchResults.map(result => ({
+      const allVolunteers = searchResults.map(result => ({
         id: result._id,
         email: result.email
       }));
       setFormData(prev => ({
         ...prev,
-        emails: allEmails
+        volunteers: allVolunteers
       }));
     }
   };
@@ -146,6 +145,8 @@ function VolunteerRequest() {
       return
     }  */
 
+    const emails = formData.volunteers.map(formVolunteer => formVolunteer.email)
+
     setLoading(true)
     try {
       const controller = new AbortController()
@@ -158,7 +159,11 @@ function VolunteerRequest() {
           'Content-Type': 'application/json',
         },
         credentials: "same-origin",
-        body: JSON.stringify(formData) 
+        body: JSON.stringify({
+          mesage: formData.message,
+          subjectLine: formData.subjectLine,
+          emails: emails
+        }) 
       })
 
       const result = await returnedData.json()
@@ -182,10 +187,10 @@ function VolunteerRequest() {
     const signal = controller.signal
 
     try{
-        if (formData.vendors.length == 0) return setError('You MUST Select at least one vendor to delete')
-        const vendors = formData.vendors.map(formVendor => formVendor.id)
+        if (formData.volunteers.length == 0) return setError('You MUST Select at least one volunteer to delete')
+        const volunteers = formData.volunteers.map(formVolunteer => formVolunteer.id)
         
-        const response = await fetch('/api/vendor', {
+        const response = await fetch('/api/events/volunteer', {
             signal,
             method: 'DELETE',
             headers: {
@@ -193,7 +198,7 @@ function VolunteerRequest() {
             },
             credentials: "same-origin",
             body: JSON.stringify({
-                vendors
+                volunteers
             })
         })
 
@@ -203,10 +208,10 @@ function VolunteerRequest() {
             // router.push('/vendor')
             setSuccess(responseData.message)
         } else {
-            setError(`Failed to delete vendors ${responseData.errorMessage}`)
+            setError(`Failed to delete volunters ${responseData.errorMessage}`)
         }
     } catch (err) {
-        setError(`Error deleting vendors`)
+        setError(`Error deleting volunteers`)
     } finally {
         setLoading(false)
     }
@@ -230,7 +235,7 @@ function VolunteerRequest() {
             />
           </div>
           <div className={styles.titleBox}>
-            <div className={styles.title}>Selected: {formData.emails?.length || 0}</div>
+            <div className={styles.title}>Selected: {formData.volunteers?.length || 0}</div>
             <div className={styles.title}>Results: {searchResults.length}</div>
           </div>
           <div className={styles.table_container}>
@@ -253,8 +258,8 @@ function VolunteerRequest() {
                         <input
                           type="checkbox"
                           id={volunteer._id}
-                          checked={formData.emails.includes(volunteer.email)}
-                          onChange={() => handleCheckboxChange(volunteer.email)}
+                          checked={formData.volunteers.find(formVolunteer => formVolunteer.id == volunteer._id) || false}
+                          onChange={() => handleCheckboxChange(volunteer._id, volunteer.email)}
                         />
                       </td>
                       <td>
@@ -277,7 +282,9 @@ function VolunteerRequest() {
               </tbody>
             </table>
           </div>          
-          
+          <hr />
+            <button className={styles.submit} type="button" onClick={handleDelete}>Delete all selected volunteers from database</button>
+          <hr />
           <div className={styles.titleBox}>
             <label htmlFor="subjectLine">Subject Line</label>
             <input 
@@ -295,7 +302,7 @@ function VolunteerRequest() {
               onChange={(event) => updateFormData(event)}
             />
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit" className={styles.submit}>Submit</button>
         </form>
       }
     </div>
