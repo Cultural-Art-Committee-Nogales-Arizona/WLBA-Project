@@ -100,26 +100,29 @@ export const PUT = async (request) => {
 } */
 
 export const DELETE = async (request) => {
-    const searchParams = request.nextUrl.searchParams
-    const volunteerId = searchParams.get('volunteerId')
+    const { volunteers } = await request.json()
+
+    const message = volunteers.length > 1 ? "Successfully deleted volunteers" :`Successfully deleted Volunteer with _id: ${volunteers[0]}` 
 
     try {
-        const existingVolunteer = await Volunteer.findById(volunteerId);
+        for(const volunteerId of volunteers){
+            const existingVolunteer = await Volunteer.findById(volunteerId);
 
-        if(!existingVolunteer) throw new Error('Volunteer does not exist')
+            if(!existingVolunteer) throw new Error(`Volunteer ${volunteerId} does not exist`)
 
-        await Volunteer.findByIdAndDelete(volunteerId)
+            await Volunteer.findByIdAndDelete(volunteerId)
+        }
         
         return NextResponse.json({
             success: true,
-            message: `Successfully deleted volunteer registration for user: ${existingVolunteer.name}`,
+            message: message,
         }, {
             status: 200
         })
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: `An error occurred deleting volunteer registration`,
+            message: `An error occurred deleting volunteers`,
             errorMessage: err.message,
             error: err
         }, {

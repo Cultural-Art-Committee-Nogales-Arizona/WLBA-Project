@@ -18,7 +18,7 @@ function VolunteerRequest() {
   const [formData, setFormData] = useState({ 
     subjectLine: "", 
     message: "",
-    emails: []
+    volunteers: []
   });
 
   // Fetch all volunteers
@@ -31,8 +31,8 @@ function VolunteerRequest() {
       try {
         const response = await fetch('/api/events/volunteer', { signal, method: 'GET' });
         const fetchedData = await response.json();
-        setAllVolunteers(fetchedData.data)
-        setSearchResults(fetchedData.data)
+        setAllVolunteers(fetchedData.data || [])
+        setSearchResults(fetchedData.data || [])
         setLoading(false)
       } catch (error) {
         if (error.name === 'AbortError') {
@@ -51,22 +51,25 @@ function VolunteerRequest() {
 
   /* ------------------------ Handle volunteer changes ------------------------ */
 
-  const handleCheckboxChange = (volunteerEmail) => {
+  const handleCheckboxChange = (volunteerId, volunteerEmail) => {
     setFormData((prevFormData) => {
       // Check if the volunteerEmail is already in the array
-      const isVolunteerSelected = prevFormData.emails.includes(volunteerEmail);
+      const isVolunteerSelected = prevFormData.volunteers.find(formVolunteer => formVolunteer.id == volunteerId);
   
       // If the volunteerEmail is already selected, remove it from the array
       if (isVolunteerSelected) {
         return {
           ...prevFormData,
-          emails: prevFormData.emails.filter((v) => v !== volunteerEmail)
+          volunteers: prevFormData.volunteers.filter((formVolunteer) => formVolunteer.id !== volunteerId)
         };
       } else {
         // If the volunteerEmail is not selected, add it to the array
         return {
           ...prevFormData,
-          emails: [...prevFormData.emails, volunteerEmail]
+          vendors: [...prevFormData.vendors, {
+            email: volunteerEmail,
+            id: volunteerId
+          }]
         };
       }
     });
@@ -75,17 +78,20 @@ function VolunteerRequest() {
   const toggleAll = (event) => {
     event.preventDefault()
     // Check if all emails are already selected
-    const allSelected = searchResults.every(result => formData.emails.includes(result.email));
+    const allSelected = searchResults.every(result => formData.volunteers.some(formVolunteer => formVolunteer.id == result._id));
   
     if (allSelected) {
       // If all emails are selected, deselect all
       setFormData(prev => ({
         ...prev,
-        emails: []
+        volunteers: []
       }));
     } else {
       // If not all emails are selected, select all
-      const allEmails = searchResults.map(result => result.email);
+      const allEmails = searchResults.map(result => ({
+        id: result._id,
+        email: result.email
+      }));
       setFormData(prev => ({
         ...prev,
         emails: allEmails
@@ -121,7 +127,7 @@ function VolunteerRequest() {
   const handleSubmit = async (event) => {
     event.preventDefault()  
 
-    if (formData.emails.length === 0) {
+    if (formData.volunteers.length === 0) {
       setError('You must select at least one recipient')
       return
     }
@@ -167,6 +173,42 @@ function VolunteerRequest() {
     } catch (error) {
       setLoading(false)
       console.error(error)
+    }
+  }
+
+  const handleDelete = async () => {
+    setLoading(true)
+    const controller = new AbortController()
+    const signal = controller.signal
+
+    try{
+        if (formData.vendors.length == 0) return setError('You MUST Select at least one vendor to delete')
+        const vendors = formData.vendors.map(formVendor => formVendor.id)
+        
+        const response = await fetch('/api/vendor', {
+            signal,
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({
+                vendors
+            })
+        })
+
+        const responseData = await response.json()
+
+        if (responseData.success) {
+            // router.push('/vendor')
+            setSuccess(responseData.message)
+        } else {
+            setError(`Failed to delete vendors ${responseData.errorMessage}`)
+        }
+    } catch (err) {
+        setError(`Error deleting vendors`)
+    } finally {
+        setLoading(false)
     }
   }
 

@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
         <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         <link rel="stylesheet" href="https://cdn.auth0.com/js/auth0-samples-theme/1.0/css/auth0-theme.min.css" />
       </head>
-      <body>
+      <body className={styles.body}>
           <CustomUserProvider>
             <UserProvider>
               <main id="app" className="d-flex flex-column h-100" data-testid="layout">

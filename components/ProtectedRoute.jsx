@@ -1,3 +1,5 @@
+"use client"
+
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client'
@@ -11,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
     if (!isLoading && !user) {
       router.push('/');
     }
-  }, [router, user, isLoading]);
+  }, [user, isLoading]);
 
   const token = useMemo(() => {
     return Cookies.get("token")

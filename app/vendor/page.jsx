@@ -122,7 +122,9 @@ function VendorCenter() {
                   <p>{vendor.accepted? "Accepted": "Pending"}</p>
                 </td>
                 <td>
-                  <Link href={`/vendor/edit?vendorId=${vendor._id}&name=${vendor.name}&description=${vendor.description}&tags=${vendor.tags}&email=${vendor.email}`}>Edit</Link>
+                  <button>
+                    <Link href={`/vendor/edit?vendorId=${vendor._id}&name=${vendor.name}&description=${vendor.description}&tags=${vendor.tags}&email=${vendor.email}`}>Edit</Link>
+                  </button>
                 </td>
                 <td>
                   <button onClick={() => handleDelete(vendor._id)}>Delete</button>
