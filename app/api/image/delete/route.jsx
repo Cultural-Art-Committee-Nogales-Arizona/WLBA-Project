@@ -23,17 +23,17 @@ export const POST = async (request) => {
     }
 
     // Signature parameters
-    const API_KEY = process.env.API_KEY
-    const API_SECRET = process.env.API_SECRET
+    const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY
+    const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET
     const currentTime = Date.now()
     const { imageUrl } = await request.json()
     const publicId = PublicIdFromUrl(imageUrl)
     
-    const signatureString = `public_id=${publicId}&timestamp=${currentTime}${API_SECRET}`
+    const signatureString = `public_id=${publicId}&timestamp=${currentTime}${CLOUDINARY_API_SECRET}`
     const hashedSignature = sha1(signatureString)
     console.log(hashedSignature)
 
-    const queryParams = `?signature=${hashedSignature}&public_id=${publicId}&timestamp=${currentTime}&api_key=${API_KEY}`
+    const queryParams = `?signature=${hashedSignature}&public_id=${publicId}&timestamp=${currentTime}&api_key=${CLOUDINARY_API_KEY}`
     const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/destroy${queryParams}`, {
       method: 'POST',
     }); 
