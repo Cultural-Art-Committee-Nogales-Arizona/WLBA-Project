@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import crypto from 'crypto'
+import sha1 from 'sha1'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -21,36 +21,27 @@ export const POST = async (request) => {
       }
       return publicId;
     }
-    
-    // Generate the signature for authentication
-    function sha1Hash(data) {
-      const hash = crypto.createHash('sha1');
-      hash.update(data);
-      return hash.digest('hex');
-    }
 
     // Signature parameters
     const API_KEY = process.env.API_KEY
     const API_SECRET = process.env.API_SECRET
     const currentTime = Date.now()
     const { imageUrl } = await request.json()
-    console.log(`ImageUrl: ${imageUrl}`)
     const publicId = PublicIdFromUrl(imageUrl)
-    console.log(`PublicID: ${publicId}`)
     
     const signatureString = `public_id=${publicId}&timestamp=${currentTime}${API_SECRET}`
-    const hashedSignature = sha1Hash(signatureString)
+    const hashedSignature = sha1(signatureString)
+    console.log(hashedSignature)
 
     const queryParams = `?signature=${hashedSignature}&public_id=${publicId}&timestamp=${currentTime}&api_key=${API_KEY}`
     const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/destroy${queryParams}`, {
       method: 'POST',
     }); 
-
+    
+    
     const imageResponse = await imageUpload.json()
+    console.log(imageResponse)
 
-    /* return NextResponse.json({
-      data: imageResponse
-    }); */
     if (imageResponse.result == "ok") {
       return NextResponse.json({
         success: true,
