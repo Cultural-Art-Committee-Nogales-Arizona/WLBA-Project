@@ -6,7 +6,7 @@ import ManageVendorForm from '@components/forms/ManageVendorForm'
 
 import Loading from '@/components/overlays/Loading'
 import Error from '@/components/overlays/Error'
-
+import PageLink from '@components/PageLink'
 
 import styles from './page.module.css'
 
@@ -55,6 +55,9 @@ function VolunteerRequest() {
       {/* {error ? <Error params={{error, setError}} /> : null} */}
       {/* Display table  */}
       <h1>List of accepted vendors</h1>
+      <PageLink href="/dashboard/accept-vendors" className="nav-link" testId="navbar-home">
+        <span>Accept Vendors</span>
+      </PageLink>
       { loading ? <Loading /> : 
         <ManageVendorForm params={{tableData, contactRoute: "/api/vendor/reject", formData, setFormData, accept: false}} />
       }

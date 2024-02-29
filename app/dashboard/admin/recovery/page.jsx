@@ -19,11 +19,8 @@ export default function RecoveryPage(){
     
         const createToken = async () => {
           try {
-            const response = await fetch(`/api/admin/recovery?userId=${globalUserData._id}`, { signal, method: 'POST' })
+            await fetch(`/api/admin/recovery?userId=${globalUserData._id}`, { signal, method: 'POST' })
             
-            const body = await response.json()
-
-            console.log(body)
           } catch (err) {
             if (err.name !== 'AbortError') {
               console.error('Error fetching users:', err)

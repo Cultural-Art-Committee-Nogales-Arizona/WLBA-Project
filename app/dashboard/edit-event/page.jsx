@@ -22,24 +22,26 @@ export default function EditEventPage() {
     description: "",
     images: [],
   })
+  const [searchResults, setSearchResults] = useState([])
   const [initialImages, setInitialImages] = useState([])
 
-  const handleEventChange = (event) => {
-    if (event.target.value === "") {
-      setEventId("selectEvent")
-      setFormData({
-        title: "",
-        location: "",
-        start: "",
-        end: "",
-        description: "",
-        images: [],
-      })
-      return 
-    }
-    setEventId(event.target.value)
-    const foundEvent = events.find(festival => festival._id === event.target.value)
+  const handleEventSelect = (tableEvent) => {
+    setEventId(tableEvent)
+    const foundEvent = events.find(festival => festival._id === tableEvent)
     setFormData(foundEvent)
+}
+
+  const searchTable = (searchParam) => {
+    // Create a regex pattern using the search parameter and the 'i' flag for case-insensitive matching
+    const regex = new RegExp(searchParam, 'i')
+
+    // Filter the tableData array based on whether the name or email matches the regex pattern
+    const filtered = events.filter(tableEvent => {
+        return regex.test(tableEvent.title) || regex.test(tableEvent.description) || regex.test(...tableEvent.location)
+    })
+
+    // Update the state with the filtered results
+    setSearchResults(filtered)
   }
 
   const deleteEvent = async (event) => {
@@ -69,7 +71,6 @@ export default function EditEventPage() {
         credentials: "same-origin"
       })
       const data = await response.json()
-      console.log(data)
       setEventId("")
       setFormData({
         title: "",
@@ -104,8 +105,8 @@ export default function EditEventPage() {
 				.then(res => res.json())
 
         setEvents(fetchedData.data)
+        setSearchResults(fetchedData.data || [])
         setInitialImages(fetchedData.data.images)
-        console.log(fetchedData.data.images)
       } catch (error) {
         if (error.name === 'AbortError') {
           console.log('Fetch aborted')
@@ -128,17 +129,59 @@ export default function EditEventPage() {
         <span>Create New Event</span>
       </PageLink>
       <form>
-          Select Event: 
-          <select value={eventId} onChange={(event) => handleEventChange(event)}>
-            <option value="">Select an event</option>
-            {events.map((event) => (
-              <option key={event._id} value={event._id}>
-                {event.title}
-              </option>
-            ))}
-          </select>
-        <button onClick={deleteEvent}>Delete Event</button>
+          <div className={styles.table_container}>
+            <div className={styles.titleBox}>
+                    <div className={styles.title}>Search</div>
+                    <input className={styles.backgroundInput} onChange={(event) => searchTable(event.target.value)} />
+                </div>
+                <div className={styles.titleBox}>
+                    <div className={styles.title}>Results: {searchResults.length}</div>
+                </div>
+                    <table className={styles.email_table}>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Location</th>
+                                <th>Select</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody className={styles.table_body}>
+                            {
+                                searchResults.length ?
+                                searchResults.map(tableEvent => {
+                                    return (
+                                      <tr key={tableEvent._id}>
+                                        <td>
+                                          {tableEvent.title}
+                                        </td>
+                                        <td>
+                                          {tableEvent.start}
+                                        </td>
+                                        <td>
+                                          {tableEvent.location}
+                                        </td>
+                                        <td>
+                                          <button type='button' onClick={() => handleEventSelect(tableEvent._id)}>Select</button>
+                                        </td>
+                                        <td>
+                                          <button type='button' onClick={deleteEvent}>Delete</button>
+                                        </td>
+                                      </tr>
+                                      )
+                                    })
+                                    :
+                                    <tr>
+                                        <td>No matches</td>
+                                    </tr>
+                            }
+                  </tbody>
+            </table>
+          </div>
       </form>
+
+
       <EventForm params={{ formData, setFormData, requestMethod, eventId }} />
     </div>
   )
