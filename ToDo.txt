@@ -6,8 +6,13 @@ const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
 # ------------------------------- URGENT FIXES ------------------------------- #
 
-Fix event form to show and update images with edit form
 Fix event api to delete any images no longer present in the PUT request 
+Fix buttons on calendar to go to next and previous events
+Fix mongoDB connections multiplying
+Make edit event selector have search functionality
+
+
+Styles admin sign in fully
 
 
 # ---------------------------------------------------------------------------- #

@@ -84,7 +84,7 @@ export const POST = async (request) => {
 
 // edit festival with _id
 export const PUT = async (request) => {
-    const token = request.cookies.get('token')
+	const token = request.cookies.get('token')
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
 	const { title, description, location, start, end, images } = await request.json();

@@ -93,18 +93,6 @@ export default function EditEventPage() {
       abortControllerRef.current = null
     }
   }
-  
-  /* function returnUnfinishedEvents(events) {
-    return events.filter(event => {
-      const rightNow = new Date()
-
-      // const startDate = new Date(event.start)
-      const endDate = new Date(event.end)
-
-      return endDate > rightNow
-    })
-  } */
-
 
   useEffect(() => {
     const controller = new AbortController()
