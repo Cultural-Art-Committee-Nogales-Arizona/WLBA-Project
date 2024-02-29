@@ -122,7 +122,8 @@ export default function aboutUs() {
               <Image 
               src={DiaDel}
               width={350}
-              height={370}
+              height={415}
+              className={styles.img}
               />
             </div>
 
