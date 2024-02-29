@@ -97,6 +97,13 @@ function Profile() {
                 <p>Registered Events: {pageData.allEvents.length}</p>
               </div>
               <hr />
+              <h3>Vendor Information</h3>
+              <div>
+                {/* Change this to vendor info */}
+                <p>Current Next Event: {pageData.nextEvent.title || "No upcoming events"}</p>
+                <p>Registered Vendors: {pageData.allEvents.length}</p>
+              </div>
+              <hr />
               <h3>Support Resources</h3>
               <p>
                 
