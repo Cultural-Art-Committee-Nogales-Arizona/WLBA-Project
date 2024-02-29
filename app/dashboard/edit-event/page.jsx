@@ -4,6 +4,8 @@ import { useState, useEffect, useRef, useContext } from 'react'
 import CustomUserContext from '@/components/GlobalUserContext'; 
 import PageLink from '@components/PageLink'
 
+import Loading from '@/components/overlays/Loading'
+
 import styles from './page.module.css'
 
 import EventForm from '@/components/forms/EventForm'
@@ -13,6 +15,7 @@ export default function EditEventPage() {
   const abortControllerRef = useRef(null)
   const requestMethod = 'PUT'
   const [eventId, setEventId] = useState('')
+  const [loading, setLoading] = useState(true)
   const [events, setEvents] = useState([])
   const [formData, setFormData] = useState({
     title: "",
@@ -44,7 +47,7 @@ export default function EditEventPage() {
     setSearchResults(filtered)
   }
 
-  const deleteEvent = async (event) => {
+  const deleteEvent = async (event, festivalId) => {
     event.preventDefault()
 
     // If there's an existing request in progress, abort it
@@ -60,7 +63,8 @@ export default function EditEventPage() {
     if (confirmDelete !== "Yes") return
 
     try {
-      const API_STRING = `/api/events/festivals?festivalId=${formData._id}`
+      setLoading(true)
+      const API_STRING = `/api/events/festivals?festivalId=${festivalId}`
 
       const response = await fetch(API_STRING, { 
         signal, 
@@ -81,6 +85,8 @@ export default function EditEventPage() {
         images: [],
       })
       setInitialImages([])
+      const removeEvent = searchResults.filter(result => result._id !== festivalId)
+      setSearchResults(removeEvent)
       // Handle response data as needed
     } catch (error) {
       if (error.name === 'AbortError') {
@@ -92,6 +98,7 @@ export default function EditEventPage() {
     } finally {
       // Cleanup: Remove the reference to the abort controller
       abortControllerRef.current = null
+      setLoading(false)
     }
   }
 
@@ -107,10 +114,13 @@ export default function EditEventPage() {
         setEvents(fetchedData.data)
         setSearchResults(fetchedData.data || [])
         setInitialImages(fetchedData.data.images)
+        setLoading(false)
       } catch (error) {
+        setLoading(false)
         if (error.name === 'AbortError') {
           console.log('Fetch aborted')
         } else {
+          setError(error.message)
           console.error('Error:', error)
           // Handle other errors as needed
         }
@@ -129,6 +139,9 @@ export default function EditEventPage() {
         <span>Create New Event</span>
       </PageLink>
       <form>
+        {loading ? 
+        <Loading /> :
+
           <div className={styles.table_container}>
             <div className={styles.titleBox}>
                     <div className={styles.title}>Search</div>
@@ -166,7 +179,7 @@ export default function EditEventPage() {
                                           <button type='button' onClick={() => handleEventSelect(tableEvent._id)}>Select</button>
                                         </td>
                                         <td>
-                                          <button type='button' onClick={deleteEvent}>Delete</button>
+                                          <button type='button' onClick={event => deleteEvent(event, tableEvent._id)}>Delete</button>
                                         </td>
                                       </tr>
                                       )
@@ -179,6 +192,7 @@ export default function EditEventPage() {
                   </tbody>
             </table>
           </div>
+          }
       </form>
 
 
