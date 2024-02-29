@@ -1,106 +1,11 @@
-/* -------------------------------------------------------------------------- */
-/*     All of the commented out function are for if we decide to use them     */
-/* -------------------------------------------------------------------------- */
-
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
-
 dotenv.config()
 
 /* ----------------------------- MongoDB Schemas ---------------------------- */
 
-// import Festival from '../models/events/Festivals'
-// import User from '@/models/users/User'
 import User from '@/models/users/User'
 import jwt from 'jsonwebtoken'
-
-/* ------------------------------- Count votes ------------------------------ */
-
-/* function countVotes(data) {
-  let trueVotes = 0
-  let falseVotes = 0
-
-  for (const item of data) {
-    if (item.vote === true) {
-      trueVotes++
-    } else if (item.vote === false) {
-      falseVotes++
-    }
-  }
-
-  return trueVotes - falseVotes
-} */
-
-/* ------------------------ check for duplicate vote ------------------------ */
-
-/* async function isDuplicate(req, res, id, author) {
-  try {
-    let updatedDoc
-    let { vote } = req.body
-
-    let newVote = { author, vote }
-
-    const existingVoteInPost = await Post.findOne({ _id: id, "votes.author": author })
-
-    const existingVoteInComment = await Comment.findOne({ _id: id, "votes.author": author })
-
-    if (existingVoteInPost) {      
-      updatedDoc = await Post.findOneAndUpdate(
-        { _id: id, "votes.author": author },
-        { $set: { 'votes.$': newVote } },
-        { new: true }
-      )
-
-      updatedDoc.voteCount = countVotes(updatedDoc.votes)
-      await updatedDoc.save()
-      
-    } else if (existingVoteInComment) {
-      updatedDoc = await Comment.findOneAndUpdate(
-        { _id: id, "votes.author": author },
-        { $set: { 'votes.$': newVote } },
-        { new: true }
-      )
-      updatedDoc.voteCount = countVotes(updatedDoc.votes)
-      await updatedDoc.save()
-    }
-
-    const existingVote = existingVoteInPost || existingVoteInComment
-
-    if (existingVote) {
-      res.status(200).json({
-        success: true,
-        message: `Vote successfully updated`,
-        voteCount: updatedDoc.voteCount
-      })
-      return true
-    }
-
-    return false
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: 'An error occurred in function isDuplicate',
-      errorMessage: err.message,
-      error: err
-    })
-  }
-} */
-
-/* ---------------------- Get a users auth with authID ---------------------- */
-
-/* async function getUserWithID(userID) {
-  const user = await User.findOne({ userAuthID: userID })
-  if (!user) throw new Error(`User with userAuthID: ${userID} has not been found`)
-  return user
-} */
-
-/* ------------------------ Get a users _id with name ----------------------- */
-
-/* async function getIdWithName(name) {
-  const user = await User.findOne({ username: name })
-  if (!user) throw new Error(`User with username: ${name} not found`)
-  return user._id
-} */
 
 /* ------------------------ Generate recovery token ----------------------- */
 
@@ -206,11 +111,8 @@ async function deleteImages(imageArray) {
   try {
     const returnedData = []
     const promises = imageArray.map(async image => {
-      const response = await fetch(`http://localhost:3000/api/image/delete`, {
+      const response = await fetch(`${process.env.BASE_URL}/api/image/delete`, {
         method: 'POST',
-        /* headers: {
-          'Content-type': 'Application/json'
-        }, */
         body: JSON.stringify({ imageUrl: image })
       })
 
@@ -233,7 +135,4 @@ async function deleteImages(imageArray) {
 
 /* -------------------------------------------------------------------------- */
 
-// countVotes, 
-// isDuplicate, 
-// getUserWithID, 
 export { generateUserAuthID, isAdmin, hash, generateRecoveryToken, generateExpiryDate, deleteImages, uploadImages }

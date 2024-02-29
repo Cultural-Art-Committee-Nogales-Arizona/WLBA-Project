@@ -3,16 +3,16 @@ import { NextResponse } from 'next/server'
 
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams
-    const nick = searchParams.get('email') || ""
+    const requestEmail = searchParams.get('email') || ""
 
     try{
-        if (!nick) throw new Error("No name query defined, you must append ?name= to URL")
+        if (!requestEmail) throw new Error("No name query defined, you must append ?name= to URL")
 
-        const searchEmail = new RegExp(nick)
+        const searchEmail = new RegExp(requestEmail)
 
         const user = await User.findOne({ email: { $regex: searchEmail } })
 
-        if(!user) throw new Error(`No such user exists with email: ${nick}`)
+        if(!user) throw new Error(`No such user exists with email: ${requestEmail}`)
 
         const { username, _id, email, admin } = user
         return NextResponse.json({

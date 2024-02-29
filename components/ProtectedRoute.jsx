@@ -10,18 +10,17 @@ const ProtectedRoute = ({ children }) => {
   const {user, isLoading} = useUser();
 
   useEffect(() => {
+    console.log(user)
     if (!isLoading && !user) {
       router.push('/');
     }
-  }, [user, isLoading]);
+    const token = Cookies.get("token")
+    
+    if (!token) {
+      router.push('/dashboard/admin/sign-in')
+    }
+  }, [user]);
 
-  const token = useMemo(() => {
-    return Cookies.get("token")
-  }, [user])
-
-  if (!token) {
-    router.push('/dashboard/admin/sign-in')
-  }
 
   return <>{children}</>
 };

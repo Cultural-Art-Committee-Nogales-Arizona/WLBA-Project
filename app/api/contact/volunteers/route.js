@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
 import { isAdmin } from '@/utils/routeMethods'
-import { headers } from 'next/headers'
 dotenv.config()
 
 // We need to learn reactMail to make the emails nicer
