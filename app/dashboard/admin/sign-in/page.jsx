@@ -80,31 +80,32 @@ export default function AdminSignIn() {
       { loading ? 
         <Loading /> : 
         <>
-      `<form onSubmit={handleSubmit}>
-          <div className={styles.formGroup}>
-            <label  className={styles.formLabel} htmlFor="email">Email</label>
-            <input 
-            className={styles.formInput}
-              id="email" 
-              type="email" 
-              value={credentials.email}
-              onChange={event => handleInput(event)}
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="password">Password</label>
-            <input 
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <div className={styles.formGroup}>
+              <label  className={styles.formLabel} htmlFor="email">Email</label>
+              <input 
+              className={styles.formInput}
+                id="email" 
+                type="email" 
+                value={credentials.email}
+                onChange={event => handleInput(event)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="password"  className={styles.formLabel}>Password</label>
+              <input 
+                className={styles.formInput}
               id="password" 
-              type="password" 
-              value={credentials.password}
-              onChange={event => handleInput(event)}
-            />
-          </div>
-          
-          <button className={styles.formButton} type="submit">Submit</button>
-        </form>
+                type="password" 
+                value={credentials.password}
+                onChange={event => handleInput(event)}
+              />
+            </div>
+            
+            <button className={styles.formButton} type="submit">Submit</button>
+          </form>
           <div className={styles.formLink}>
-            <Link href={'/dashboard/admin/recovery'}>Forgot password?</Link>
+              <Link href={'/dashboard/admin/recovery'}>Forgot password?</Link>
           </div>
         </> 
       }
