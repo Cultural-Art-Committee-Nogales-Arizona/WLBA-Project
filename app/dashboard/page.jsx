@@ -22,12 +22,12 @@ function Profile() {
     nextEvent: {}
   })
 
-  useMemo(() => {
+  useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
     
-    if(globalUserData.adminAuthId){
-      const fetchData = async () => {
+    const fetchData = async () => {
+      try {
         const eventsResponse = await fetch('/api/events/festivals', {
           signal,
           method: 'GET',
@@ -54,10 +54,20 @@ function Profile() {
           allEvents: parsedEvents.data,
           nextEvent: parsedNextEvent.data
         })
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error('Error fetching users:', error)
+        }
       }
+    }
 
+    if(globalUserData.adminAuthId){
       fetchData()
     }
+
+    // Abort fetching if component unmounts
+    // This will cancel any ongoing fetch requests
+    return () => controller.abort();
   }, [ globalUserData ])
 
   return (
@@ -81,15 +91,16 @@ function Profile() {
               </p>
               <hr />
               <h3>Events Information</h3>
-              <p>
+              <div>
+                {/* display more information about the event, add vendor and volunteer counts */}
                 <p>Current Next Event: {pageData.nextEvent.title || "No upcoming events"}</p>
                 <p>Registered Events: {pageData.allEvents.length}</p>
-              </p>
+              </div>
               <hr />
               <h3>Support Resources</h3>
               <p>
                 
-                <p><a target="_blank" href={'https://github.com/Cultural-Art-Committee-Nogales-Arizona/WLBA-Project/blob/main/api-documentation.md'}>API Docs</a></p>
+                <a target="_blank" href={'https://github.com/Cultural-Art-Committee-Nogales-Arizona/WLBA-Project/blob/main/api-documentation.md'}>API Docs</a>
               </p>
             </>
             : 

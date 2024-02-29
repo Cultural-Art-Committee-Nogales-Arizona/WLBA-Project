@@ -19,11 +19,9 @@ export const GET = async (request) => {
 			return events.find((event) => new Date(event.end) > rightNow);
 		}
 
-		const nextEvent = returnNextEvent(result);
-
 		// If query contains "nextEvent=true" it only returns the next event
 		// otherwise return all events
-		const dataResponse = onlyNextEvent === "true" ? nextEvent : result;
+		const dataResponse = onlyNextEvent === "true" ? returnNextEvent(result) : result;
 
 		return NextResponse.json({
 				success: true,

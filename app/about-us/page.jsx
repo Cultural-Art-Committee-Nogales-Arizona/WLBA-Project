@@ -23,7 +23,6 @@ const artesaniaFont = localFont({
 })
 
 export default function aboutUs() {
-  console.log(ImportDirectorInformation)
   return (
     <div className={styles.aboutUsContainer} >
       <Hero 
