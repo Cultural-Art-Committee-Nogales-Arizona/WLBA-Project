@@ -182,10 +182,6 @@ export default function EventForm({ params }) {
     }))
   }
 
-  useEffect(() => {
-console.log(images)
-  }, [images])
-
   const resetForm = () => {
     if (startFlatpickrTimeInstance) {
       startFlatpickrTimeInstance.input.value = ""
@@ -330,10 +326,6 @@ console.log(images)
       setImages(prev => [ ...prev, ...formImages ]) 
     }
   }, [formData.images])
-
-  /* useEffect(() => {
-    console.log(images)
-  }, [images]) */
   
   return (
     <>

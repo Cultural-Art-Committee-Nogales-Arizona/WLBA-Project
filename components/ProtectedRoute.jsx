@@ -10,7 +10,6 @@ const ProtectedRoute = ({ children }) => {
   const {user, isLoading} = useUser();
 
   useEffect(() => {
-    console.log(user)
     if (!isLoading && !user) {
       router.push('/');
     }

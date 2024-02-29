@@ -69,7 +69,6 @@ export default function EditEventPage() {
         credentials: "same-origin"
       })
       const data = await response.json()
-      console.log(data)
       setEventId("")
       setFormData({
         title: "",
@@ -105,7 +104,6 @@ export default function EditEventPage() {
 
         setEvents(fetchedData.data)
         setInitialImages(fetchedData.data.images)
-        console.log(fetchedData.data.images)
       } catch (error) {
         if (error.name === 'AbortError') {
           console.log('Fetch aborted')

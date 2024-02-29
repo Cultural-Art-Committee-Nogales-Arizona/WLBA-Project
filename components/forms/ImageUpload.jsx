@@ -24,7 +24,6 @@ export default function ImageUpload({ params }) {
         file: file
       }))
     ]);
-    console.log(images)
   };
 
   return (

@@ -31,16 +31,13 @@ export const POST = async (request) => {
     
     const signatureString = `public_id=${publicId}&timestamp=${currentTime}${CLOUDINARY_API_SECRET}`
     const hashedSignature = sha1(signatureString)
-    console.log(hashedSignature)
 
     const queryParams = `?signature=${hashedSignature}&public_id=${publicId}&timestamp=${currentTime}&api_key=${CLOUDINARY_API_KEY}`
     const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/destroy${queryParams}`, {
       method: 'POST',
     }); 
     
-    
     const imageResponse = await imageUpload.json()
-    console.log(imageResponse)
 
     if (imageResponse.result == "ok") {
       return NextResponse.json({

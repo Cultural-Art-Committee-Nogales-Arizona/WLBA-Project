@@ -101,7 +101,6 @@ async function uploadImages(request) {
   }
 
   const imageResponse = await imageUpload.json();
-  console.log(imageResponse);
   return imageResponse
 }
 
