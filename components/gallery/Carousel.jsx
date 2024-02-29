@@ -17,7 +17,6 @@ const Carousel = ({ params }) => {
   
   const removeImage = (event, imageName) => {
     event.preventDefault()
-    console.log(imageName)
     const filteredImages = images.filter(image => image.preview !== imageName)
     if (setImages) setImages(filteredImages)
     setCurrentIndex(prev => {

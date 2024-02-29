@@ -109,7 +109,6 @@ export const PUT = async (request) => {
 		/* ------------------- Delete images that were edited out ------------------- */
 
 		try {
-			console.log(imagesNotInNewRequest)
 			if (imagesNotInNewRequest.length) {
 				await deleteImages(imagesNotInNewRequest)
 			} else if (!images.length) {
@@ -175,7 +174,6 @@ export const DELETE = async (request) => {
 
 		if (existingFestival.images.length) {
 			try {
-				// console.log(existingFestival.images)
 				await deleteImages(existingFestival.images)
 			} catch (error) {
 				console.error("Failed to delete images from Cloudinary")

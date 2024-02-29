@@ -173,7 +173,6 @@ function VolunteerRequest() {
       } else {
         setError(result.errorMessage)
       }
-      console.log(result)
       setLoading(false)
     } catch (error) {
       setLoading(false)

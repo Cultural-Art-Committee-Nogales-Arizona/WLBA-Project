@@ -10,6 +10,13 @@ Fix event api to delete any images no longer present in the PUT request
 Fix buttons on calendar to go to next and previous events
 Make edit event selector have search functionality
 
+Fix fullcalendar being translated by google, it breaks it we need to make it not translated
+Verify the PUT delete images for events
+
+
+Styles admin sign in fully
+
+
 # ---------------------------------------------------------------------------- #
 
 AUTH0:

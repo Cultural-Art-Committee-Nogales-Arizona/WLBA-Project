@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: space-around;
   border-radius: 10px;
-  background-color: #E9E9E9;  
+  background-color: var( --blumine);  
   border: solid black 3px;
   box-shadow: 0px 0px 10px 1px;
   
@@ -25,7 +25,7 @@
 }
 
 .title {
-  color: #000;
+  color: white;
   font-size: 25px;
   width: 70px;
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',

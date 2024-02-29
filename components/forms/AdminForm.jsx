@@ -43,7 +43,6 @@ export default function AdminForm({ params }) {
             const fetchedData = await response.json()
             setTableData(fetchedData.data || [])
             setSearchResults(fetchedData.data || [])
-            console.log(fetchedData)
           } catch (error) {
             if (error.name !== 'AbortError') {
               console.error('Error fetching users:', error)
@@ -97,7 +96,7 @@ export default function AdminForm({ params }) {
                 const responseData = await response.json()
 
                 if(responseData.success){
-                    console.log('removed')
+                    setSuccess('Admin removed')
                 } else {
                     setError(`Failed to submit the form ${responseData.errorMessage}`)
                     throw new Error(`Admin API failed to parse request. Status code: ${response.status}`)
@@ -147,7 +146,7 @@ export default function AdminForm({ params }) {
                 const responseData = await response.json()
 
                 if(responseData.success){
-                    console.log('added')
+                    setSuccess('Added Admin')
                 } else {
                     setError(`Failed to submit the form ${responseData.errorMessage}`)
                     throw new Error(`Admin API failed to parse request. Status code: ${response.status}`)
