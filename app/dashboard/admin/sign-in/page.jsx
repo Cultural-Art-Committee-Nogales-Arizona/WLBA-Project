@@ -73,7 +73,7 @@ export default function AdminSignIn() {
       {error ? <Error params={{error, setError}} /> : null}
       {success ? <Success params={{success, setSuccess}} /> : null}
       <h1 className={styles.formHeading}>Sign in to use Admin features</h1>
-      <form onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <label  className={styles.formLabel} htmlFor="email">Email</label>
           <input 
@@ -85,8 +85,9 @@ export default function AdminSignIn() {
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password"  className={styles.formLabel}>Password</label>
           <input 
+            className={styles.formInput}
             id="password" 
             type="password" 
             value={credentials.password}
@@ -97,7 +98,7 @@ export default function AdminSignIn() {
         <button className={styles.formButton} type="submit">Submit</button>
       </form>
       <div className={styles.formLink}>
-      <Link href={'/dashboard/admin/recovery'}>Forgot password?</Link>
+        <Link href={'/dashboard/admin/recovery'}>Forgot password?</Link>
       </div>
       </div>
     </div>
