@@ -118,7 +118,8 @@ export default function VendorForm({ vendorId, vendorData }){
                             type="text" 
                             value={formData.tags || ''} 
                             onChange={event => updateForm(event)} 
-                            placeholder='Name of Vendor' 
+                            placeholder='Separate by commas ex.(food,fun)' 
+                            pattern="^[a-zA-Z]+(,[a-zA-Z]+)*$"
                             required
                         />
                     </div>

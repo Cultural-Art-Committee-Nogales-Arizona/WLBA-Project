@@ -233,7 +233,7 @@ export default function ManageVendorForm({ params }) {
                     <input className={styles.backgroundInput} onChange={(event) => searchTable(event.target.value)} />
                 </div>
                 <div className={styles.titleBox}>
-                    <div className={styles.title}>Selected: {formData.emails?.length || 0}</div>
+                    <div className={styles.title}>Selected: {formData.vendors?.length || 0}</div>
                     <div className={styles.title}>Results: {searchResults.length}</div>
                 </div>
                 <div className={styles.table_container}>
@@ -308,7 +308,9 @@ export default function ManageVendorForm({ params }) {
                         </tbody>
                     </table>
                 </div>
-                <button type="button" onClick={handleDelete}>Delete all selected vendors from database</button>
+                <hr />
+                <button className={styles.submit} type="button" onClick={handleDelete}>Delete all selected vendors from database</button>
+                <hr />
                 {accept? (
                     <>
                         <div className={styles.titleBox}>
@@ -330,7 +332,7 @@ export default function ManageVendorForm({ params }) {
                         />
                 </div>
 
-                <input type="submit" className={styles.submit} value={"Submit"}></input>
+                <input type="submit" className={styles.submit} value={"Accept Selected Vendors"}></input>
                     </>
                 )
                     : 

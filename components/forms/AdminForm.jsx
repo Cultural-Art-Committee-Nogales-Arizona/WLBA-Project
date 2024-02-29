@@ -224,35 +224,42 @@ export default function AdminForm({ params }) {
                         </tbody>
                     </table>
                 </div>
-                {selectedUser.admin ? (
-                        <input className={styles.titleBox} type="submit" value={'Remove Admin Status'} />
-                    ) : (
-                        <>
-                    <div className={styles.titleBox}>
-                        <label htmlFor="password">Password</label>
-                        <input
-                        id="password"
-                        type="password"
-                        value={formData.password || ''}
-                        onChange={(event) => updateForm(event)}
-                        placeholder='Create an admin password'
-                        required
-                        />
-                    </div>
-                    <div className={styles.titleBox}>
-                        <label htmlFor="confirmPassword">Confirm Password</label>
-                        <input
-                        id="confirmPassword"
-                        type="password"
-                        value={formData.confirmPassword || ''}
-                        onChange={(event) => updateForm(event)}
-                        placeholder='Confirm Admin Password'
-                        required
-                        />
-                    </div>
-                    <input type="submit" value={`Register ${selectedUser.username}`} />
-                    </>
-                )}
+                {selectedUser.username? 
+                <>
+                    {selectedUser.admin ? (
+                                <input className={styles.titleBox} type="submit" value={'Remove Admin Status'} />
+                            ) : (
+                                <>
+                            <div className={styles.titleBox}>
+                                <label htmlFor="password">Password</label>
+                                <input
+                                id="password"
+                                type="password"
+                                value={formData.password || ''}
+                                onChange={(event) => updateForm(event)}
+                                placeholder='Create an admin password'
+                                required
+                                />
+                            </div>
+                            <div className={styles.titleBox}>
+                                <label htmlFor="confirmPassword">Confirm Password</label>
+                                <input
+                                id="confirmPassword"
+                                type="password"
+                                value={formData.confirmPassword || ''}
+                                onChange={(event) => updateForm(event)}
+                                placeholder='Confirm Admin Password'
+                                required
+                                />
+                            </div>
+                            <input className={styles.submit} type="submit" value={`Register ${selectedUser.username}`} />
+                            </>
+                        )} 
+                </>
+                    :
+                    <p className={styles.titleBox}>Select a user</p>
+                }
+                
             </form>
             }
         </div>
