@@ -11,9 +11,9 @@ import ImportDirectorInformation from "@utils/ImportDirectorInformation";
 import Hero from '@/components/Hero'
 import DirectorImage from '@/components/gallery/DirectorImage'
 
-import Donate from '@/components/buttons/Donate'
+// import Donate from '@/components/buttons/Donate'
 
-import ChristmasImg from '@/public/Images/Christmas.JPG'
+import ChristmasImg from '@/public/Images/Christmas.jpg'
 import DiaDel from '@/public/Images/Dia_Del_Amor.JPG'
 
 import localFont from 'next/font/local'
