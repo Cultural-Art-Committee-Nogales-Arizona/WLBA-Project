@@ -14,10 +14,6 @@ const artesaniaFont = localFont({
   display: 'swap',
 })
 
-// I don't know why but importing this function breaks everything because of a random ASCII character
-// import { deleteImages } from '@/utils/routeMethods'
-
-
 export default function Index() {
   // We no longer need this as we have moved the whole calendar to the front page
   /* const [nextEvent, setNextEvent] = useState(null)

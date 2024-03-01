@@ -153,7 +153,7 @@ export default function Calendar() {
 	return (
 		<div className={styles.container}> 
 			<div className={styles.calendar}>
-				{events ?
+				{!!events.length ?
 					<FullCalendar
 						// className="notranslate"
 						ref={calendarRef}

@@ -13,8 +13,8 @@ import DirectorImage from '@/components/gallery/DirectorImage'
 
 import Donate from '@/components/buttons/Donate'
 
-import ChristmasImg from '@/public/Images/Christmas.jpg'
-import DiaDel from '@/public/Images/DiaDel.jpg'
+import ChristmasImg from '@/public/Images/Christmas.JPG'
+import DiaDel from '@/public/Images/Dia_Del_Amor.JPG'
 
 import localFont from 'next/font/local'
 const artesaniaFont = localFont({
@@ -107,7 +107,12 @@ export default function aboutUs() {
         <div className={styles.eventsContainer}>
           <div className={styles.events}>
             <div className={styles.eventsImg}>
-              {/* Image */}
+              <Image 
+                src={DiaDel}
+                width={350}
+                height={415}
+                className={styles.img}
+              />
             </div>
 
             <div className={styles.desc}>

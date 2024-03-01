@@ -222,7 +222,7 @@
 /* Jaden's P - 2 */
 .eventDiv{
     width: 98vw;
-    height: 90vh;
+    height: 80vh;
 
     display: grid;
     align-items: center;
@@ -240,7 +240,7 @@
 
 .eventsContainer{
     width: 95%;
-    height: 70vh;
+    height: 60vh;
 
     display: flex;
     flex-direction: row;
@@ -250,17 +250,21 @@
 
 .events{
     width: 40%;
-    height: 60vh;
+    height: 55vh;
 }
 
 .eventsImg{
     width: 100%;
-    height: 50vh;
+    height: 80%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .desc{
     width: 100%;
-    height: 20vh;
+    height: fit-content;
 
     margin-top: 5%;
     text-align: center;

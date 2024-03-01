@@ -6,7 +6,10 @@ const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
 # ------------------------------- URGENT FIXES ------------------------------- #
 
-Fix event api to delete any images no longer present in the PUT request 
+make the dates for the min events update dynamically
+
+recolor the eventForm
+
 Fix buttons on calendar to go to next and previous events
 Make edit event selector have search functionality
 
