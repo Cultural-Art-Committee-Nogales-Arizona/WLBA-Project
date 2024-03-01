@@ -131,20 +131,6 @@ function VolunteerRequest() {
       return
     }
 
-    // We probably wont use this
-    /* const confirmEmail = prompt(`
-      Confirm information\n
-      Subject: ${formData.subjectLine}\n
-      Message: ${formData.message}\n
-      Recipients: ${[...formData.emails]}\n\n
-      Type "Yes" to confirm
-      `)
-      
-    if (confirmEmail !== "Yes") {
-      alert("Canceled form submission") 
-      return
-    }  */
-
     const emails = formData.volunteers.map(formVolunteer => formVolunteer.email)
 
     setLoading(true)
@@ -160,7 +146,7 @@ function VolunteerRequest() {
         },
         credentials: "same-origin",
         body: JSON.stringify({
-          mesage: formData.message,
+          message: formData.message,
           subjectLine: formData.subjectLine,
           emails: emails
         }) 
@@ -206,6 +192,11 @@ function VolunteerRequest() {
         if (responseData.success) {
             // router.push('/vendor')
             setSuccess(responseData.message)
+            setSearchResults(() => searchResults.filter(result => !volunteers.includes(result._id)))
+            setFormData(prev => ({
+              ...prev,
+              volunteers: []
+            }))
         } else {
             setError(`Failed to delete volunters ${responseData.errorMessage}`)
         }
@@ -285,11 +276,12 @@ function VolunteerRequest() {
             <button className={styles.submit} type="button" onClick={handleDelete}>Delete all selected volunteers from database</button>
           <hr />
           <div className={styles.titleBox}>
-            <label htmlFor="subjectLine">Subject Line</label>
+            <label htmlFor="subjectLine" className={styles.title}>Subject Line</label>
             <input 
               type="text" 
               id="subjectLine" 
               onChange={(event) => updateFormData(event)}
+              className={styles.backgroundInput}
             />
           </div>
           <div className={styles.titleBox}>

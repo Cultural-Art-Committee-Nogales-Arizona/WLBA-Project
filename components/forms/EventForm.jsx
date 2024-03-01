@@ -335,24 +335,26 @@ export default function EventForm({ params }) {
       <form onSubmit={event => submitForm(event)} className={styles.form}>
         {/* Start Dates */}
         <fieldset className={styles.fieldset}>
-          <legend className={styles.legend}>Event Start</legend>
-          <div className={styles.formGroup}>
-            <label htmlFor="date">Date:</label>
+          <legend className={`${styles.legend}`}>Event Start</legend>
+          <div className={styles.titleBox}>
+            <label htmlFor="date" className={styles.title}>Date:</label>
             <br />
             <input
               type="text"
               ref={startDatePicker}
               placeholder="Select Date"
+              className={styles.backgroundInput}
               required
             />
           </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="time">Time:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="time" className={styles.title}>Time:</label>
             <br />
             <input 
               type="text" 
               ref={startTimePicker} 
               placeholder="Select Time"
+              className={styles.backgroundInput}
               required
             />
           </div>
@@ -360,21 +362,23 @@ export default function EventForm({ params }) {
         {/* End Dates */}
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Event End</legend>
-          <div className={styles.formGroup}>
-            <label htmlFor="date">Date:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="date" className={styles.title}>Date:</label>
             <input
               type="text"
               ref={endDatePicker}
               placeholder="Select Date"
+              className={styles.backgroundInput}
               required
             />
           </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="time">Time:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="time" className={styles.title}>Time:</label>
             <input 
               type="text" 
               ref={endTimePicker} 
               placeholder="Select Time"
+              className={styles.backgroundInput}
               required
             />
           </div>
@@ -382,22 +386,23 @@ export default function EventForm({ params }) {
         {/* Describe Event */}
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Describe Event</legend>
-          <div className={styles.formGroup}>
-            <label htmlFor="title">Title:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="title" className={styles.title}>Title:</label>
             <input 
               id="title" 
               type="text" 
               value={formData.title || ''} 
               onChange={event => updateForm(event)} 
               placeholder='Title' 
+              className={styles.backgroundInput}
               required
             />
           </div>
-          <div className={`${styles.formGroup}`}>
-            <label htmlFor="description">Description:</label>
+          <div className={`${styles.titleBox}`}>
+            <label htmlFor="description" className={styles.title}>Description:</label>
             <textarea
               id="description"
-              className={styles.textArea}
+              className={`${styles.textArea} ${styles.backgroundInput}`}
               value={formData.description || ''}
               onChange={event => updateForm(event)} 
               placeholder="Description"
@@ -408,19 +413,20 @@ export default function EventForm({ params }) {
         {/* Additional Information */}
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Additional Information</legend>
-          <div className={styles.formGroup}>
-            <label htmlFor="location">Location:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="location" className={styles.title}>Location:</label>
             <input 
               id="location" 
               type="text" 
               value={formData.location || ''} 
               onChange={event => updateForm(event)} 
-              placeholder='Location' 
+              placeholder="123 Main Citytown, Stateville 12345"
+              className={styles.backgroundInput}
               required
             />
           </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="banner">Image:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="banner" className={styles.title}>Image:</label>
             <ImageUpload params={{images, setImages}} />
           </div>
         </fieldset>

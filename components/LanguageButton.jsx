@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from 'react';
 
 const LanguageButton = () => {
@@ -31,10 +32,10 @@ const LanguageButton = () => {
     document.body.appendChild(script);
     document.body.appendChild(script2);
 
-    /* return () => {
+    return () => {
       document.body.removeChild(script);
       document.body.removeChild(script2);
-    }; */
+    };
   }, []);
 
   return (

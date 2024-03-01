@@ -106,7 +106,6 @@
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif;
   flex-direction: column;
-  /* padding-left: 25px; */
 }
 
 .backgroundInput {
@@ -123,10 +122,11 @@
 }
 
 .textArea {
+  min-height: 80%;
   margin-right: 5px;
   margin-top: 7px;
   margin-bottom: 7px;
-  height: 80%;
+  /* height: 80%; */
 }
 
 .submit  {

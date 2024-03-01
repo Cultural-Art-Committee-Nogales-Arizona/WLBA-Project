@@ -8,6 +8,18 @@
 }
 
 /* ---------------------------------- Table --------------------------------- */
+.form {
+  background-color: var(--blumine);
+  /* height: 500px; */
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: solid var(--dark-red) 4px;
+}
+
 .table_container {
   width: 97%;
   height: 400px;

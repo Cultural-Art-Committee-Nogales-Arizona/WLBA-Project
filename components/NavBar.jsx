@@ -98,7 +98,7 @@ const NavBar = () => {
               </NavItem>
               {/* REPLACE "href" WITH STRIPE LINK */}
               {/* <NavItem>
-                <a href="https://buy.stripe.com/eVa6ptaH472hgkE000" target="_blank" className="nav-link" >
+                <a href="STRIPE DONATE LINK" target="_blank" className="nav-link" >
                   <span className={styles.link_animation}>Donate</span>
                 </a>
               </NavItem> */}
@@ -137,9 +137,6 @@ const NavBar = () => {
                         Vendor Center
                       </AnchorLink>
                     </DropdownItem>
-                    {/*  We can move the buttons here */}
-                    {/* <ChangeLanguage /> */}
-                      
                     {globalUserData.adminAuthId ? 
                     <DropdownItem className="dropdown-profile" tag="span">
                       <PageLink href="/dashboard" icon="user" testId="navbar-profile-desktop">

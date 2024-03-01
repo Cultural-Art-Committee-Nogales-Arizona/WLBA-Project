@@ -53,10 +53,7 @@ export default function Calendar() {
 				calendarApi.gotoDate(closestEventBeforeNow.start);
 				// console.log(closestEventBeforeNow.end);
 			} else {
-								console.log(pastEvents)
-				console.log("No past events found.");
-				console.log(pastEvents)
-				// Handle the case where there are no past events
+				alert(`No events listed before: ${selectedDate.toLocaleDateString()}`)
 			}
 		}
 	}	
@@ -78,9 +75,7 @@ export default function Calendar() {
 				setSelectedDate(new Date(closestEventAfterNow.start));
 				calendarApi.gotoDate(closestEventAfterNow.start);
 			} else {
-				console.log(futureEvents)
-				console.log("No future events found.");
-				// Handle the case where there are no past events
+				alert(`No events listed after: ${selectedDate.toLocaleDateString()}`)
 			}
 		}
 	}

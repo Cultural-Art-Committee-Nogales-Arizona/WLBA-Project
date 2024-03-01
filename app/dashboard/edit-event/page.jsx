@@ -138,7 +138,7 @@ export default function EditEventPage() {
       <PageLink href="/dashboard/create-event" className="nav-link" testId="navbar-home">
         <span>Create New Event</span>
       </PageLink>
-      <form>
+      <form className={styles.form}>
         {loading ? 
         <Loading /> :
 
@@ -170,7 +170,7 @@ export default function EditEventPage() {
                                           {tableEvent.title}
                                         </td>
                                         <td>
-                                          {tableEvent.start}
+                                          {new Date(tableEvent.start).toLocaleString()}
                                         </td>
                                         <td>
                                           {tableEvent.location}
