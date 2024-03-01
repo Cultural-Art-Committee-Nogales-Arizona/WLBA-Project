@@ -120,7 +120,6 @@ export default function EditEventPage() {
         if (error.name === 'AbortError') {
           console.log('Fetch aborted')
         } else {
-          setError(error.message)
           console.error('Error:', error)
           // Handle other errors as needed
         }

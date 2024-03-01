@@ -19,7 +19,8 @@ function Profile() {
   const { user, isLoading } = useUser()
   const [ pageData, setPageData ] = useState({
     allEvents: [],
-    nextEvent: {}
+    nextEvent: {},
+    allVendors: []
   })
 
   useEffect(() => {
@@ -46,13 +47,23 @@ function Profile() {
           credentials: "same-origin"
         })
 
+        const vendorsResponse = await fetch(`/api/vendor`, {
+          signal,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: "same-origin"
+        })
+
         const parsedEvents = await eventsResponse.json()
         const parsedNextEvent = await nextEventResponse.json()
-        console.log(parsedNextEvent)
+        const parsedVendors = await vendorsResponse.json()
 
         setPageData({
           allEvents: parsedEvents.data,
-          nextEvent: parsedNextEvent.data
+          nextEvent: parsedNextEvent.data,
+          allVendors: parsedVendors.data
         })
       } catch (error) {
         if (error.name !== 'AbortError') {
@@ -100,7 +111,7 @@ function Profile() {
               <h3>Vendor Information</h3>
               <div>
                 {/* Change this to vendor info */}
-                <p>Registered Vendors: {pageData.allEvents.length}</p>
+                <p>Registered Vendors: {pageData.allVendors.length}</p>
               </div>
               <hr />
               <h3>Support Resources</h3>

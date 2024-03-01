@@ -8,8 +8,6 @@ const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
 finish vendor dashboard page
 
-Fix admin dashboard to display vendor data
-
 fix vendor for having revoke and delete vendor
 
 finish vendor form page
