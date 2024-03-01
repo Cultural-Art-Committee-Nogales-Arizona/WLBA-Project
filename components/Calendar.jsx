@@ -29,42 +29,59 @@ export default function Calendar() {
 
 	const calendarRef = useRef()
 
-	const [selectedTime, setSelectedTime] = useState(new Date().toISOString())
+	const [selectedDate, setSelectedDate] = useState(new Date())
 
 	const [dayData, setDayData] = useState([])
-	const [events, setEvents] = useState([])
+	const [events, setEvents] = useState(null)
 
 	/* ----------------------------- Custom buttons ----------------------------- */
 
 	const lastEvent = {
 		text: '<-- Event',
 		click: () => {
-			const now = new Date();
-			const pastEvents = events.filter(event => new Date(event.start) < now);
-
-			// Sort pastEvents by start time in descending order
+			if(!events) return
+			const calendarApi = calendarRef.current.getApi();
+			const pastEvents = events.filter(event => new Date(event.start) < new Date(selectedDate));
+			// Sort pastEvents by end time in descending order
+						console.log(pastEvents)
 			pastEvents.sort((a, b) => new Date(b.start) - new Date(a.start));
-			const closestEventBeforeNow = pastEvents[0];
-			findData(closestEventBeforeNow.start)
-			setSelectedTime(closestEventBeforeNow.start)
-			console.log(closestEventBeforeNow.start)
+			console.log(pastEvents)
+			if (pastEvents.length > 0) {
+				const closestEventBeforeNow = pastEvents[0];
+				findData(closestEventBeforeNow.start);
+				setSelectedDate(new Date(closestEventBeforeNow.start));
+				calendarApi.gotoDate(closestEventBeforeNow.start);
+				// console.log(closestEventBeforeNow.end);
+			} else {
+								console.log(pastEvents)
+				console.log("No past events found.");
+				console.log(pastEvents)
+				// Handle the case where there are no past events
+			}
 		}
-	}
+	}	
+	
 
 	const nextEvent = {
 		text: 'Event -->',
 		click: () => {
-			const recentEvents = dayData.map(event => new Date(event.start))
-			findData(recentEvents[0])
-			console.log(recentEvents)
-		}
-	}
-
-	// ! NEEDS FIXING, SHOULD CHANGE CALENDAR DATE
-	const showDate = {
-		text: `Today: `,
-		click: () => {
-			console.log(calendarRef.current)
+			if(!events) return
+			const calendarApi = calendarRef.current.getApi();
+			const futureEvents = events.filter(event => new Date(event.start) > new Date(selectedDate));
+			// Sort futureEvents by end time in descending order
+			console.log(futureEvents)
+			futureEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
+			console.log(futureEvents)
+			if (futureEvents.length > 0) {
+				const closestEventAfterNow = futureEvents[0];
+				findData(closestEventAfterNow.start);
+				setSelectedDate(new Date(closestEventAfterNow.start));
+				calendarApi.gotoDate(closestEventAfterNow.start);
+			} else {
+				console.log(futureEvents)
+				console.log("No future events found.");
+				// Handle the case where there are no past events
+			}
 		}
 	}
 
@@ -88,7 +105,7 @@ export default function Calendar() {
 
 	const calendarFooter = {
 		start: 'englishTranslation spanishTranslation',
-		center: 'showDate',
+		center: '',
 		// ↓ We can change these button to do whatever we want ↓ 
 		end: 'dayGridMonth,timeGridWeek,timeGridDay'
 	}
@@ -105,7 +122,7 @@ export default function Calendar() {
 				.then(res => res.json());
 				setEvents(fetchedData.data);
 				if (events === null) {
-					findData(new Date)
+					findData(new Date, fetchedData.data)
 				}
 			} catch (error) {
 				if (error.name === 'AbortError') {
@@ -121,7 +138,7 @@ export default function Calendar() {
 		return () => controller.abort()
 	}, []);
 
-	const findData = (date) => {
+	const findData = (date, allEvents=events) => {
 		// ! DON'T TOUCH THIS !
 		// IT'S WORKING IT TOOK ME OVER 5 HOURS GETTING EVERYTHING WORKING
 		// It's not as simple of a problem to debug as it looks, PLEASE! don't break this
@@ -129,8 +146,9 @@ export default function Calendar() {
 		// it HAD to be stored as UTC, I should learn to read!
 		// It screwed everything up, its done now. !!HALLELUJAH!!
 		const clickedDate = new Date(date);
-		if (!events) return
-		const currentSelectedEvents = events.filter(festival => {
+		setSelectedDate(clickedDate)
+		if (!allEvents) return
+		const currentSelectedEvents = allEvents.filter(festival => {
 			const startDate = new Date(festival.start);
 			const endDate = new Date(festival.end);
 			// Extract the day parts of the dates
@@ -146,40 +164,39 @@ export default function Calendar() {
 		setDayData(currentSelectedEvents);
 	};
 
-	useEffect(()=> {
-		console.log(dayData)
-	}, [dayData])
-
 	return (
 		<div className={styles.container}> 
 			<div className={styles.calendar}>
-				{!!events.length ?
-					<FullCalendar
-						// className="notranslate"
-						ref={calendarRef}
-						plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
-						initialView='dayGridMonth'
-						events={events}
-						customButtons={{ lastEvent, nextEvent, englishTranslation, spanishTranslation, showDate }}
-						headerToolbar={calendarHeader}
-						footerToolbar={calendarFooter}
-						selectable='true'
-						select={(start) => findData(start.start)}
-						locale={currentLocale}
-						// We can change color to whatever we want
-						eventColor='#008080'
-					/>
+				{!!events?.length ?
+					<>
+						<div translate='no'>
+							<FullCalendar
+								ref={calendarRef}
+								plugins={[dayGridPlugin, multiMonthPlugin, interactionPlugin, timeGridPlugin]}
+								initialView='dayGridMonth'
+								events={events}
+								customButtons={{ lastEvent, nextEvent, englishTranslation, spanishTranslation }}
+								headerToolbar={calendarHeader}
+								footerToolbar={calendarFooter}
+								selectable='true'
+								select={(start) => findData(start.start)}
+								locale={currentLocale}
+								// We can change color to whatever we want
+								eventColor='#008080'
+							/>
+						</div>
+						<br />
+						<h1	style={{textAlign: 'center'}}>Selected Date: {selectedDate.toLocaleDateString()}</h1>
+					</>
 					:
 					<Loading scale={200} />
 				}
 			</div>
-
 			{/* Display the data from the event */}
 			{
 				dayData &&
 				dayData.map((event, index) => (
 					<div key={event._id}>
-						<br /> <br /><br />
 						<h1>Title: {event.title}</h1>
 						<div className={styles.eventDetails}>
 							<h5><span className={styles.key}>Start Date:</span> {new Date(event.start).toLocaleString()}</h5>
@@ -191,7 +208,7 @@ export default function Calendar() {
 								{
 									event?.images.length ? 
 									<Carousel params={{ imagePreviews: event.images }} />
-									: <h5>No Images</h5>
+									: <p>No Images</p>
 								}
 							</h5>
 						</div>

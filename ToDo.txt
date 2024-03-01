@@ -10,26 +10,15 @@ make the dates for the min events update dynamically
 
 recolor the eventForm
 
-Fix buttons on calendar to go to next and previous events
-Make edit event selector have search functionality
-
-Fix fullcalendar being translated by google, it breaks it we need to make it not translated
-Verify the PUT delete images for events
-
-
-Styles admin sign in fully
-
+fix vendor for having revoke and delete vendor
 
 # ---------------------------------------------------------------------------- #
 
 AUTH0:
 
 FRONTEND:
-Add buttons for next and previous events on homepage calendar
 add loading for images in event form, disable buttons when loading
-add deletion of images to EventForm
 
 Fixes:
 finish vendor dashboard page
 finish vendor form page
-implement remove vendor
