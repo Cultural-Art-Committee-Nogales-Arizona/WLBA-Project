@@ -1,20 +1,15 @@
 "use client"
 // ! CHANGE THIS, UNFINISHED
 import { useState, useContext } from "react"
-import CustomUserContext from "@components/GlobalUserContext"
 
 // Overlays
 import Loading from "@components/overlays/Loading"
 import Error from "@components/overlays/Error"
 import Success from "@components/overlays/Success"
 
-import { useRouter } from "next/navigation"
-
 import styles from './EmailForm.module.css'
 
 export default function ManageVendorForm({ params }) {
-    const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
-    const router = useRouter()
     const { tableData, formData, setFormData, accept } = params
     let { contactRoute } = params
 
@@ -31,7 +26,6 @@ export default function ManageVendorForm({ params }) {
 
         if (allSelected) {
             // If all emails are selected in search results, deselect all
-            const allSearchVendors = searchResults.map(result => result._id)
             setFormData(prev => ({
                 ...prev,
                 vendors: []
@@ -117,7 +111,6 @@ export default function ManageVendorForm({ params }) {
                 const responseData = await response.json()
 
                 if (responseData.success) {
-                    // router.push('/vendor')
                     setSuccess(responseData.message)
                 } else {
                     setError(`Failed to submit the form ${responseData.errorMessage}`)
@@ -125,7 +118,7 @@ export default function ManageVendorForm({ params }) {
                 }
             } catch (err) {
                 console.error('Error submitting the form:', err.message)
-                // setError(err.message)
+                setError(err.message)
             } finally {
                 setLoading(false)
             }
@@ -164,7 +157,6 @@ export default function ManageVendorForm({ params }) {
             const responseData = await response.json()
 
             if (responseData.success) {
-                // router.push('/vendor')
                 setSuccess(responseData.message)
             } else {
                 setError(`Failed to submit the form ${responseData.errorMessage}`)
@@ -201,7 +193,6 @@ export default function ManageVendorForm({ params }) {
             const responseData = await response.json()
 
             if (responseData.success) {
-                // router.push('/vendor')
                 setSuccess(responseData.message)
             } else {
                 setError(`Failed to delete vendors ${responseData.errorMessage}`)
@@ -309,10 +300,10 @@ export default function ManageVendorForm({ params }) {
                     </table>
                 </div>
                 <hr />
-                <button className={styles.submit} type="button" onClick={handleDelete}>Delete all selected vendors from database</button>
-                <hr />
                 {accept? (
                     <>
+                    <button className={styles.submit} type="button" onClick={handleDelete}>Delete all selected vendors from database</button>
+                    <hr />
                         <div className={styles.titleBox}>
                     <div className={styles.title}>Subject</div>
                     <input 

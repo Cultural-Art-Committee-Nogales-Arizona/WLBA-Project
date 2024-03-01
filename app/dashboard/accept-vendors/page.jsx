@@ -11,7 +11,6 @@ import PageLink from '@components/PageLink'
 import styles from './page.module.css'
 
 function VolunteerRequest() {
-  const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -52,7 +51,7 @@ function VolunteerRequest() {
 
   return (
     <div className={styles.container}>
-      {/* {error ? <Error params={{error, setError}} /> : null} */}
+      {error ? <Error params={{error, setError}} /> : null}
       {/* Display table  */}
       <h1>Incoming Vendors</h1>
       <PageLink href="/dashboard/manage-vendors" className="nav-link" testId="navbar-home">

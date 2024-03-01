@@ -117,16 +117,11 @@
   font-size: 1.4em;
 }
 
-.message {
-  height: auto;
-}
-
 .textArea {
   min-height: 80%;
   margin-right: 5px;
   margin-top: 7px;
   margin-bottom: 7px;
-  /* height: 80%; */
 }
 
 .submit  {

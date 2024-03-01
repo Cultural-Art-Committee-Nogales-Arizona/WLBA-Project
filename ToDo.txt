@@ -6,19 +6,15 @@ const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
 
 # ------------------------------- URGENT FIXES ------------------------------- #
 
-make the dates for the min events update dynamically
+finish vendor dashboard page
 
-recolor the eventForm
+Fix admin dashboard to display vendor data
 
 fix vendor for having revoke and delete vendor
 
+finish vendor form page
+
 # ---------------------------------------------------------------------------- #
 
-AUTH0:
-
-FRONTEND:
-add loading for images in event form, disable buttons when loading
-
 Fixes:
-finish vendor dashboard page
-finish vendor form page
+make the dates for the min events update dynamically // Not completely necessary

@@ -100,7 +100,6 @@ export default function EventForm({ params }) {
   }
 
   const flatpickrCalendarOptions = {
-    // minDate: 'today',
     dateFormat: 'Y-m-d',
     timeZone: 'MST',
   }
@@ -338,7 +337,6 @@ export default function EventForm({ params }) {
           <legend className={`${styles.legend}`}>Event Start</legend>
           <div className={styles.titleBox}>
             <label htmlFor="date" className={styles.title}>Date:</label>
-            <br />
             <input
               type="text"
               ref={startDatePicker}
@@ -349,7 +347,6 @@ export default function EventForm({ params }) {
           </div>
           <div className={styles.titleBox}>
             <label htmlFor="time" className={styles.title}>Time:</label>
-            <br />
             <input 
               type="text" 
               ref={startTimePicker} 
@@ -427,7 +424,9 @@ export default function EventForm({ params }) {
           </div>
           <div className={styles.titleBox}>
             <label htmlFor="banner" className={styles.title}>Image:</label>
-            <ImageUpload params={{images, setImages}} />
+            <div className={styles.backgroundInput}>
+              <ImageUpload params={{images, setImages}}/>
+            </div>
           </div>
         </fieldset>
         {/* View images */}
