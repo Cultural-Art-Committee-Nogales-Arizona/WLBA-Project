@@ -1,0 +1,21 @@
+.information {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.directorImage{
+  transition: .2s;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.img{
+  border-radius: 3%;
+  transition: .2s;
+}
+
+.img:hover{
+  transition: .2s;
+  box-shadow: 0px 0px 10px 3px whitesmoke;
+}

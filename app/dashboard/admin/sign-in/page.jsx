@@ -4,20 +4,31 @@ import { useState, useEffect, useContext } from 'react'
 
 import CustomUserContext from '@/components/GlobalUserContext'; 
 
+// Overlays
 import Error from '@/components/overlays/Error'
 import Success from '@/components/overlays/Success'
+import Loading from '@/components/overlays/Loading'
+
 import styles from './page.module.css'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function AdminSignIn() {
+  const router = useRouter()
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const [error, setError] = useState(false)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: ""
   })
+
+  useEffect(() => {
+    if(globalUserData.adminAuthId){
+      router.push('/dashboard')
+    }
+  }, [globalUserData])
 
   const handleInput = (event) => {
     const { id, value } = event.target
@@ -32,25 +43,21 @@ export default function AdminSignIn() {
     event.preventDefault()
 
     try {
-      let API_STRING = `/api/admin?username=${credentials.username}&password=${credentials.password}&userId=${globalUserData._id}`
+      setLoading(true)
+      let API_STRING = `/api/admin?email=${credentials.email}&password=${credentials.password}&userId=${globalUserData._id}`
       const response = await fetch(API_STRING, { method: 'GET' })
 
       const returnedAdmin = await response.json()
 
-      if (returnedAdmin.success) {
-        const adminAuthId = returnedAdmin.data.adminAuthId;
-        
-        // Set adminAuthId to sessionStorage
-        sessionStorage.setItem('adminAuthId', adminAuthId);
-        
+      if (returnedAdmin.success) {        
         setGlobalUserData(prev => ({
           ...prev,
           admin: true,
-          adminAuthId: adminAuthId
+          adminAuthId: true
         }))
         setSuccess('Signed in as Admin')
       } else {
-        setError(`Request Failed: ${returnedAdmin.message}`)
+        setError(`Request Failed: ${returnedAdmin.errorMessage}`)
       }
     } catch (err) {
       if (err.name === 'AbortError') {
@@ -60,36 +67,49 @@ export default function AdminSignIn() {
         alert('Failed submit credentials')
       }
     } finally {
-      console.log("works")
+      setLoading(false)
     }
   }
 
   return (
-    <div>
+    <div className={styles.container}>
+      <div className={styles.formContainer}>
       {error ? <Error params={{error, setError}} /> : null}
       {success ? <Success params={{success, setSuccess}} /> : null}
-      <form onSubmit={handleSubmit}>
-        <div className="formGroup">
-          <label htmlFor="username">Username</label>
-          <input 
-            id="username" 
-            type="text" 
-            value={credentials.username}
-            onChange={event => handleInput(event)}
-          />
-        </div>
-        <div className="formGroup">
-          <label htmlFor="password">Password</label>
-          <input 
-            id="password" 
-            type="password" 
-            value={credentials.password}
-            onChange={event => handleInput(event)}
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-      <Link href={'/dashboard/admin/recovery'}>Forgot password?</Link>
+      <h1 className={styles.formHeading}>Sign in to use Admin features</h1>
+      { loading ? 
+        <Loading /> : 
+        <>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <div className={styles.formGroup}>
+              <label  className={styles.formLabel} htmlFor="email">Email</label>
+              <input 
+              className={styles.formInput}
+                id="email" 
+                type="email" 
+                value={credentials.email}
+                onChange={event => handleInput(event)}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="password"  className={styles.formLabel}>Password</label>
+              <input 
+                className={styles.formInput}
+              id="password" 
+                type="password" 
+                value={credentials.password}
+                onChange={event => handleInput(event)}
+              />
+            </div>
+            
+            <button className={styles.formButton} type="submit">Submit</button>
+          </form>
+          <div className={styles.formLink}>
+              <Link href={'/dashboard/admin/recovery'}>Forgot password?</Link>
+          </div>
+        </> 
+      }
+      </div>
     </div>
   )
 }

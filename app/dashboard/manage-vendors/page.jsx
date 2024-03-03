@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useContext }  from 'react'
+import { useState, useEffect, useContext } from 'react'
 import CustomUserContext from '@/components/GlobalUserContext'
 
 import ManageVendorForm from '@components/forms/ManageVendorForm'
@@ -11,15 +11,16 @@ import PageLink from '@components/PageLink'
 import styles from './page.module.css'
 
 function VolunteerRequest() {
+  const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   const [tableData, setTableData] = useState([])
 
   const [formData, setFormData] = useState({ 
-    subjectLine: "Accepted Vendor Registration", 
+    subjectLine: "Vendor permit suspended", 
     vendors: [],
-    message: `You have been approved as a vendor of Cultural Arts Committee of Nogales Arizona as of: 
+    message: `The Cultural Arts Committee of Nogales Arizona has revoked your vendor permit. Contact us if this is an error.: 
     ${new Date().toLocaleDateString()}`,
   })
 
@@ -33,7 +34,7 @@ function VolunteerRequest() {
       try {
         const response = await fetch('/api/vendor', { signal, method: 'GET' })
         const fetchedData = await response.json()
-        const filtered = fetchedData.data.filter(vendor => vendor.accepted == false)
+        const filtered = fetchedData.data.filter(vendor => vendor.accepted == true)
         setTableData(filtered)
         setLoading(false)
       } catch (error) {
@@ -51,14 +52,14 @@ function VolunteerRequest() {
 
   return (
     <div className={styles.container}>
-      {error ? <Error params={{error, setError}} /> : null}
+      {/* {error ? <Error params={{error, setError}} /> : null} */}
       {/* Display table  */}
-      <h1>Incoming Vendors</h1>
-      <PageLink href="/dashboard/manage-vendors" className="nav-link" testId="navbar-home">
-        <span>Manage Accepted Vendors</span>
+      <h1>List of accepted vendors</h1>
+      <PageLink href="/dashboard/accept-vendors" className="nav-link" testId="navbar-home">
+        <span>Accept Vendors</span>
       </PageLink>
       { loading ? <Loading /> : 
-        <ManageVendorForm params={{tableData, contactRoute: "/api/vendor/accept", formData, setFormData, accept: true}} />
+        <ManageVendorForm params={{tableData, contactRoute: "/api/vendor/reject", formData, setFormData, accept: false}} />
       }
     </div>
   )

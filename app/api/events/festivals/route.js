@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import Festival from "@/models/events/Festivals";
-import { isAdmin, deleteImage, uploadImages } from "@/utils/routeMethods";
+import { isAdmin, deleteImages, uploadImages } from "@/utils/routeMethods";
 import { headers } from 'next/headers'
-import cloudinary from '@/connections/cloudinary';
+import dotenv from 'dotenv'
+dotenv.config()
 
 // get either all festivals for display in the dashboard or calendar, or get closest festival
 export const GET = async (request) => {
@@ -15,14 +16,12 @@ export const GET = async (request) => {
 		function returnNextEvent(events) {
 			// Find the first event whose date is larger then the current date
 			const rightNow = new Date();
-			return events.find((event) => new Date(event.start) > rightNow);
+			return events.find((event) => new Date(event.end) > rightNow);
 		}
-
-		const nextEvent = returnNextEvent(result);
 
 		// If query contains "nextEvent=true" it only returns the next event
 		// otherwise return all events
-		const dataResponse = onlyNextEvent === "true" ? nextEvent : result;
+		const dataResponse = onlyNextEvent === "true" ? returnNextEvent(result) : result;
 
 		return NextResponse.json({
 				success: true,
@@ -46,12 +45,13 @@ export const GET = async (request) => {
 
 // add a festival to the database
 export const POST = async (request) => {
-	const headerList = headers()
-	const searchParams = request.nextUrl.searchParams;
+    const token = request.cookies.get('token')
 	const { title, description, location, start, end, images } = await request.json();
 
 	try {
-		await isAdmin(headerList)
+		if (!token) throw new Error("BAD REQUEST: No cookies found")
+
+		await isAdmin(token.value)
 
 		const result = await Festival.create({
 			title,
@@ -84,15 +84,15 @@ export const POST = async (request) => {
 
 // edit festival with _id
 export const PUT = async (request) => {
-	const headerList = headers()
+	const token = request.cookies.get('token')
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
-	const adminId = searchParams.get("adminId") || "";
-	const userId = searchParams.get("userId") || "";
-	const { title, description, location, start, end } = await request.json();
+	const { title, description, location, start, end, images } = await request.json();
 
 	try {
-		await isAdmin(headerList) 
+		if (!token) throw new Error("BAD REQUEST: No cookies found")
+
+		await isAdmin(token.value) 
 
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("No Festival _id was defined");
@@ -101,6 +101,24 @@ export const PUT = async (request) => {
 
 		// Check if festival with given ID exists
 		if (!existingFestival) throw new Error(`Festival with _id ${festivalId} not found`)
+
+		const oldImages = existingFestival.images
+		const newImages = images
+		const imagesNotInNewRequest = oldImages.filter(item => !newImages.includes(item));
+
+		/* ------------------- Delete images that were edited out ------------------- */
+
+		try {
+			if (imagesNotInNewRequest.length) {
+				await deleteImages(imagesNotInNewRequest)
+			} else if (!images.length) {
+				await deleteImages(oldImages)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+
+		/* -------------------------------------------------------------------------- */
 
 		const festival = await Festival.findByIdAndUpdate(festivalId, {
 			title,
@@ -135,12 +153,14 @@ export const PUT = async (request) => {
 
 // delete a festival with _id
 export const DELETE = async (request) => {
-	const headerList = headers()
+    const token = request.cookies.get('token')
 	const searchParams = request.nextUrl.searchParams;
 	const festivalId = searchParams.get("festivalId") || "";
 
 	try {
-		await isAdmin(headerList) 
+		if (!token) throw new Error("BAD REQUEST: No cookies found")
+
+		await isAdmin(token.value) 
 
 		// If there is no festivalId query then throw an error
 		if (!festivalId) throw new Error("You must append &festivalId= query to URL");
@@ -149,23 +169,20 @@ export const DELETE = async (request) => {
 
 		// Check if festival with given ID exists
 		if (!existingFestival) throw new Error(`Festival with _id ${festivalId} not found`);
-
-		await Festival.findByIdAndDelete(festivalId);
-
+		
 		/* ---------------------- Delete images off Cloudinary ---------------------- */
 
-		// const imagePublicIds = existingFestival.images.map(image => image.publicId);
-
-		existingFestival.images.map(async (imageURL) => {
+		if (existingFestival.images.length) {
 			try {
-
-				await deleteImage(imageURL)
+				await deleteImages(existingFestival.images)
 			} catch (error) {
-				console.error(error)
+				console.error("Failed to delete images from Cloudinary")
 			}
-		})
+		}
 
-		/* -------------------------------------------------------------------------- */		
+		/* -------------------------------------------------------------------------- */
+
+		await Festival.findByIdAndDelete(festivalId);		
 
 		return NextResponse.json({
 				success: true,

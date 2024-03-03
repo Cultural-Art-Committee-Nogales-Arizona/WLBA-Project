@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import dotenv from 'dotenv'
+dotenv.config()
 
 // I am SO sorry for making this.
 // Lord, please forgive me.
@@ -43,7 +45,7 @@ export const POST = async (request) => {
       // Map over the formDataArray and create an array of promises for each fetch operation
       const promises = formDataArray.map(async formData => {
         try {
-          const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/dvlb9ylqb/image/upload`, {
+          const imageUpload = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`, {
             method: 'POST',
             body: formData,
             /* headers: {

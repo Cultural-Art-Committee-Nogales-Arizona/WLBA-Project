@@ -14,7 +14,6 @@ export default function CreateEventPage() {
     location: "",
     start: "",
     end: "",
-    banner: "",
     description: ""
   })
 

@@ -14,12 +14,9 @@ const artesaniaFont = localFont({
   display: 'swap',
 })
 
-// I don't know why but importing this function breaks everything because of a random ASCII character
-// import { deleteImage } from '@/utils/routeMethods'
-
-
 export default function Index() {
-  const [nextEvent, setNextEvent] = useState(null)
+  // We no longer need this as we have moved the whole calendar to the front page
+  /* const [nextEvent, setNextEvent] = useState(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -53,60 +50,38 @@ export default function Index() {
     fetchData()
 
     return () => controller.abort()
-  }, [])
+  }, []) */
 
   return (
     <>
-      {/* <div className={styles.hero}>
-        <Image
-          width={1519}
-          height={650}
-          src={TitleImg}
-          alt={"text"}
-          className={styles.Img}
-        />
-        <h1>
-          <span>C</span>ultural<br/> 
-          <span>A</span>rts<br/>
-          <span>C</span>ommittee of<br/>
-          <span>N</span>ogales<br/>
-          <span>A</span>rizona
-        </h1>
-        <a className={styles.callToAction} href="#events">View Events</a>
-      </div> */}
-      <Hero params={{heroImage}} />
+      <Hero params={{ heroImage }} />
       <div className={`${styles.headText} ${artesaniaFont.className}`}>
-        <h1>
-          <span>C</span>ultural<br/>
-          <span>A</span>rts<br/>
-          <span>C</span>ommittee of<br/>
-          <span>N</span>ogales<br/>
-          <span>A</span>rizona
-        </h1>
-        <br />
-        <br />
         <div>
+          <h1>Cultural</h1>
+          <h1>Arts</h1>
+          <h1>Committee of</h1>
+          <h1>Nogales</h1>
+          <h1>Arizona</h1>
+        </div>
+        <br />
+        <br />
+        <div className={styles.buttonContainer}>
           <a className={styles.callToAction} href="#events">View Events</a>
         </div>
       </div>
-      <div className={styles.eventsDiv}>
-        <div className={styles.event}>
-          <p className={styles.heroText}>We're dedicated to celebrating our 
-          community's diverse cultural heritage through art, performances, 
-          and education. Here is a calendar containing all upcoming events, 
-          old events will stay up</p>
-        </div>
 
-        <div className={styles.calender}>
-          <Calendar />
-        </div>
-      </div>
-
-      {/* <div className={styles.headmsg}>
+      <div className={styles.headmsg}>
         <h1>Cultural Arts Comittee of Nogales Arizona</h1>
       </div>
 
       <div className={styles.contentDiv}>
+        <div className={styles.event}>
+          <p>We're dedicated to celebrating our
+            community's diverse cultural heritage through art, performances,
+            and education. Here is a calendar containing all upcoming events,
+            old events will stay up</p>
+        </div>
+
         <div className={styles.child}>
           <div className={styles.p}>
             <p>
@@ -118,23 +93,6 @@ export default function Index() {
             </p>
           </div>
 
-          <Image
-            src={headImg}
-            className={styles.Img2}
-            width={550}
-            height={300}
-            alt={"Header Image"}
-          />
-        </div>
-
-        <div className={styles.child}>
-          <Image
-            src={Dod}
-            width={570}
-            height={350}
-            className={styles.Img2}
-            alt={"Home image of dancers"}
-          />
 
           <div className={styles.p}>
             <p>
@@ -146,12 +104,13 @@ export default function Index() {
             </p>
           </div>
         </div>
-      </div> */}
+      </div>
 
-
-
-
-
+      <div className={styles.eventsDiv}>
+        <div className={styles.calender} id="events">
+          <Calendar />
+        </div>
+      </div>
 
       {/* <h1>Next Event</h1>
         { nextEvent ? 

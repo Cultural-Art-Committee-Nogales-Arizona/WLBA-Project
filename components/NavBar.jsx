@@ -18,25 +18,22 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import Logo from '@/public/Logo'
 import CustomUserContext from './GlobalUserContext'; 
 
-import useSessionStorage from '@utils/custom-hooks/useSessionStorage'
-
 import styles from './NavBar.module.css'
 
 import PageLink from './PageLink'
 import AnchorLink from './AnchorLink'
 import ChangeLanguage from './LanguageButton'
 
+import Cookies from 'js-cookie'
+
 const NavBar = () => {
   const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
-  // ! const [adminAuthId, setAdminAuthId] = useSessionStorage("adminAuthId", "")
   const [isOpen, setIsOpen] = useState(false)
   const { user, isLoading } = useUser()
   const toggle = () => setIsOpen(!isOpen)
 
-  const handleLogout = () => {
-    // Perform any cleanup tasks here (e.g., clear sessionStorage)
-    // ! setAdminAuthId("")
-    sessionStorage.removeItem("adminAuthId")
+  const handleLogout = async () => {
+    Cookies.remove('token', { path: '/' })
   }
 
   // Fetch custom user data when the component mounts
@@ -46,20 +43,18 @@ const NavBar = () => {
     try {
 
       if (user) {
-        console.log(user)
-        let name = user.given_name ?? user.name
+        const token = Cookies.get('token')
 
-        // ! setAdminAuthId(globalUserData.adminAuthId)
-        const adminAuthId = sessionStorage.getItem('adminAuthId');
+        const adminAuthId = token ? true : false
 
         // Example fetch function to get custom user data
         const fetchCustomUserData = async () => {
           // Perform your fetch to get custom user data
-          const response = await fetch(`/api/user/account?name=${name}`, { signal, method: 'GET' })
+          const response = await fetch(`/api/user/account?email=${user.nickname}`, { signal, method: 'GET' })
+
           if (response.ok) {
             const responseData = await response.json()
-
-
+            
             setGlobalUserData(prev => ({
               ...prev,
               ...responseData.data,
@@ -101,11 +96,12 @@ const NavBar = () => {
                   <span className={styles.link_animation}>Volunteer</span>
                 </PageLink>
               </NavItem>
-              <NavItem>
-                <a href="https://buy.stripe.com/eVa6ptaH472hgkE000" target="_blank" className="nav-link" >
+              {/* REPLACE "href" WITH STRIPE LINK */}
+              {/* <NavItem>
+                <a href="STRIPE DONATE LINK" target="_blank" className="nav-link" >
                   <span className={styles.link_animation}>Donate</span>
                 </a>
-              </NavItem>
+              </NavItem> */}
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isLoading && !user && (
@@ -141,9 +137,6 @@ const NavBar = () => {
                         Vendor Center
                       </AnchorLink>
                     </DropdownItem>
-                    {/*  We can move the buttons here */}
-                    {/* <ChangeLanguage /> */}
-                      
                     {globalUserData.adminAuthId ? 
                     <DropdownItem className="dropdown-profile" tag="span">
                       <PageLink href="/dashboard" icon="user" testId="navbar-profile-desktop">

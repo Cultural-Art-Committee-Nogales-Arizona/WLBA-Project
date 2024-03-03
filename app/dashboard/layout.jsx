@@ -1,7 +1,7 @@
 "use client"
 import styles from './layout.module.css'
 import Sidebar from '@/components/Sidebar';
-import ProtectedRoute from '@/components/ProtectedRoute';
+import ProtectedRoute from '@/components/ProtectedRoute'
 
 const layout = ({ children }) => {
   return (

@@ -35,7 +35,7 @@ export default function EventForm({ params }) {
   const [success, setSuccess] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const [images, setImages] = useState(formData?.images || [])
+  const [images, setImages] = useState([])
 
   /* -------------------------------------------------------------------------- */
   /*                            flatpickr Date logic                            */
@@ -100,7 +100,6 @@ export default function EventForm({ params }) {
   }
 
   const flatpickrCalendarOptions = {
-    // minDate: 'today',
     dateFormat: 'Y-m-d',
     timeZone: 'MST',
   }
@@ -167,7 +166,7 @@ export default function EventForm({ params }) {
       setEndFlatpickrTimeInstance(fp)
     }
 
-  }, [error, success, loading])
+  }, [error, success, loading, eventId])
 
   /* -------------------------------------------------------------------------- */
   /*                              END OF FLATPICKR                              */
@@ -204,11 +203,7 @@ export default function EventForm({ params }) {
     const startingDate = combineDateAndTime(startDatePicker.current.value, startTimePicker.current.value)
     const endingDate = combineDateAndTime(endDatePicker.current.value, endTimePicker.current.value)
 
-    // eventId ONLY ever is selectEvent when you select the "Select an event" option
-    if (eventId === 'selectEvent') {
-      setError("Please select an event")
-      return
-    }
+    
     
     // Logic to disallow broken times
     if (!startingDate) {
@@ -220,7 +215,19 @@ export default function EventForm({ params }) {
       setError("End Date and End Time must be defined")
       return
     }
-    
+
+    setFormData(prev => ({
+      ...prev,
+      start: startingDate,
+      end: endingDate
+    }))
+
+    // eventId ONLY ever is selectEvent when you select the "Select an event" option
+    if (eventId === 'selectEvent') {
+      setError("Please select an event")
+      return
+    }
+
     if (startingDate >= endingDate) {
       setError("Start date must happen before End date")
       return
@@ -229,17 +236,27 @@ export default function EventForm({ params }) {
     setLoading(true)
 
     try {
+      if (requestMethod === 'PUT' && !eventId) {
+        setError("You must select an event to edit")
+        return
+      }
+
       const controller = new AbortController()
       const signal = controller.signal
 
       // Upload the images to cloudinary,
       // This is the only way I could figure out how to use the backend API for this
+      const returnedImages = []
       const imageData = new FormData()
       images.forEach(image => {
+        if (image.file === "Uploaded") {
+          returnedImages.push(image.preview)
+          return
+        }
         imageData.append(`file`, image.file);
       })
 
-      // This api route SUCKS! but it works so I dont care
+      // This api route SUCKS! but it works so I don't care
       // Don't think about it too hard
       const uploadImages = await fetch('/api/image/upload', {
         method: 'POST',
@@ -247,7 +264,9 @@ export default function EventForm({ params }) {
         duplex: true 
       })
 
+      // This is dumb, but it work, so me no care
       const imageResponse = await uploadImages.json()
+      returnedImages.push(...imageResponse.data)
       
       if (!imageResponse.success) throw new Error(imageResponse.error)
 
@@ -258,17 +277,16 @@ export default function EventForm({ params }) {
         signal,
         method: requestMethod,
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': globalUserData.adminAuthId,
-          'X-UserId': globalUserData._id
+          'Content-Type': 'application/json'
         },
+        credentials: "same-origin",
         body: JSON.stringify({
           start: startingDate,
           end: endingDate,
           title: formData.title,
           description: formData.description,
           location: formData.location,
-          images: imageResponse.data
+          images: returnedImages
         })
       })
       
@@ -293,33 +311,47 @@ export default function EventForm({ params }) {
       setLoading(false)
     }
   }
+
+  // When someone is editing events then set the images to be in the useState
+  useEffect(() => {
+    if (formData.images) {
+      const formImages = formData.images.map(image => {
+        return {
+          preview: image,
+          file: "Uploaded"
+        }
+      })
+
+      setImages(prev => [ ...prev, ...formImages ]) 
+    }
+  }, [formData.images])
   
   return (
     <>
       { error && <Error params={{ error, setError }} /> }
-      { success && <Success params={{ success, setSuccess }} /> }
+      { success && <Success params={{ success, setSuccess, redirect: '/dashboard' }} /> }
       { loading ? <Loading scale={150} /> :
       <form onSubmit={event => submitForm(event)} className={styles.form}>
         {/* Start Dates */}
         <fieldset className={styles.fieldset}>
-          <legend className={styles.legend}>Event Start</legend>
-          <div className={styles.formGroup}>
-            <label htmlFor="date">Date:</label>
-            <br />
+          <legend className={`${styles.legend}`}>Event Start</legend>
+          <div className={styles.titleBox}>
+            <label htmlFor="date" className={styles.title}>Date:</label>
             <input
               type="text"
               ref={startDatePicker}
               placeholder="Select Date"
+              className={styles.backgroundInput}
               required
             />
           </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="time">Time:</label>
-            <br />
+          <div className={styles.titleBox}>
+            <label htmlFor="time" className={styles.title}>Time:</label>
             <input 
               type="text" 
               ref={startTimePicker} 
               placeholder="Select Time"
+              className={styles.backgroundInput}
               required
             />
           </div>
@@ -327,21 +359,23 @@ export default function EventForm({ params }) {
         {/* End Dates */}
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Event End</legend>
-          <div className={styles.formGroup}>
-            <label htmlFor="date">Date:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="date" className={styles.title}>Date:</label>
             <input
               type="text"
               ref={endDatePicker}
               placeholder="Select Date"
+              className={styles.backgroundInput}
               required
             />
           </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="time">Time:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="time" className={styles.title}>Time:</label>
             <input 
               type="text" 
               ref={endTimePicker} 
               placeholder="Select Time"
+              className={styles.backgroundInput}
               required
             />
           </div>
@@ -349,22 +383,23 @@ export default function EventForm({ params }) {
         {/* Describe Event */}
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Describe Event</legend>
-          <div className={styles.formGroup}>
-            <label htmlFor="title">Title:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="title" className={styles.title}>Title:</label>
             <input 
               id="title" 
               type="text" 
               value={formData.title || ''} 
               onChange={event => updateForm(event)} 
               placeholder='Title' 
+              className={styles.backgroundInput}
               required
             />
           </div>
-          <div className={`${styles.formGroup}`}>
-            <label htmlFor="description">Description:</label>
+          <div className={`${styles.titleBox}`}>
+            <label htmlFor="description" className={styles.title}>Description:</label>
             <textarea
               id="description"
-              className={styles.textArea}
+              className={`${styles.textArea} ${styles.backgroundInput}`}
               value={formData.description || ''}
               onChange={event => updateForm(event)} 
               placeholder="Description"
@@ -375,27 +410,29 @@ export default function EventForm({ params }) {
         {/* Additional Information */}
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Additional Information</legend>
-          <div className={styles.formGroup}>
-            <label htmlFor="location">Location:</label>
+          <div className={styles.titleBox}>
+            <label htmlFor="location" className={styles.title}>Location:</label>
             <input 
               id="location" 
               type="text" 
               value={formData.location || ''} 
               onChange={event => updateForm(event)} 
-              placeholder='Location' 
+              placeholder="123 Main Citytown, Stateville 12345"
+              className={styles.backgroundInput}
               required
             />
           </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="banner">Image:</label>
-            <ImageUpload params={{images, setImages}} />
+          <div className={styles.titleBox}>
+            <label htmlFor="banner" className={styles.title}>Image:</label>
+            <div className={styles.backgroundInput}>
+              <ImageUpload params={{images, setImages}}/>
+            </div>
           </div>
         </fieldset>
         {/* View images */}
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>{images.length} Images</legend>
           { !loading ?
-          images ? 
             (images.length !== 0 ? 
                 <Carousel params={{ images, setImages, edit: true }} />
                 :
@@ -403,10 +440,6 @@ export default function EventForm({ params }) {
                     No images found
                 </div>
             )
-            :
-            <div>
-                No images found
-            </div>
             :
             <Loading />
           }

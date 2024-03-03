@@ -14,7 +14,7 @@
 .eventDetails {
   border: solid 5px var(--blue-accent);
   box-shadow: 0px 0px 10px 1px;
-  border-radius: 3%;
+  border-radius: 30px;
   margin-top: 3%;
   width: 100%;
   box-sizing: border-box;

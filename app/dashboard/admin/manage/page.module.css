@@ -1,12 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
+  width: 100%;
   justify-content: center;
   align-items: center;
-}
-
-.calendar {
-  width: 700px;
-  height: 700px;
-  border: solid 1px black;
+  background-color: white;
 }

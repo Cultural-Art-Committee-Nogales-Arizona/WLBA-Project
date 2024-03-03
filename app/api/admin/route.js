@@ -3,24 +3,28 @@ import { NextResponse } from 'next/server';
 import { generateUserAuthID, isAdmin, hash } from "@/utils/routeMethods";
 import { headers } from 'next/headers'
 import bcrypt from 'bcryptjs'
+import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken'
+
+dotenv.config()
   
-// Get a hashed adminAuthId with username, password and document _id of admin
+// Get a hashed adminAuthId with email, password and document _id of admin
 export const GET = async (request) => {
     const searchParams = request.nextUrl.searchParams;
     const userId = searchParams.get("userId") || "";
-	const username = searchParams.get("username") || "";
+	const email = searchParams.get("email") || "";
     const password = searchParams.get("password") || "";
     
     try{
-        if (!username) throw new Error("You must append ?username= query to URL")
+        if (!email) throw new Error("You must append ?email= query to URL")
 
-        const adminUser = await User.findOne({ _id: userId, username, admin: true })
+        const adminUser = await User.findOne({ _id: userId, email, admin: true })
         
         if (!adminUser) {
             return NextResponse.json({
                 success: false,
                 message: `Failed to authenticate Admin`,
-                errorMessage:  `User: ${username} does not exist or is not an admin`
+                errorMessage:  `User: ${email} does not exist or is not an admin`
             }, {
                 status: 403
             })
@@ -32,14 +36,24 @@ export const GET = async (request) => {
         const passwordMatch = await bcrypt.compare(password, adminUser.adminPassword)
 
         if (passwordMatch) {
-            return NextResponse.json({
+            const hashedId = await hash(adminUser.adminAuthId)
+            const token = jwt.sign({ 
+                adminAuthId: hashedId,
+                adminUserId: adminUser._id
+            }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '5h' }
+            )
+
+            return NextResponse.json({ 
                 success: true,
-                message: `Successfully fetched ${username}`,
+                message: `Successfully signed in as an admin`,
                 data: {
-                    adminAuthId: await hash(adminUser.adminAuthId)
+                    adminAuthId: hashedId
                 }
             },{ 
-                status: 200
+                status: 200,
+                headers: {'Set-Cookie': `token=${token}; Max-Age=${60 * 60 * 5}; Path=/`}
             });
         }
 
@@ -47,7 +61,7 @@ export const GET = async (request) => {
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: `An error occurred fetching Admin`,
+            message: `An error occurred signing in as an  Admin`,
             errorMessage: err.message,
             error: err
         }, {
@@ -57,13 +71,13 @@ export const GET = async (request) => {
 }
 
 export const POST = async (request) => {
-    const headerList = headers()
-    const searchParams = request.nextUrl.searchParams;
+    const token = request.cookies.get('token')
     const { id, password } = await request.json()
     
     try{
-        
-        await isAdmin(headerList)
+        //if (!token) throw new Error("BAD REQUEST: No cookies found")
+
+        //await isAdmin(token.value)
         
         const existingAdmin = await User.findOne({ _id: id, admin: true})
         
@@ -96,6 +110,8 @@ export const POST = async (request) => {
             returnDocument: 'after'
         })
 
+        const hashedAdminAuthId = await hash (newAdmin.adminAuthId)
+
         return NextResponse.json({
             success: true,
             message: `Successfully registered ${ newAdmin.username } as an Admin.`,
@@ -104,7 +120,7 @@ export const POST = async (request) => {
                 username: newAdmin.username,
                 email: newAdmin.email,
                 admin: newAdmin.admin,
-                adminAuthId: hash(newAdmin.adminAuthId)
+                adminAuthId: hashedAdminAuthId
             },
         },{ 
             status: 201 
@@ -122,20 +138,21 @@ export const POST = async (request) => {
 }
 
 export const DELETE = async (request) => {
-    const headerList = headers()
+    const token = request.cookies.get('token')
     const searchParams = request.nextUrl.searchParams
     const deleteId = searchParams.get('deleteId') || ""
 
     try{
         if (!deleteId) throw new Error("You must append &deleteId= query to URL")
+        if (!token) throw new Error("BAD REQUEST: No cookies found")
 
-        await isAdmin(headerList)
+        await isAdmin(token.value)
 
         const adminExists = await User.findOne({ _id: deleteId, admin: true })
 
         if(!adminExists) throw new Error('User does not exist or is not an Admin.')
 
-        const updatedUser = await User.findByIdAndUpdate(deleteId, {
+        await User.findByIdAndUpdate(deleteId, {
             adminAuthId: "",
             admin: false,
             adminPassword: ""

@@ -3,7 +3,8 @@ import { useState, useContext } from "react"
 import Loading from "@components/overlays/Loading"
 import CustomUserContext from "@components/GlobalUserContext"
 import Error from "@components/overlays/Error"
-import { useRouter } from "next/router"
+import Success from "@components/overlays/Success"
+import styles from './EventForm.module.css'
 
 export default function VendorForm({ vendorId, vendorData }){
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
@@ -11,6 +12,7 @@ export default function VendorForm({ vendorId, vendorData }){
     // const router = useRouter()
     const [formData, setFormData] = useState(vendorData || {})
     const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
     const [loading, setLoading] = useState(false)
     const method = vendorId ? 'PUT' : 'POST'
 
@@ -58,13 +60,13 @@ export default function VendorForm({ vendorId, vendorData }){
 
             if(responseData.success){
                 // router.push('/vendor')
-                // success()
+                setSuccess(responseData.message)
             } else {
                 setError(`Failed to submit the form ${responseData.errorMessage}`)
                 throw new Error(`Vendor API failed to parse request. Status code: ${response.status}`)
             }
         } catch (err) {
-            console.err('Error submitting the form:', err.message)
+            console.error('Error submitting the form:', err.message)
         } finally {
             setLoading(false)
         }
@@ -82,11 +84,12 @@ export default function VendorForm({ vendorId, vendorData }){
     return(
         <>
             { error && <Error params={{ error, setError }} />}
+            { success && <Success params={{success, setSuccess, redirect: '/vendor'}} />}
             { loading ? <Loading scale={150} /> :
-            <form onSubmit={handleSubmit}>
-                <fieldset>
-                    <legend>Describe Vendor</legend>
-                    <div>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <fieldset className={styles.fieldset}>
+                    <legend className={styles.legend}>Describe Vendor</legend>
+                    <div className={styles.formGroup}>
                         <label htmlFor="name">Name</label>
                         <input
                             id="name" 
@@ -97,7 +100,7 @@ export default function VendorForm({ vendorId, vendorData }){
                             required
                         />
                     </div>
-                    <div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="description">Description</label>
                         <input
                             id="description" 
@@ -108,21 +111,22 @@ export default function VendorForm({ vendorId, vendorData }){
                             required
                         />
                     </div>
-                    <div>
+                    <div className={styles.formGroup}> 
                         <label htmlFor="tags">Tags</label>
                         <input
                             id="tags" 
                             type="text" 
                             value={formData.tags || ''} 
                             onChange={event => updateForm(event)} 
-                            placeholder='Name of Vendor' 
+                            placeholder='Separate by commas ex.(food,fun)' 
+                            pattern="^[a-zA-Z]+(,[a-zA-Z]+)*$"
                             required
                         />
                     </div>
                 </fieldset>
-                <fieldset>
-                    <legend>Other Information</legend>
-                    <div>
+                <fieldset className={styles.fieldset}>
+                    <legend className={styles.legend}>Other Information</legend>
+                    <div className={styles.formGroup}>
                         <label htmlFor="email">Email</label>
                         <input
                             id="email" 
@@ -134,7 +138,7 @@ export default function VendorForm({ vendorId, vendorData }){
                         />
                     </div>
                 </fieldset>
-                <input type="submit" />
+                <input type="submit" className={styles.submit}/>
             </form>
             }   
         </>

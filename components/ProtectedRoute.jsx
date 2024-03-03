@@ -1,6 +1,9 @@
+"use client"
+
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client'
+import Cookies from 'js-cookie'
 
 const ProtectedRoute = ({ children }) => {
   const router = useRouter();
@@ -10,7 +13,13 @@ const ProtectedRoute = ({ children }) => {
     if (!isLoading && !user) {
       router.push('/');
     }
-  }, [router, user, isLoading]);
+    const token = Cookies.get("token")
+    
+    if (!token) {
+      router.push('/dashboard/admin/sign-in')
+    }
+  }, [user]);
+
 
   return <>{children}</>
 };

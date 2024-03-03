@@ -3,8 +3,10 @@ import { useState, useContext, useEffect } from "react"
 import CustomUserContext from "@components/GlobalUserContext"
 import Error from "@components/overlays/Error"
 import Loading from "@components/overlays/Loading"
+import { useRouter } from "next/navigation"
 
 export default function RecoveryPage(){
+    const router = useRouter()
     const { globalUserData, setGlobalUserData } = useContext(CustomUserContext)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
@@ -17,11 +19,8 @@ export default function RecoveryPage(){
     
         const createToken = async () => {
           try {
-            const response = await fetch(`/api/admin/recovery?userId=${globalUserData._id}`, { signal, method: 'POST' })
+            await fetch(`/api/admin/recovery?userId=${globalUserData._id}`, { signal, method: 'POST' })
             
-            const body = await response.json()
-
-            console.log(body)
           } catch (err) {
             if (err.name !== 'AbortError') {
               console.error('Error fetching users:', err)
@@ -64,14 +63,14 @@ export default function RecoveryPage(){
 
             console.log(parsedResponse)
 
-            if(response.success){
+            if(parsedResponse.success){
                 console.log('works')
+                router.push('/dashboard/admin/sign-in')
             } else {
-                setError(response.message)
+                setError(parsedResponse.errorMessage)
             }
-            console.log(response)
         } catch (err) {
-
+            setError(err.message)
         } finally {
             setLoading(false)
         }

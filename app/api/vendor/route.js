@@ -124,35 +124,40 @@ export const PUT = async (request) => {
 }
 
 export const DELETE = async (request) => {
-    const searchParams = request.nextUrl.searchParams
-    const vendorId = searchParams.get('vendorId')
     // We need to make this so you cant delete someone elses vendor
+    const { vendors } = await request.json()
+
+    const message = vendors.length > 1 ? "Successfully deleted vendors" :`Successfully deleted Vendor with _id: ${vendors[0]}` 
     
-    try { 
-        /* ---------------- Delete acceptedVendor document if exists ---------------- */
+    try {
 
-        const vendorAccepted = await AcceptedVendor.findOne({ id: vendorId })
+        for(const vendorId of vendors){
+            /* ---------------- Delete acceptedVendor document if exists ---------------- */
 
-        if (vendorAccepted) await AcceptedVendor.findByIdAndDelete(vendorAccepted._id) //throw new Error(`AcceptedVendor with _id ${vendorId} not found`)
+            const vendorAccepted = await AcceptedVendor.findOne({ id: vendorId })
 
-        /* ----------------------- Delete vendor if it exists ----------------------- */
+            if (vendorAccepted) await AcceptedVendor.findByIdAndDelete(vendorAccepted._id) //throw new Error(`AcceptedVendor with _id ${vendorId} not found`)
 
-        const vendorExists = await Vendor.findById(vendorId)
+            /* ----------------------- Delete vendor if it exists ----------------------- */
 
-        if (!vendorExists) throw new Error(`Vendor with _id ${vendorId} not found`)
+            const vendorExists = await Vendor.findById(vendorId)
+
+            if (!vendorExists) throw new Error(`Vendor with _id ${vendorId} not found`)
+            
+            await Vendor.findByIdAndDelete(vendorId)
+        }
         
-        await Vendor.findByIdAndDelete(vendorId)
         
         return NextResponse.json({
             success: true,
-            message: `Successfully deleted Vendor with _id: ${vendorId}`,
+            message: message,
         }, {
             status: 200
         })
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: `An error occurred deleting vendor with _id: ${vendorId}`,
+            message: `An error occurred deleting vendors`,
             errorMessage: err.message,
             error: err
         }, {

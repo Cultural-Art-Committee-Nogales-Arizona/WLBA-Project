@@ -2,16 +2,17 @@ import User from "@/models/users/User"
 import { NextResponse } from 'next/server'
 
 export const GET = async (request) => {
-    //Get user by _id instead?
     const searchParams = request.nextUrl.searchParams
-    const name = searchParams.get('name') || ""
+    const requestEmail = searchParams.get('email') || ""
 
     try{
-        if (!name) throw new Error("No name query defined, you must append ?name= to URL")
+        if (!requestEmail) throw new Error("No name query defined, you must append ?name= to URL")
 
-        const user = await User.findOne({ username: name })
+        const searchEmail = new RegExp(requestEmail)
 
-        if(!user) throw new Error(`No such user exists with name: ${name}`)
+        const user = await User.findOne({ email: { $regex: searchEmail } })
+
+        if(!user) throw new Error(`No such user exists with email: ${requestEmail}`)
 
         const { username, _id, email, admin } = user
         return NextResponse.json({

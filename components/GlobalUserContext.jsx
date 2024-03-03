@@ -8,7 +8,7 @@ export const CustomUserProvider = ({ children }) => {
     username: "",
     email: "",
     admin: false,
-    adminAuthId: ""
+    adminAuthId: false
   });
 
   return (
