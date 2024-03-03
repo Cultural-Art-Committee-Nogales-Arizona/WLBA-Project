@@ -55,7 +55,7 @@ export default function Index() {
   return (
     <>
       <Hero params={{ heroImage }} />
-      <div className={`${styles.headText} ${artesaniaFont.className}`}>
+      <div className={`${styles.headText} ${artesaniaFont.className}`} translate='no'>
         <div>
           <h1>Cultural</h1>
           <h1>Arts</h1>

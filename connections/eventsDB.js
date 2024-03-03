@@ -5,10 +5,7 @@ async function connectToEventDB() {
   if (!eventDB) {
     try {
       const { MONGO_URL_EVENTS } = process.env;
-      eventDB = await mongoose.createConnection(MONGO_URL_EVENTS, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
+      eventDB = await mongoose.createConnection(MONGO_URL_EVENTS);
       console.log('Connected to eventDB');
     } catch (error) {
       console.error('Error connecting to eventDB:', error);

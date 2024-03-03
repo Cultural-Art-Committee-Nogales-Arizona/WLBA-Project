@@ -1,41 +1,54 @@
-const { mongoose, eventsDB } = require('@/connections/eventsDB')
-const Schema = mongoose.Schema
-require('dotenv').config()
+// festivalModel.js
 
-let festivalSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  location: {
-    type: String,
-    required: true
-  },
-  start: { 
-    type: Date, 
-    required: true
-  },
-  end: { 
-    type: Date, 
-    required: true
-  },
-  images: {
-    type: Array,
-    required: false
-  }
-},{
-  collection: 'Festivals',
-  timestamps: true
-})
+const { connectToEventDB } = require('@/connections/eventsDB');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const Festival = eventsDB.model('Festival', festivalSchema)
+let Festival;
 
-eventsDB.once('open', () => {
-    console.log('Connected to eventsDB for Festivals')
-})
+async function initializeFestivalModel() {
+  const eventDB = await connectToEventDB();
+  
+  const festivalSchema = new Schema({
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    location: {
+      type: String,
+      required: true
+    },
+    start: { 
+      type: Date, 
+      required: true
+    },
+    end: { 
+      type: Date, 
+      required: true
+    },
+    images: {
+      type: Array,
+      required: false
+    }
+  },{
+    collection: 'Festivals',
+    timestamps: true
+  });
 
-module.exports = Festival
+  Festival = eventDB.model('Festival', festivalSchema);
+  eventDB.once('open', () => {
+    console.log('Connected to eventsDB for Festivals');
+  });
+
+  // Export Festival after it's initialized
+  module.exports = Festival;
+}
+
+// Initialize the Festival model asynchronously
+initializeFestivalModel().catch(error => {
+  console.error('Error initializing Festival model:', error);
+});

@@ -1,7 +1,6 @@
-const { mongoose, userDB } = require('@/connections/userDB')
-const Schema = mongoose.Schema
-require('dotenv').config()
-
+const { connectToUserDB } = require('@/connections/userDB');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 let userSchema = new Schema({
   username: { 
@@ -29,12 +28,20 @@ let userSchema = new Schema({
 },{
   collection: 'Users',
   timestamps: true
-})
+});
 
-const User = userDB.model('User', userSchema)
+let User;
 
-userDB.once('open', () => {
-  console.log('Connected to userDB for Users')
-})
+async function initializeUserModel() {
+  const userDB = await connectToUserDB();
+  User = userDB.model('User', userSchema);
+  userDB.once('open', () => {
+    console.log('Connected to userDB for Users');
+  });
+}
 
-module.exports = User
+initializeUserModel().catch(error => {
+  console.error('Error initializing User model:', error);
+});
+
+module.exports = User;
