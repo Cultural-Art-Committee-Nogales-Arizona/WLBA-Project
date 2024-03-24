@@ -23,8 +23,8 @@ export const POST = async (request) => {
       port: 465,
       host: "smtp.gmail.com",
       auth: {
-        user: process.env.CACNA_EMAIL, // Your Gmail email address
-        pass: process.env.CACNA_PASSWORD, // Your Gmail password or application-specific password
+        user: process.env.EMAIL, // Your Gmail email address
+        pass: process.env.EMAIL_PASSWORD, // Your Gmail password or application-specific password
       },
       secure: true
     });

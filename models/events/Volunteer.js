@@ -1,6 +1,6 @@
-const mongoose = require("mongoose")
+import mongoose from 'mongoose'
 const Schema = mongoose.Schema
-const eventsDB = require('@/connections/eventsDB')
+import eventsDB from '@/connections/eventsDB'
 require('dotenv').config()
 
 let volunteerSchema = new Schema({
@@ -33,4 +33,4 @@ eventsDB.once('open', () => {
     console.log('Connected to eventsDB for Volunteers')
 })
 
-module.exports = Volunteer
+export default Volunteer

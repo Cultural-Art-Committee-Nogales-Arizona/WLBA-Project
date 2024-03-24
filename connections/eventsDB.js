@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 const { MONGO_URL_EVENTS } = process.env
 
 const eventDB = mongoose.createConnection(MONGO_URL_EVENTS);
 
-module.exports = eventDB
+export default eventDB

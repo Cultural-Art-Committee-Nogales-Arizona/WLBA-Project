@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema
-const userDB = require('@/connections/userDB')
+import userDB from '@/connections/userDB'
 require('dotenv').config()
 
 let recoverySchema = new Schema({

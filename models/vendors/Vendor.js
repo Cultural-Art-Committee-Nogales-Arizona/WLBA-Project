@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema
-const vendorDB = require('@/connections/vendorDB')
+import vendorDB from '@/connections/vendorDB'
 require('dotenv').config()
 
 let vendorSchema = new Schema({
@@ -39,4 +39,4 @@ vendorDB.once('open', () => {
 })
 
 
-module.exports = Vendor
+export default Vendor

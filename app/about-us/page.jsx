@@ -44,7 +44,7 @@ export default function aboutUs() {
         <h1>Board Of Directors</h1>
         <div className={styles.directorContainer}>
           {ImportDirectorInformation && ImportDirectorInformation.map(director => {
-            return <DirectorImage params={{ profileImage: director.image.src, name: director.name, position: director.position }} />
+            return <DirectorImage key={director.name} params={{ profileImage: director.image.src, name: director.name, position: director.position }} />
           })}
         </div>
       </div>

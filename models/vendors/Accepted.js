@@ -1,8 +1,8 @@
 //Similar to the admins collection, this will hold the ID's of all vendors who are approved by an admin. 
 
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema
-const vendorDB = require('@/connections/vendorDB')
+import vendorDB from '@/connections/vendorDB'
 require('dotenv').config()
 
 let acceptedVendorSchema = new Schema({
@@ -26,4 +26,4 @@ vendorDB.once('open', () => {
     console.log('Connected to vendorDB for acceptedVendors')
 })
 
-module.exports = AcceptedVendor
+export default AcceptedVendor
